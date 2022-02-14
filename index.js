@@ -236,10 +236,7 @@ function animate() {
                 }
                 //shrink enemy if it is large
                 if (enemy.radius - 10 > 5) {
-                    //increase score
-                    score += 100;
-                    //update score
-                    scoreEL.innerHTML = score;
+                    AddScore(100);
                     //smooth changing that value
                     gsap.to(enemy, { radius: enemy.radius - 10 });
                     setTimeout(() => {
