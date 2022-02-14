@@ -1,15 +1,20 @@
-- Add highscores
-- Add upgrades
-    - Damage
-    - Auto-aim
-    - Auto-fire
-    - Constructs
-    - Possibly make a rogue-like
-- Add difficulty curve
-- Add better menus
-- Add different enemies
-- Add firing delay
-- Add ext. variables
-- Bug fixes
-- Difficulty tweaks
-- Balence changes.
+☐ Add highscores
+☐ Add upgrades
+    ☐ Damage
+    ☐ Auto-aim
+    ☐ Auto-fire
+    ☐ Constructs
+    ☐ Make a rogue-like
+☐ Add difficulty curve
+☐ Add better menus
+    ☐ Add pause menu
+    ☐ Add main menu
+☐ Add different enemies
+    ☐ Fast, large, but less health
+    ☐ slow, small, lots of health
+☐ Add tooltips
+☐ Add firing delay
+☐ Add ext. variables
+☐ Bug fixes
+☐ Difficulty tweaks
+☐ Balence changes
