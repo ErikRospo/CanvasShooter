@@ -10,6 +10,10 @@ const ModalEL = document.querySelector("#ModalEl");
 const BigScoreEl = document.querySelector("#BigScoreEl");
 const NameDiv = document.querySelector("#NameInputDiv");
 const HighScoreList = document.querySelector("#HighScores");
+const Music = document.querySelector("#MusicEL")
+console.log(Music);
+const Pause = document.querySelector("#PauseEL");
+const Play = document.querySelector("#PlayEL");
 let highScores = [];
 
 //define a player, and their draw function
@@ -254,7 +258,6 @@ function animate() {
                     setTimeout(() => {
                         enemies.splice(index, 1);
                         projectiles.splice(index2, 1);
-
                     }, 0);
                 }
             }
@@ -280,6 +283,10 @@ addEventListener("click", (event) => {
         5,
         ProjectileColor,
         velocity));
+});
+addEventListener("load",()=>{
+    Pause.onclick=Music.pause()
+    Play.onclick=Music.play()
 });
 //when the user clicks the start button, start the game
 startGameButton.addEventListener("click", () => {
