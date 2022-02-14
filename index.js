@@ -1,3 +1,4 @@
+
 //get a bunch of elements
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
@@ -10,6 +11,7 @@ const BigScoreEl = document.querySelector("#BigScoreEl");
 const NameDiv = document.querySelector("#NameInputDiv");
 const HighScoreList = document.querySelector("#HighScores");
 let highScores = [];
+
 //define a player, and their draw function
 class Player {
     constructor(x, y, radius, color) {
@@ -68,7 +70,7 @@ class Enemy {
     }
 }
 //define a friction, and its draw function, as well as its update function
-const friction = 0.99;
+const friction = ParticleFriction;
 class Particle {
     constructor(x, y, r, color, velocity) {
         this.x = x;
@@ -94,14 +96,14 @@ class Particle {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
 
-        this.alpha -= 0.01;
+        this.alpha -= 0.01*ParticleFadeSpeedMultiplier;
     }
 }
 const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
-let player = new Player(cw, ch, 10, "white");
+let player = new Player(cw, ch, PlayerRadius, PlayerColor);
 let projectiles = [];
 let enemies = [];
 let particles = [];
@@ -120,7 +122,7 @@ function updateHighScores(scores) {
 function init() {
 
     updateHighScores(highScores)
-    player = new Player(cw, ch, 10, "white");
+    player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
     enemies = [];
     particles = [];
@@ -136,10 +138,10 @@ function SpawnEnemies() {
         let x;
         let y;
         //give it a radius
-        const radius = Math.random() * (30 - 4) + 4;
+        const radius = Math.random() * (30 - 4)*EnemyHealthMultiplier + 4;
         //randomly decide whether to spawn it height or width-wise
-        if (Math.random() < 0.5) {
-            //spawm it along the x axis
+        if (Math.random() < EnemySpawnBias) {
+            //spawn it along the x axis
             x = Math.random() < 0.5 ? 0 - radius : w + radius;
             y = Math.random() * h;
         } else {
@@ -148,19 +150,19 @@ function SpawnEnemies() {
             y = Math.random() < 0.5 ? 0 - radius : h + radius;
         }
         //choose a random color
-        //the 50 saturtion and lightness gives it a pastel-like color
+        //the 50 saturation and lightness gives it a pastel-like color
         const color = `hsl(${Math.random() * 360},50%,50%)`;
         //calculate the angle to the center from its current position
         const angle = Math.atan2(ch - y, cw - x);
         //set the x and y values accordingly
         const velocity = {
-            x: Math.cos(angle),
-            y: Math.sin(angle)
+            x: Math.cos(angle)*EnemySpeedMultiplier,
+            y: Math.sin(angle)*EnemySpeedMultiplier
         };
         //add it to the enemies list
         enemies.push(new Enemy(x, y, radius, color, velocity));
         //trigger every second
-    }, 1000);
+    }, EnemySpawnTime);
 }
 let animationID;
 let score = 0;
@@ -176,7 +178,7 @@ function animate() {
     animationID = requestAnimationFrame(animate);
     //fill the canvas with an almost black.
     //the 0.1 Alpha value means that things have a nice fade in effect
-    c.fillStyle = "rgba(0,0,0,0.1)";
+    c.fillStyle = `rgba(${BackgroundColor},0.1)`;
     c.fillRect(0, 0, w, h);
     //draw the player
     player.draw();
@@ -217,10 +219,10 @@ function animate() {
             //get the distance between the projectile and the enemy
             const dist = Math.hypot(projectile.x - enemy.x,
                 projectile.y - enemy.y);
-            // if dist minus the raduses of the enemy and the projectile are less than 0
+            // if dist minus the radiuses of the enemy and the projectile are less than 0
             if (dist - enemy.radius - projectile.radius < 0) {
                 //create Explosions
-                for (let i = 0; i < Math.round(enemy.radius * 2); i++) {
+                for (let i = 0; i < Math.round(enemy.radius * 2*ParticleMultiplier*Math.random()); i++) {
                     //add a particle to the rendering list
                     particles.push(new Particle(projectile.x,
                         projectile.y,
@@ -230,8 +232,8 @@ function animate() {
                         enemy.color,
                         // give it a random speed
                         {
-                            x: (Math.random() - 0.5) * Math.random() * 5,
-                            y: (Math.random() - 0.5) * Math.random() * 5
+                            x: (Math.random() - 0.5) * Math.random() * ParticleSpeed,
+                            y: (Math.random() - 0.5) * Math.random() * ParticleSpeed
                         }));
                 }
                 //shrink enemy if it is large
@@ -268,15 +270,15 @@ addEventListener("click", (event) => {
     const angle = Math.atan2(y - ch, x - cw);
     //set velocity accordingly
     const velocity = {
-        x: Math.cos(angle) * 5,
-        y: Math.sin(angle) * 5
+        x: Math.cos(angle) * ProjectileSpeedMultiplier,
+        y: Math.sin(angle) * ProjectileSpeedMultiplier
     };
     //add it to the projectiles list
     projectiles.push(new Projectile(
         cw,
         ch,
         5,
-        "white",
+        ProjectileColor,
         velocity));
 });
 //when the user clicks the start button, start the game
