@@ -169,7 +169,7 @@ function SpawnEnemies() {
         //add it to the enemies list
         enemies.push(new Enemy(x, y, radius, color, velocity));
         //trigger every second
-        EnemySpawnTime -= EnemySpawnTimeDecrementor
+        EnemySpawnTime -= EnemySpawnTimeDecrement
         console.log(EnemySpawnTime)
     }, EnemySpawnTime);
 }
