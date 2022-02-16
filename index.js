@@ -14,10 +14,12 @@ console.log(Music);
 const Pause = document.querySelector("#PauseEL");
 const Play = document.querySelector("#PlayEL");
 let highScores = [];
-const ShootSound=new Audio("../Audio/sfx/Shoot.wav")
-const HitNoKillSound=new Audio("../Audio/sfx/HitNoKill.wav")
-const HitAndKillSound=new Audio("../Audio/sfx/HitAndKill.wav")
+const ShootSound=new Audio("Audio/sfx/Shoot.wav")
+const HitNoKillSound=new Audio("Audio/sfx/HitNoKill.wav")
+const HitAndKillSound=new Audio("Audio/sfx/HitAndKill.wav")
 //define a player, and their draw function
+c.shadowBlur=10;
+c.shadowColor="black";
 class Player {
     constructor(x, y, radius, color) {
         this.x = x;
