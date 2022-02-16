@@ -14,7 +14,9 @@ console.log(Music);
 const Pause = document.querySelector("#PauseEL");
 const Play = document.querySelector("#PlayEL");
 let highScores = [];
-
+const ShootSound=new Audio("../Audio/sfx/Shoot.wav")
+const HitNoKillSound=new Audio("../Audio/sfx/HitNoKill.wav")
+const HitAndKillSound=new Audio("../Audio/sfx/HitAndKill.wav")
 //define a player, and their draw function
 class Player {
     constructor(x, y, radius, color) {
@@ -243,6 +245,7 @@ function animate() {
                 }
                 //shrink enemy if it is large
                 if (enemy.radius - 10 > 5) {
+                    HitNoKillSound.play()
                     AddScore(100);
                     //smooth changing that value
                     gsap.to(enemy, { radius: enemy.radius - 10 });
@@ -253,6 +256,7 @@ function animate() {
                     }, 0);
                     //otherwise
                 } else {
+                    HitAndKillSound.play()
                     //add the score, and update the content
                     AddScore(250);
                     //on the next frame, delete the enemy and projectile
@@ -314,6 +318,8 @@ addEventListener("click", (event) => {
         5,
         ProjectileColor,
         velocity));
+        ShootSound.play();
+
 });
 
 //when the user clicks the start button, start the game
