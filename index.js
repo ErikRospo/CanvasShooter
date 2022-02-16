@@ -1,4 +1,3 @@
-
 //get a bunch of elements
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
@@ -100,7 +99,7 @@ class Particle {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
 
-        this.alpha -= 0.01*ParticleFadeSpeedMultiplier;
+        this.alpha -= 0.01 * ParticleFadeSpeedMultiplier;
     }
 }
 const w = canvas.width;
@@ -124,7 +123,7 @@ function updateHighScores(scores) {
 }
 
 function init() {
-
+    EnemySpawnTime = DefaultEnemySpawnTime
     updateHighScores(highScores)
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
@@ -142,7 +141,7 @@ function SpawnEnemies() {
         let x;
         let y;
         //give it a radius
-        const radius = Math.random() * (30 - 4)*EnemyHealthMultiplier + 4;
+        const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
         //randomly decide whether to spawn it height or width-wise
         if (Math.random() < EnemySpawnBias) {
             //spawn it along the x axis
@@ -160,12 +159,14 @@ function SpawnEnemies() {
         const angle = Math.atan2(ch - y, cw - x);
         //set the x and y values accordingly
         const velocity = {
-            x: Math.cos(angle)*EnemySpeedMultiplier,
-            y: Math.sin(angle)*EnemySpeedMultiplier
+            x: Math.cos(angle) * EnemySpeedMultiplier,
+            y: Math.sin(angle) * EnemySpeedMultiplier
         };
         //add it to the enemies list
         enemies.push(new Enemy(x, y, radius, color, velocity));
         //trigger every second
+        EnemySpawnTime -= EnemySpawnTimeDecrementor
+        console.log(EnemySpawnTime)
     }, EnemySpawnTime);
 }
 let animationID;
@@ -226,7 +227,7 @@ function animate() {
             // if dist minus the radiuses of the enemy and the projectile are less than 0
             if (dist - enemy.radius - projectile.radius < 0) {
                 //create Explosions
-                for (let i = 0; i < Math.round(enemy.radius * 2*ParticleMultiplier*Math.random()); i++) {
+                for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
                     //add a particle to the rendering list
                     particles.push(new Particle(projectile.x,
                         projectile.y,
@@ -262,6 +263,36 @@ function animate() {
                 }
             }
         });
+        if (ParticlesDamageEnemies) {
+            particles.forEach((particle, index2) => {
+                //get the distance between the projectile and the enemy
+                const dist = Math.hypot(particle.x - enemy.x,
+                    particle.y - enemy.y);
+                // if dist minus the radiuses of the enemy and the projectile are less than 0
+                if (dist - enemy.radius - particle.radius < 0) {
+                    //shrink enemy if it is large
+                    if (enemy.radius - 5 > 5) {
+                        AddScore(10);
+                        //smooth changing that value
+                        gsap.to(enemy, { radius: enemy.radius - 5 });
+                        setTimeout(() => {
+                            //delete the projectile
+                            particles.splice(index2, 1);
+
+                        }, 0);
+                        //otherwise
+                    } else {
+                        //add the score, and update the content
+                        AddScore(25);
+                        //on the next frame, delete the enemy and projectile
+                        setTimeout(() => {
+                            enemies.splice(index, 1);
+                            particles.splice(index2, 1);
+                        }, 0);
+                    }
+                }
+            });
+        }
     });
 }
 //whenever the user clicks, spawn a projectile
@@ -284,10 +315,7 @@ addEventListener("click", (event) => {
         ProjectileColor,
         velocity));
 });
-addEventListener("load",()=>{
-    Pause.onclick=Music.pause()
-    Play.onclick=Music.play()
-});
+
 //when the user clicks the start button, start the game
 startGameButton.addEventListener("click", () => {
     ModalEL.style.display = "none";
