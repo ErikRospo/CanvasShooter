@@ -20,13 +20,27 @@
             background-color: rgba(0, 0, 0, 0);
             color: white;
         }
+        
+        .UpgradeButton {
+            background-color: rgb(50, 100, 255);
+            color: white;
+            border-radius: 9999px;
+            width: 100%;
+            font-size: 0.875em;
+            line-height: 1.25em;
+            padding: 0.25em;
+            margin-top: 0.2em;
+            margin-bottom: 0.2em;
+        }
     </style>
 </head>
 
 <body>
     <div class=" fixed text-white text-s ml-2 mt-1 select-none">
         <span>Score: </span>
-        <span id="scoreEL">0</span>
+        <span id="scoreEL">0</span><br>
+        <span>Money: </span>
+        <span id="moneyEL">0</span>
     </div>
     <div class="mr-2 mt-1 fixed flex items-center " id="AudioDiv">
         <!-- <audio controls id="musicEL" src="./Audio/music/Music1.mp3"></audio> -->
@@ -41,16 +55,67 @@
         </div>
 
     </div>
+    <div class="fixed inset-0 flex items-center justify-center select-none" id="PauseModalEl">
+        <div class="bg-white max-w-md w-full p-6 text-center">
+            <h1 class="text-4xl font-bold leading-none" id="BigScorePauseMenuEl">0</h1>
+            <p class=" text-sm text-grey-700 mb-4">Points</p>
+
+            <button id="ResumeGameBtn" class="bg-blue-500 text-white w-full py-3 rounded-full text-sm ">Resume Game</button>
+        </div>
+
+    </div>
+    <div class="fixed inset-0 flex items-center justify-center select-none shop" id="UpgradeDivEl">
+        <div class="dbg-white max-w-md w-full p-6 text-center items-center justify-center shop">
+            <span>Money:</span>
+            <span id="ShopMoney">0</span>
+            <ul>
+                <li class="upgrade-list-item shop" id="DamageUpgradeItem">
+                    <button class="UpgradeButton" id="DamageUpgrade">Damage</button>
+                </li>
+                <li class="upgrade-list-item shop" id="ShotSpeedUpgradeItem">
+                    <button class="UpgradeButton" id="ShotSpeedUpgrade">Projectile Speed</button>
+                </li>
+                <li class="upgrade-list-item shop" id="FireRateUpgradeItem ">
+                    <button class="UpgradeButton" id="FireRateUpgrade">Fire Rate</button>
+                </li>
+                <li class="upgrade-list-item shop" id="ShotsFiredUpgradeItem ">
+                    <button class="UpgradeButton" id="ShotsFiredUpgrade">Number of Shots Fired</button>
+                </li>
+                <li class="upgrade-list-item shop" id="MultiShotUpgradeItem ">
+                    <button class="UpgradeButton" id="MultiShotUpgrade">Number of Rows of Shots Fired </button>
+                </li>
+                <li class="upgrade-list-item shop" id="AutoFireUpgradeItem ">
+                    <button class="UpgradeButton" id="AutoFireUpgrade">Auto Fire</button>
+                </li>
+                <li class="upgrade-list-item shop" id="AutoRotateUpgradeItem ">
+                    <button class="UpgradeButton" id="AutoRotateUpgrade">Auto Rotate</button>
+                </li>
+                <li class="upgrade-list-item shop" id="ShotSizeUpgradeItem ">
+                    <button class="UpgradeButton" id="ShotSizeUpgrade">Shot Size</button>
+                </li>
+                <li class="upgrade-list-item shop" id="HealthUpgradeItem ">
+                    <button class="UpgradeButton" id="HealthUpgrade">Health</button>
+                </li>
+                <li class="upgrade-list-item shop" id="MoneyMultUpgradeItem ">
+                    <button class="UpgradeButton" id="MoneyMultUpgrade">Money Muliplier</button>
+                </li>
+                <button id="CloseShop" class=" shop text-red-500 text-2xl">&#9747</button>
+                <!-- <li class="upgrade-list-item " id="ShopListItem10 "><button id="ShopButton9 "></button></li>
+                    <li class="upgrade-list-item " id="ShopListItem11 "><button id="ShopButton10 "></button></li> -->
+            </ul>
+        </div>
+    </div>
     </div>
     <div class="fixed text-white ">
-        <ol id="HighScores" class="text-white w-8 h-16 ">
+        <ol id="HighScores " class="text-white w-8 h-16 ">
         </ol>
     </div>
     <canvas></canvas>
-    <script src="https://sfxr.me/riffwave.js"></script>
-    <script src="https://sfxr.me/sfxr.js"></script>
+    <script src="https://sfxr.me/riffwave.js "></script>
+    <script src="https://sfxr.me/sfxr.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js " integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin=" anonymous " referrerpolicy="no-referrer "></script>
-    <script src="./vars.js"></script>
+    <script src="./UpgradeCurves.js "></script>
+    <script src="./vars.js "></script>
     <script src="./index.js "></script>
 </body>
 

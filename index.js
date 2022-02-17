@@ -4,6 +4,8 @@ const c = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 const scoreEL = document.querySelector("#scoreEL");
+const MoneyEL = document.querySelector("#moneyEL");
+const ShopMoney = document.querySelector("#ShopMoney");
 const startGameButton = document.querySelector("#startGameBtn");
 const ModalEL = document.querySelector("#ModalEl");
 const BigScoreEl = document.querySelector("#BigScoreEl");
@@ -14,18 +16,60 @@ console.log(Music);
 const Pause = document.querySelector("#PauseEL");
 const Play = document.querySelector("#PlayEL");
 let highScores = [];
-const ShootSound=new Audio("Audio/sfx/Shoot.wav")
-const HitNoKillSound=new Audio("Audio/sfx/HitNoKill.wav")
-const HitAndKillSound=new Audio("Audio/sfx/HitAndKill.wav")
+const ShootSound = new Audio("Audio/sfx/Shoot.wav");
+const HitNoKillSound = new Audio("Audio/sfx/HitNoKill.wav");
+const HitAndKillSound = new Audio("Audio/sfx/HitAndKill.wav");
+//shop inner stuff
+const DamageUpgradeEl = document.querySelector("#DamageUpgrade");
+const ShotSpeedUpgradeEl = document.querySelector("#ShotSpeedUpgrade");
+const FireRateUpgradeEl = document.querySelector("#FireRateUpgrade");
+const ShotsFiredUpgradeEl = document.querySelector("#ShotsFiredUpgrade");
+const MultiShotUpgradeEl = document.querySelector("#MultiShotUpgrade");
+const AutoFireUpgradeEl = document.querySelector("#AutoFireUpgrade");
+const AutoRotateUpgradeEl = document.querySelector("#AutoRotateUpgrade");
+const ShotSizeUpgradeEl = document.querySelector("#ShotSizeUpgrade");
+const HealthUpgradeEl = document.querySelector("#HealthUpgrade");
+const MoneyUpgradeEl = document.querySelector("#MoneyMultUpgrade");
+//shop
+const ShopDivEl = document.querySelector("#UpgradeDivEl");
+const ShopEls = document.querySelectorAll("#shop");
+const ShopCloseButton = document.querySelector("#CloseShop");
+// pause menu
+const resumeGameButton = document.querySelector("#resumeGameBtn");
+const PausedModalEl = document.querySelector("#PauseModalEl");
+const PausedBigScoreEl = document.querySelector("#BigScorePauseMenuEl");
+
 //define a player, and their draw function
-c.shadowBlur=10;
-c.shadowColor="black";
+c.shadowBlur = 10;
+c.shadowColor = "black";
 class Player {
     constructor(x, y, radius, color) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.color = color;
+
+        this.Money = 0;
+        this.moneyMult = 1;
+
+        this.Damage = 10;
+        this.ShotSpeed = 5
+        this.FireRate = -1
+        this.ShotsFired = 1;
+        this.MultiShot = 1;
+        this.AutoFire = 0;
+        this.AutoRotate = 0;
+        this.ShotSize = 5;
+        this.Health = 1;
+
+        this.DamageUpgradeNumber = 0;
+        this.ShotSpeedUpgradeNumber = 0;
+        this.FireRateUpgradeNumber = 0;
+        this.ShotsFiredUpgradeNumber = 0;
+        this.MultiShotUpgradeNumber = 0;
+        this.ShotSizeUpgradeNumber = 0;
+        this.HealthUpgradeNumber = 0;
+        this.MoneyMultUpgradeNumber = 0;
     }
     draw() {
         c.beginPath();
@@ -114,6 +158,22 @@ let player = new Player(cw, ch, PlayerRadius, PlayerColor);
 let projectiles = [];
 let enemies = [];
 let particles = [];
+let GameStarted = false;
+let Paused = false;
+
+function ShowShop() {
+    for (let index = 0; index < ShopEls.length; index++) {
+        const element = ShopEls[index];
+        element.style.display = "initial"
+    }
+}
+
+function HideShop() {
+    for (let index = 0; index < ShopEls.length; index++) {
+        const element = ShopEls[index];
+        element.style.display = "none"
+    }
+}
 
 function updateHighScores(scores) {
     scores.sort((a, b) => a - b)
@@ -128,6 +188,8 @@ function updateHighScores(scores) {
 
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime
+    HideShop()
+    Paused = false;
     updateHighScores(highScores)
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
@@ -136,7 +198,10 @@ function init() {
     score = 0;
     scoreEL.innerHTML = score;
     BigScoreEl.innerHTML = score;
+    GameStarted = true;
 }
+
+
 
 function SpawnEnemies() {
     //create a new enemy
@@ -178,150 +243,159 @@ let score = 0;
 //add and update the score
 function AddScore(Value) {
     score += Value;
+    player.Money += (Value / 10) * player.moneyMult;
     scoreEL.innerHTML = score;
+    MoneyEL.innerText = player.Money
+    ShopMoney.innerText = player.Money
 }
 
 
 
 function animate() {
     animationID = requestAnimationFrame(animate);
-    //fill the canvas with an almost black.
-    //the 0.1 Alpha value means that things have a nice fade in effect
-    c.fillStyle = `rgba(${BackgroundColor},0.1)`;
-    c.fillRect(0, 0, w, h);
     //draw the player
     player.draw();
     //draw the particles
-    particles.forEach((particle, index) => {
-        if (particle.alpha <= 0) {
-            particles.splice(index, 1);
-        } else {
-            particle.update();
-        }
-    });
-    //draw the projectiles
-    projectiles.forEach((projectile, index) => {
-        projectile.update();
-        //if the projectile is off the screen, delete it. this saves rendering time
-        if ((projectile.x + projectile.radius < 0) ||
-            (projectile.y + projectile.radius < 0) ||
-            (projectile.x - projectile.radius > w) ||
-            (projectile.y - projectile.radius > h)) {
-            projectiles.splice(index, 1);
-        }
-    });
-    //draw the enemies
-    enemies.forEach((enemy, index) => {
-        //update each enemy
-        enemy.update();
-        //get the distance to the player
-        const dist = Math.hypot(player.x - enemy.x,
-            player.y - enemy.y);
-        //if the enemy is touching the player, end the game
-        if (dist - enemy.radius - player.radius < 0) {
-            cancelAnimationFrame(animationID);
-            //and add the end screen back up
-            ModalEL.style.display = "flex";
-            BigScoreEl.innerHTML = score;
-        }
-        projectiles.forEach((projectile, index2) => {
-            //get the distance between the projectile and the enemy
-            const dist = Math.hypot(projectile.x - enemy.x,
-                projectile.y - enemy.y);
-            // if dist minus the radiuses of the enemy and the projectile are less than 0
-            if (dist - enemy.radius - projectile.radius < 0) {
-                //create Explosions
-                for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
-                    //add a particle to the rendering list
-                    particles.push(new Particle(projectile.x,
-                        projectile.y,
-                        //give it a random radius
-                        Math.random() * (5 - 1) + 1,
-                        //set its color to the killed enemy's
-                        enemy.color,
-                        // give it a random speed
-                        {
-                            x: (Math.random() - 0.5) * Math.random() * ParticleSpeed,
-                            y: (Math.random() - 0.5) * Math.random() * ParticleSpeed
-                        }));
-                }
-                //shrink enemy if it is large
-                if (enemy.radius - 10 > 5) {
-                    HitNoKillSound.play()
-                    AddScore(100);
-                    //smooth changing that value
-                    gsap.to(enemy, { radius: enemy.radius - 10 });
-                    setTimeout(() => {
-                        //delete the projectile
-                        projectiles.splice(index2, 1);
+    if (!Paused) {
+        //fill the canvas with an almost black.
+        //the 0.1 Alpha value means that things have a nice fade in effect
+        c.fillStyle = `rgba(${BackgroundColor},0.1)`;
+        c.fillRect(0, 0, w, h);
 
-                    }, 0);
-                    //otherwise
-                } else {
-                    HitAndKillSound.play()
-                    //add the score, and update the content
-                    AddScore(250);
-                    //on the next frame, delete the enemy and projectile
-                    setTimeout(() => {
-                        enemies.splice(index, 1);
-                        projectiles.splice(index2, 1);
-                    }, 0);
+        particles.forEach((particle, index) => {
+            if (particle.alpha <= 0) {
+                particles.splice(index, 1);
+            } else {
+                if (!Paused) {
+                    particle.update();
                 }
             }
         });
-        if (ParticlesDamageEnemies) {
-            particles.forEach((particle, index2) => {
+        //draw the projectiles
+        projectiles.forEach((projectile, index) => {
+            projectile.update();
+            //if the projectile is off the screen, delete it. this saves rendering time
+            if ((projectile.x + projectile.radius < 0) ||
+                (projectile.y + projectile.radius < 0) ||
+                (projectile.x - projectile.radius > w) ||
+                (projectile.y - projectile.radius > h)) {
+                projectiles.splice(index, 1);
+            }
+        });
+        //draw the enemies
+        enemies.forEach((enemy, index) => {
+            //update each enemy
+            enemy.update();
+            //get the distance to the player
+            const dist = Math.hypot(player.x - enemy.x,
+                player.y - enemy.y);
+            //if the enemy is touching the player, end the game
+            if (dist - enemy.radius - player.radius < 0) {
+                cancelAnimationFrame(animationID);
+                //and add the end screen back up
+                ModalEL.style.display = "flex";
+                BigScoreEl.innerHTML = score;
+            }
+            projectiles.forEach((projectile, index2) => {
                 //get the distance between the projectile and the enemy
-                const dist = Math.hypot(particle.x - enemy.x,
-                    particle.y - enemy.y);
+                const dist = Math.hypot(projectile.x - enemy.x,
+                    projectile.y - enemy.y);
                 // if dist minus the radiuses of the enemy and the projectile are less than 0
-                if (dist - enemy.radius - particle.radius < 0) {
+                if (dist - enemy.radius - projectile.radius < 0) {
+                    //create Explosions
+                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+                        //add a particle to the rendering list
+                        particles.push(new Particle(projectile.x,
+                            projectile.y,
+                            //give it a random radius
+                            Math.random() * (5 - 1) + 1,
+                            //set its color to the killed enemy's
+                            enemy.color,
+                            // give it a random speed
+                            {
+                                x: (Math.random() - 0.5) * Math.random() * ParticleSpeed,
+                                y: (Math.random() - 0.5) * Math.random() * ParticleSpeed
+                            }));
+                    }
                     //shrink enemy if it is large
-                    if (enemy.radius - 5 > 5) {
-                        AddScore(10);
+                    if (enemy.radius - player.Damage > 5) {
+                        HitNoKillSound.play()
+                        AddScore(100);
                         //smooth changing that value
-                        gsap.to(enemy, { radius: enemy.radius - 5 });
+                        gsap.to(enemy, { radius: enemy.radius - player.Damage });
                         setTimeout(() => {
                             //delete the projectile
-                            particles.splice(index2, 1);
+                            projectiles.splice(index2, 1);
 
                         }, 0);
                         //otherwise
                     } else {
-                        //add the score, and update the content
-                        AddScore(25);
+                        HitAndKillSound.play()
+                            //add the score, and update the content
+                        AddScore(250);
                         //on the next frame, delete the enemy and projectile
                         setTimeout(() => {
                             enemies.splice(index, 1);
-                            particles.splice(index2, 1);
+                            projectiles.splice(index2, 1);
                         }, 0);
                     }
                 }
             });
-        }
-    });
+            if (ParticlesDamageEnemies) {
+                particles.forEach((particle, index2) => {
+                    //get the distance between the projectile and the enemy
+                    const dist = Math.hypot(particle.x - enemy.x,
+                        particle.y - enemy.y);
+                    // if dist minus the radiuses of the enemy and the projectile are less than 0
+                    if (dist - enemy.radius - particle.radius < 0) {
+                        //shrink enemy if it is large
+                        if (enemy.radius - 5 > 5) {
+                            AddScore(10);
+                            //smooth changing that value
+                            gsap.to(enemy, { radius: enemy.radius - 5 });
+                            setTimeout(() => {
+                                //delete the projectile
+                                particles.splice(index2, 1);
+
+                            }, 0);
+                            //otherwise
+                        } else {
+                            //add the score, and update the content
+                            AddScore(25);
+                            //on the next frame, delete the enemy and projectile
+                            setTimeout(() => {
+                                enemies.splice(index, 1);
+                                particles.splice(index2, 1);
+                            }, 0);
+                        }
+                    }
+                });
+            }
+        });
+    }
 }
 //whenever the user clicks, spawn a projectile
 addEventListener("click", (event) => {
-    //get the x and y of the click
-    const x = event.clientX;
-    const y = event.clientY;
-    //find the angle from the center
-    const angle = Math.atan2(y - ch, x - cw);
-    //set velocity accordingly
-    const velocity = {
-        x: Math.cos(angle) * ProjectileSpeedMultiplier,
-        y: Math.sin(angle) * ProjectileSpeedMultiplier
-    };
-    //add it to the projectiles list
-    projectiles.push(new Projectile(
-        cw,
-        ch,
-        5,
-        ProjectileColor,
-        velocity));
+    if (GameStarted == true & Paused == false) {
+        //get the x and y of the click
+        const x = event.clientX;
+        const y = event.clientY;
+        //find the angle from the center
+        const angle = Math.atan2(y - ch, x - cw);
+        //set velocity accordingly
+        const velocity = {
+            x: Math.cos(angle) * player.ShotSpeed,
+            y: Math.sin(angle) * player.ShotSpeed
+        };
+        //add it to the projectiles list
+        projectiles.push(new Projectile(
+            cw,
+            ch,
+            5,
+            ProjectileColor,
+            velocity));
         ShootSound.play();
-
+    }
 });
 
 //when the user clicks the start button, start the game
@@ -331,4 +405,56 @@ startGameButton.addEventListener("click", () => {
     animate();
     SpawnEnemies();
     //hide the UI
-})
+});
+addEventListener("keypress", (event) => {
+    if (event.key == "tab") {
+        if (Paused) {
+            ShopDivEl.style.display = "none";
+            Paused = false
+        } else {
+            ShopDivEl.style.display = "initial";
+            Paused = true
+        }
+    } else if (event.key == "esc") {
+        if (Paused) {
+            PausedModalEl.style.display = "none";
+            Paused = false
+        } else {
+            PausedModalEl.style.display = "initial";
+            PausedBigScoreEl.innerHTML = score;
+            Paused = true
+        }
+    }
+
+});
+DamageUpgradeEl.addEventListener("click", () => {
+    player.Damage = DamageCurve[player.DamageUpgradeNumber]
+    player.DamageUpgradeNumber++
+});
+ShotSpeedUpgradeEl.addEventListener("click", () => {
+    player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber]
+    player.ShotSpeedUpgradeNumber++
+});
+FireRateUpgradeEl.addEventListener("click", () => {
+    player.FireRate = FireRateCurve[player.FireRateUpgradeNumber]
+    player.FireRateUpgradeNumber++
+});
+ShotsFiredUpgradeEl.addEventListener("click", () => {
+    player.ShotsFired = ShotsFiredCurve[player.ShotsFiredUpgradeNumber]
+    player.ShotsFiredUpgradeNumber++
+});
+MultiShotUpgradeEl.addEventListener("click", () => {
+    player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumbe]
+    player.MultiShotUpgradeNumbe++
+});
+ShotSizeUpgradeEl.addEventListener("click", () => {
+    player.ShotSize = ShotSizeCurve[player.ShotSizeUpgradeNumber]
+    player.ShotSizeUpgradeNumber++
+});
+ShotSizeUpgradeEl.addEventListener("click", () => {
+    player.moneyMult = player.MoneyMultUpgradeNumber + 1;
+    player.moneyMultUpgradeNumber++;
+});
+ShopCloseButton.addEventListener("click", () => {
+    ShopDivEl.style.display = "none";
+});
