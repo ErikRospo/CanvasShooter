@@ -7,11 +7,13 @@ const scoreEL = document.querySelector("#scoreEL");
 const MoneyEL = document.querySelector("#moneyEL");
 const ShopMoney = document.querySelector("#ShopMoney");
 const startGameButton = document.querySelector("#startGameBtn");
-const ModalEL = document.querySelector("#ModalEl");
-const BigScoreEl = document.querySelector("#BigScoreEl");
+const ModalEL = document.querySelector("#ModalEL");
+const TitleEL = document.querySelector("#titleELement");
+const BigScoreEL = document.querySelector("#BigScoreEL");
+const BigScoreELLabel = document.querySelector("#PointsLabelEL")
 const NameDiv = document.querySelector("#NameInputDiv");
 const HighScoreList = document.querySelector("#HighScores");
-const Music = document.querySelector("#MusicEL")
+const Music = document.querySelector("#MusicEL");
 console.log(Music);
 const Pause = document.querySelector("#PauseEL");
 const Play = document.querySelector("#PlayEL");
@@ -20,24 +22,24 @@ const ShootSound = new Audio("Audio/sfx/Shoot.wav");
 const HitNoKillSound = new Audio("Audio/sfx/HitNoKill.wav");
 const HitAndKillSound = new Audio("Audio/sfx/HitAndKill.wav");
 //shop inner stuff
-const DamageUpgradeEl = document.querySelector("#DamageUpgrade");
-const ShotSpeedUpgradeEl = document.querySelector("#ShotSpeedUpgrade");
-const FireRateUpgradeEl = document.querySelector("#FireRateUpgrade");
-const ShotsFiredUpgradeEl = document.querySelector("#ShotsFiredUpgrade");
-const MultiShotUpgradeEl = document.querySelector("#MultiShotUpgrade");
-const AutoFireUpgradeEl = document.querySelector("#AutoFireUpgrade");
-const AutoRotateUpgradeEl = document.querySelector("#AutoRotateUpgrade");
-const ShotSizeUpgradeEl = document.querySelector("#ShotSizeUpgrade");
-const HealthUpgradeEl = document.querySelector("#HealthUpgrade");
-const MoneyUpgradeEl = document.querySelector("#MoneyMultUpgrade");
+const DamageUpgradeEL = document.querySelector("#DamageUpgrade");
+const ShotSpeedUpgradeEL = document.querySelector("#ShotSpeedUpgrade");
+const FireRateUpgradeEL = document.querySelector("#FireRateUpgrade");
+const ShotsFiredUpgradeEL = document.querySelector("#ShotsFiredUpgrade");
+const MultiShotUpgradeEL = document.querySelector("#MultiShotUpgrade");
+const AutoFireUpgradeEL = document.querySelector("#AutoFireUpgrade");
+const AutoRotateUpgradeEL = document.querySelector("#AutoRotateUpgrade");
+const ShotSizeUpgradeEL = document.querySelector("#ShotSizeUpgrade");
+const HealthUpgradeEL = document.querySelector("#HealthUpgrade");
+const MoneyUpgradeEL = document.querySelector("#MoneyMultUpgrade");
 //shop
-const ShopDivEl = document.querySelector("#UpgradeDivEl");
-const ShopEls = document.querySelectorAll("#shop");
+const ShopDivEL = document.querySelector("#UpgradeDivEL");
+const ShopELs = document.querySelectorAll("#shop");
 const ShopCloseButton = document.querySelector("#CloseShop");
 // pause menu
 const resumeGameButton = document.querySelector("#ResumeGameBtn");
-const PausedModalEl = document.querySelector("#PauseModalEl");
-const PausedBigScoreEl = document.querySelector("#BigScorePauseMenuEl");
+const PausedModalEL = document.querySelector("#PauseModalEL");
+const PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
 
 //define a player, and their draw function
 c.shadowBlur = 10;
@@ -163,14 +165,14 @@ let Paused = false;
 let ShopOpen = false;
 
 function ShowShop() {
-    ShopEls.forEach((value) => {
+    ShopELs.forEach((value) => {
         value.style.display = "inital"
     })
     ShopOpen = true;
 }
 
 function HideShop() {
-    ShopEls.forEach((value) => {
+    ShopELs.forEach((value) => {
         value.style.display = "none"
     })
     ShopOpen = false;
@@ -180,7 +182,7 @@ function updateHighScores(scores) {
     scores.sort((a, b) => a - b)
     for (let index = 0; index < scores.length; index++) {
         const element = scores[index];
-        var node = document.createElement("li");
+        var node = document.createELement("li");
         node.appendChild(document.createTextNode(element));
         HighScoreList.appendChild(node)
 
@@ -198,16 +200,16 @@ function init() {
     particles = [];
     score = 0;
     scoreEL.innerHTML = score;
-    BigScoreEl.innerHTML = score;
+    BigScoreEL.innerHTML = score;
     GameStarted = true;
 }
 
 function PageLoad() {
-    PausedModalEl.style.display = "none";
-    PausedBigScoreEl.style.display = "none";
+    PausedModalEL.style.display = "none";
+    PausedBigScoreEL.style.display = "none";
     resumeGameButton.style.display = "none";
-    ShopDivEl.style.display = "none";
-    ShopEls.forEach((value) => {
+    ShopDivEL.style.display = "none";
+    ShopELs.forEach((value) => {
         value.style.display = "none"
     })
     ModalEL.style.display = "inital";
@@ -265,13 +267,23 @@ function AddScore(Value) {
 
 
 
+function gameOver(AnimationID) {
+    cancelAnimationFrame(animationID);
+    //and add the end screen back up
+    ModalEL.style.display = "flex";
+
+    BigScoreELLabel.style.display = "block"
+    BigScoreEL.style.display = "block"
+    BigScoreEL.innerHTML = score;
+}
+
 function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
         //draw the player
         player.draw();
-        PausedModalEl.style.display = "none";
-        PausedBigScoreEl.style.display = "none";
+        PausedModalEL.style.display = "none";
+        PausedBigScoreEL.style.display = "none";
         resumeGameButton.style.display = "none";
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade in effect
@@ -306,10 +318,8 @@ function animate() {
                 player.y - enemy.y);
             //if the enemy is touching the player, end the game
             if (dist - enemy.radius - player.radius < 0) {
-                cancelAnimationFrame(animationID);
-                //and add the end screen back up
-                ModalEL.style.display = "flex";
-                BigScoreEl.innerHTML = score;
+                gameOver(animationID);
+
             }
             projectiles.forEach((projectile, index2) => {
                 //get the distance between the projectile and the enemy
@@ -388,8 +398,8 @@ function animate() {
             }
         });
     } else {
-        PausedModalEl.style.display = "initial";
-        PausedBigScoreEl.style.display = "initial";
+        PausedModalEL.style.display = "initial";
+        PausedBigScoreEL.style.display = "initial";
         resumeGameButton.style.display = "initial";
     }
 }
@@ -426,8 +436,8 @@ startGameButton.addEventListener("click", () => {
     //hide the UI
 });
 resumeGameButton.addEventListener("click", () => {
-    PausedModalEl.style.display = "none";
-    PausedBigScoreEl.style.display = "none";
+    PausedModalEL.style.display = "none";
+    PausedBigScoreEL.style.display = "none";
     resumeGameButton.style.display = "none";
     Paused = false;
     //hide the UI
@@ -443,45 +453,45 @@ addEventListener("keydown", (event) => {
         }
     } else if (event.key == "escape") {
         if (Paused) {
-            PausedModalEl.style.display = "none";
+            PausedModalEL.style.display = "none";
             Paused = false
         } else {
-            PausedModalEl.style.display = "initial";
-            PausedBigScoreEl.innerHTML = score;
+            PausedModalEL.style.display = "initial";
+            PausedBigScoreEL.innerHTML = score;
             Paused = true
         }
     }
 
 });
 addEventListener("load", PageLoad());
-DamageUpgradeEl.addEventListener("click", () => {
+DamageUpgradeEL.addEventListener("click", () => {
     player.Damage = DamageCurve[player.DamageUpgradeNumber]
     player.DamageUpgradeNumber++
 });
-ShotSpeedUpgradeEl.addEventListener("click", () => {
+ShotSpeedUpgradeEL.addEventListener("click", () => {
     player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber]
     player.ShotSpeedUpgradeNumber++
 });
-FireRateUpgradeEl.addEventListener("click", () => {
+FireRateUpgradeEL.addEventListener("click", () => {
     player.FireRate = FireRateCurve[player.FireRateUpgradeNumber]
     player.FireRateUpgradeNumber++
 });
-ShotsFiredUpgradeEl.addEventListener("click", () => {
+ShotsFiredUpgradeEL.addEventListener("click", () => {
     player.ShotsFired = ShotsFiredCurve[player.ShotsFiredUpgradeNumber]
     player.ShotsFiredUpgradeNumber++
 });
-MultiShotUpgradeEl.addEventListener("click", () => {
+MultiShotUpgradeEL.addEventListener("click", () => {
     player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumbe]
     player.MultiShotUpgradeNumbe++
 });
-ShotSizeUpgradeEl.addEventListener("click", () => {
+ShotSizeUpgradeEL.addEventListener("click", () => {
     player.ShotSize = ShotSizeCurve[player.ShotSizeUpgradeNumber]
     player.ShotSizeUpgradeNumber++
 });
-ShotSizeUpgradeEl.addEventListener("click", () => {
+ShotSizeUpgradeEL.addEventListener("click", () => {
     player.moneyMult = player.MoneyMultUpgradeNumber + 1;
     player.moneyMultUpgradeNumber++;
 });
 ShopCloseButton.addEventListener("click", () => {
-    ShopDivEl.style.display = "none";
+    ShopDivEL.style.display = "none";
 });
