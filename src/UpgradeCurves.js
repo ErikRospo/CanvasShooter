@@ -1,6 +1,3 @@
-function logx(val, base) {
-    return Math.log(val) / Math.log(base);
-}
 var DamageCurve = [];
 var ShotSpeedCurve = [];
 var FireRateCurve = [];

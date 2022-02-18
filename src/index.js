@@ -35,7 +35,7 @@ const ShopDivEl = document.querySelector("#UpgradeDivEl");
 const ShopEls = document.querySelectorAll("#shop");
 const ShopCloseButton = document.querySelector("#CloseShop");
 // pause menu
-const resumeGameButton = document.querySelector("#resumeGameBtn");
+const resumeGameButton = document.querySelector("#ResumeGameBtn");
 const PausedModalEl = document.querySelector("#PauseModalEl");
 const PausedBigScoreEl = document.querySelector("#BigScorePauseMenuEl");
 
@@ -147,7 +147,7 @@ class Particle {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
 
-        this.alpha -= 0.01 * ParticleFadeSpeedMultiplier;
+        this.alpha -= randomBetween(0.001, 0.025) * ParticleFadeSpeedMultiplier;
     }
 }
 const w = canvas.width;
@@ -160,19 +160,20 @@ let enemies = [];
 let particles = [];
 let GameStarted = false;
 let Paused = false;
+let ShopOpen = false;
 
 function ShowShop() {
-    for (let index = 0; index < ShopEls.length; index++) {
-        const element = ShopEls[index];
-        element.style.display = "initial"
-    }
+    ShopEls.forEach((value) => {
+        value.style.display = "inital"
+    })
+    ShopOpen = true;
 }
 
 function HideShop() {
-    for (let index = 0; index < ShopEls.length; index++) {
-        const element = ShopEls[index];
-        element.style.display = "none"
-    }
+    ShopEls.forEach((value) => {
+        value.style.display = "none"
+    })
+    ShopOpen = false;
 }
 
 function updateHighScores(scores) {
@@ -201,7 +202,20 @@ function init() {
     GameStarted = true;
 }
 
+function PageLoad() {
+    PausedModalEl.style.display = "none";
+    PausedBigScoreEl.style.display = "none";
+    resumeGameButton.style.display = "none";
+    ShopDivEl.style.display = "none";
+    ShopEls.forEach((value) => {
+        value.style.display = "none"
+    })
+    ModalEL.style.display = "inital";
 
+    Paused = false;
+    HideShop();
+
+}
 
 function SpawnEnemies() {
     //create a new enemy
@@ -253,22 +267,23 @@ function AddScore(Value) {
 
 function animate() {
     animationID = requestAnimationFrame(animate);
-    //draw the player
-    player.draw();
-    //draw the particles
     if (!Paused) {
+        //draw the player
+        player.draw();
+        PausedModalEl.style.display = "none";
+        PausedBigScoreEl.style.display = "none";
+        resumeGameButton.style.display = "none";
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade in effect
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;
         c.fillRect(0, 0, w, h);
 
+        //draw the particles
         particles.forEach((particle, index) => {
             if (particle.alpha <= 0) {
                 particles.splice(index, 1);
             } else {
-                if (!Paused) {
-                    particle.update();
-                }
+                particle.update();
             }
         });
         //draw the projectiles
@@ -372,6 +387,10 @@ function animate() {
                 });
             }
         });
+    } else {
+        PausedModalEl.style.display = "initial";
+        PausedBigScoreEl.style.display = "initial";
+        resumeGameButton.style.display = "initial";
     }
 }
 //whenever the user clicks, spawn a projectile
@@ -406,16 +425,23 @@ startGameButton.addEventListener("click", () => {
     SpawnEnemies();
     //hide the UI
 });
-addEventListener("keypress", (event) => {
-    if (event.key == "tab") {
-        if (Paused) {
-            ShopDivEl.style.display = "none";
-            Paused = false
-        } else {
-            ShopDivEl.style.display = "initial";
-            Paused = true
+resumeGameButton.addEventListener("click", () => {
+    PausedModalEl.style.display = "none";
+    PausedBigScoreEl.style.display = "none";
+    resumeGameButton.style.display = "none";
+    Paused = false;
+    //hide the UI
+});
+addEventListener("keydown", (event) => {
+    if (event.key == "s") {
+        if (GameStarted) {
+            if (ShopOpen) {
+                HideShop()
+            } else {
+                ShowShop()
+            }
         }
-    } else if (event.key == "esc") {
+    } else if (event.key == "escape") {
         if (Paused) {
             PausedModalEl.style.display = "none";
             Paused = false
@@ -427,6 +453,7 @@ addEventListener("keypress", (event) => {
     }
 
 });
+addEventListener("load", PageLoad());
 DamageUpgradeEl.addEventListener("click", () => {
     player.Damage = DamageCurve[player.DamageUpgradeNumber]
     player.DamageUpgradeNumber++
