@@ -8,7 +8,7 @@ const MoneyEL = document.querySelector("#moneyEL");
 const ShopMoney = document.querySelector("#ShopMoney");
 const startGameButton = document.querySelector("#startGameBtn");
 const ModalEL = document.querySelector("#ModalEL");
-const TitleEL = document.querySelector("#titleELement");
+const TitleEL = document.querySelector("#titleElement");
 const BigScoreEL = document.querySelector("#BigScoreEL");
 const BigScoreELLabel = document.querySelector("#PointsLabelEL")
 const NameDiv = document.querySelector("#NameInputDiv");
@@ -38,8 +38,12 @@ const ShopELs = document.querySelectorAll("#shop");
 const ShopCloseButton = document.querySelector("#CloseShop");
 // pause menu
 const resumeGameButton = document.querySelector("#ResumeGameBtn");
+const restartGameButtonEL = document.querySelector("#RestartGameBtn");
 const PausedModalEL = document.querySelector("#PauseModalEL");
 const PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
+const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
+const ToggleMuteBtnUnmuted = document.querySelector("#ToggleMuteBtnUnmuted");
+
 
 //define a player, and their draw function
 c.shadowBlur = 10;
@@ -163,6 +167,8 @@ let particles = [];
 let GameStarted = false;
 let Paused = false;
 let ShopOpen = false;
+let Muted = true;
+let lastInterval;
 
 function ShowShop() {
     ShopELs.forEach((value) => {
@@ -182,7 +188,7 @@ function updateHighScores(scores) {
     scores.sort((a, b) => a - b)
     for (let index = 0; index < scores.length; index++) {
         const element = scores[index];
-        var node = document.createELement("li");
+        var node = document.createElement("li");
         node.appendChild(document.createTextNode(element));
         HighScoreList.appendChild(node)
 
@@ -201,6 +207,7 @@ function init() {
     score = 0;
     scoreEL.innerHTML = score;
     BigScoreEL.innerHTML = score;
+    MoneyEL.innerHTML = player.Money;
     GameStarted = true;
 }
 
@@ -208,12 +215,9 @@ function PageLoad() {
     PausedModalEL.style.display = "none";
     PausedBigScoreEL.style.display = "none";
     resumeGameButton.style.display = "none";
+    restartGameButtonEL.style.display = "none";
     ShopDivEL.style.display = "none";
-    ShopELs.forEach((value) => {
-        value.style.display = "none"
-    })
     ModalEL.style.display = "inital";
-
     Paused = false;
     HideShop();
 
@@ -221,7 +225,10 @@ function PageLoad() {
 
 function SpawnEnemies() {
     //create a new enemy
-    setInterval(() => {
+    if (lastInterval) {
+        clearInterval(lastInterval)
+    }
+    lastInterval = setInterval(() => {
         //give it an x, and y.
         let x;
         let y;
@@ -268,10 +275,10 @@ function AddScore(Value) {
 
 
 function gameOver(AnimationID) {
-    cancelAnimationFrame(animationID);
+    cancelAnimationFrame(AnimationID);
     //and add the end screen back up
     ModalEL.style.display = "flex";
-
+    TitleEL.style.display = "none";
     BigScoreELLabel.style.display = "block"
     BigScoreEL.style.display = "block"
     BigScoreEL.innerHTML = score;
@@ -281,10 +288,8 @@ function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
         //draw the player
+        UnpauseGame();
         player.draw();
-        PausedModalEL.style.display = "none";
-        PausedBigScoreEL.style.display = "none";
-        resumeGameButton.style.display = "none";
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade in effect
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;
@@ -344,7 +349,9 @@ function animate() {
                     }
                     //shrink enemy if it is large
                     if (enemy.radius - player.Damage > 5) {
-                        HitNoKillSound.play()
+                        if (!Muted) {
+                            HitNoKillSound.play()
+                        }
                         AddScore(100);
                         //smooth changing that value
                         gsap.to(enemy, { radius: enemy.radius - player.Damage });
@@ -355,8 +362,10 @@ function animate() {
                         }, 0);
                         //otherwise
                     } else {
-                        HitAndKillSound.play()
-                            //add the score, and update the content
+                        if (!Muted) {
+                            HitAndKillSound.play()
+                        }
+                        //add the score, and update the content
                         AddScore(250);
                         //on the next frame, delete the enemy and projectile
                         setTimeout(() => {
@@ -398,9 +407,7 @@ function animate() {
             }
         });
     } else {
-        PausedModalEL.style.display = "initial";
-        PausedBigScoreEL.style.display = "initial";
-        resumeGameButton.style.display = "initial";
+        PauseGame();
     }
 }
 //whenever the user clicks, spawn a projectile
@@ -413,8 +420,8 @@ addEventListener("click", (event) => {
         const angle = Math.atan2(y - ch, x - cw);
         //set velocity accordingly
         const velocity = {
-            x: Math.cos(angle) * player.ShotSpeed,
-            y: Math.sin(angle) * player.ShotSpeed
+            x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
+            y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier
         };
         //add it to the projectiles list
         projectiles.push(new Projectile(
@@ -423,7 +430,9 @@ addEventListener("click", (event) => {
             5,
             ProjectileColor,
             velocity));
-        ShootSound.play();
+        if (!Muted) {
+            ShootSound.play();
+        }
     }
 });
 
@@ -436,13 +445,10 @@ startGameButton.addEventListener("click", () => {
     //hide the UI
 });
 resumeGameButton.addEventListener("click", () => {
-    PausedModalEL.style.display = "none";
-    PausedBigScoreEL.style.display = "none";
-    resumeGameButton.style.display = "none";
-    Paused = false;
-    //hide the UI
+    UnpauseGame();
 });
 addEventListener("keydown", (event) => {
+    console.log(event)
     if (event.key == "s") {
         if (GameStarted) {
             if (ShopOpen) {
@@ -451,17 +457,17 @@ addEventListener("keydown", (event) => {
                 ShowShop()
             }
         }
-    } else if (event.key == "escape") {
-        if (Paused) {
-            PausedModalEL.style.display = "none";
-            Paused = false
-        } else {
-            PausedModalEL.style.display = "initial";
-            PausedBigScoreEL.innerHTML = score;
-            Paused = true
+        console.log("\"s\" was pressed.")
+    } else if (event.key == "x") {
+        if (GameStarted) {
+            if (Paused) {
+                UnpauseGame()
+            } else {
+                PauseGame()
+            }
+            console.log("\"x\" was pressed.")
         }
     }
-
 });
 addEventListener("load", PageLoad());
 DamageUpgradeEL.addEventListener("click", () => {
@@ -495,3 +501,42 @@ ShotSizeUpgradeEL.addEventListener("click", () => {
 ShopCloseButton.addEventListener("click", () => {
     ShopDivEL.style.display = "none";
 });
+ToggleMuteBtnUnmuted.addEventListener("click", () => {
+    ToggleMuteBtnUnmuted.style.display = "none";
+    ToggleMuteBtnMuted.style.display = "initial";
+    Muted = true;
+});
+ToggleMuteBtnMuted.addEventListener("click", () => {
+    ToggleMuteBtnMuted.style.display = "none";
+    ToggleMuteBtnUnmuted.style.display = "initial";
+    Muted = false;
+});
+restartGameButtonEL.addEventListener("click", () => {
+    var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.")
+    if (UserConfirm) {
+        ModalEL.style.display = "none";
+        UnpauseGame()
+        Paused = false;
+        init();
+        animate();
+        SpawnEnemies();
+    }
+})
+
+function PauseGame() {
+    PausedModalEL.style.display = "flex";
+    PausedBigScoreEL.style.display = "initial";
+    resumeGameButton.style.display = "initial";
+    restartGameButtonEL.style.display = "initial";
+    PausedBigScoreEL.innerHTML = score;
+
+    Paused = true;
+}
+
+function UnpauseGame() {
+    PausedModalEL.style.display = "none";
+    PausedBigScoreEL.style.display = "none";
+    resumeGameButton.style.display = "none";
+    restartGameButtonEL.style.display = "none";
+    Paused = false;
+}
