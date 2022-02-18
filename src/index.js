@@ -22,16 +22,6 @@ const ShootSound = new Audio("Audio/sfx/Shoot.wav");
 const HitNoKillSound = new Audio("Audio/sfx/HitNoKill.wav");
 const HitAndKillSound = new Audio("Audio/sfx/HitAndKill.wav");
 //shop inner stuff
-const DamageUpgradeEL = document.querySelector("#DamageUpgrade");
-const ShotSpeedUpgradeEL = document.querySelector("#ShotSpeedUpgrade");
-const FireRateUpgradeEL = document.querySelector("#FireRateUpgrade");
-const ShotsFiredUpgradeEL = document.querySelector("#ShotsFiredUpgrade");
-const MultiShotUpgradeEL = document.querySelector("#MultiShotUpgrade");
-const AutoFireUpgradeEL = document.querySelector("#AutoFireUpgrade");
-const AutoRotateUpgradeEL = document.querySelector("#AutoRotateUpgrade");
-const ShotSizeUpgradeEL = document.querySelector("#ShotSizeUpgrade");
-const HealthUpgradeEL = document.querySelector("#HealthUpgrade");
-const MoneyUpgradeEL = document.querySelector("#MoneyMultUpgrade");
 //shop
 const ShopDivEL = document.querySelector("#UpgradeDivEL");
 const ShopELs = document.querySelectorAll("#shop");
@@ -68,14 +58,6 @@ class Player {
         this.ShotSize = 5;
         this.Health = 1;
 
-        this.DamageUpgradeNumber = 0;
-        this.ShotSpeedUpgradeNumber = 0;
-        this.FireRateUpgradeNumber = 0;
-        this.ShotsFiredUpgradeNumber = 0;
-        this.MultiShotUpgradeNumber = 0;
-        this.ShotSizeUpgradeNumber = 0;
-        this.HealthUpgradeNumber = 0;
-        this.MoneyMultUpgradeNumber = 0;
     }
     draw() {
         c.beginPath();
@@ -470,34 +452,6 @@ addEventListener("keydown", (event) => {
     }
 });
 addEventListener("load", PageLoad());
-DamageUpgradeEL.addEventListener("click", () => {
-    player.Damage = DamageCurve[player.DamageUpgradeNumber]
-    player.DamageUpgradeNumber++
-});
-ShotSpeedUpgradeEL.addEventListener("click", () => {
-    player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber]
-    player.ShotSpeedUpgradeNumber++
-});
-FireRateUpgradeEL.addEventListener("click", () => {
-    player.FireRate = FireRateCurve[player.FireRateUpgradeNumber]
-    player.FireRateUpgradeNumber++
-});
-ShotsFiredUpgradeEL.addEventListener("click", () => {
-    player.ShotsFired = ShotsFiredCurve[player.ShotsFiredUpgradeNumber]
-    player.ShotsFiredUpgradeNumber++
-});
-MultiShotUpgradeEL.addEventListener("click", () => {
-    player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumbe]
-    player.MultiShotUpgradeNumbe++
-});
-ShotSizeUpgradeEL.addEventListener("click", () => {
-    player.ShotSize = ShotSizeCurve[player.ShotSizeUpgradeNumber]
-    player.ShotSizeUpgradeNumber++
-});
-ShotSizeUpgradeEL.addEventListener("click", () => {
-    player.moneyMult = player.MoneyMultUpgradeNumber + 1;
-    player.moneyMultUpgradeNumber++;
-});
 ShopCloseButton.addEventListener("click", () => {
     ShopDivEL.style.display = "none";
 });
