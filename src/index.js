@@ -21,7 +21,6 @@ let highScores = [];
 const ShootSound = new Audio("Audio/sfx/Shoot.wav");
 const HitNoKillSound = new Audio("Audio/sfx/HitNoKill.wav");
 const HitAndKillSound = new Audio("Audio/sfx/HitAndKill.wav");
-//shop inner stuff
 //shop
 const ShopDivEL = document.querySelector("#UpgradeDivEL");
 const ShopELs = document.querySelectorAll("#shop");

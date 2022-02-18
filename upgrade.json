@@ -1,0 +1,33 @@
+{
+    "name": "foo", //defines the name of the upgrade
+    "color": "#00ffff", //defines the color for the upgrade
+    "requirements": [
+        {
+            "upgrade1":"foo",
+            "upgrade2":"bar",
+            "relationship":"and"
+        },
+        {
+            "upgrade1":"foo",
+            "upgrade2":"bar",
+            "relationship":"or"
+        },
+        {
+            "upgrade1":"foo",
+            "upgrade2":"bar",
+            "relationship":"xor"
+        }
+    ], 
+    "effects": [
+        {
+        "   UpgradeTo":"damage",
+            "UpgradeValue":5, //+5 current damage
+            "UpgradeType":"additive"
+        },
+        {
+            "UpgradeTo":"damage",
+            "UpgradeValue":20, //120% current damage
+            "UpgradeType":"multiplicitive"
+        }
+    ]
+}
