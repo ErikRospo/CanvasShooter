@@ -1,5 +1,3 @@
-var EnemySpawnTime = 2500;
-const DefaultEnemySpawnTime = EnemySpawnTime
 const Difficulty = "easy";
 const EnemySpawnTimeDecrement = 1;
 const EnemySpawnBias = 0.5;
@@ -15,3 +13,5 @@ const ParticleMultiplier = 2;
 const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
 const ParticlesDamageEnemies = false;
+const MaxEnemies = 10;
+var UseParticles = true;

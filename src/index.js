@@ -41,9 +41,11 @@ const resumeGameButton = document.querySelector("#ResumeGameBtn");
 const restartGameButtonEL = document.querySelector("#RestartGameBtn");
 const PausedModalEL = document.querySelector("#PauseModalEL");
 const PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
-const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
 const ToggleMuteBtnUnmuted = document.querySelector("#ToggleMuteBtnUnmuted");
-
+const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
+const ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
+const ToggleParticlesBtnDontUse = document.querySelector("#ToggleParticlesBtnDontUse");
+const OptionsBackButton = document.querySelector("#OptionsBackButton");
 
 //define a player, and their draw function
 c.shadowBlur = 10;
@@ -169,6 +171,10 @@ let Paused = false;
 let ShopOpen = false;
 let Muted = true;
 let lastInterval;
+let EnemySpawnTime = 50;
+let animationID;
+let score = 0;
+let DefaultEnemySpawnTime = 50;
 
 function ShowShop() {
     ShopELs.forEach((value) => {
@@ -223,46 +229,39 @@ function PageLoad() {
 
 }
 
-function SpawnEnemies() {
+function SpawnEnemy() {
     //create a new enemy
-    if (lastInterval) {
-        clearInterval(lastInterval)
+
+    //give it an x, and y.
+    let x;
+    let y;
+    //give it a radius
+    const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
+    //randomly decide whether to spawn it height or width-wise
+    if (Math.random() < EnemySpawnBias) {
+        //spawn it along the x axis
+        x = Math.random() < 0.5 ? 0 - radius : w + radius;
+        y = Math.random() * h;
+    } else {
+        //spawn it along the y axis
+        x = Math.random() * w;
+        y = Math.random() < 0.5 ? 0 - radius : h + radius;
     }
-    lastInterval = setInterval(() => {
-        //give it an x, and y.
-        let x;
-        let y;
-        //give it a radius
-        const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
-        //randomly decide whether to spawn it height or width-wise
-        if (Math.random() < EnemySpawnBias) {
-            //spawn it along the x axis
-            x = Math.random() < 0.5 ? 0 - radius : w + radius;
-            y = Math.random() * h;
-        } else {
-            //spawn it along the y axis
-            x = Math.random() * w;
-            y = Math.random() < 0.5 ? 0 - radius : h + radius;
-        }
-        //choose a random color
-        //the 50 saturation and lightness gives it a pastel-like color
-        const color = `hsl(${Math.random() * 360},50%,50%)`;
-        //calculate the angle to the center from its current position
-        const angle = Math.atan2(ch - y, cw - x);
-        //set the x and y values accordingly
-        const velocity = {
-            x: Math.cos(angle) * EnemySpeedMultiplier,
-            y: Math.sin(angle) * EnemySpeedMultiplier
-        };
-        //add it to the enemies list
-        enemies.push(new Enemy(x, y, radius, color, velocity));
-        //trigger every second
-        EnemySpawnTime -= EnemySpawnTimeDecrement
-        console.log(EnemySpawnTime)
-    }, EnemySpawnTime);
+    //choose a random color
+    //the 50 saturation and lightness gives it a pastel-like color
+    const color = `hsl(${Math.random() * 360},50%,50%)`;
+    //calculate the angle to the center from its current position
+    const angle = Math.atan2(ch - y, cw - x);
+    //set the x and y values accordingly
+    const velocity = {
+        x: Math.cos(angle) * EnemySpeedMultiplier,
+        y: Math.sin(angle) * EnemySpeedMultiplier
+    };
+    //add it to the enemies list
+    enemies.push(new Enemy(x, y, radius, color, velocity));
+    //trigger every second
 }
-let animationID;
-let score = 0;
+
 //add and update the score
 function AddScore(Value) {
     score += Value;
@@ -285,7 +284,11 @@ function gameOver(AnimationID) {
 }
 
 function animate() {
+
     animationID = requestAnimationFrame(animate);
+    if ((animationID % EnemySpawnTime == 0 & enemies.length < MaxEnemies) | enemies.length < MaxEnemies - 5) {
+        SpawnEnemy()
+    }
     if (!Paused) {
         //draw the player
         UnpauseGame();
@@ -333,19 +336,21 @@ function animate() {
                 // if dist minus the radiuses of the enemy and the projectile are less than 0
                 if (dist - enemy.radius - projectile.radius < 0) {
                     //create Explosions
-                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
-                        //add a particle to the rendering list
-                        particles.push(new Particle(projectile.x,
-                            projectile.y,
-                            //give it a random radius
-                            Math.random() * (5 - 1) + 1,
-                            //set its color to the killed enemy's
-                            enemy.color,
-                            // give it a random speed
-                            {
-                                x: (Math.random() - 0.5) * Math.random() * ParticleSpeed,
-                                y: (Math.random() - 0.5) * Math.random() * ParticleSpeed
-                            }));
+                    if (UseParticles) {
+                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+                            //add a particle to the rendering list
+                            particles.push(new Particle(projectile.x,
+                                projectile.y,
+                                //give it a random radius
+                                Math.random() * (5 - 1) + 1,
+                                //set its color to the killed enemy's
+                                enemy.color,
+                                // give it a random speed
+                                {
+                                    x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
+                                    y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+                                }));
+                        }
                     }
                     //shrink enemy if it is large
                     if (enemy.radius - player.Damage > 5) {
@@ -441,7 +446,6 @@ startGameButton.addEventListener("click", () => {
     ModalEL.style.display = "none";
     init();
     animate();
-    SpawnEnemies();
     //hide the UI
 });
 resumeGameButton.addEventListener("click", () => {
@@ -511,6 +515,17 @@ ToggleMuteBtnMuted.addEventListener("click", () => {
     ToggleMuteBtnUnmuted.style.display = "initial";
     Muted = false;
 });
+
+ToggleParticlesBtnUse.addEventListener("click", () => {
+    ToggleParticlesBtnUse.style.display = "none";
+    ToggleParticlesBtnDontUse.style.display = "initial";
+    UseParticles = true;
+});
+ToggleParticlesBtnDontUse.addEventListener("click", () => {
+    ToggleParticlesBtnDontUse.style.display = "none";
+    ToggleParticlesBtnUse.style.display = "initial";
+    UseParticles = false;
+});
 restartGameButtonEL.addEventListener("click", () => {
     var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.")
     if (UserConfirm) {
@@ -519,7 +534,6 @@ restartGameButtonEL.addEventListener("click", () => {
         Paused = false;
         init();
         animate();
-        SpawnEnemies();
     }
 })
 

@@ -60,48 +60,57 @@
         <div class="bg-slate-600 max-w-md w-full p-6 text-center block">
             <h1 class="text-white text-4xl font-bold leading-none" id="BigScorePauseMenuEL">0</h1>
             <p class=" text-sm text-white mb-4">Points</p>
-            <button id="ToggleMuteBtnMuted" class="text-4xl text-center ">&#x1F507;</button>
-            <button id="ToggleMuteBtnUnmuted" class="text-4xl text-center hidden">&#x1F509;</button>
+            <button id="OptionsMenuOpener" class="text-green-500 rounded-full text-xl">&#x2699</button>
             <button id="ResumeGameBtn" class="bg-blue-500 text-white w-full py-3 rounded-full text-sm ">Resume Game</button>
             <button id="RestartGameBtn" class="bg-red-500 text-white w-full py-3 rounded-full text-sm ">Restart Game</button>
         </div>
     </div>
-    <div class="fixed inset-0 flex items-center justify-center select-none shop" id="UpgradeDivEL">
-        <div class="dbg-white max-w-md w-full p-6 text-center items-center justify-center shop">
+    <div class="inset-0 items-center flex justify-center select-none fixed self-center flex-none" id="OptionsModalEl ">
+        <div class="bg-slate-600 max-w-md w-full p-6 text-center block ">
+            <p class=" text-white text-4xl font-bold leading-none ">Options</p>
+            <button id="ToggleMuteBtnMuted" class="text-4xl text-center ">&#x1F507;</button>
+            <button id="ToggleMuteBtnUnmuted" class="text-4xl text-center hidden ">&#x1F509;</button>
+            <button id="ToggleParticlesBtnUse" class="text-4xl text-center ">&#128165;</button>
+            <button id="ToggleParticlesBtnDontUse" class="text-4xl text-center hidden ">&#9711;</button>
+            <button id="OptionsBackButton" class="bg-blue-500 text-white w-full py-3 rounded-full text-sm ">Back</button>
+        </div>
+    </div>
+    <div class="fixed inset-0 flex items-center justify-center select-none shop " id="UpgradeDivEL">
+        <div class="dbg-white max-w-md w-full p-6 text-center items-center justify-center shop ">
             <span>Money:</span>
-            <span id="ShopMoney">0</span>
+            <span id="ShopMoney ">0</span>
             <ul>
-                <li class="upgrade-list-item shop" id="DamageUpgradeItem">
-                    <button class="UpgradeButton" id="DamageUpgrade">Damage</button>
+                <li class="upgrade-list-item shop " id="DamageUpgradeItem">
+                    <button class="UpgradeButton " id="DamageUpgrade">Damage</button>
                 </li>
-                <li class="upgrade-list-item shop" id="ShotSpeedUpgradeItem">
-                    <button class="UpgradeButton" id="ShotSpeedUpgrade">Projectile Speed</button>
+                <li class="upgrade-list-item shop " id="ShotSpeedUpgradeItem">
+                    <button class="UpgradeButton " id="ShotSpeedUpgrade">Projectile Speed</button>
                 </li>
-                <li class="upgrade-list-item shop" id="FireRateUpgradeItem ">
-                    <button class="UpgradeButton" id="FireRateUpgrade">Fire Rate</button>
+                <li class="upgrade-list-item shop " id="FireRateUpgradeItem">
+                    <button class="UpgradeButton " id="FireRateUpgrade">Fire Rate</button>
                 </li>
-                <li class="upgrade-list-item shop" id="ShotsFiredUpgradeItem ">
-                    <button class="UpgradeButton" id="ShotsFiredUpgrade">Number of Shots Fired</button>
+                <li class="upgrade-list-item shop " id="ShotsFiredUpgradeItem">
+                    <button class="UpgradeButton " id="ShotsFiredUpgrade">Number of Shots Fired</button>
                 </li>
-                <li class="upgrade-list-item shop" id="MultiShotUpgradeItem ">
-                    <button class="UpgradeButton" id="MultiShotUpgrade">Number of Rows of Shots Fired </button>
+                <li class="upgrade-list-item shop " id="MultiShotUpgradeItem">
+                    <button class="UpgradeButton " id="MultiShotUpgrade">Number of Rows of Shots Fired </button>
                 </li>
-                <li class="upgrade-list-item shop" id="AutoFireUpgradeItem ">
-                    <button class="UpgradeButton" id="AutoFireUpgrade">Auto Fire</button>
+                <li class="upgrade-list-item shop " id="AutoFireUpgradeItem">
+                    <button class="UpgradeButton " id="AutoFireUpgrade">Auto Fire</button>
                 </li>
-                <li class="upgrade-list-item shop" id="AutoRotateUpgradeItem ">
-                    <button class="UpgradeButton" id="AutoRotateUpgrade">Auto Rotate</button>
+                <li class="upgrade-list-item shop " id="AutoRotateUpgradeItem">
+                    <button class="UpgradeButton " id="AutoRotateUpgrade">Auto Rotate</button>
                 </li>
-                <li class="upgrade-list-item shop" id="ShotSizeUpgradeItem ">
-                    <button class="UpgradeButton" id="ShotSizeUpgrade">Shot Size</button>
+                <li class="upgrade-list-item shop " id="ShotSizeUpgradeItem">
+                    <button class="UpgradeButton " id="ShotSizeUpgrade">Shot Size</button>
                 </li>
-                <li class="upgrade-list-item shop" id="HealthUpgradeItem ">
-                    <button class="UpgradeButton" id="HealthUpgrade">Health</button>
+                <li class="upgrade-list-item shop " id="HealthUpgradeItem">
+                    <button class="UpgradeButton " id="HealthUpgrade">Health</button>
                 </li>
-                <li class="upgrade-list-item shop" id="MoneyMultUpgradeItem ">
-                    <button class="UpgradeButton" id="MoneyMultUpgrade">Money Muliplier</button>
+                <li class="upgrade-list-item shop " id="MoneyMultUpgradeItem">
+                    <button class="UpgradeButton " id="MoneyMultUpgrade">Money Muliplier</button>
                 </li>
-                <button id="CloseShop" class=" shop text-red-500 text-2xl">&#9747</button>
+                <button id="CloseShop" class=" shop text-red-500 text-2xl ">&#9747</button>
                 <!-- <li class="upgrade-list-item " id="ShopListItem10 "><button id="ShopButton9 "></button></li>
                     <li class="upgrade-list-item " id="ShopListItem11 "><button id="ShopButton10 "></button></li> -->
             </ul>
@@ -116,7 +125,7 @@
     <script src="https://sfxr.me/riffwave.js "></script>
     <script src="https://sfxr.me/sfxr.js "></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js " integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin=" anonymous " referrerpolicy="no-referrer "></script>
-    <script src="./src/helperFunctions.js"></script>
+    <script src="./src/helperFunctions.js "></script>
     <script src="./src/UpgradeCurves.js "></script>
     <script src="./src/vars.js "></script>
     <script src="./src/index.js "></script>
