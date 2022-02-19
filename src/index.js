@@ -293,7 +293,7 @@ function animate() {
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade in effect
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;
-        c.fillRect(0, 0, w, h);
+        c.fillRect(0, 0, w, h)
 
         //draw the particles
         particles.forEach((particle, index) => {
