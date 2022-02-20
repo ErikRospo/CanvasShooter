@@ -41,6 +41,10 @@ const resumeGameButton = document.querySelector("#ResumeGameBtn");
 const restartGameButtonEL = document.querySelector("#RestartGameBtn");
 const PausedModalEL = document.querySelector("#PauseModalEL");
 const PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
+const OptionsMenuOpenerButton = document.querySelector("#OptionsMenuOpener");
+
+//options menu
+const OptionsMenu = document.querySelector("#OptionsModalEl")
 const ToggleMuteBtnUnmuted = document.querySelector("#ToggleMuteBtnUnmuted");
 const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
 const ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
@@ -169,6 +173,7 @@ let particles = [];
 let GameStarted = false;
 let Paused = false;
 let ShopOpen = false;
+let OptionsOpen = false;
 let Muted = true;
 let lastInterval;
 let EnemySpawnTime = 50;
@@ -203,7 +208,8 @@ function updateHighScores(scores) {
 
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime
-    HideShop()
+    HideShop();
+    CloseOptionsMenu();
     Paused = false;
     updateHighScores(highScores)
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
@@ -223,9 +229,11 @@ function PageLoad() {
     resumeGameButton.style.display = "none";
     restartGameButtonEL.style.display = "none";
     ShopDivEL.style.display = "none";
-    ModalEL.style.display = "inital";
-    Paused = false;
+    CloseOptionsMenu();
     HideShop();
+    Paused = true;
+    OptionsOpen = false;
+    ModalEL.style.display = "inital";
 
 }
 
@@ -336,21 +344,19 @@ function animate() {
                 // if dist minus the radiuses of the enemy and the projectile are less than 0
                 if (dist - enemy.radius - projectile.radius < 0) {
                     //create Explosions
-                    if (UseParticles) {
-                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
-                            //add a particle to the rendering list
-                            particles.push(new Particle(projectile.x,
-                                projectile.y,
-                                //give it a random radius
-                                Math.random() * (5 - 1) + 1,
-                                //set its color to the killed enemy's
-                                enemy.color,
-                                // give it a random speed
-                                {
-                                    x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
-                                    y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
-                                }));
-                        }
+                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+                        //add a particle to the rendering list
+                        particles.push(new Particle(projectile.x,
+                            projectile.y,
+                            //give it a random radius
+                            Math.random() * (5 - 1) + 1,
+                            //set its color to the killed enemy's
+                            enemy.color,
+                            // give it a random speed
+                            {
+                                x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
+                                y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+                            }));
                     }
                     //shrink enemy if it is large
                     if (enemy.radius - player.Damage > 5) {
@@ -535,7 +541,13 @@ restartGameButtonEL.addEventListener("click", () => {
         init();
         animate();
     }
-})
+});
+OptionsMenuOpenerButton.addEventListener("click", () => {
+    OpenOptionsMenu();
+});
+OptionsBackButton.addEventListener("click", () => {
+    CloseOptionsMenu();
+});
 
 function PauseGame() {
     PausedModalEL.style.display = "flex";
@@ -543,9 +555,8 @@ function PauseGame() {
     resumeGameButton.style.display = "initial";
     restartGameButtonEL.style.display = "initial";
     PausedBigScoreEL.innerHTML = score;
-
     Paused = true;
-}
+};
 
 function UnpauseGame() {
     PausedModalEL.style.display = "none";
@@ -553,4 +564,22 @@ function UnpauseGame() {
     resumeGameButton.style.display = "none";
     restartGameButtonEL.style.display = "none";
     Paused = false;
-}
+};
+
+function OpenOptionsMenu() {
+    OptionsMenu.style.display = "flex";
+    PausedModalEL.style.opacity = "0.2"
+    PausedBigScoreEL.style.opacity = "0.2"
+    resumeGameButton.style.opacity = "0.2"
+    restartGameButtonEL.style.opacity = "0.2"
+    OptionsOpen = true;
+};
+
+function CloseOptionsMenu() {
+    OptionsMenu.style.display = "none";
+    PausedModalEL.style.opacity = "1"
+    PausedBigScoreEL.style.opacity = "1"
+    resumeGameButton.style.opacity = "1"
+    restartGameButtonEL.style.opacity = "1"
+    OptionsOpen = false;
+};

@@ -1,21 +1,30 @@
-☐ Add highscores
-☐ Add upgrades
-    ☐ Damage
-    ☐ Auto-aim
-    ☐ Auto-fire
-    ☐ Constructs
-    ☐ Make a rogue-like
-☐ Add difficulty curve
-☐ Add better menus
-    ☐ Add pause menu
-    ☐ Add main menu
-☐ Add different enemies
-    ☐ Fast, large, but less health
-    ☐ slow, small, lots of health
-✔ Add sound effects. @done(22-02-17 10:32)
-☐ Add tooltips
-☐ Add firing delay
-☐ Add ext. variables
-☐ Bug fixes
-☐ Difficulty tweaks
-☐ Balence changes
+Planned:
+    [ ] @todo Add highscores
+    [ ] @todo Add upgrades
+        [ ] @todo Auto-aim
+        [ ] @todo Auto-fire
+        [ ] @todo Constructs
+        [ ] @todo Make a rogue-like?
+    [ ] @todo Add difficulty curve
+    [ ] @todo Add better menus
+        [ ] @todo Add main menu
+    [ ] @todo Add different enemies
+        [ ] @todo Fast, large, but less health
+        [ ] @todo slow, small, lots of health
+    [ ] @todo Add tooltips
+    [ ] @todo Bug fixes
+    [ ] @todo Difficulty tweaks
+    [ ] @todo Balence changes
+    [ ] @todo: set up tooltips for options menu items.
+Today:
+    [ ] @todo Add upgrades
+        [ ] @todo Damage
+    [ ] @todo Add firing delay
+    [ ] @todo Set up particle on/off switch in options menu.
+Archive:
+  [x] @todo @critical: fix bullet particles/ bullet hit colistion. @done(22-02-20 15:31) @project(Today)
+  [x] @todo Add pause menu @done(22-02-20 15:04)
+  [x] @todo Add sound effects. @done(22-02-20 15:04)
+  [x] @todo Add ext. variables @done(22-02-20 15:04)
+  [x] @todo: set up back button for options menu @done(22-02-20 15:04)
+  [x] @todo: set up hiding of options menu. @done(22-02-20 15:04)
