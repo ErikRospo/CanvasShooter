@@ -18,9 +18,9 @@ console.log(Music);
 const Pause = document.querySelector("#PauseEL");
 const Play = document.querySelector("#PlayEL");
 let highScores = [];
-const ShootSound = new Audio("Audio/sfx/Shoot.wav");
-const HitNoKillSound = new Audio("Audio/sfx/HitNoKill.wav");
-const HitAndKillSound = new Audio("Audio/sfx/HitAndKill.wav");
+const ShootSound = new Audio("Audio/sound/Shoot.wav");
+const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
+const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
 //shop inner stuff
 const DamageUpgradeEL = document.querySelector("#DamageUpgrade");
 const ShotSpeedUpgradeEL = document.querySelector("#ShotSpeedUpgrade");
@@ -461,9 +461,12 @@ addEventListener("keydown", (event) => {
     console.log(event)
     if (event.key == "s") {
         if (GameStarted) {
+            console.log("shop key pressed");
             if (ShopOpen) {
+                console.log("shop closed");
                 HideShop()
             } else {
+                console.log("shop opened");
                 ShowShop()
             }
         }
