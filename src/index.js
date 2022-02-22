@@ -172,6 +172,7 @@ let projectiles = [];
 let enemies = [];
 let particles = [];
 let GameStarted = false;
+let UseParticles = true;
 let Paused = false;
 let ShopOpen = false;
 let OptionsOpen = false;
@@ -366,15 +367,16 @@ function animate() {
         //the 0.1 Alpha value means that things have a nice fade in effect
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;
         c.fillRect(0, 0, w, h)
-
-        //draw the particles
-        particles.forEach((particle, index) => {
-            if (particle.alpha <= 0) {
-                particles.splice(index, 1);
-            } else {
-                particle.update();
-            }
-        });
+        if (UseParticles) {
+            //draw the particles
+            particles.forEach((particle, index) => {
+                if (particle.alpha <= 0) {
+                    particles.splice(index, 1);
+                } else {
+                    particle.update();
+                }
+            });
+        }
         //draw the projectiles
         projectiles.forEach((projectile, index) => {
             projectile.update();
@@ -405,19 +407,21 @@ function animate() {
                 // if dist minus the radiuses of the enemy and the projectile are less than 0
                 if (dist - enemy.radius - projectile.radius < 0) {
                     //create Explosions
-                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
-                        //add a particle to the rendering list
-                        particles.push(new Particle(projectile.x,
-                            projectile.y,
-                            //give it a random radius
-                            Math.random() * (5 - 1) + 1,
-                            //set its color to the killed enemy's
-                            enemy.color,
-                            // give it a random speed
-                            {
-                                x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
-                                y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
-                            }));
+                    if (UseParticles) {
+                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+                            //add a particle to the rendering list
+                            particles.push(new Particle(projectile.x,
+                                projectile.y,
+                                //give it a random radius
+                                Math.random() * (5 - 1) + 1,
+                                //set its color to the killed enemy's
+                                enemy.color,
+                                // give it a random speed
+                                {
+                                    x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
+                                    y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+                                }));
+                        }
                     }
                     //shrink enemy if it is large
                     if (enemy.radius - player.Damage > 5) {
@@ -447,36 +451,6 @@ function animate() {
                     }
                 }
             });
-            if (ParticlesDamageEnemies) {
-                particles.forEach((particle, index2) => {
-                    //get the distance between the projectile and the enemy
-                    const dist = Math.hypot(particle.x - enemy.x,
-                        particle.y - enemy.y);
-                    // if dist minus the radiuses of the enemy and the projectile are less than 0
-                    if (dist - enemy.radius - particle.radius < 0) {
-                        //shrink enemy if it is large
-                        if (enemy.radius - 5 > 5) {
-                            AddScore(10);
-                            //smooth changing that value
-                            gsap.to(enemy, { radius: enemy.radius - 5 });
-                            setTimeout(() => {
-                                //delete the projectile
-                                particles.splice(index2, 1);
-
-                            }, 0);
-                            //otherwise
-                        } else {
-                            //add the score, and update the content
-                            AddScore(25);
-                            //on the next frame, delete the enemy and projectile
-                            setTimeout(() => {
-                                enemies.splice(index, 1);
-                                particles.splice(index2, 1);
-                            }, 0);
-                        }
-                    }
-                });
-            }
         });
     }
 }
@@ -651,12 +625,12 @@ ToggleMuteBtnMuted.addEventListener("click", () => {
 ToggleParticlesBtnUse.addEventListener("click", () => {
     ToggleParticlesBtnUse.style.display = "none";
     ToggleParticlesBtnDontUse.style.display = "initial";
-    UseParticles = true;
+    UseParticles = false;
 });
 ToggleParticlesBtnDontUse.addEventListener("click", () => {
     ToggleParticlesBtnDontUse.style.display = "none";
     ToggleParticlesBtnUse.style.display = "initial";
-    UseParticles = false;
+    UseParticles = true;
 });
 restartGameButtonEL.addEventListener("click", () => {
     var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.")

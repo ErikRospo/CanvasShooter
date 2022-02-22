@@ -1,27 +1,22 @@
 Planned:
-    [ ] @todo Add highscores
-    [ ] @todo Add upgrades
-        [ ] @todo Auto-aim
-        [ ] @todo Auto-fire
-        [ ] @todo Constructs
-        [ ] @todo Make a rogue-like?
-    [ ] @todo Add difficulty curve
+    [ ] @todo @high Add highscores
+    [ ] @todo @high Add difficulty curve
     [ ] @todo Add better menus
-        [ ] @todo Add main menu
+        [ ] @todo @high Add main menu
     [ ] @todo Add different enemies
         [ ] @todo Fast, large, but less health
         [ ] @todo slow, small, lots of health
-    [ ] @todo Add tooltips
-    [ ] @todo Bug fixes
-    [ ] @todo Difficulty tweaks
-    [ ] @todo Balence changes
-    [ ] @todo: set up tooltips for options menu items.
+    [ ] @todo @low Add tooltips
+    [ ] @todo @ongoing Bug fixes
+    [ ] @todo @ongoing Difficulty tweaks
+    [ ] @todo @ongoing Balance changes
+    [ ] @todo @low set up tooltips for options menu items.
 Today:
-    [ ] @todo Add upgrades
-        [ ] @todo Damage
-    [ ] @todo Add firing delay
-    [ ] @todo Set up particle on/off switch in options menu.
+    [ ] @todo #1 @high Add firing delay
 Archive:
+  [x] @todo Add upgrades @done(22-02-21 16:19) @project(Today)
+  [x] @todo Add Damage upgrades @done(22-02-21 16:19) @project(Today)
+  [x] @todo Set up particle on/off switch in options menu. @done(22-02-21 16:18) @project(Today)
   [x] @todo @critical: fix bullet particles/ bullet hit colistion. @done(22-02-20 15:31) @project(Today)
   [x] @todo Add pause menu @done(22-02-20 15:04)
   [x] @todo Add sound effects. @done(22-02-20 15:04)

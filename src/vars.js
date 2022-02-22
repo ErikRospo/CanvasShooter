@@ -14,4 +14,3 @@ const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
 const ParticlesDamageEnemies = false;
 const MaxEnemies = 10;
-var UseParticles = true;
