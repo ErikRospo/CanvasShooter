@@ -294,7 +294,7 @@ function PageLoad() {
     HideShop();
     Paused = true;
     OptionsOpen = false;
-    ModalEL.style.display = "inital";
+    ModalEL.style.display = "flex";
 
 }
 
