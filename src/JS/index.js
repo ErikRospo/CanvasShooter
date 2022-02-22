@@ -10,7 +10,7 @@ const startGameButton = document.querySelector("#startGameBtn");
 const ModalEL = document.querySelector("#ModalEL");
 const TitleEL = document.querySelector("#titleElement");
 const BigScoreEL = document.querySelector("#BigScoreEL");
-const BigScoreELLabel = document.querySelector("#PointsLabelEL")
+const BigScoreELLabel = document.querySelector("#PointsLabelEL");
 const NameDiv = document.querySelector("#NameInputDiv");
 const HighScoreList = document.querySelector("#HighScores");
 const Music = document.querySelector("#MusicEL");
@@ -35,7 +35,7 @@ const MoneyUpgradeEL = document.querySelector("#MoneyMultUpgrade");
 //shop
 const ShopDivEL = document.querySelector("#UpgradeDivEL");
 const ShopELs = document.querySelectorAll(".shop");
-const UpgradeELs = document.querySelectorAll(".UpgradeButton")
+const UpgradeELs = document.querySelectorAll(".UpgradeButton");
 const ShopCloseButton = document.querySelector("#CloseShop");
 // pause menu
 const resumeGameButton = document.querySelector("#ResumeGameBtn");
@@ -45,7 +45,7 @@ const PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
 const OptionsMenuOpenerButton = document.querySelector("#OptionsMenuOpener");
 
 //options menu
-const OptionsMenu = document.querySelector("#OptionsModalEl")
+const OptionsMenu = document.querySelector("#OptionsModalEl");
 const ToggleMuteBtnUnmuted = document.querySelector("#ToggleMuteBtnUnmuted");
 const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
 const ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
@@ -66,8 +66,8 @@ class Player {
         this.moneyMult = 1;
 
         this.Damage = 10;
-        this.ShotSpeed = 5
-        this.FireRate = -1
+        this.ShotSpeed = 5;
+        this.FireRate = -1;
         this.ShotsFired = 1;
         this.MultiShot = 1;
         this.AutoFire = 0;
@@ -182,7 +182,7 @@ let EnemySpawnTime = 50;
 let animationID;
 let score = 0;
 let DefaultEnemySpawnTime = 50;
-console.log(ShopCloseButton)
+console.log(ShopCloseButton);
 
 function ShowShop() {
     ShopELs.forEach((value) => {
@@ -244,36 +244,36 @@ function ShowShop() {
         } else if (value == ShopCloseButton) {
             value.style.display = "contents";
         }
-    })
+    });
     ShopOpen = true;
     Paused = true;
 }
 
 function HideShop() {
     ShopELs.forEach((value) => {
-        value.style.display = "none"
-    })
+        value.style.display = "none";
+    });
     ShopOpen = false;
     Paused = false;
 }
 
 function updateHighScores(scores) {
-    scores.sort((a, b) => a - b)
+    scores.sort((a, b) => a - b);
     for (let index = 0; index < scores.length; index++) {
         const element = scores[index];
         var node = document.createElement("li");
         node.appendChild(document.createTextNode(element));
-        HighScoreList.appendChild(node)
+        HighScoreList.appendChild(node);
 
     }
 }
 
 function init() {
-    EnemySpawnTime = DefaultEnemySpawnTime
+    EnemySpawnTime = DefaultEnemySpawnTime;
     HideShop();
     CloseOptionsMenu();
     Paused = false;
-    updateHighScores(highScores)
+    updateHighScores(highScores);
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
     enemies = [];
@@ -294,7 +294,7 @@ function PageLoad() {
     HideShop();
     Paused = true;
     OptionsOpen = false;
-    ModalEL.style.display = "inital";
+    ModalEL.style.display = "initial";
 
 }
 
@@ -336,8 +336,8 @@ function AddScore(Value) {
     score += Value;
     player.Money += (Value / 10) * player.moneyMult;
     scoreEL.innerHTML = score;
-    MoneyEL.innerText = player.Money
-    ShopMoney.innerText = player.Money
+    MoneyEL.innerText = player.Money;
+    ShopMoney.innerText = player.Money;
 }
 
 
@@ -347,8 +347,8 @@ function gameOver(AnimationID) {
     //and add the end screen back up
     ModalEL.style.display = "flex";
     TitleEL.style.display = "none";
-    BigScoreELLabel.style.display = "block"
-    BigScoreEL.style.display = "block"
+    BigScoreELLabel.style.display = "block";
+    BigScoreEL.style.display = "block";
     BigScoreEL.innerHTML = score;
 }
 
@@ -357,8 +357,8 @@ function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
         if ((animationID % EnemySpawnTime == 0 & enemies.length < MaxEnemies) | enemies.length < MaxEnemies - 5) {
-            SpawnEnemy()
-            EnemySpawnTime -= 5
+            SpawnEnemy();
+            EnemySpawnTime -= 1;
         }
         //draw the player
         UnpauseGame();
@@ -366,7 +366,7 @@ function animate() {
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade in effect
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;
-        c.fillRect(0, 0, w, h)
+        c.fillRect(0, 0, w, h);
         if (UseParticles) {
             //draw the particles
             particles.forEach((particle, index) => {
@@ -426,7 +426,7 @@ function animate() {
                     //shrink enemy if it is large
                     if (enemy.radius - player.Damage > 5) {
                         if (!Muted) {
-                            HitNoKillSound.play()
+                            HitNoKillSound.play();
                         }
                         AddScore(100);
                         //smooth changing that value
@@ -439,7 +439,7 @@ function animate() {
                         //otherwise
                     } else {
                         if (!Muted) {
-                            HitAndKillSound.play()
+                            HitAndKillSound.play();
                         }
                         //add the score, and update the content
                         AddScore(250);
@@ -491,7 +491,7 @@ resumeGameButton.addEventListener("click", () => {
     UnpauseGame();
 });
 addEventListener("keydown", (event) => {
-    console.log(event)
+    console.log(event);
     if (event.key == "s") {
         if (GameStarted) {
             if (ShopOpen) {
@@ -503,9 +503,9 @@ addEventListener("keydown", (event) => {
     } else if (event.key == "x") {
         if (GameStarted) {
             if (Paused) {
-                UnpauseGame()
+                UnpauseGame();
             } else {
-                PauseGame()
+                PauseGame();
             }
         }
     }
@@ -552,7 +552,7 @@ MoneyUpgradeEL.addEventListener("click", () => {
     player.moneyMultUpgradeNumber++;
     player.Money -= 10 ^ player.MoneyMultUpgradeNumber;
     console.log("Player Money Multiplier: %d\nPlayer Money Multiplier Upgrade Number: %d", player.moneyMult, player.MoneyMultUpgradeNumber);
-    refreshShop()
+    refreshShop();
 });
 
 function refreshShop() {
@@ -606,7 +606,7 @@ function refreshShop() {
                 value.disabled = false;
             }
         }
-    })
+    });
 };
 ShopCloseButton.addEventListener("click", () => {
     HideShop();
@@ -633,10 +633,10 @@ ToggleParticlesBtnDontUse.addEventListener("click", () => {
     UseParticles = true;
 });
 restartGameButtonEL.addEventListener("click", () => {
-    var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.")
+    var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.");
     if (UserConfirm) {
         ModalEL.style.display = "none";
-        UnpauseGame()
+        UnpauseGame();
         Paused = false;
         init();
         animate();
@@ -668,18 +668,18 @@ function UnpauseGame() {
 
 function OpenOptionsMenu() {
     OptionsMenu.style.display = "flex";
-    PausedModalEL.style.opacity = "0.2"
-    PausedBigScoreEL.style.opacity = "0.2"
-    resumeGameButton.style.opacity = "0.2"
-    restartGameButtonEL.style.opacity = "0.2"
+    PausedModalEL.style.opacity = "0.2";
+    PausedBigScoreEL.style.opacity = "0.2";
+    resumeGameButton.style.opacity = "0.2";
+    restartGameButtonEL.style.opacity = "0.2";
     OptionsOpen = true;
 };
 
 function CloseOptionsMenu() {
     OptionsMenu.style.display = "none";
-    PausedModalEL.style.opacity = "1"
-    PausedBigScoreEL.style.opacity = "1"
-    resumeGameButton.style.opacity = "1"
-    restartGameButtonEL.style.opacity = "1"
+    PausedModalEL.style.opacity = "1";
+    PausedBigScoreEL.style.opacity = "1";
+    resumeGameButton.style.opacity = "1";
+    restartGameButtonEL.style.opacity = "1";
     OptionsOpen = false;
 };
