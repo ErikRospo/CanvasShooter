@@ -34,7 +34,8 @@ const HealthUpgradeEL = document.querySelector("#HealthUpgrade");
 const MoneyUpgradeEL = document.querySelector("#MoneyMultUpgrade");
 //shop
 const ShopDivEL = document.querySelector("#UpgradeDivEL");
-const ShopELs = document.querySelectorAll("#shop");
+const ShopELs = document.querySelectorAll(".shop");
+const UpgradeELs = document.querySelectorAll(".UpgradeButton")
 const ShopCloseButton = document.querySelector("#CloseShop");
 // pause menu
 const resumeGameButton = document.querySelector("#ResumeGameBtn");
@@ -52,7 +53,7 @@ const ToggleParticlesBtnDontUse = document.querySelector("#ToggleParticlesBtnDon
 const OptionsBackButton = document.querySelector("#OptionsBackButton");
 
 //define a player, and their draw function
-c.shadowBlur = 10;
+c.shadowBlur = 20;
 c.shadowColor = "black";
 class Player {
     constructor(x, y, radius, color) {
@@ -180,12 +181,71 @@ let EnemySpawnTime = 50;
 let animationID;
 let score = 0;
 let DefaultEnemySpawnTime = 50;
+console.log(ShopCloseButton)
 
 function ShowShop() {
     ShopELs.forEach((value) => {
-        value.style.display = "inital"
+        if (value != ShopDivEL & value != ShopCloseButton) {
+            if (value in UpgradeELs) {
+                if (value == DamageUpgradeEL) {
+                    if (player.Money < 10 ^ player.DamageUpgradeNumber) {
+                        value.disabled = true;
+                    } else {
+                        value.disabled = false;
+                    }
+                } else if (value == ShotSpeedUpgradeEL) {
+                    if (player.Money < 10 ^ player.ShotSpeedUpgradeNumber) {
+                        value.disabled = true;
+                    } else {
+                        value.disabled = false;
+                    }
+                } else if (value == FireRateUpgradeEL) {
+                    if (player.Money < 10 ^ player.FireRateUpgradeNumber) {
+                        value.disabled = true;
+                    } else {
+                        value.disabled = false;
+                    }
+                } else if (value == ShotsFiredUpgradeEL) {
+                    if (player.Money < 10 ^ player.ShotsFiredUpgradeNumber) {
+                        value.disabled = true;
+                    } else {
+                        value.disabled = false;
+                    }
+                } else if (value == MultiShotUpgradeEL) {
+                    if (player.Money < 10 ^ player.MultiShotUpgradeNumber) {
+                        value.disabled = true;
+                    } else {
+                        value.disabled = false;
+                    }
+                } else if (value == ShotSizeUpgradeEL) {
+                    if (player.Money < 10 ^ player.ShotSizeUpgradeNumber) {
+                        value.disabled = true;
+                    } else {
+                        value.disabled = false;
+                    }
+                } else if (value == HealthUpgradeEL) {
+                    if (player.Money < 10 ^ player.HealthUpgradeNumber) {
+                        value.disabled = true;
+                    } else {
+                        value.disabled = false;
+                    }
+                } else if (value == MoneyUpgradeEL) {
+                    if (player.Money < 10 ^ player.MoneyMultUpgradeNumber) {
+                        value.disabled = true;
+                    } else {
+                        value.disabled = false;
+                    }
+                }
+            };
+            value.style.display = "block";
+        } else if (value == ShopDivEL) {
+            value.style.display = "flex";
+        } else if (value == ShopCloseButton) {
+            value.style.display = "contents";
+        }
     })
     ShopOpen = true;
+    Paused = true;
 }
 
 function HideShop() {
@@ -193,6 +253,7 @@ function HideShop() {
         value.style.display = "none"
     })
     ShopOpen = false;
+    Paused = false;
 }
 
 function updateHighScores(scores) {
@@ -228,7 +289,6 @@ function PageLoad() {
     PausedBigScoreEL.style.display = "none";
     resumeGameButton.style.display = "none";
     restartGameButtonEL.style.display = "none";
-    ShopDivEL.style.display = "none";
     CloseOptionsMenu();
     HideShop();
     Paused = true;
@@ -294,10 +354,11 @@ function gameOver(AnimationID) {
 function animate() {
 
     animationID = requestAnimationFrame(animate);
-    if ((animationID % EnemySpawnTime == 0 & enemies.length < MaxEnemies) | enemies.length < MaxEnemies - 5) {
-        SpawnEnemy()
-    }
     if (!Paused) {
+        if ((animationID % EnemySpawnTime == 0 & enemies.length < MaxEnemies) | enemies.length < MaxEnemies - 5) {
+            SpawnEnemy()
+            EnemySpawnTime -= 5
+        }
         //draw the player
         UnpauseGame();
         player.draw();
@@ -417,8 +478,6 @@ function animate() {
                 });
             }
         });
-    } else {
-        PauseGame();
     }
 }
 //whenever the user clicks, spawn a projectile
@@ -461,16 +520,12 @@ addEventListener("keydown", (event) => {
     console.log(event)
     if (event.key == "s") {
         if (GameStarted) {
-            console.log("shop key pressed");
             if (ShopOpen) {
-                console.log("shop closed");
-                HideShop()
+                HideShop();
             } else {
-                console.log("shop opened");
-                ShowShop()
+                ShowShop();
             }
         }
-        console.log("\"s\" was pressed.")
     } else if (event.key == "x") {
         if (GameStarted) {
             if (Paused) {
@@ -478,41 +533,109 @@ addEventListener("keydown", (event) => {
             } else {
                 PauseGame()
             }
-            console.log("\"x\" was pressed.")
         }
     }
 });
 addEventListener("load", PageLoad());
 DamageUpgradeEL.addEventListener("click", () => {
-    player.Damage = DamageCurve[player.DamageUpgradeNumber]
-    player.DamageUpgradeNumber++
+    player.Damage = DamageCurve[player.DamageUpgradeNumber];
+    player.DamageUpgradeNumber++;
+    player.Money -= 10 ^ player.DamageUpgradeNumber;
+    console.log("Player Damage: %d\nPlayer Damage Upgrade Number: %d", player.Damage, player.DamageUpgradeNumber);
 });
 ShotSpeedUpgradeEL.addEventListener("click", () => {
-    player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber]
-    player.ShotSpeedUpgradeNumber++
+    player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber];
+    player.ShotSpeedUpgradeNumber++;
+    player.Money -= 10 ^ player.ShotSpeedUpgradeNumber;
+    console.log("Player Shot Speed: %d\nPlayer Shot Speed Upgrade Number: %d", player.ShotSpeed, player.ShotSpeedUpgradeNumber);
 });
 FireRateUpgradeEL.addEventListener("click", () => {
-    player.FireRate = FireRateCurve[player.FireRateUpgradeNumber]
-    player.FireRateUpgradeNumber++
+    player.FireRate = FireRateCurve[player.FireRateUpgradeNumber];
+    player.FireRateUpgradeNumber++;
+    player.Money -= 10 ^ player.FireRateUpgradeNumber;
+    console.log("Player Fire Rate: %d\nPlayer Fire Rate Upgrade Number: %d", player.FireRate, player.FireRateUpgradeNumber);
 });
 ShotsFiredUpgradeEL.addEventListener("click", () => {
-    player.ShotsFired = ShotsFiredCurve[player.ShotsFiredUpgradeNumber]
-    player.ShotsFiredUpgradeNumber++
+    player.ShotsFired = ShotsFiredCurve[player.ShotsFiredUpgradeNumber];
+    player.ShotsFiredUpgradeNumber++;
+    player.Money -= 10 ^ player.ShotsFiredUpgradeNumber;
+    console.log("Player Shots Fired Rate: %d\nPlayer Shots Fired Upgrade Number: %d", player.ShotsFired, player.ShotsFiredUpgradeNumber);
 });
 MultiShotUpgradeEL.addEventListener("click", () => {
-    player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumbe]
-    player.MultiShotUpgradeNumbe++
+    player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumber];
+    player.MultiShotUpgradeNumber++;
+    player.Money -= 10 ^ player.MultiShotUpgradeNumber;
+    console.log("Player Multishot: %d\nPlayer Multishot Upgrade Number: %d", player.MultiShot, player.MultiShotUpgradeNumber);
 });
 ShotSizeUpgradeEL.addEventListener("click", () => {
-    player.ShotSize = ShotSizeCurve[player.ShotSizeUpgradeNumber]
-    player.ShotSizeUpgradeNumber++
+    player.ShotSize = ShotSizeCurve[player.ShotSizeUpgradeNumber];
+    player.ShotSizeUpgradeNumber++;
+    player.Money -= 10 ^ player.ShotSizeUpgradeNumber;
+    console.log("Player Shot Size: %d\nPlayer Shot Size Upgrade Number: %d", player.ShotSize, player.ShotSizeUpgradeNumber);
 });
-ShotSizeUpgradeEL.addEventListener("click", () => {
+MoneyUpgradeEL.addEventListener("click", () => {
     player.moneyMult = player.MoneyMultUpgradeNumber + 1;
     player.moneyMultUpgradeNumber++;
+    player.Money -= 10 ^ player.MoneyMultUpgradeNumber;
+    console.log("Player Money Multiplier: %d\nPlayer Money Multiplier Upgrade Number: %d", player.moneyMult, player.MoneyMultUpgradeNumber);
+    refreshShop()
 });
+
+function refreshShop() {
+    ShopELs.forEach((value) => {
+        if (value == DamageUpgradeEL) {
+            if (player.Money < 10 ^ player.DamageUpgradeNumber) {
+                value.disabled = true;
+            } else {
+                value.disabled = false;
+            }
+        } else if (value == ShotSpeedUpgradeEL) {
+            if (player.Money < 10 ^ player.ShotSpeedUpgradeNumber) {
+                value.disabled = true;
+            } else {
+                value.disabled = false;
+            }
+        } else if (value == FireRateUpgradeEL) {
+            if (player.Money < 10 ^ player.FireRateUpgradeNumber) {
+                value.disabled = true;
+            } else {
+                value.disabled = false;
+            }
+        } else if (value == ShotsFiredUpgradeEL) {
+            if (player.Money < 10 ^ player.ShotsFiredUpgradeNumber) {
+                value.disabled = true;
+            } else {
+                value.disabled = false;
+            }
+        } else if (value == MultiShotUpgradeEL) {
+            if (player.Money < 10 ^ player.MultiShotUpgradeNumber) {
+                value.disabled = true;
+            } else {
+                value.disabled = false;
+            }
+        } else if (value == ShotSizeUpgradeEL) {
+            if (player.Money < 10 ^ player.ShotSizeUpgradeNumber) {
+                value.disabled = true;
+            } else {
+                value.disabled = false;
+            }
+        } else if (value == HealthUpgradeEL) {
+            if (player.Money < 10 ^ player.HealthUpgradeNumber) {
+                value.disabled = true;
+            } else {
+                value.disabled = false;
+            }
+        } else if (value == MoneyUpgradeEL) {
+            if (player.Money < 10 ^ player.MoneyMultUpgradeNumber) {
+                value.disabled = true;
+            } else {
+                value.disabled = false;
+            }
+        }
+    })
+};
 ShopCloseButton.addEventListener("click", () => {
-    ShopDivEL.style.display = "none";
+    HideShop();
 });
 ToggleMuteBtnUnmuted.addEventListener("click", () => {
     ToggleMuteBtnUnmuted.style.display = "none";

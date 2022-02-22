@@ -22,7 +22,7 @@
         }
         
         .UpgradeButton {
-            background-color: rgb(50, 100, 255);
+            background-color: rgb(50, 150, 250);
             color: white;
             border-radius: 9999px;
             width: 100%;
@@ -31,6 +31,11 @@
             padding: 0.25em;
             margin-top: 0.2em;
             margin-bottom: 0.2em;
+        }
+        
+        .UpgradeButton:disabled {
+            background-color: gray;
+            color: red;
         }
     </style>
 </head>
@@ -75,45 +80,45 @@
             <button id="OptionsBackButton" class="bg-blue-500 text-white w-full py-3 rounded-full text-sm ">Back</button>
         </div>
     </div>
-    <div class="fixed inset-0 flex items-center justify-center select-none shop " id="UpgradeDivEL">
-        <div class="dbg-white max-w-md w-full p-6 text-center items-center justify-center shop ">
+    <div class="fixed inset-0 flex items-center justify-center select-none shop" id="UpgradeDivEL">
+        <div class="max-w-md w-full p-6 text-center items-center justify-center shop bg-slate-600">
             <span>Money:</span>
             <span id="ShopMoney">0</span>
             <ul>
-                <li class="upgrade-list-item shop " id="DamageUpgradeItem">
-                    <button class="UpgradeButton " id="DamageUpgrade">Damage</button>
+                <li class="upgrade-list-item shop" id="DamageUpgradeItem">
+                    <button class="UpgradeButton bg-ButtonsEnabled" disabled="false" id="DamageUpgrade">Damage</button>
                 </li>
                 <li class="upgrade-list-item shop " id="ShotSpeedUpgradeItem">
-                    <button class="UpgradeButton " id="ShotSpeedUpgrade">Projectile Speed</button>
+                    <button class="UpgradeButton " disabled="false" id="ShotSpeedUpgrade">Projectile Speed</button>
                 </li>
                 <li class="upgrade-list-item shop " id="FireRateUpgradeItem">
-                    <button class="UpgradeButton " id="FireRateUpgrade">Fire Rate</button>
+                    <button class="UpgradeButton " disabled="false" id="FireRateUpgrade">Fire Rate</button>
                 </li>
                 <li class="upgrade-list-item shop " id="ShotsFiredUpgradeItem">
-                    <button class="UpgradeButton " id="ShotsFiredUpgrade">Number of Shots Fired</button>
+                    <button class="UpgradeButton " disabled="false" id="ShotsFiredUpgrade">Number of Shots Fired</button>
                 </li>
                 <li class="upgrade-list-item shop " id="MultiShotUpgradeItem">
-                    <button class="UpgradeButton " id="MultiShotUpgrade">Number of Rows of Shots Fired </button>
+                    <button class="UpgradeButton " disabled="false" id="MultiShotUpgrade">Number of Rows of Shots Fired </button>
                 </li>
-                <li class="upgrade-list-item shop " id="AutoFireUpgradeItem">
+                <!-- <li class="upgrade-list-item shop " id="AutoFireUpgradeItem">
                     <button class="UpgradeButton " id="AutoFireUpgrade">Auto Fire</button>
                 </li>
                 <li class="upgrade-list-item shop " id="AutoRotateUpgradeItem">
                     <button class="UpgradeButton " id="AutoRotateUpgrade">Auto Rotate</button>
-                </li>
+                </li> -->
                 <li class="upgrade-list-item shop " id="ShotSizeUpgradeItem">
-                    <button class="UpgradeButton " id="ShotSizeUpgrade">Shot Size</button>
+                    <button class="UpgradeButton " disabled="false" id="ShotSizeUpgrade">Shot Size</button>
                 </li>
                 <li class="upgrade-list-item shop " id="HealthUpgradeItem">
-                    <button class="UpgradeButton " id="HealthUpgrade">Health</button>
+                    <button class="UpgradeButton " disabled="false" id="HealthUpgrade">Health</button>
                 </li>
                 <li class="upgrade-list-item shop " id="MoneyMultUpgradeItem">
-                    <button class="UpgradeButton " id="MoneyMultUpgrade">Money Muliplier</button>
+                    <button class="UpgradeButton " disabled="false" id="MoneyMultUpgrade">Money Muliplier</button>
                 </li>
-                <button id="CloseShop" class=" shop text-red-500 text-2xl ">&#9747</button>
                 <!-- <li class="upgrade-list-item " id="ShopListItem10 "><button id="ShopButton9 "></button></li>
                     <li class="upgrade-list-item " id="ShopListItem11 "><button id="ShopButton10 "></button></li> -->
             </ul>
+            <button id="CloseShop" class=" shop text-red-500 text-2xl ">&#9747</button>
         </div>
     </div>
     </div>
