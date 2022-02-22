@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "removeComments": true,
+    "sourceMap": true,
+    "lib": ["ES2015","ES2016","ES2017","ES2018","ES2019","ES2020","ES2021","DOM"],
+    "outDir": "./src/JS"
+  },
+  "files": ["./src/TS/index.ts", "./src/TS/vars.ts", "./src/TS/helperFunctions.ts","src/TS/UpgradeCurves.ts"]
+}

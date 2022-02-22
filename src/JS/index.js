@@ -1,80 +1,69 @@
-//get a bunch of elements
-const canvas = document.querySelector("canvas");
-const c = canvas.getContext("2d");
+var canvas = document.querySelector("canvas");
+var c = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
-const scoreEL = document.querySelector("#scoreEL");
-const MoneyEL = document.querySelector("#moneyEL");
-const ShopMoney = document.querySelector("#ShopMoney");
-const startGameButton = document.querySelector("#startGameBtn");
-const ModalEL = document.querySelector("#ModalEL");
-const TitleEL = document.querySelector("#titleElement");
-const BigScoreEL = document.querySelector("#BigScoreEL");
-const BigScoreELLabel = document.querySelector("#PointsLabelEL");
-const NameDiv = document.querySelector("#NameInputDiv");
-const HighScoreList = document.querySelector("#HighScores");
-const Music = document.querySelector("#MusicEL");
+var scoreEL = document.querySelector("#scoreEL");
+var MoneyEL = document.querySelector("#moneyEL");
+var ShopMoney = document.querySelector("#ShopMoney");
+var startGameButton = document.querySelector("#startGameBtn");
+var ModalEL = document.querySelector("#ModalEL");
+var TitleEL = document.querySelector("#titleElement");
+var BigScoreEL = document.querySelector("#BigScoreEL");
+var BigScoreELLabel = document.querySelector("#PointsLabelEL");
+var NameDiv = document.querySelector("#NameInputDiv");
+var HighScoreList = document.querySelector("#HighScores");
+var Music = document.querySelector("#MusicEL");
 console.log(Music);
-const Pause = document.querySelector("#PauseEL");
-const Play = document.querySelector("#PlayEL");
-let highScores = [];
-const ShootSound = new Audio("Audio/sound/Shoot.wav");
-const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
-const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
-//shop inner stuff
-const DamageUpgradeEL = document.querySelector("#DamageUpgrade");
-const ShotSpeedUpgradeEL = document.querySelector("#ShotSpeedUpgrade");
-const FireRateUpgradeEL = document.querySelector("#FireRateUpgrade");
-const ShotsFiredUpgradeEL = document.querySelector("#ShotsFiredUpgrade");
-const MultiShotUpgradeEL = document.querySelector("#MultiShotUpgrade");
-const AutoFireUpgradeEL = document.querySelector("#AutoFireUpgrade");
-const AutoRotateUpgradeEL = document.querySelector("#AutoRotateUpgrade");
-const ShotSizeUpgradeEL = document.querySelector("#ShotSizeUpgrade");
-const HealthUpgradeEL = document.querySelector("#HealthUpgrade");
-const MoneyUpgradeEL = document.querySelector("#MoneyMultUpgrade");
-//shop
-const ShopDivEL = document.querySelector("#UpgradeDivEL");
-const ShopELs = document.querySelectorAll(".shop");
-const UpgradeELs = document.querySelectorAll(".UpgradeButton");
-const ShopCloseButton = document.querySelector("#CloseShop");
-// pause menu
-const resumeGameButton = document.querySelector("#ResumeGameBtn");
-const restartGameButtonEL = document.querySelector("#RestartGameBtn");
-const PausedModalEL = document.querySelector("#PauseModalEL");
-const PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
-const OptionsMenuOpenerButton = document.querySelector("#OptionsMenuOpener");
-
-//options menu
-const OptionsMenu = document.querySelector("#OptionsModalEl");
-const ToggleMuteBtnUnmuted = document.querySelector("#ToggleMuteBtnUnmuted");
-const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
-const ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
-const ToggleParticlesBtnDontUse = document.querySelector("#ToggleParticlesBtnDontUse");
-const OptionsBackButton = document.querySelector("#OptionsBackButton");
-
-//define a player, and their draw function
+var Pause = document.querySelector("#PauseEL");
+var Play = document.querySelector("#PlayEL");
+var highScores = [];
+var ShootSound = new Audio("Audio/sound/Shoot.wav");
+var HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
+var HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
+var DamageUpgradeEL = document.querySelector("#DamageUpgrade");
+var ShotSpeedUpgradeEL = document.querySelector("#ShotSpeedUpgrade");
+var FireRateUpgradeEL = document.querySelector("#FireRateUpgrade");
+var ShotsFiredUpgradeEL = document.querySelector("#ShotsFiredUpgrade");
+var MultiShotUpgradeEL = document.querySelector("#MultiShotUpgrade");
+var AutoFireUpgradeEL = document.querySelector("#AutoFireUpgrade");
+var AutoRotateUpgradeEL = document.querySelector("#AutoRotateUpgrade");
+var ShotSizeUpgradeEL = document.querySelector("#ShotSizeUpgrade");
+var HealthUpgradeEL = document.querySelector("#HealthUpgrade");
+var MoneyUpgradeEL = document.querySelector("#MoneyMultUpgrade");
+var ShopDivEL = document.querySelector("#UpgradeDivEL");
+var ShopELs = document.querySelectorAll(".shop");
+var UpgradeELs = document.querySelectorAll(".UpgradeButton");
+var ShopCloseButton = document.querySelector("#CloseShop");
+var resumeGameButton = document.querySelector("#ResumeGameBtn");
+var restartGameButtonEL = document.querySelector("#RestartGameBtn");
+var PausedModalEL = document.querySelector("#PauseModalEL");
+var PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
+var OptionsMenuOpenerButton = document.querySelector("#OptionsMenuOpener");
+var OptionsMenu = document.querySelector("#OptionsModalEl");
+var ToggleMuteBtnUnmuted = document.querySelector("#ToggleMuteBtnUnmuted");
+var ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
+var ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
+var ToggleParticlesBtnDontUse = document.querySelector("#ToggleParticlesBtnDontUse");
+var OptionsBackButton = document.querySelector("#OptionsBackButton");
 c.shadowBlur = 20;
 c.shadowColor = "black";
-class Player {
-    constructor(x, y, radius, color) {
+var Player = (function () {
+    function Player(x, y, radius, color) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.color = color;
-
         this.Money = 0;
         this.moneyMult = 1;
-
         this.Damage = 10;
         this.ShotSpeed = 5;
         this.FireRate = -1;
         this.ShotsFired = 1;
         this.MultiShot = 1;
-        this.AutoFire = 0;
-        this.AutoRotate = 0;
+        this.AutoFire = false;
+        this.AutoRotate = false;
         this.ShotSize = 5;
         this.Health = 1;
-
         this.DamageUpgradeNumber = 0;
         this.ShotSpeedUpgradeNumber = 0;
         this.FireRateUpgradeNumber = 0;
@@ -84,59 +73,59 @@ class Player {
         this.HealthUpgradeNumber = 0;
         this.MoneyMultUpgradeNumber = 0;
     }
-    draw() {
+    Player.prototype.draw = function () {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;
         c.fill();
-    }
-}
-//define a projectile, and its draw function, as well as its update function
-class Projectile {
-    constructor(x, y, r, color, velocity) {
+    };
+    return Player;
+}());
+var Projectile = (function () {
+    function Projectile(x, y, r, color, velocity) {
         this.x = x;
         this.y = y;
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
     }
-    draw() {
+    Projectile.prototype.draw = function () {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;
         c.fill();
-    }
-    update() {
+    };
+    Projectile.prototype.update = function () {
         this.draw();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-    }
-}
-//define a enemy, and its draw function, as well as its update function
-class Enemy {
-    constructor(x, y, r, color, velocity) {
+    };
+    return Projectile;
+}());
+var Enemy = (function () {
+    function Enemy(x, y, r, color, velocity) {
         this.x = x;
         this.y = y;
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
     }
-    draw() {
+    Enemy.prototype.draw = function () {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;
         c.fill();
-    }
-    update() {
+    };
+    Enemy.prototype.update = function () {
         this.draw();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-    }
-}
-//define a friction, and its draw function, as well as its update function
-const friction = ParticleFriction;
-class Particle {
-    constructor(x, y, r, color, velocity) {
+    };
+    return Enemy;
+}());
+var friction = ParticleFriction;
+var Particle = (function () {
+    function Particle(x, y, r, color, velocity) {
         this.x = x;
         this.y = y;
         this.radius = r;
@@ -144,7 +133,7 @@ class Particle {
         this.velocity = velocity;
         this.alpha = 1;
     }
-    draw() {
+    Particle.prototype.draw = function () {
         c.save();
         c.globalAlpha = this.alpha;
         c.beginPath();
@@ -152,122 +141,136 @@ class Particle {
         c.fillStyle = this.color;
         c.fill();
         c.restore();
-    }
-    update() {
+    };
+    Particle.prototype.update = function () {
         this.draw();
         this.velocity.x *= friction;
         this.velocity.y *= friction;
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-
         this.alpha -= randomBetween(0.001, 0.025) * ParticleFadeSpeedMultiplier;
-    }
-}
-const w = canvas.width;
-const h = canvas.height;
-const cw = w / 2;
-const ch = h / 2;
-let player = new Player(cw, ch, PlayerRadius, PlayerColor);
-let projectiles = [];
-let enemies = [];
-let particles = [];
-let GameStarted = false;
-let UseParticles = true;
-let Paused = false;
-let ShopOpen = false;
-let OptionsOpen = false;
-let Muted = true;
-let lastInterval;
-let EnemySpawnTime = 50;
-let animationID;
-let score = 0;
-let DefaultEnemySpawnTime = 50;
+    };
+    return Particle;
+}());
+var w = canvas.width;
+var h = canvas.height;
+var cw = w / 2;
+var ch = h / 2;
+var player = new Player(cw, ch, PlayerRadius, PlayerColor);
+var projectiles = [];
+var enemies = [];
+var particles = [];
+var GameStarted = false;
+var UseParticles = true;
+var Paused = false;
+var ShopOpen = false;
+var OptionsOpen = false;
+var Muted = true;
+var lastInterval;
+var EnemySpawnTime = 50;
+var animationID;
+var score = 0;
+var DefaultEnemySpawnTime = 50;
 console.log(ShopCloseButton);
-
 function ShowShop() {
-    ShopELs.forEach((value) => {
-        if (value != ShopDivEL & value != ShopCloseButton) {
+    ShopELs.forEach(function (value) {
+        if (value != ShopDivEL && value != ShopCloseButton) {
             if (value in UpgradeELs) {
                 if (value == DamageUpgradeEL) {
                     if (player.Money < 10 ^ player.DamageUpgradeNumber) {
-                        value.disabled = true;
-                    } else {
-                        value.disabled = false;
+                        DamageUpgradeEL.setAttribute("disabled", "true");
                     }
-                } else if (value == ShotSpeedUpgradeEL) {
-                    if (player.Money < 10 ^ player.ShotSpeedUpgradeNumber) {
-                        value.disabled = true;
-                    } else {
-                        value.disabled = false;
-                    }
-                } else if (value == FireRateUpgradeEL) {
-                    if (player.Money < 10 ^ player.FireRateUpgradeNumber) {
-                        value.disabled = true;
-                    } else {
-                        value.disabled = false;
-                    }
-                } else if (value == ShotsFiredUpgradeEL) {
-                    if (player.Money < 10 ^ player.ShotsFiredUpgradeNumber) {
-                        value.disabled = true;
-                    } else {
-                        value.disabled = false;
-                    }
-                } else if (value == MultiShotUpgradeEL) {
-                    if (player.Money < 10 ^ player.MultiShotUpgradeNumber) {
-                        value.disabled = true;
-                    } else {
-                        value.disabled = false;
-                    }
-                } else if (value == ShotSizeUpgradeEL) {
-                    if (player.Money < 10 ^ player.ShotSizeUpgradeNumber) {
-                        value.disabled = true;
-                    } else {
-                        value.disabled = false;
-                    }
-                } else if (value == HealthUpgradeEL) {
-                    if (player.Money < 10 ^ player.HealthUpgradeNumber) {
-                        value.disabled = true;
-                    } else {
-                        value.disabled = false;
-                    }
-                } else if (value == MoneyUpgradeEL) {
-                    if (player.Money < 10 ^ player.MoneyMultUpgradeNumber) {
-                        value.disabled = true;
-                    } else {
-                        value.disabled = false;
+                    else {
+                        DamageUpgradeEL.setAttribute("disabled", "false");
                     }
                 }
-            };
-            value.style.display = "block";
-        } else if (value == ShopDivEL) {
-            value.style.display = "flex";
-        } else if (value == ShopCloseButton) {
-            value.style.display = "contents";
+                else if (value == ShotSpeedUpgradeEL) {
+                    if (player.Money < 10 ^ player.ShotSpeedUpgradeNumber) {
+                        ShotSpeedUpgradeEL.setAttribute("disabled", "true");
+                    }
+                    else {
+                        ShotSpeedUpgradeEL.setAttribute("disabled", "false");
+                    }
+                }
+                else if (value == FireRateUpgradeEL) {
+                    if (player.Money < 10 ^ player.FireRateUpgradeNumber) {
+                        FireRateUpgradeEL.setAttribute("disabled", "true");
+                    }
+                    else {
+                        FireRateUpgradeEL.setAttribute("disabled", "false");
+                    }
+                }
+                else if (value == ShotsFiredUpgradeEL) {
+                    if (player.Money < 10 ^ player.ShotsFiredUpgradeNumber) {
+                        ShotsFiredUpgradeEL.setAttribute("disabled", "true");
+                    }
+                    else {
+                        ShotsFiredUpgradeEL.setAttribute("disabled", "false");
+                    }
+                }
+                else if (value == MultiShotUpgradeEL) {
+                    if (player.Money < 10 ^ player.MultiShotUpgradeNumber) {
+                        MultiShotUpgradeEL.setAttribute("disabled", "true");
+                    }
+                    else {
+                        MultiShotUpgradeEL.setAttribute("disabled", "false");
+                    }
+                }
+                else if (value == ShotSizeUpgradeEL) {
+                    if (player.Money < 10 ^ player.ShotSizeUpgradeNumber) {
+                        ShotSizeUpgradeEL.setAttribute("disabled", "true");
+                    }
+                    else {
+                        ShotSizeUpgradeEL.setAttribute("disabled", "false");
+                    }
+                }
+                else if (value == HealthUpgradeEL) {
+                    if (player.Money < 10 ^ player.HealthUpgradeNumber) {
+                        HealthUpgradeEL.setAttribute("disabled", "true");
+                    }
+                    else {
+                        HealthUpgradeEL.setAttribute("disabled", "false");
+                    }
+                }
+                else if (value == MoneyUpgradeEL) {
+                    if (player.Money < 10 ^ player.MoneyMultUpgradeNumber) {
+                        MoneyUpgradeEL.setAttribute("disabled", "true");
+                    }
+                    else {
+                        MoneyUpgradeEL.setAttribute("disabled", "false");
+                    }
+                }
+            }
+            ;
+            value.setAttribute("style", "display:block;");
+        }
+        else if (value == ShopDivEL) {
+            value.setAttribute("style", "display:flex;");
+        }
+        else if (value == ShopCloseButton) {
+            value.setAttribute("style", "display:contents;");
+            ;
         }
     });
     ShopOpen = true;
     Paused = true;
 }
-
 function HideShop() {
-    ShopELs.forEach((value) => {
-        value.style.display = "none";
+    ShopELs.forEach(function (value) {
+        value.setAttribute("style", "display:none;");
     });
     ShopOpen = false;
     Paused = false;
 }
-
 function updateHighScores(scores) {
-    scores.sort((a, b) => a - b);
-    for (let index = 0; index < scores.length; index++) {
-        const element = scores[index];
+    scores.sort(function (a, b) { return a - b; });
+    for (var index = 0; index < scores.length; index++) {
+        var element = scores[index];
         var node = document.createElement("li");
         node.appendChild(document.createTextNode(element));
         HighScoreList.appendChild(node);
-
     }
 }
-
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     HideShop();
@@ -279,108 +282,80 @@ function init() {
     enemies = [];
     particles = [];
     score = 0;
-    scoreEL.innerHTML = score;
-    BigScoreEL.innerHTML = score;
-    MoneyEL.innerHTML = player.Money;
+    scoreEL.innerHTML = score.toString(10);
+    BigScoreEL.innerHTML = score.toString(10);
+    MoneyEL.innerHTML = player.Money.toString(10);
     GameStarted = true;
 }
-
 function PageLoad() {
-    PausedModalEL.style.display = "none";
-    PausedBigScoreEL.style.display = "none";
-    resumeGameButton.style.display = "none";
-    restartGameButtonEL.style.display = "none";
+    PausedModalEL.setAttribute("style", "display:none;");
+    PausedBigScoreEL.setAttribute("style", "display:none;");
+    resumeGameButton.setAttribute("style", "display:none;");
+    restartGameButtonEL.setAttribute("style", "display:none;");
     CloseOptionsMenu();
     HideShop();
     Paused = true;
     OptionsOpen = false;
-    ModalEL.style.display = "initial";
-
+    ModalEL.setAttribute("style", "display:flex;");
 }
-
 function SpawnEnemy() {
-    //create a new enemy
-
-    //give it an x, and y.
-    let x;
-    let y;
-    //give it a radius
-    const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
-    //randomly decide whether to spawn it height or width-wise
+    var x;
+    var y;
+    var radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
     if (Math.random() < EnemySpawnBias) {
-        //spawn it along the x axis
         x = Math.random() < 0.5 ? 0 - radius : w + radius;
         y = Math.random() * h;
-    } else {
-        //spawn it along the y axis
+    }
+    else {
         x = Math.random() * w;
         y = Math.random() < 0.5 ? 0 - radius : h + radius;
     }
-    //choose a random color
-    //the 50 saturation and lightness gives it a pastel-like color
-    const color = `hsl(${Math.random() * 360},50%,50%)`;
-    //calculate the angle to the center from its current position
-    const angle = Math.atan2(ch - y, cw - x);
-    //set the x and y values accordingly
-    const velocity = {
+    var color = "hsl(".concat(Math.random() * 360, ",50%,50%)");
+    var angle = Math.atan2(ch - y, cw - x);
+    var velocity = {
         x: Math.cos(angle) * EnemySpeedMultiplier,
         y: Math.sin(angle) * EnemySpeedMultiplier
     };
-    //add it to the enemies list
     enemies.push(new Enemy(x, y, radius, color, velocity));
-    //trigger every second
 }
-
-//add and update the score
 function AddScore(Value) {
     score += Value;
     player.Money += (Value / 10) * player.moneyMult;
-    scoreEL.innerHTML = score;
-    MoneyEL.innerText = player.Money;
-    ShopMoney.innerText = player.Money;
+    scoreEL.innerHTML = score.toString(10);
+    MoneyEL.innerHTML = player.Money.toString(10);
+    ShopMoney.innerHTML = player.Money.toString(10);
 }
-
-
-
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
-    //and add the end screen back up
-    ModalEL.style.display = "flex";
-    TitleEL.style.display = "none";
-    BigScoreELLabel.style.display = "block";
-    BigScoreEL.style.display = "block";
-    BigScoreEL.innerHTML = score;
+    ModalEL.setAttribute("style", "display:flex;");
+    TitleEL.setAttribute("style", "display:none;");
+    BigScoreELLabel.setAttribute("style", "display:block;");
+    BigScoreEL.setAttribute("style", "display:block;");
+    BigScoreEL.innerHTML = score.toString(10);
 }
-
 function animate() {
-
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
-        if ((animationID % EnemySpawnTime == 0 & enemies.length < MaxEnemies) | enemies.length < MaxEnemies - 5) {
+        if ((animationID % EnemySpawnTime == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5) {
             SpawnEnemy();
             EnemySpawnTime -= 1;
         }
-        //draw the player
         UnpauseGame();
         player.draw();
-        //fill the canvas with an almost black.
-        //the 0.1 Alpha value means that things have a nice fade in effect
-        c.fillStyle = `rgba(${BackgroundColor},0.1)`;
+        c.fillStyle = "rgba(".concat(BackgroundColor, ",0.1)");
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
-            //draw the particles
-            particles.forEach((particle, index) => {
+            particles.forEach(function (particle, index) {
                 if (particle.alpha <= 0) {
                     particles.splice(index, 1);
-                } else {
+                }
+                else {
                     particle.update();
                 }
             });
         }
-        //draw the projectiles
-        projectiles.forEach((projectile, index) => {
+        projectiles.forEach(function (projectile, index) {
             projectile.update();
-            //if the projectile is off the screen, delete it. this saves rendering time
             if ((projectile.x + projectile.radius < 0) ||
                 (projectile.y + projectile.radius < 0) ||
                 (projectile.x - projectile.radius > w) ||
@@ -388,63 +363,39 @@ function animate() {
                 projectiles.splice(index, 1);
             }
         });
-        //draw the enemies
-        enemies.forEach((enemy, index) => {
-            //update each enemy
+        enemies.forEach(function (enemy, index) {
             enemy.update();
-            //get the distance to the player
-            const dist = Math.hypot(player.x - enemy.x,
-                player.y - enemy.y);
-            //if the enemy is touching the player, end the game
+            var dist = distance(player.x, player.y, enemy.x, enemy.y);
             if (dist - enemy.radius - player.radius < 0) {
                 gameOver(animationID);
-
             }
-            projectiles.forEach((projectile, index2) => {
-                //get the distance between the projectile and the enemy
-                const dist = Math.hypot(projectile.x - enemy.x,
-                    projectile.y - enemy.y);
-                // if dist minus the radiuses of the enemy and the projectile are less than 0
+            projectiles.forEach(function (projectile, index2) {
+                var dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                 if (dist - enemy.radius - projectile.radius < 0) {
-                    //create Explosions
                     if (UseParticles) {
-                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
-                            //add a particle to the rendering list
-                            particles.push(new Particle(projectile.x,
-                                projectile.y,
-                                //give it a random radius
-                                Math.random() * (5 - 1) + 1,
-                                //set its color to the killed enemy's
-                                enemy.color,
-                                // give it a random speed
-                                {
-                                    x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
-                                    y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
-                                }));
+                        for (var i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+                            particles.push(new Particle(projectile.x, projectile.y, Math.random() * (5 - 1) + 1, enemy.color, {
+                                x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
+                                y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+                            }));
                         }
                     }
-                    //shrink enemy if it is large
                     if (enemy.radius - player.Damage > 5) {
                         if (!Muted) {
                             HitNoKillSound.play();
                         }
                         AddScore(100);
-                        //smooth changing that value
-                        gsap.to(enemy, { radius: enemy.radius - player.Damage });
-                        setTimeout(() => {
-                            //delete the projectile
+                        enemy.radius -= player.Damage;
+                        setTimeout(function () {
                             projectiles.splice(index2, 1);
-
                         }, 0);
-                        //otherwise
-                    } else {
+                    }
+                    else {
                         if (!Muted) {
                             HitAndKillSound.play();
                         }
-                        //add the score, and update the content
                         AddScore(250);
-                        //on the next frame, delete the enemy and projectile
-                        setTimeout(() => {
+                        setTimeout(function () {
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
                         }, 0);
@@ -454,232 +405,236 @@ function animate() {
         });
     }
 }
-//whenever the user clicks, spawn a projectile
-addEventListener("click", (event) => {
-    if (GameStarted == true & Paused == false) {
-        //get the x and y of the click
-        const x = event.clientX;
-        const y = event.clientY;
-        //find the angle from the center
-        const angle = Math.atan2(y - ch, x - cw);
-        //set velocity accordingly
-        const velocity = {
+addEventListener("click", function (event) {
+    if (GameStarted == true && Paused == false) {
+        var x = event.clientX;
+        var y = event.clientY;
+        var angle = Math.atan2(y - ch, x - cw);
+        var velocity = {
             x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
             y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier
         };
-        //add it to the projectiles list
-        projectiles.push(new Projectile(
-            cw,
-            ch,
-            5,
-            ProjectileColor,
-            velocity));
+        projectiles.push(new Projectile(cw, ch, 5, ProjectileColor, velocity));
         if (!Muted) {
             ShootSound.play();
         }
     }
 });
-
-//when the user clicks the start button, start the game
-startGameButton.addEventListener("click", () => {
-    ModalEL.style.display = "none";
+startGameButton.addEventListener("click", function () {
+    ModalEL.setAttribute("style", "display:none;");
     init();
     animate();
-    //hide the UI
 });
-resumeGameButton.addEventListener("click", () => {
+resumeGameButton.addEventListener("click", function () {
     UnpauseGame();
 });
-addEventListener("keydown", (event) => {
+addEventListener("keydown", function (event) {
     console.log(event);
     if (event.key == "s") {
         if (GameStarted) {
             if (ShopOpen) {
                 HideShop();
-            } else {
+            }
+            else {
                 ShowShop();
             }
         }
-    } else if (event.key == "x") {
+    }
+    else if (event.key == "x") {
         if (GameStarted) {
             if (Paused) {
                 UnpauseGame();
-            } else {
+            }
+            else {
                 PauseGame();
             }
         }
     }
 });
-addEventListener("load", PageLoad());
-DamageUpgradeEL.addEventListener("click", () => {
+addEventListener("load", function () { PageLoad(); });
+DamageUpgradeEL.addEventListener("click", function () {
     player.Damage = DamageCurve[player.DamageUpgradeNumber];
     player.DamageUpgradeNumber++;
     player.Money -= 10 ^ player.DamageUpgradeNumber;
     console.log("Player Damage: %d\nPlayer Damage Upgrade Number: %d", player.Damage, player.DamageUpgradeNumber);
 });
-ShotSpeedUpgradeEL.addEventListener("click", () => {
+ShotSpeedUpgradeEL.addEventListener("click", function () {
     player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber];
     player.ShotSpeedUpgradeNumber++;
     player.Money -= 10 ^ player.ShotSpeedUpgradeNumber;
     console.log("Player Shot Speed: %d\nPlayer Shot Speed Upgrade Number: %d", player.ShotSpeed, player.ShotSpeedUpgradeNumber);
 });
-FireRateUpgradeEL.addEventListener("click", () => {
+FireRateUpgradeEL.addEventListener("click", function () {
     player.FireRate = FireRateCurve[player.FireRateUpgradeNumber];
     player.FireRateUpgradeNumber++;
     player.Money -= 10 ^ player.FireRateUpgradeNumber;
     console.log("Player Fire Rate: %d\nPlayer Fire Rate Upgrade Number: %d", player.FireRate, player.FireRateUpgradeNumber);
 });
-ShotsFiredUpgradeEL.addEventListener("click", () => {
-    player.ShotsFired = ShotsFiredCurve[player.ShotsFiredUpgradeNumber];
+ShotsFiredUpgradeEL.addEventListener("click", function () {
+    player.ShotsFired = ProjectileCountCurve[player.ShotsFiredUpgradeNumber];
     player.ShotsFiredUpgradeNumber++;
     player.Money -= 10 ^ player.ShotsFiredUpgradeNumber;
     console.log("Player Shots Fired Rate: %d\nPlayer Shots Fired Upgrade Number: %d", player.ShotsFired, player.ShotsFiredUpgradeNumber);
 });
-MultiShotUpgradeEL.addEventListener("click", () => {
+MultiShotUpgradeEL.addEventListener("click", function () {
     player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumber];
     player.MultiShotUpgradeNumber++;
     player.Money -= 10 ^ player.MultiShotUpgradeNumber;
     console.log("Player Multishot: %d\nPlayer Multishot Upgrade Number: %d", player.MultiShot, player.MultiShotUpgradeNumber);
 });
-ShotSizeUpgradeEL.addEventListener("click", () => {
-    player.ShotSize = ShotSizeCurve[player.ShotSizeUpgradeNumber];
+ShotSizeUpgradeEL.addEventListener("click", function () {
+    player.ShotSize = ProjectileSizeCurve[player.ShotSizeUpgradeNumber];
     player.ShotSizeUpgradeNumber++;
     player.Money -= 10 ^ player.ShotSizeUpgradeNumber;
     console.log("Player Shot Size: %d\nPlayer Shot Size Upgrade Number: %d", player.ShotSize, player.ShotSizeUpgradeNumber);
 });
-MoneyUpgradeEL.addEventListener("click", () => {
+MoneyUpgradeEL.addEventListener("click", function () {
     player.moneyMult = player.MoneyMultUpgradeNumber + 1;
     player.moneyMultUpgradeNumber++;
     player.Money -= 10 ^ player.MoneyMultUpgradeNumber;
     console.log("Player Money Multiplier: %d\nPlayer Money Multiplier Upgrade Number: %d", player.moneyMult, player.MoneyMultUpgradeNumber);
     refreshShop();
 });
-
 function refreshShop() {
-    ShopELs.forEach((value) => {
+    ShopELs.forEach(function (value) {
         if (value == DamageUpgradeEL) {
             if (player.Money < 10 ^ player.DamageUpgradeNumber) {
-                value.disabled = true;
-            } else {
-                value.disabled = false;
+                DamageUpgradeEL.setAttribute("disabled", "true");
             }
-        } else if (value == ShotSpeedUpgradeEL) {
+            else {
+                DamageUpgradeEL.setAttribute("disabled", "false");
+            }
+        }
+        else if (value == ShotSpeedUpgradeEL) {
             if (player.Money < 10 ^ player.ShotSpeedUpgradeNumber) {
-                value.disabled = true;
-            } else {
-                value.disabled = false;
+                ShotSpeedUpgradeEL.setAttribute("disabled", "true");
             }
-        } else if (value == FireRateUpgradeEL) {
+            else {
+                ShotSpeedUpgradeEL.setAttribute("disabled", "false");
+            }
+        }
+        else if (value == FireRateUpgradeEL) {
             if (player.Money < 10 ^ player.FireRateUpgradeNumber) {
-                value.disabled = true;
-            } else {
-                value.disabled = false;
+                FireRateUpgradeEL.setAttribute("disabled", "true");
             }
-        } else if (value == ShotsFiredUpgradeEL) {
+            else {
+                FireRateUpgradeEL.setAttribute("disabled", "false");
+            }
+        }
+        else if (value == ShotsFiredUpgradeEL) {
             if (player.Money < 10 ^ player.ShotsFiredUpgradeNumber) {
-                value.disabled = true;
-            } else {
-                value.disabled = false;
+                ShotsFiredUpgradeEL.setAttribute("disabled", "true");
             }
-        } else if (value == MultiShotUpgradeEL) {
+            else {
+                ShotsFiredUpgradeEL.setAttribute("disabled", "false");
+            }
+        }
+        else if (value == MultiShotUpgradeEL) {
             if (player.Money < 10 ^ player.MultiShotUpgradeNumber) {
-                value.disabled = true;
-            } else {
-                value.disabled = false;
+                MultiShotUpgradeEL.setAttribute("disabled", "true");
             }
-        } else if (value == ShotSizeUpgradeEL) {
+            else {
+                MultiShotUpgradeEL.setAttribute("disabled", "false");
+            }
+        }
+        else if (value == ShotSizeUpgradeEL) {
             if (player.Money < 10 ^ player.ShotSizeUpgradeNumber) {
-                value.disabled = true;
-            } else {
-                value.disabled = false;
+                ShotSizeUpgradeEL.setAttribute("disabled", "true");
             }
-        } else if (value == HealthUpgradeEL) {
+            else {
+                ShotSizeUpgradeEL.setAttribute("disabled", "false");
+            }
+        }
+        else if (value == HealthUpgradeEL) {
             if (player.Money < 10 ^ player.HealthUpgradeNumber) {
-                value.disabled = true;
-            } else {
-                value.disabled = false;
+                HealthUpgradeEL.setAttribute("disabled", "true");
             }
-        } else if (value == MoneyUpgradeEL) {
+            else {
+                HealthUpgradeEL.setAttribute("disabled", "false");
+            }
+        }
+        else if (value == MoneyUpgradeEL) {
             if (player.Money < 10 ^ player.MoneyMultUpgradeNumber) {
-                value.disabled = true;
-            } else {
-                value.disabled = false;
+                MoneyUpgradeEL.setAttribute("disabled", "true");
+            }
+            else {
+                MoneyUpgradeEL.setAttribute("disabled", "false");
             }
         }
     });
-};
-ShopCloseButton.addEventListener("click", () => {
+}
+;
+ShopCloseButton.addEventListener("click", function () {
     HideShop();
 });
-ToggleMuteBtnUnmuted.addEventListener("click", () => {
-    ToggleMuteBtnUnmuted.style.display = "none";
-    ToggleMuteBtnMuted.style.display = "initial";
+ToggleMuteBtnUnmuted.addEventListener("click", function () {
+    ToggleMuteBtnUnmuted.setAttribute("style", "display:none;");
+    ToggleMuteBtnMuted.setAttribute("style", "display:initial;");
     Muted = true;
 });
-ToggleMuteBtnMuted.addEventListener("click", () => {
-    ToggleMuteBtnMuted.style.display = "none";
-    ToggleMuteBtnUnmuted.style.display = "initial";
+ToggleMuteBtnMuted.addEventListener("click", function () {
+    ToggleMuteBtnMuted.setAttribute("style", "display:none;");
+    ToggleMuteBtnUnmuted.setAttribute("style", "display:initial;");
     Muted = false;
 });
-
-ToggleParticlesBtnUse.addEventListener("click", () => {
-    ToggleParticlesBtnUse.style.display = "none";
-    ToggleParticlesBtnDontUse.style.display = "initial";
+ToggleParticlesBtnUse.addEventListener("click", function () {
+    ToggleParticlesBtnDontUse.setAttribute("style", "display:initial;");
+    ToggleParticlesBtnUse.setAttribute("style", "display:none;");
     UseParticles = false;
 });
-ToggleParticlesBtnDontUse.addEventListener("click", () => {
-    ToggleParticlesBtnDontUse.style.display = "none";
-    ToggleParticlesBtnUse.style.display = "initial";
+ToggleParticlesBtnDontUse.addEventListener("click", function () {
+    ToggleParticlesBtnDontUse.setAttribute("style", "display:none;");
+    ToggleParticlesBtnUse.setAttribute("style", "display:initial;");
     UseParticles = true;
 });
-restartGameButtonEL.addEventListener("click", () => {
+restartGameButtonEL.addEventListener("click", function () {
     var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.");
     if (UserConfirm) {
-        ModalEL.style.display = "none";
         UnpauseGame();
         Paused = false;
         init();
         animate();
     }
 });
-OptionsMenuOpenerButton.addEventListener("click", () => {
+OptionsMenuOpenerButton.addEventListener("click", function () {
     OpenOptionsMenu();
 });
-OptionsBackButton.addEventListener("click", () => {
+OptionsBackButton.addEventListener("click", function () {
     CloseOptionsMenu();
 });
-
 function PauseGame() {
-    PausedModalEL.style.display = "flex";
-    PausedBigScoreEL.style.display = "initial";
-    resumeGameButton.style.display = "initial";
-    restartGameButtonEL.style.display = "initial";
-    PausedBigScoreEL.innerHTML = score;
+    PausedModalEL.setAttribute("style", "display:flex;");
+    PausedBigScoreEL.setAttribute("style", "display:initial;");
+    resumeGameButton.setAttribute("style", "display:initial;");
+    restartGameButtonEL.setAttribute("style", "display:initial;");
+    PausedBigScoreEL.innerHTML = score.toString(10);
     Paused = true;
-};
-
+}
+;
 function UnpauseGame() {
-    PausedModalEL.style.display = "none";
-    PausedBigScoreEL.style.display = "none";
-    resumeGameButton.style.display = "none";
-    restartGameButtonEL.style.display = "none";
+    PausedModalEL.setAttribute("style", "display:none;");
+    PausedBigScoreEL.setAttribute("style", "display:none;");
+    resumeGameButton.setAttribute("style", "display:none;");
+    restartGameButtonEL.setAttribute("style", "display:none;");
     Paused = false;
-};
-
+}
+;
 function OpenOptionsMenu() {
-    OptionsMenu.style.display = "flex";
-    PausedModalEL.style.opacity = "0.2";
-    PausedBigScoreEL.style.opacity = "0.2";
-    resumeGameButton.style.opacity = "0.2";
-    restartGameButtonEL.style.opacity = "0.2";
+    OptionsMenu.setAttribute("style", "display:flex;");
+    PausedModalEL.setAttribute("style", "opacity:0.2;");
+    PausedBigScoreEL.setAttribute("style", "opacity:0.2;");
+    resumeGameButton.setAttribute("style", "opacity:0.2;");
+    restartGameButtonEL.setAttribute("style", "opacity:0.2;");
     OptionsOpen = true;
-};
-
+}
+;
 function CloseOptionsMenu() {
-    OptionsMenu.style.display = "none";
-    PausedModalEL.style.opacity = "1";
-    PausedBigScoreEL.style.opacity = "1";
-    resumeGameButton.style.opacity = "1";
-    restartGameButtonEL.style.opacity = "1";
+    OptionsMenu.setAttribute("style", "display:none;");
+    PausedModalEL.setAttribute("style", "opacity:1");
+    PausedBigScoreEL.setAttribute("style", "opacity:1");
+    resumeGameButton.setAttribute("style", "opacity:1");
+    restartGameButtonEL.setAttribute("style", "opacity:1");
     OptionsOpen = false;
-};
+}
+;
+//# sourceMappingURL=index.js.map
