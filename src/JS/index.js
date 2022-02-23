@@ -216,6 +216,30 @@ function HideShop() {
     ShopOpen = false;
     Paused = false;
 }
+function UpdateShop() {
+    ShopELs.forEach(function (value) {
+        switch (value) {
+            case DamageUpgradeEL:
+                DamageUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.DamageUpgradeNumber)).toString());
+            case ShotSpeedUpgradeEL:
+                ShotSpeedUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSpeedUpgradeNumber)).toString());
+            case FireRateUpgradeEL:
+                FireRateUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.FireRateUpgradeNumber)).toString());
+            case ShotsFiredUpgradeEL:
+                ShotsFiredUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotsFiredUpgradeNumber)).toString());
+            case MultiShotUpgradeEL:
+                MultiShotUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MultiShotUpgradeNumber)).toString());
+            case ShotSizeUpgradeEL:
+                ShotSizeUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSizeUpgradeNumber)).toString());
+            case HealthUpgradeEL:
+                HealthUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.HealthUpgradeNumber)).toString());
+            case MoneyUpgradeEL:
+                MoneyUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MoneyMultUpgradeNumber)).toString());
+            default:
+                break;
+        }
+    });
+}
 function updateHighScores(scores) {
     scores.sort(function (a, b) { return a - b; });
     for (var index = 0; index < scores.length; index++) {

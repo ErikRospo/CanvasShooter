@@ -269,7 +269,29 @@ function HideShop() {
     ShopOpen = false;
     Paused = false;
 }
-
+function UpdateShop() {
+    ShopELs.forEach((value)=>{
+    switch (value) {
+        case DamageUpgradeEL:
+            DamageUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.DamageUpgradeNumber)).toString());
+        case ShotSpeedUpgradeEL:
+            ShotSpeedUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.ShotSpeedUpgradeNumber)).toString());
+        case FireRateUpgradeEL:
+            FireRateUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.FireRateUpgradeNumber)).toString());
+        case ShotsFiredUpgradeEL:
+            ShotsFiredUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.ShotsFiredUpgradeNumber)).toString());
+        case MultiShotUpgradeEL:
+            MultiShotUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.MultiShotUpgradeNumber)).toString());
+        case ShotSizeUpgradeEL:
+            ShotSizeUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.ShotSizeUpgradeNumber)).toString());
+        case HealthUpgradeEL:
+            HealthUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.HealthUpgradeNumber)).toString());
+        case MoneyUpgradeEL:
+            MoneyUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.MoneyMultUpgradeNumber)).toString());
+        default:
+            break;
+    }})
+}
 function updateHighScores(scores: any[]) {
     scores.sort((a: number, b: number) => a - b);
     for (let index = 0; index < scores.length; index++) {
@@ -574,26 +596,22 @@ ShopCloseButton.addEventListener("click", () => {
 ToggleMuteBtnUnmuted.addEventListener("click", () => {
     ToggleMuteBtnUnmuted.setAttribute("style","display:none;");
     ToggleMuteBtnMuted.setAttribute("style","display:initial;");
-
     Muted = true;
 });
 ToggleMuteBtnMuted.addEventListener("click", () => {
     ToggleMuteBtnMuted.setAttribute("style","display:none;");
     ToggleMuteBtnUnmuted.setAttribute("style","display:initial;");
-
     Muted = false;
 });
 
 ToggleParticlesBtnUse.addEventListener("click", () => {
     ToggleParticlesBtnDontUse.setAttribute("style","display:initial;");
     ToggleParticlesBtnUse.setAttribute("style","display:none;");
-
     UseParticles = false;
 });
 ToggleParticlesBtnDontUse.addEventListener("click", () => {
     ToggleParticlesBtnDontUse.setAttribute("style","display:none;");
     ToggleParticlesBtnUse.setAttribute("style","display:initial;");
-
     UseParticles = true;
 });
 restartGameButtonEL.addEventListener("click", () => {
