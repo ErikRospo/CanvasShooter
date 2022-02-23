@@ -6,7 +6,6 @@ const scoreEL = document.querySelector("#scoreEL");
 const MoneyEL = document.querySelector("#moneyEL");
 const ShopMoney = document.querySelector("#ShopMoney");
 const startGameButton = document.querySelector("#startGameBtn");
-const MainMenuStartGameButton = document.querySelector("#MainMenuStartGameBtn");
 const ModalEL = document.querySelector("#ModalEL");
 const TitleEL = document.querySelector("#titleElement");
 const BigScoreEL = document.querySelector("#BigScoreEL");
@@ -46,7 +45,6 @@ const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
 const ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
 const ToggleParticlesBtnDontUse = document.querySelector("#ToggleParticlesBtnDontUse");
 const OptionsBackButton = document.querySelector("#OptionsBackButton");
-const MainMenuEL = document.querySelector("#MainMenuEL");
 c.shadowBlur = 20;
 c.shadowColor = "black";
 class Player {
@@ -202,7 +200,6 @@ function ShowShop() {
         }
         else if (value == ShopCloseButton) {
             value.setAttribute("style", "display:contents;");
-            ;
         }
     });
     ShopOpen = true;
@@ -273,8 +270,7 @@ function PageLoad() {
     HideShop();
     Paused = true;
     OptionsOpen = false;
-    ModalEL.setAttribute("style", "display:none;");
-    MainMenuEL.setAttribute("style", "display:block;");
+    ModalEL.setAttribute("style", "display:flex;");
 }
 function SpawnEnemy() {
     let x;
@@ -306,6 +302,7 @@ function AddScore(Value) {
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
     ModalEL.setAttribute("style", "display:flex;");
+    TitleEL.setAttribute("style", "display:none;");
     BigScoreELLabel.setAttribute("style", "display:block;");
     BigScoreEL.setAttribute("style", "display:block;");
     BigScoreEL.innerHTML = score.toString(10);
@@ -382,41 +379,6 @@ function animate() {
         });
     }
 }
-function PauseGame() {
-    PausedModalEL.setAttribute("style", "display:flex;");
-    PausedBigScoreEL.setAttribute("style", "display:initial;");
-    resumeGameButton.setAttribute("style", "display:initial;");
-    restartGameButtonEL.setAttribute("style", "display:initial;");
-    PausedBigScoreEL.innerHTML = score.toString(10);
-    Paused = true;
-}
-;
-function UnpauseGame() {
-    PausedModalEL.setAttribute("style", "display:none;");
-    PausedBigScoreEL.setAttribute("style", "display:none;");
-    resumeGameButton.setAttribute("style", "display:none;");
-    restartGameButtonEL.setAttribute("style", "display:none;");
-    Paused = false;
-}
-;
-function OpenOptionsMenu() {
-    OptionsMenu.setAttribute("style", "display:flex;");
-    PausedModalEL.setAttribute("style", "opacity:0.2;");
-    PausedBigScoreEL.setAttribute("style", "opacity:0.2;");
-    resumeGameButton.setAttribute("style", "opacity:0.2;");
-    restartGameButtonEL.setAttribute("style", "opacity:0.2;");
-    OptionsOpen = true;
-}
-;
-function CloseOptionsMenu() {
-    OptionsMenu.setAttribute("style", "display:none;");
-    PausedModalEL.setAttribute("style", "opacity:1");
-    PausedBigScoreEL.setAttribute("style", "opacity:1");
-    resumeGameButton.setAttribute("style", "opacity:1");
-    restartGameButtonEL.setAttribute("style", "opacity:1");
-    OptionsOpen = false;
-}
-;
 addEventListener("click", (event) => {
     if (GameStarted == true && Paused == false && player.fireCooldown == 0) {
         player.fireCooldown = player.FireRate;
@@ -435,11 +397,6 @@ addEventListener("click", (event) => {
 });
 startGameButton.addEventListener("click", () => {
     ModalEL.setAttribute("style", "display:none;");
-    init();
-    animate();
-});
-MainMenuStartGameButton.addEventListener("click", () => {
-    MainMenuEL.setAttribute("style", "display:none;");
     init();
     animate();
 });
@@ -550,4 +507,47 @@ OptionsMenuOpenerButton.addEventListener("click", () => {
 OptionsBackButton.addEventListener("click", () => {
     CloseOptionsMenu();
 });
+function PauseGame() {
+    PausedModalEL.setAttribute("style", "display:flex;");
+    PausedBigScoreEL.setAttribute("style", "display:initial;");
+    resumeGameButton.setAttribute("style", "display:initial;");
+    restartGameButtonEL.setAttribute("style", "display:initial;");
+    PausedBigScoreEL.innerHTML = score.toString(10);
+    Paused = true;
+}
+;
+function UnpauseGame() {
+    PausedModalEL.setAttribute("style", "display:none;");
+    PausedBigScoreEL.setAttribute("style", "display:none;");
+    resumeGameButton.setAttribute("style", "display:none;");
+    restartGameButtonEL.setAttribute("style", "display:none;");
+    Paused = false;
+}
+;
+function OpenOptionsMenu() {
+    OptionsMenu.setAttribute("style", "display:flex;");
+    PausedModalEL.setAttribute("style", "opacity:0.2;");
+    PausedBigScoreEL.setAttribute("style", "opacity:0.2;");
+    resumeGameButton.setAttribute("style", "opacity:0.2;");
+    restartGameButtonEL.setAttribute("style", "opacity:0.2;");
+    OptionsOpen = true;
+}
+;
+function CloseOptionsMenu() {
+    OptionsMenu.setAttribute("style", "display:none;");
+    PausedModalEL.setAttribute("style", "opacity:1");
+    PausedBigScoreEL.setAttribute("style", "opacity:1");
+    resumeGameButton.setAttribute("style", "opacity:1");
+    restartGameButtonEL.setAttribute("style", "opacity:1");
+    OptionsOpen = false;
+}
+;
+function Test1(UpgradeELs, value) {
+    UpgradeELs.forEach((value1) => {
+        if (value == value1) {
+            return true;
+        }
+    });
+    return false;
+}
 //# sourceMappingURL=index.js.map

@@ -257,7 +257,7 @@ function ShowShop() {
         if (value == ShopDivEL) {
             value.setAttribute("style","display:flex;");
         } else if (value == ShopCloseButton) {
-            value.setAttribute("style","display:contents;");;
+            value.setAttribute("style","display:contents;");
         }
     });
     ShopOpen = true;
