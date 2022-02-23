@@ -93,5 +93,9 @@
         "**/Thumbs.db": true
     },
     "explorerExclude.backup": null,
+    "cSpell.words": [
+        "Mult",
+        "Multishot"
+    ],
 
 }

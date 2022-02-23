@@ -175,76 +175,30 @@ console.log(ShopCloseButton);
 function ShowShop() {
     ShopELs.forEach(function (value) {
         if (value != ShopDivEL && value != ShopCloseButton) {
-            if (value in UpgradeELs) {
-                if (value == DamageUpgradeEL) {
-                    if (player.Money < 10 ^ player.DamageUpgradeNumber) {
-                        DamageUpgradeEL.setAttribute("disabled", "true");
-                    }
-                    else {
-                        DamageUpgradeEL.setAttribute("disabled", "false");
-                    }
-                }
-                else if (value == ShotSpeedUpgradeEL) {
-                    if (player.Money < 10 ^ player.ShotSpeedUpgradeNumber) {
-                        ShotSpeedUpgradeEL.setAttribute("disabled", "true");
-                    }
-                    else {
-                        ShotSpeedUpgradeEL.setAttribute("disabled", "false");
-                    }
-                }
-                else if (value == FireRateUpgradeEL) {
-                    if (player.Money < 10 ^ player.FireRateUpgradeNumber) {
-                        FireRateUpgradeEL.setAttribute("disabled", "true");
-                    }
-                    else {
-                        FireRateUpgradeEL.setAttribute("disabled", "false");
-                    }
-                }
-                else if (value == ShotsFiredUpgradeEL) {
-                    if (player.Money < 10 ^ player.ShotsFiredUpgradeNumber) {
-                        ShotsFiredUpgradeEL.setAttribute("disabled", "true");
-                    }
-                    else {
-                        ShotsFiredUpgradeEL.setAttribute("disabled", "false");
-                    }
-                }
-                else if (value == MultiShotUpgradeEL) {
-                    if (player.Money < 10 ^ player.MultiShotUpgradeNumber) {
-                        MultiShotUpgradeEL.setAttribute("disabled", "true");
-                    }
-                    else {
-                        MultiShotUpgradeEL.setAttribute("disabled", "false");
-                    }
-                }
-                else if (value == ShotSizeUpgradeEL) {
-                    if (player.Money < 10 ^ player.ShotSizeUpgradeNumber) {
-                        ShotSizeUpgradeEL.setAttribute("disabled", "true");
-                    }
-                    else {
-                        ShotSizeUpgradeEL.setAttribute("disabled", "false");
-                    }
-                }
-                else if (value == HealthUpgradeEL) {
-                    if (player.Money < 10 ^ player.HealthUpgradeNumber) {
-                        HealthUpgradeEL.setAttribute("disabled", "true");
-                    }
-                    else {
-                        HealthUpgradeEL.setAttribute("disabled", "false");
-                    }
-                }
-                else if (value == MoneyUpgradeEL) {
-                    if (player.Money < 10 ^ player.MoneyMultUpgradeNumber) {
-                        MoneyUpgradeEL.setAttribute("disabled", "true");
-                    }
-                    else {
-                        MoneyUpgradeEL.setAttribute("disabled", "false");
-                    }
-                }
+            switch (value) {
+                case DamageUpgradeEL:
+                    DamageUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.DamageUpgradeNumber)).toString());
+                case ShotSpeedUpgradeEL:
+                    ShotSpeedUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSpeedUpgradeNumber)).toString());
+                case FireRateUpgradeEL:
+                    FireRateUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.FireRateUpgradeNumber)).toString());
+                case ShotsFiredUpgradeEL:
+                    ShotsFiredUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotsFiredUpgradeNumber)).toString());
+                case MultiShotUpgradeEL:
+                    MultiShotUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MultiShotUpgradeNumber)).toString());
+                case ShotSizeUpgradeEL:
+                    ShotSizeUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSizeUpgradeNumber)).toString());
+                case HealthUpgradeEL:
+                    HealthUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.HealthUpgradeNumber)).toString());
+                case MoneyUpgradeEL:
+                    MoneyUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MoneyMultUpgradeNumber)).toString());
+                default:
+                    break;
             }
-            ;
-            value.setAttribute("style", "display:block;");
         }
-        else if (value == ShopDivEL) {
+        ;
+        value.setAttribute("style", "display:block;");
+        if (value == ShopDivEL) {
             value.setAttribute("style", "display:flex;");
         }
         else if (value == ShopCloseButton) {
@@ -493,77 +447,7 @@ MoneyUpgradeEL.addEventListener("click", function () {
     player.moneyMultUpgradeNumber++;
     player.Money -= 10 ^ player.MoneyMultUpgradeNumber;
     console.log("Player Money Multiplier: %d\nPlayer Money Multiplier Upgrade Number: %d", player.moneyMult, player.MoneyMultUpgradeNumber);
-    refreshShop();
 });
-function refreshShop() {
-    ShopELs.forEach(function (value) {
-        if (value == DamageUpgradeEL) {
-            if (player.Money < 10 ^ player.DamageUpgradeNumber) {
-                DamageUpgradeEL.setAttribute("disabled", "true");
-            }
-            else {
-                DamageUpgradeEL.setAttribute("disabled", "false");
-            }
-        }
-        else if (value == ShotSpeedUpgradeEL) {
-            if (player.Money < 10 ^ player.ShotSpeedUpgradeNumber) {
-                ShotSpeedUpgradeEL.setAttribute("disabled", "true");
-            }
-            else {
-                ShotSpeedUpgradeEL.setAttribute("disabled", "false");
-            }
-        }
-        else if (value == FireRateUpgradeEL) {
-            if (player.Money < 10 ^ player.FireRateUpgradeNumber) {
-                FireRateUpgradeEL.setAttribute("disabled", "true");
-            }
-            else {
-                FireRateUpgradeEL.setAttribute("disabled", "false");
-            }
-        }
-        else if (value == ShotsFiredUpgradeEL) {
-            if (player.Money < 10 ^ player.ShotsFiredUpgradeNumber) {
-                ShotsFiredUpgradeEL.setAttribute("disabled", "true");
-            }
-            else {
-                ShotsFiredUpgradeEL.setAttribute("disabled", "false");
-            }
-        }
-        else if (value == MultiShotUpgradeEL) {
-            if (player.Money < 10 ^ player.MultiShotUpgradeNumber) {
-                MultiShotUpgradeEL.setAttribute("disabled", "true");
-            }
-            else {
-                MultiShotUpgradeEL.setAttribute("disabled", "false");
-            }
-        }
-        else if (value == ShotSizeUpgradeEL) {
-            if (player.Money < 10 ^ player.ShotSizeUpgradeNumber) {
-                ShotSizeUpgradeEL.setAttribute("disabled", "true");
-            }
-            else {
-                ShotSizeUpgradeEL.setAttribute("disabled", "false");
-            }
-        }
-        else if (value == HealthUpgradeEL) {
-            if (player.Money < 10 ^ player.HealthUpgradeNumber) {
-                HealthUpgradeEL.setAttribute("disabled", "true");
-            }
-            else {
-                HealthUpgradeEL.setAttribute("disabled", "false");
-            }
-        }
-        else if (value == MoneyUpgradeEL) {
-            if (player.Money < 10 ^ player.MoneyMultUpgradeNumber) {
-                MoneyUpgradeEL.setAttribute("disabled", "true");
-            }
-            else {
-                MoneyUpgradeEL.setAttribute("disabled", "false");
-            }
-        }
-    });
-}
-;
 ShopCloseButton.addEventListener("click", function () {
     HideShop();
 });
@@ -637,4 +521,12 @@ function CloseOptionsMenu() {
     OptionsOpen = false;
 }
 ;
+function Test1(UpgradeELs, value) {
+    UpgradeELs.forEach(function (value1) {
+        if (value == value1) {
+            return true;
+        }
+    });
+    return false;
+}
 //# sourceMappingURL=index.js.map
