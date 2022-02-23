@@ -1,54 +1,56 @@
-var canvas = document.querySelector("canvas");
-var c = canvas.getContext("2d");
+const canvas = document.querySelector("canvas");
+const c = canvas.getContext("2d");
 canvas.width = innerWidth;
 canvas.height = innerHeight;
-var scoreEL = document.querySelector("#scoreEL");
-var MoneyEL = document.querySelector("#moneyEL");
-var ShopMoney = document.querySelector("#ShopMoney");
-var startGameButton = document.querySelector("#startGameBtn");
-var ModalEL = document.querySelector("#ModalEL");
-var TitleEL = document.querySelector("#titleElement");
-var BigScoreEL = document.querySelector("#BigScoreEL");
-var BigScoreELLabel = document.querySelector("#PointsLabelEL");
-var NameDiv = document.querySelector("#NameInputDiv");
-var HighScoreList = document.querySelector("#HighScores");
-var Music = document.querySelector("#MusicEL");
+const scoreEL = document.querySelector("#scoreEL");
+const MoneyEL = document.querySelector("#moneyEL");
+const ShopMoney = document.querySelector("#ShopMoney");
+const startGameButton = document.querySelector("#startGameBtn");
+const MainMenuStartGameButton = document.querySelector("#MainMenuStartGameBtn");
+const ModalEL = document.querySelector("#ModalEL");
+const TitleEL = document.querySelector("#titleElement");
+const BigScoreEL = document.querySelector("#BigScoreEL");
+const BigScoreELLabel = document.querySelector("#PointsLabelEL");
+const NameDiv = document.querySelector("#NameInputDiv");
+const HighScoreList = document.querySelector("#HighScores");
+const Music = document.querySelector("#MusicEL");
 console.log(Music);
-var Pause = document.querySelector("#PauseEL");
-var Play = document.querySelector("#PlayEL");
-var highScores = [];
-var ShootSound = new Audio("Audio/sound/Shoot.wav");
-var HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
-var HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
-var DamageUpgradeEL = document.querySelector("#DamageUpgrade");
-var ShotSpeedUpgradeEL = document.querySelector("#ShotSpeedUpgrade");
-var FireRateUpgradeEL = document.querySelector("#FireRateUpgrade");
-var ShotsFiredUpgradeEL = document.querySelector("#ShotsFiredUpgrade");
-var MultiShotUpgradeEL = document.querySelector("#MultiShotUpgrade");
-var AutoFireUpgradeEL = document.querySelector("#AutoFireUpgrade");
-var AutoRotateUpgradeEL = document.querySelector("#AutoRotateUpgrade");
-var ShotSizeUpgradeEL = document.querySelector("#ShotSizeUpgrade");
-var HealthUpgradeEL = document.querySelector("#HealthUpgrade");
-var MoneyUpgradeEL = document.querySelector("#MoneyMultUpgrade");
-var ShopDivEL = document.querySelector("#UpgradeDivEL");
-var ShopELs = document.querySelectorAll(".shop");
-var UpgradeELs = document.querySelectorAll(".UpgradeButton");
-var ShopCloseButton = document.querySelector("#CloseShop");
-var resumeGameButton = document.querySelector("#ResumeGameBtn");
-var restartGameButtonEL = document.querySelector("#RestartGameBtn");
-var PausedModalEL = document.querySelector("#PauseModalEL");
-var PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
-var OptionsMenuOpenerButton = document.querySelector("#OptionsMenuOpener");
-var OptionsMenu = document.querySelector("#OptionsModalEl");
-var ToggleMuteBtnUnmuted = document.querySelector("#ToggleMuteBtnUnmuted");
-var ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
-var ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
-var ToggleParticlesBtnDontUse = document.querySelector("#ToggleParticlesBtnDontUse");
-var OptionsBackButton = document.querySelector("#OptionsBackButton");
+const Pause = document.querySelector("#PauseEL");
+const Play = document.querySelector("#PlayEL");
+let highScores = [];
+const ShootSound = new Audio("Audio/sound/Shoot.wav");
+const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
+const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
+const DamageUpgradeEL = document.querySelector("#DamageUpgrade");
+const ShotSpeedUpgradeEL = document.querySelector("#ShotSpeedUpgrade");
+const FireRateUpgradeEL = document.querySelector("#FireRateUpgrade");
+const ShotsFiredUpgradeEL = document.querySelector("#ShotsFiredUpgrade");
+const MultiShotUpgradeEL = document.querySelector("#MultiShotUpgrade");
+const AutoFireUpgradeEL = document.querySelector("#AutoFireUpgrade");
+const AutoRotateUpgradeEL = document.querySelector("#AutoRotateUpgrade");
+const ShotSizeUpgradeEL = document.querySelector("#ShotSizeUpgrade");
+const HealthUpgradeEL = document.querySelector("#HealthUpgrade");
+const MoneyUpgradeEL = document.querySelector("#MoneyMultUpgrade");
+const ShopDivEL = document.querySelector("#UpgradeDivEL");
+const ShopELs = document.querySelectorAll(".shop");
+const UpgradeELs = document.querySelectorAll(".UpgradeButton");
+const ShopCloseButton = document.querySelector("#CloseShop");
+const resumeGameButton = document.querySelector("#ResumeGameBtn");
+const restartGameButtonEL = document.querySelector("#RestartGameBtn");
+const PausedModalEL = document.querySelector("#PauseModalEL");
+const PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
+const OptionsMenuOpenerButton = document.querySelector("#OptionsMenuOpener");
+const OptionsMenu = document.querySelector("#OptionsModalEl");
+const ToggleMuteBtnUnmuted = document.querySelector("#ToggleMuteBtnUnmuted");
+const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
+const ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
+const ToggleParticlesBtnDontUse = document.querySelector("#ToggleParticlesBtnDontUse");
+const OptionsBackButton = document.querySelector("#OptionsBackButton");
+const MainMenuEL = document.querySelector("#MainMenuEL");
 c.shadowBlur = 20;
 c.shadowColor = "black";
-var Player = (function () {
-    function Player(x, y, radius, color) {
+class Player {
+    constructor(x, y, radius, color) {
         this.x = x;
         this.y = y;
         this.radius = radius;
@@ -72,60 +74,58 @@ var Player = (function () {
         this.ShotSizeUpgradeNumber = 0;
         this.HealthUpgradeNumber = 0;
         this.MoneyMultUpgradeNumber = 0;
+        this.fireCooldown = 0;
     }
-    Player.prototype.draw = function () {
+    draw() {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;
         c.fill();
-    };
-    return Player;
-}());
-var Projectile = (function () {
-    function Projectile(x, y, r, color, velocity) {
+    }
+}
+class Projectile {
+    constructor(x, y, r, color, velocity) {
         this.x = x;
         this.y = y;
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
     }
-    Projectile.prototype.draw = function () {
+    draw() {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;
         c.fill();
-    };
-    Projectile.prototype.update = function () {
+    }
+    update() {
         this.draw();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-    };
-    return Projectile;
-}());
-var Enemy = (function () {
-    function Enemy(x, y, r, color, velocity) {
+    }
+}
+class Enemy {
+    constructor(x, y, r, color, velocity) {
         this.x = x;
         this.y = y;
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
     }
-    Enemy.prototype.draw = function () {
+    draw() {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;
         c.fill();
-    };
-    Enemy.prototype.update = function () {
+    }
+    update() {
         this.draw();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-    };
-    return Enemy;
-}());
-var friction = ParticleFriction;
-var Particle = (function () {
-    function Particle(x, y, r, color, velocity) {
+    }
+}
+const friction = ParticleFriction;
+class Particle {
+    constructor(x, y, r, color, velocity) {
         this.x = x;
         this.y = y;
         this.radius = r;
@@ -133,7 +133,7 @@ var Particle = (function () {
         this.velocity = velocity;
         this.alpha = 1;
     }
-    Particle.prototype.draw = function () {
+    draw() {
         c.save();
         c.globalAlpha = this.alpha;
         c.beginPath();
@@ -141,39 +141,38 @@ var Particle = (function () {
         c.fillStyle = this.color;
         c.fill();
         c.restore();
-    };
-    Particle.prototype.update = function () {
+    }
+    update() {
         this.draw();
         this.velocity.x *= friction;
         this.velocity.y *= friction;
         this.x += this.velocity.x;
         this.y += this.velocity.y;
         this.alpha -= randomBetween(0.001, 0.025) * ParticleFadeSpeedMultiplier;
-    };
-    return Particle;
-}());
-var w = canvas.width;
-var h = canvas.height;
-var cw = w / 2;
-var ch = h / 2;
-var player = new Player(cw, ch, PlayerRadius, PlayerColor);
-var projectiles = [];
-var enemies = [];
-var particles = [];
-var GameStarted = false;
-var UseParticles = true;
-var Paused = false;
-var ShopOpen = false;
-var OptionsOpen = false;
-var Muted = true;
-var lastInterval;
-var EnemySpawnTime = 50;
-var animationID;
-var score = 0;
-var DefaultEnemySpawnTime = 50;
+    }
+}
+const w = canvas.width;
+const h = canvas.height;
+const cw = w / 2;
+const ch = h / 2;
+let player = new Player(cw, ch, PlayerRadius, PlayerColor);
+let projectiles = [];
+let enemies = [];
+let particles = [];
+let GameStarted = false;
+let UseParticles = true;
+let Paused = false;
+let ShopOpen = false;
+let OptionsOpen = false;
+let Muted = true;
+let lastInterval;
+let EnemySpawnTime = 50;
+let animationID;
+let score = 0;
+let DefaultEnemySpawnTime = 50;
 console.log(ShopCloseButton);
 function ShowShop() {
-    ShopELs.forEach(function (value) {
+    ShopELs.forEach((value) => {
         if (value != ShopDivEL && value != ShopCloseButton) {
             switch (value) {
                 case DamageUpgradeEL:
@@ -210,14 +209,14 @@ function ShowShop() {
     Paused = true;
 }
 function HideShop() {
-    ShopELs.forEach(function (value) {
+    ShopELs.forEach((value) => {
         value.setAttribute("style", "display:none;");
     });
     ShopOpen = false;
     Paused = false;
 }
 function UpdateShop() {
-    ShopELs.forEach(function (value) {
+    ShopELs.forEach((value) => {
         switch (value) {
             case DamageUpgradeEL:
                 DamageUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.DamageUpgradeNumber)).toString());
@@ -241,9 +240,9 @@ function UpdateShop() {
     });
 }
 function updateHighScores(scores) {
-    scores.sort(function (a, b) { return a - b; });
-    for (var index = 0; index < scores.length; index++) {
-        var element = scores[index];
+    scores.sort((a, b) => a - b);
+    for (let index = 0; index < scores.length; index++) {
+        const element = scores[index];
         var node = document.createElement("li");
         node.appendChild(document.createTextNode(element));
         HighScoreList.appendChild(node);
@@ -274,12 +273,13 @@ function PageLoad() {
     HideShop();
     Paused = true;
     OptionsOpen = false;
-    ModalEL.setAttribute("style", "display:flex;");
+    ModalEL.setAttribute("style", "display:none;");
+    MainMenuEL.setAttribute("style", "display:block;");
 }
 function SpawnEnemy() {
-    var x;
-    var y;
-    var radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
+    let x;
+    let y;
+    const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
     if (Math.random() < EnemySpawnBias) {
         x = Math.random() < 0.5 ? 0 - radius : w + radius;
         y = Math.random() * h;
@@ -288,9 +288,9 @@ function SpawnEnemy() {
         x = Math.random() * w;
         y = Math.random() < 0.5 ? 0 - radius : h + radius;
     }
-    var color = "hsl(".concat(Math.random() * 360, ",50%,50%)");
-    var angle = Math.atan2(ch - y, cw - x);
-    var velocity = {
+    const color = `hsl(${Math.random() * 360},50%,50%)`;
+    const angle = Math.atan2(ch - y, cw - x);
+    const velocity = {
         x: Math.cos(angle) * EnemySpeedMultiplier,
         y: Math.sin(angle) * EnemySpeedMultiplier
     };
@@ -306,7 +306,6 @@ function AddScore(Value) {
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
     ModalEL.setAttribute("style", "display:flex;");
-    TitleEL.setAttribute("style", "display:none;");
     BigScoreELLabel.setAttribute("style", "display:block;");
     BigScoreEL.setAttribute("style", "display:block;");
     BigScoreEL.innerHTML = score.toString(10);
@@ -320,10 +319,10 @@ function animate() {
         }
         UnpauseGame();
         player.draw();
-        c.fillStyle = "rgba(".concat(BackgroundColor, ",0.1)");
+        c.fillStyle = `rgba(${BackgroundColor},0.1)`;
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
-            particles.forEach(function (particle, index) {
+            particles.forEach((particle, index) => {
                 if (particle.alpha <= 0) {
                     particles.splice(index, 1);
                 }
@@ -332,7 +331,7 @@ function animate() {
                 }
             });
         }
-        projectiles.forEach(function (projectile, index) {
+        projectiles.forEach((projectile, index) => {
             projectile.update();
             if ((projectile.x + projectile.radius < 0) ||
                 (projectile.y + projectile.radius < 0) ||
@@ -341,17 +340,17 @@ function animate() {
                 projectiles.splice(index, 1);
             }
         });
-        enemies.forEach(function (enemy, index) {
+        enemies.forEach((enemy, index) => {
             enemy.update();
-            var dist = distance(player.x, player.y, enemy.x, enemy.y);
+            const dist = distance(player.x, player.y, enemy.x, enemy.y);
             if (dist - enemy.radius - player.radius < 0) {
                 gameOver(animationID);
             }
-            projectiles.forEach(function (projectile, index2) {
-                var dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
+            projectiles.forEach((projectile, index2) => {
+                const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                 if (dist - enemy.radius - projectile.radius < 0) {
                     if (UseParticles) {
-                        for (var i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
                             particles.push(new Particle(projectile.x, projectile.y, Math.random() * (5 - 1) + 1, enemy.color, {
                                 x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
                                 y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
@@ -364,7 +363,7 @@ function animate() {
                         }
                         AddScore(100);
                         enemy.radius -= player.Damage;
-                        setTimeout(function () {
+                        setTimeout(() => {
                             projectiles.splice(index2, 1);
                         }, 0);
                     }
@@ -373,7 +372,7 @@ function animate() {
                             HitAndKillSound.play();
                         }
                         AddScore(250);
-                        setTimeout(function () {
+                        setTimeout(() => {
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
                         }, 0);
@@ -383,133 +382,6 @@ function animate() {
         });
     }
 }
-addEventListener("click", function (event) {
-    if (GameStarted == true && Paused == false) {
-        var x = event.clientX;
-        var y = event.clientY;
-        var angle = Math.atan2(y - ch, x - cw);
-        var velocity = {
-            x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
-            y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier
-        };
-        projectiles.push(new Projectile(cw, ch, 5, ProjectileColor, velocity));
-        if (!Muted) {
-            ShootSound.play();
-        }
-    }
-});
-startGameButton.addEventListener("click", function () {
-    ModalEL.setAttribute("style", "display:none;");
-    init();
-    animate();
-});
-resumeGameButton.addEventListener("click", function () {
-    UnpauseGame();
-});
-addEventListener("keydown", function (event) {
-    console.log(event);
-    if (event.key == "s") {
-        if (GameStarted) {
-            if (ShopOpen) {
-                HideShop();
-            }
-            else {
-                ShowShop();
-            }
-        }
-    }
-    else if (event.key == "x") {
-        if (GameStarted) {
-            if (Paused) {
-                UnpauseGame();
-            }
-            else {
-                PauseGame();
-            }
-        }
-    }
-});
-addEventListener("load", function () { PageLoad(); });
-DamageUpgradeEL.addEventListener("click", function () {
-    player.Damage = DamageCurve[player.DamageUpgradeNumber];
-    player.DamageUpgradeNumber++;
-    player.Money -= 10 ^ player.DamageUpgradeNumber;
-    console.log("Player Damage: %d\nPlayer Damage Upgrade Number: %d", player.Damage, player.DamageUpgradeNumber);
-});
-ShotSpeedUpgradeEL.addEventListener("click", function () {
-    player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber];
-    player.ShotSpeedUpgradeNumber++;
-    player.Money -= 10 ^ player.ShotSpeedUpgradeNumber;
-    console.log("Player Shot Speed: %d\nPlayer Shot Speed Upgrade Number: %d", player.ShotSpeed, player.ShotSpeedUpgradeNumber);
-});
-FireRateUpgradeEL.addEventListener("click", function () {
-    player.FireRate = FireRateCurve[player.FireRateUpgradeNumber];
-    player.FireRateUpgradeNumber++;
-    player.Money -= 10 ^ player.FireRateUpgradeNumber;
-    console.log("Player Fire Rate: %d\nPlayer Fire Rate Upgrade Number: %d", player.FireRate, player.FireRateUpgradeNumber);
-});
-ShotsFiredUpgradeEL.addEventListener("click", function () {
-    player.ShotsFired = ProjectileCountCurve[player.ShotsFiredUpgradeNumber];
-    player.ShotsFiredUpgradeNumber++;
-    player.Money -= 10 ^ player.ShotsFiredUpgradeNumber;
-    console.log("Player Shots Fired Rate: %d\nPlayer Shots Fired Upgrade Number: %d", player.ShotsFired, player.ShotsFiredUpgradeNumber);
-});
-MultiShotUpgradeEL.addEventListener("click", function () {
-    player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumber];
-    player.MultiShotUpgradeNumber++;
-    player.Money -= 10 ^ player.MultiShotUpgradeNumber;
-    console.log("Player Multishot: %d\nPlayer Multishot Upgrade Number: %d", player.MultiShot, player.MultiShotUpgradeNumber);
-});
-ShotSizeUpgradeEL.addEventListener("click", function () {
-    player.ShotSize = ProjectileSizeCurve[player.ShotSizeUpgradeNumber];
-    player.ShotSizeUpgradeNumber++;
-    player.Money -= 10 ^ player.ShotSizeUpgradeNumber;
-    console.log("Player Shot Size: %d\nPlayer Shot Size Upgrade Number: %d", player.ShotSize, player.ShotSizeUpgradeNumber);
-});
-MoneyUpgradeEL.addEventListener("click", function () {
-    player.moneyMult = player.MoneyMultUpgradeNumber + 1;
-    player.moneyMultUpgradeNumber++;
-    player.Money -= 10 ^ player.MoneyMultUpgradeNumber;
-    console.log("Player Money Multiplier: %d\nPlayer Money Multiplier Upgrade Number: %d", player.moneyMult, player.MoneyMultUpgradeNumber);
-});
-ShopCloseButton.addEventListener("click", function () {
-    HideShop();
-});
-ToggleMuteBtnUnmuted.addEventListener("click", function () {
-    ToggleMuteBtnUnmuted.setAttribute("style", "display:none;");
-    ToggleMuteBtnMuted.setAttribute("style", "display:initial;");
-    Muted = true;
-});
-ToggleMuteBtnMuted.addEventListener("click", function () {
-    ToggleMuteBtnMuted.setAttribute("style", "display:none;");
-    ToggleMuteBtnUnmuted.setAttribute("style", "display:initial;");
-    Muted = false;
-});
-ToggleParticlesBtnUse.addEventListener("click", function () {
-    ToggleParticlesBtnDontUse.setAttribute("style", "display:initial;");
-    ToggleParticlesBtnUse.setAttribute("style", "display:none;");
-    UseParticles = false;
-});
-ToggleParticlesBtnDontUse.addEventListener("click", function () {
-    ToggleParticlesBtnDontUse.setAttribute("style", "display:none;");
-    ToggleParticlesBtnUse.setAttribute("style", "display:initial;");
-    UseParticles = true;
-});
-restartGameButtonEL.addEventListener("click", function () {
-    var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.");
-    if (UserConfirm) {
-        UnpauseGame();
-        Paused = false;
-        init();
-        animate();
-    }
-});
-OptionsMenuOpenerButton.addEventListener("click", function () {
-    OpenOptionsMenu();
-});
-OptionsBackButton.addEventListener("click", function () {
-    CloseOptionsMenu();
-});
 function PauseGame() {
     PausedModalEL.setAttribute("style", "display:flex;");
     PausedBigScoreEL.setAttribute("style", "display:initial;");
@@ -545,12 +417,137 @@ function CloseOptionsMenu() {
     OptionsOpen = false;
 }
 ;
-function Test1(UpgradeELs, value) {
-    UpgradeELs.forEach(function (value1) {
-        if (value == value1) {
-            return true;
+addEventListener("click", (event) => {
+    if (GameStarted == true && Paused == false && player.fireCooldown == 0) {
+        player.fireCooldown = player.FireRate;
+        const x = event.clientX;
+        const y = event.clientY;
+        const angle = Math.atan2(y - ch, x - cw);
+        const velocity = {
+            x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
+            y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier
+        };
+        projectiles.push(new Projectile(cw, ch, 5, ProjectileColor, velocity));
+        if (!Muted) {
+            ShootSound.play();
         }
-    });
-    return false;
-}
+    }
+});
+startGameButton.addEventListener("click", () => {
+    ModalEL.setAttribute("style", "display:none;");
+    init();
+    animate();
+});
+MainMenuStartGameButton.addEventListener("click", () => {
+    MainMenuEL.setAttribute("style", "display:none;");
+    init();
+    animate();
+});
+resumeGameButton.addEventListener("click", () => {
+    UnpauseGame();
+});
+addEventListener("keydown", (event) => {
+    console.log(event);
+    if (event.key == "s") {
+        if (GameStarted) {
+            if (ShopOpen) {
+                HideShop();
+            }
+            else {
+                ShowShop();
+            }
+        }
+    }
+    else if (event.key == "x") {
+        if (GameStarted) {
+            if (Paused) {
+                UnpauseGame();
+            }
+            else {
+                PauseGame();
+            }
+        }
+    }
+});
+addEventListener("load", () => { PageLoad(); });
+DamageUpgradeEL.addEventListener("click", () => {
+    player.Damage = DamageCurve[player.DamageUpgradeNumber];
+    player.DamageUpgradeNumber++;
+    player.Money -= 10 ^ player.DamageUpgradeNumber;
+    console.log("Player Damage: %d\nPlayer Damage Upgrade Number: %d", player.Damage, player.DamageUpgradeNumber);
+});
+ShotSpeedUpgradeEL.addEventListener("click", () => {
+    player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber];
+    player.ShotSpeedUpgradeNumber++;
+    player.Money -= 10 ^ player.ShotSpeedUpgradeNumber;
+    console.log("Player Shot Speed: %d\nPlayer Shot Speed Upgrade Number: %d", player.ShotSpeed, player.ShotSpeedUpgradeNumber);
+});
+FireRateUpgradeEL.addEventListener("click", () => {
+    player.FireRate = FireRateCurve[player.FireRateUpgradeNumber];
+    player.FireRateUpgradeNumber++;
+    player.Money -= 10 ^ player.FireRateUpgradeNumber;
+    console.log("Player Fire Rate: %d\nPlayer Fire Rate Upgrade Number: %d", player.FireRate, player.FireRateUpgradeNumber);
+});
+ShotsFiredUpgradeEL.addEventListener("click", () => {
+    player.ShotsFired = ProjectileCountCurve[player.ShotsFiredUpgradeNumber];
+    player.ShotsFiredUpgradeNumber++;
+    player.Money -= 10 ^ player.ShotsFiredUpgradeNumber;
+    console.log("Player Shots Fired Rate: %d\nPlayer Shots Fired Upgrade Number: %d", player.ShotsFired, player.ShotsFiredUpgradeNumber);
+});
+MultiShotUpgradeEL.addEventListener("click", () => {
+    player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumber];
+    player.MultiShotUpgradeNumber++;
+    player.Money -= 10 ^ player.MultiShotUpgradeNumber;
+    console.log("Player Multishot: %d\nPlayer Multishot Upgrade Number: %d", player.MultiShot, player.MultiShotUpgradeNumber);
+});
+ShotSizeUpgradeEL.addEventListener("click", () => {
+    player.ShotSize = ProjectileSizeCurve[player.ShotSizeUpgradeNumber];
+    player.ShotSizeUpgradeNumber++;
+    player.Money -= 10 ^ player.ShotSizeUpgradeNumber;
+    console.log("Player Shot Size: %d\nPlayer Shot Size Upgrade Number: %d", player.ShotSize, player.ShotSizeUpgradeNumber);
+});
+MoneyUpgradeEL.addEventListener("click", () => {
+    player.moneyMult = player.MoneyMultUpgradeNumber + 1;
+    player.moneyMultUpgradeNumber++;
+    player.Money -= 10 ^ player.MoneyMultUpgradeNumber;
+    console.log("Player Money Multiplier: %d\nPlayer Money Multiplier Upgrade Number: %d", player.moneyMult, player.MoneyMultUpgradeNumber);
+});
+ShopCloseButton.addEventListener("click", () => {
+    HideShop();
+});
+ToggleMuteBtnUnmuted.addEventListener("click", () => {
+    ToggleMuteBtnUnmuted.setAttribute("style", "display:none;");
+    ToggleMuteBtnMuted.setAttribute("style", "display:initial;");
+    Muted = true;
+});
+ToggleMuteBtnMuted.addEventListener("click", () => {
+    ToggleMuteBtnMuted.setAttribute("style", "display:none;");
+    ToggleMuteBtnUnmuted.setAttribute("style", "display:initial;");
+    Muted = false;
+});
+ToggleParticlesBtnUse.addEventListener("click", () => {
+    ToggleParticlesBtnDontUse.setAttribute("style", "display:initial;");
+    ToggleParticlesBtnUse.setAttribute("style", "display:none;");
+    UseParticles = false;
+});
+ToggleParticlesBtnDontUse.addEventListener("click", () => {
+    ToggleParticlesBtnDontUse.setAttribute("style", "display:none;");
+    ToggleParticlesBtnUse.setAttribute("style", "display:initial;");
+    UseParticles = true;
+});
+restartGameButtonEL.addEventListener("click", () => {
+    var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.");
+    if (UserConfirm) {
+        UnpauseGame();
+        Paused = false;
+        init();
+        animate();
+    }
+});
+OptionsMenuOpenerButton.addEventListener("click", () => {
+    OpenOptionsMenu();
+});
+OptionsBackButton.addEventListener("click", () => {
+    CloseOptionsMenu();
+});
 //# sourceMappingURL=index.js.map
