@@ -79,7 +79,8 @@ class Player {
     ShotSizeUpgradeNumber: number;
     HealthUpgradeNumber: number;
     MoneyMultUpgradeNumber: number;
-    moneyMultUpgradeNumber: any;
+    moneyMultUpgradeNumber: number;
+    fireCooldown:number;
     constructor(x: number, y: number, radius: number, color: string) {
         this.x = x;
         this.y = y;
@@ -107,6 +108,7 @@ class Player {
         this.ShotSizeUpgradeNumber = 0;
         this.HealthUpgradeNumber = 0;
         this.MoneyMultUpgradeNumber = 0;
+        this.fireCooldown=0
     }
     
     
@@ -492,7 +494,8 @@ function animate() {
 }
 //whenever the user clicks, spawn a projectile
 addEventListener("click", (event) => {
-    if (GameStarted == true && Paused == false) {
+    if (GameStarted == true && Paused == false&&player.fireCooldown==0) {
+        player.fireCooldown=player.FireRate
         //get the x and y of the click
         const x = event.clientX;
         const y = event.clientY;
