@@ -1,17 +1,18 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "AMD",
     "removeComments": true,
     "noUnusedParameters": true,
     "target": "ES6",
     "sourceMap": true,
     "lib": ["ES2015","ES2016","ES2017","ES2018","ES2019","ES2020","ES2021","DOM"],
-    "outDir": "./src/JS",
+    // "outDir": "./src/JS",
+    "outFile": "./src/JS/index.js",
     "checkJs": true,
-    "declarationMap": true,
+
   },
-  "files": ["./src/TS/index.ts",
-            "./src/TS/vars.ts",
+  "files": ["./src/TS/vars.ts",
             "./src/TS/helperFunctions.ts",
-            "./src/TS/UpgradeCurves.ts"]
+            "./src/TS/UpgradeCurves.ts",
+            "./src/TS/index.ts"]
 }

@@ -1,3 +1,62 @@
+const Difficulty = "easy";
+const EnemySpawnTimeDecrement = 1;
+const EnemySpawnBias = 0.5;
+const EnemyHealthMultiplier = 1;
+const EnemySpeedMultiplier = 1;
+const ProjectileSpeedMultiplier = 1;
+const ProjectileColor = "white";
+const PlayerColor = "white";
+const PlayerRadius = 10;
+const BackgroundColor = "0,0,0";
+const ParticleFriction = 0.99;
+const ParticleMultiplier = 2;
+const ParticleSpeed = 5;
+const ParticleFadeSpeedMultiplier = 1;
+const ParticlesDamageEnemies = false;
+const MaxEnemies = 10;
+function logx(val, base) {
+    return Math.log(val) / Math.log(base);
+}
+function randomBetween(min, max) {
+    return Math.random() * (max - min) + min;
+}
+function FrameIDToTime(ID) {
+    var Second = ID / 60;
+    return Second;
+}
+function distance(x1, y1, x2, y2) {
+    return Math.pow(((Math.pow((x1 - x2), 2)) + (Math.pow((y1 - y2), 2))), 0.5);
+}
+var DamageCurve = [];
+var ShotSpeedCurve = [];
+var FireRateCurve = [];
+var ProjectileCountCurve = [];
+var MultiShotCurve = [];
+var ProjectileSizeCurve = [];
+var HealthCurve = [];
+var DamageVal = 0;
+var ShotSpeedVal = 0;
+var FireRateVal = 0;
+var ProjectileCountVal = 0;
+var MultiShotVal = 0;
+var ProjectileSizeVal = 0;
+var HealthVal = 0;
+for (let x = 0; x < 75; x++) {
+    DamageVal = 10.472 + ((-0.00006 * x ^ 4) + (0.00598 * x ^ 3) - (0.00744 * x ^ 2) + (0.95992 * x) - 1.93696) / 4.1;
+    ShotSpeedVal = (0.000000004 * x ^ 4) + (0.000002506 * x ^ 3) + (0.007937004 * x ^ 2) + (0.752945336 * x) + 5.094244544;
+    FireRateVal = 60 + (Math.pow(((-12.5 * x) / 109.768), 1)) + (Math.pow(((2.1 * x) / 109.768), 2)) + (Math.pow(((-2.3 * x) / 109.768), 3)) + (Math.pow((x / 109.768), 4)) + (Math.pow((x / 109.768), 5));
+    ProjectileCountVal = ((Math.round(logx(x + 1, 1.6)) * 1.9) + 2.2) / 2.5;
+    MultiShotVal = ((Math.round(logx(x + 1, 1.6)) * 1.9) + 2.2) / 2.5;
+    ProjectileSizeVal = logx(45 * x + 1, 1.6);
+    HealthVal = logx(x, 1.53994824906);
+    DamageCurve.push(DamageVal);
+    ShotSpeedCurve.push(ShotSpeedVal);
+    FireRateCurve.push(FireRateVal);
+    ProjectileCountCurve.push(ProjectileCountVal);
+    MultiShotCurve.push(MultiShotVal);
+    ProjectileSizeCurve.push(ProjectileSizeVal);
+    HealthCurve.push(HealthVal);
+}
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 canvas.width = innerWidth;
@@ -190,6 +249,7 @@ function ShowShop() {
                 case MoneyUpgradeEL:
                     MoneyUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MoneyMultUpgradeNumber)).toString());
                 default:
+                    console.warn("value should be an upgrade. value is " + value.toString());
                     break;
             }
         }

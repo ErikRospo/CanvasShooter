@@ -108,6 +108,7 @@ class Player {
         this.ShotSizeUpgradeNumber = 0;
         this.HealthUpgradeNumber = 0;
         this.MoneyMultUpgradeNumber = 0;
+
         this.fireCooldown=0
     }
     
@@ -249,6 +250,7 @@ function ShowShop() {
                 case MoneyUpgradeEL:
                     MoneyUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.MoneyMultUpgradeNumber)).toString());
                 default:
+                    console.warn("value should be an upgrade. value is " + value.toString());
                     break;
             }
             };
