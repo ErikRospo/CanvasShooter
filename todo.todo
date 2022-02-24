@@ -10,10 +10,10 @@ Planned:
     [ ] @todo @ongoing Bug fixes
     [ ] @todo @ongoing Difficulty tweaks
     [ ] @todo @ongoing Balance changes
-    [ ] @todo @low set up tooltips for options menu items.
 Today:
     [ ] @todo #1 @high Add firing delay
 Archive:
+  [-] @todo @low set up tooltips for options menu items. @cancelled(22-02-23 11:26) @project(Planned)
   [x] @todo Add upgrades @done(22-02-21 16:19) @project(Today)
   [x] @todo Add Damage upgrades @done(22-02-21 16:19) @project(Today)
   [x] @todo Set up particle on/off switch in options menu. @done(22-02-21 16:18) @project(Today)
