@@ -339,7 +339,6 @@ function PageLoad() {
     OptionsOpen = false;
 
     ModalEL.setAttribute("style", "display:flex;");
-
 }
 
 function SpawnEnemy() {
@@ -673,12 +672,3 @@ function CloseOptionsMenu() {
 
     OptionsOpen = false;
 };
-
-function Test1(UpgradeELs: NodeListOf<Element>, value: Element) {
-    UpgradeELs.forEach((value1) => {
-        if (value == value1) {
-            return true
-        }
-    })
-    return false;
-}
