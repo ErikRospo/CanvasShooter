@@ -58,7 +58,7 @@ c.shadowColor = "black";
 class Player {
     x: number;
     y: number;
-    radius:number;
+    radius: number;
     color: string;
     Money: number;
     moneyMult: number;
@@ -68,7 +68,7 @@ class Player {
     ShotsFired: number;
     MultiShot: number;
     AutoFire: boolean;
-    AutoRotate:boolean;
+    AutoRotate: boolean;
     ShotSize: number;
     Health: number;
     DamageUpgradeNumber: number;
@@ -80,7 +80,7 @@ class Player {
     HealthUpgradeNumber: number;
     MoneyMultUpgradeNumber: number;
     moneyMultUpgradeNumber: number;
-    fireCooldown:number;
+    fireCooldown: number;
     constructor(x: number, y: number, radius: number, color: string) {
         this.x = x;
         this.y = y;
@@ -109,10 +109,10 @@ class Player {
         this.HealthUpgradeNumber = 0;
         this.MoneyMultUpgradeNumber = 0;
 
-        this.fireCooldown=0
+        this.fireCooldown = 0
     }
-    
-    
+
+
     draw() {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
@@ -126,7 +126,7 @@ class Projectile {
     y: number;
     radius: number;
     color: string;
-    velocity: {x:number,y:number};
+    velocity: { x: number, y: number };
     constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }) {
         this.x = x;
         this.y = y;
@@ -152,7 +152,7 @@ class Enemy {
     y: number;
     radius: number;
     color: string;
-    velocity: {x:number,y:number};
+    velocity: { x: number, y: number };
     constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }) {
         this.x = x;
         this.y = y;
@@ -179,7 +179,7 @@ class Particle {
     y: number;
     radius: number;
     color: string;
-    velocity: {x:number,y:number};
+    velocity: { x: number, y: number };
     alpha: number;
     constructor(x: any, y: any, r: number, color: any, velocity: { x: number; y: number; }) {
         this.x = x;
@@ -234,32 +234,32 @@ function ShowShop() {
         if (value != ShopDivEL && value != ShopCloseButton) {
             switch (value) {
                 case DamageUpgradeEL:
-                    DamageUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.DamageUpgradeNumber)).toString());
+                    DamageUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.DamageUpgradeNumber)).toString());
                 case ShotSpeedUpgradeEL:
-                    ShotSpeedUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.ShotSpeedUpgradeNumber)).toString());
+                    ShotSpeedUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSpeedUpgradeNumber)).toString());
                 case FireRateUpgradeEL:
-                    FireRateUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.FireRateUpgradeNumber)).toString());
+                    FireRateUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.FireRateUpgradeNumber)).toString());
                 case ShotsFiredUpgradeEL:
-                    ShotsFiredUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.ShotsFiredUpgradeNumber)).toString());
+                    ShotsFiredUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotsFiredUpgradeNumber)).toString());
                 case MultiShotUpgradeEL:
-                    MultiShotUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.MultiShotUpgradeNumber)).toString());
+                    MultiShotUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MultiShotUpgradeNumber)).toString());
                 case ShotSizeUpgradeEL:
-                    ShotSizeUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.ShotSizeUpgradeNumber)).toString());
+                    ShotSizeUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSizeUpgradeNumber)).toString());
                 case HealthUpgradeEL:
-                    HealthUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.HealthUpgradeNumber)).toString());
+                    HealthUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.HealthUpgradeNumber)).toString());
                 case MoneyUpgradeEL:
-                    MoneyUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.MoneyMultUpgradeNumber)).toString());
+                    MoneyUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MoneyMultUpgradeNumber)).toString());
                 default:
                     console.warn("value should be an upgrade. value is " + value.toString());
                     break;
             }
-            };
-            value.setAttribute("style","display:block;");
-        
+        };
+        value.setAttribute("style", "display:block;");
+
         if (value == ShopDivEL) {
-            value.setAttribute("style","display:flex;");
+            value.setAttribute("style", "display:flex;");
         } else if (value == ShopCloseButton) {
-            value.setAttribute("style","display:contents;");
+            value.setAttribute("style", "display:contents;");
         }
     });
     ShopOpen = true;
@@ -268,33 +268,34 @@ function ShowShop() {
 
 function HideShop() {
     ShopELs.forEach((value) => {
-        value.setAttribute("style","display:none;");
+        value.setAttribute("style", "display:none;");
     });
     ShopOpen = false;
     Paused = false;
 }
 function UpdateShop() {
-    ShopELs.forEach((value)=>{
-    switch (value) {
-        case DamageUpgradeEL:
-            DamageUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.DamageUpgradeNumber)).toString());
-        case ShotSpeedUpgradeEL:
-            ShotSpeedUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.ShotSpeedUpgradeNumber)).toString());
-        case FireRateUpgradeEL:
-            FireRateUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.FireRateUpgradeNumber)).toString());
-        case ShotsFiredUpgradeEL:
-            ShotsFiredUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.ShotsFiredUpgradeNumber)).toString());
-        case MultiShotUpgradeEL:
-            MultiShotUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.MultiShotUpgradeNumber)).toString());
-        case ShotSizeUpgradeEL:
-            ShotSizeUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.ShotSizeUpgradeNumber)).toString());
-        case HealthUpgradeEL:
-            HealthUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.HealthUpgradeNumber)).toString());
-        case MoneyUpgradeEL:
-            MoneyUpgradeEL.setAttribute("disabled",(player.Money<(10 ^ player.MoneyMultUpgradeNumber)).toString());
-        default:
-            break;
-    }})
+    ShopELs.forEach((value) => {
+        switch (value) {
+            case DamageUpgradeEL:
+                DamageUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.DamageUpgradeNumber)).toString());
+            case ShotSpeedUpgradeEL:
+                ShotSpeedUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSpeedUpgradeNumber)).toString());
+            case FireRateUpgradeEL:
+                FireRateUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.FireRateUpgradeNumber)).toString());
+            case ShotsFiredUpgradeEL:
+                ShotsFiredUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotsFiredUpgradeNumber)).toString());
+            case MultiShotUpgradeEL:
+                MultiShotUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MultiShotUpgradeNumber)).toString());
+            case ShotSizeUpgradeEL:
+                ShotSizeUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSizeUpgradeNumber)).toString());
+            case HealthUpgradeEL:
+                HealthUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.HealthUpgradeNumber)).toString());
+            case MoneyUpgradeEL:
+                MoneyUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MoneyMultUpgradeNumber)).toString());
+            default:
+                break;
+        }
+    })
 }
 function updateHighScores(scores: any[]) {
     scores.sort((a: number, b: number) => a - b);
@@ -325,17 +326,19 @@ function init() {
 }
 
 function PageLoad() {
-    PausedModalEL.setAttribute("style","display:none;");
-    PausedBigScoreEL.setAttribute("style","display:none;");
-    resumeGameButton.setAttribute("style","display:none;");
-    restartGameButtonEL.setAttribute("style","display:none;");
-    
     CloseOptionsMenu();
+
+    PausedModalEL.setAttribute("style", "display:none;");
+    PausedBigScoreEL.setAttribute("style", "display:none;");
+    resumeGameButton.setAttribute("style", "display:none;");
+    restartGameButtonEL.setAttribute("style", "display:none;");
+
     HideShop();
+
     Paused = true;
     OptionsOpen = false;
-    
-    ModalEL.setAttribute("style","display:flex;");
+
+    ModalEL.setAttribute("style", "display:flex;");
 
 }
 
@@ -378,7 +381,7 @@ function AddScore(Value: number) {
     player.Money += (Value / 10) * player.moneyMult;
     scoreEL.innerHTML = score.toString(10);
     MoneyEL.innerHTML = player.Money.toString(10);
-    ShopMoney.innerHTML=player.Money.toString(10);
+    ShopMoney.innerHTML = player.Money.toString(10);
 }
 
 
@@ -386,11 +389,11 @@ function AddScore(Value: number) {
 function gameOver(AnimationID: number) {
     cancelAnimationFrame(AnimationID);
     //and add the end screen back up
-    ModalEL.setAttribute("style","display:flex;");
-    TitleEL.setAttribute("style","display:none;");
-    BigScoreELLabel.setAttribute("style","display:block;");
-    BigScoreEL.setAttribute("style","display:block;");
-    
+    ModalEL.setAttribute("style", "display:flex;");
+    TitleEL.setAttribute("style", "display:none;");
+    BigScoreELLabel.setAttribute("style", "display:block;");
+    BigScoreEL.setAttribute("style", "display:block;");
+
     BigScoreEL.innerHTML = score.toString(10);
 }
 
@@ -435,7 +438,7 @@ function animate() {
             //update each enemy
             enemy.update();
             //get the distance to the player
-            const dist = distance(player.x,player.y, enemy.x, enemy.y);
+            const dist = distance(player.x, player.y, enemy.x, enemy.y);
             //if the enemy is touching the player, end the game
             if (dist - enemy.radius - player.radius < 0) {
                 gameOver(animationID);
@@ -443,7 +446,7 @@ function animate() {
             }
             projectiles.forEach((projectile, index2) => {
                 //get the distance between the projectile and the enemy
-                const dist = distance(projectile.x,projectile.y,enemy.x,enemy.y);
+                const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                 // if dist minus the radiuses of the enemy and the projectile are less than 0
                 if (dist - enemy.radius - projectile.radius < 0) {
                     //create Explosions
@@ -496,8 +499,8 @@ function animate() {
 }
 //whenever the user clicks, spawn a projectile
 addEventListener("click", (event) => {
-    if (GameStarted == true && Paused == false&&player.fireCooldown==0) {
-        player.fireCooldown=player.FireRate
+    if (GameStarted == true && Paused == false && player.fireCooldown == 0) {
+        player.fireCooldown = player.FireRate
         //get the x and y of the click
         const x = event.clientX;
         const y = event.clientY;
@@ -523,8 +526,8 @@ addEventListener("click", (event) => {
 
 //when the user clicks the start button, start the game
 startGameButton.addEventListener("click", () => {
-    ModalEL.setAttribute("style","display:none;");
-    
+    ModalEL.setAttribute("style", "display:none;");
+
     init();
     animate();
     //hide the UI
@@ -552,7 +555,7 @@ addEventListener("keydown", (event) => {
         }
     }
 });
-addEventListener("load", ()=>{PageLoad()});
+addEventListener("load", () => { PageLoad() });
 DamageUpgradeEL.addEventListener("click", () => {
     player.Damage = DamageCurve[player.DamageUpgradeNumber];
     player.DamageUpgradeNumber++;
@@ -599,24 +602,24 @@ ShopCloseButton.addEventListener("click", () => {
     HideShop();
 });
 ToggleMuteBtnUnmuted.addEventListener("click", () => {
-    ToggleMuteBtnUnmuted.setAttribute("style","display:none;");
-    ToggleMuteBtnMuted.setAttribute("style","display:initial;");
+    ToggleMuteBtnUnmuted.setAttribute("style", "display:none;");
+    ToggleMuteBtnMuted.setAttribute("style", "display:initial;");
     Muted = true;
 });
 ToggleMuteBtnMuted.addEventListener("click", () => {
-    ToggleMuteBtnMuted.setAttribute("style","display:none;");
-    ToggleMuteBtnUnmuted.setAttribute("style","display:initial;");
+    ToggleMuteBtnMuted.setAttribute("style", "display:none;");
+    ToggleMuteBtnUnmuted.setAttribute("style", "display:initial;");
     Muted = false;
 });
 
 ToggleParticlesBtnUse.addEventListener("click", () => {
-    ToggleParticlesBtnDontUse.setAttribute("style","display:initial;");
-    ToggleParticlesBtnUse.setAttribute("style","display:none;");
+    ToggleParticlesBtnDontUse.setAttribute("style", "display:initial;");
+    ToggleParticlesBtnUse.setAttribute("style", "display:none;");
     UseParticles = false;
 });
 ToggleParticlesBtnDontUse.addEventListener("click", () => {
-    ToggleParticlesBtnDontUse.setAttribute("style","display:none;");
-    ToggleParticlesBtnUse.setAttribute("style","display:initial;");
+    ToggleParticlesBtnDontUse.setAttribute("style", "display:none;");
+    ToggleParticlesBtnUse.setAttribute("style", "display:initial;");
     UseParticles = true;
 });
 restartGameButtonEL.addEventListener("click", () => {
@@ -636,44 +639,44 @@ OptionsBackButton.addEventListener("click", () => {
 });
 
 function PauseGame() {
-    PausedModalEL.setAttribute("style","display:flex;");
-    PausedBigScoreEL.setAttribute("style","display:initial;");
-    resumeGameButton.setAttribute("style","display:initial;");
-    restartGameButtonEL.setAttribute("style","display:initial;");
+    PausedModalEL.setAttribute("style", "display:flex;");
+    PausedBigScoreEL.setAttribute("style", "display:initial;");
+    resumeGameButton.setAttribute("style", "display:initial;");
+    restartGameButtonEL.setAttribute("style", "display:initial;");
     PausedBigScoreEL.innerHTML = score.toString(10);
     Paused = true;
 };
 
 function UnpauseGame() {
-    PausedModalEL.setAttribute("style","display:none;");
-    PausedBigScoreEL.setAttribute("style","display:none;");
-    resumeGameButton.setAttribute("style","display:none;");
-    restartGameButtonEL.setAttribute("style","display:none;");
+    PausedModalEL.setAttribute("style", "display:none;");
+    PausedBigScoreEL.setAttribute("style", "display:none;");
+    resumeGameButton.setAttribute("style", "display:none;");
+    restartGameButtonEL.setAttribute("style", "display:none;");
     Paused = false;
 };
 
 function OpenOptionsMenu() {
-    OptionsMenu.setAttribute("style","display:flex;");
-    PausedModalEL.setAttribute("style","opacity:0.2;");
-    PausedBigScoreEL.setAttribute("style","opacity:0.2;");
-    resumeGameButton.setAttribute("style","opacity:0.2;");
-    restartGameButtonEL.setAttribute("style","opacity:0.2;");
+    OptionsMenu.setAttribute("style", "display:flex;");
+    PausedModalEL.setAttribute("style", "opacity:0.2;");
+    PausedBigScoreEL.setAttribute("style", "opacity:0.2;");
+    resumeGameButton.setAttribute("style", "opacity:0.2;");
+    restartGameButtonEL.setAttribute("style", "opacity:0.2;");
     OptionsOpen = true;
 };
 
 function CloseOptionsMenu() {
-    OptionsMenu.setAttribute("style","display:none;");
-    PausedModalEL.setAttribute("style","opacity:1");    
-    PausedBigScoreEL.setAttribute("style","opacity:1");    
-    resumeGameButton.setAttribute("style","opacity:1");    
-    restartGameButtonEL.setAttribute("style","opacity:1");    
+    OptionsMenu.setAttribute("style", "display:none;");
+    PausedModalEL.setAttribute("style", "opacity:1");
+    PausedBigScoreEL.setAttribute("style", "opacity:1");
+    resumeGameButton.setAttribute("style", "opacity:1");
+    restartGameButtonEL.setAttribute("style", "opacity:1");
 
     OptionsOpen = false;
 };
 
 function Test1(UpgradeELs: NodeListOf<Element>, value: Element) {
-    UpgradeELs.forEach((value1)=>{
-        if (value==value1){
+    UpgradeELs.forEach((value1) => {
+        if (value == value1) {
             return true
         }
     })

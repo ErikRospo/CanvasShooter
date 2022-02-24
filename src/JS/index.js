@@ -322,11 +322,11 @@ function init() {
     GameStarted = true;
 }
 function PageLoad() {
+    CloseOptionsMenu();
     PausedModalEL.setAttribute("style", "display:none;");
     PausedBigScoreEL.setAttribute("style", "display:none;");
     resumeGameButton.setAttribute("style", "display:none;");
     restartGameButtonEL.setAttribute("style", "display:none;");
-    CloseOptionsMenu();
     HideShop();
     Paused = true;
     OptionsOpen = false;
