@@ -64,23 +64,12 @@ class Player {
     moneyMult: number;
     Damage: number;
     ShotSpeed: number;
-    FireRate: number;
     ShotsFired: number;
     MultiShot: number;
     AutoFire: boolean;
     AutoRotate: boolean;
     ShotSize: number;
     Health: number;
-    DamageUpgradeNumber: number;
-    ShotSpeedUpgradeNumber: number;
-    FireRateUpgradeNumber: number;
-    ShotsFiredUpgradeNumber: number;
-    MultiShotUpgradeNumber: number;
-    ShotSizeUpgradeNumber: number;
-    HealthUpgradeNumber: number;
-    MoneyMultUpgradeNumber: number;
-    moneyMultUpgradeNumber: number;
-    fireCooldown: number;
     constructor(x: number, y: number, radius: number, color: string) {
         this.x = x;
         this.y = y;
@@ -92,30 +81,15 @@ class Player {
 
         this.Damage = 10;
         this.ShotSpeed = 5;
-        this.FireRate = -1;
         this.ShotsFired = 1;
         this.MultiShot = 1;
         this.AutoFire = false;
         this.AutoRotate = false;
         this.ShotSize = 5;
         this.Health = 1;
-
-        this.DamageUpgradeNumber = 0;
-        this.ShotSpeedUpgradeNumber = 0;
-        this.FireRateUpgradeNumber = 0;
-        this.ShotsFiredUpgradeNumber = 0;
-        this.MultiShotUpgradeNumber = 0;
-        this.ShotSizeUpgradeNumber = 0;
-        this.HealthUpgradeNumber = 0;
-        this.MoneyMultUpgradeNumber = 0;
-
-        this.fireCooldown = 0
     }
 
     update() {
-        if (this.fireCooldown != 0) {
-            this.fireCooldown -= 1
-        }
         this.draw()
     }
     draw() {
@@ -236,29 +210,6 @@ console.log(ShopCloseButton);
 
 function ShowShop() {
     ShopELs.forEach((value) => {
-        if (value != ShopDivEL && value != ShopCloseButton) {
-            switch (value) {
-                case DamageUpgradeEL:
-                    DamageUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.DamageUpgradeNumber)).toString());
-                case ShotSpeedUpgradeEL:
-                    ShotSpeedUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSpeedUpgradeNumber)).toString());
-                case FireRateUpgradeEL:
-                    FireRateUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.FireRateUpgradeNumber)).toString());
-                case ShotsFiredUpgradeEL:
-                    ShotsFiredUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotsFiredUpgradeNumber)).toString());
-                case MultiShotUpgradeEL:
-                    MultiShotUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MultiShotUpgradeNumber)).toString());
-                case ShotSizeUpgradeEL:
-                    ShotSizeUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSizeUpgradeNumber)).toString());
-                case HealthUpgradeEL:
-                    HealthUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.HealthUpgradeNumber)).toString());
-                case MoneyUpgradeEL:
-                    MoneyUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MoneyMultUpgradeNumber)).toString());
-                default:
-                    console.warn("value should be an upgrade. value is " + value.toString());
-                    break;
-            }
-        };
         value.setAttribute("style", "display:block;");
 
         if (value == ShopDivEL) {
@@ -278,30 +229,7 @@ function HideShop() {
     ShopOpen = false;
     Paused = false;
 }
-function UpdateShop() {
-    ShopELs.forEach((value) => {
-        switch (value) {
-            case DamageUpgradeEL:
-                DamageUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.DamageUpgradeNumber)).toString());
-            case ShotSpeedUpgradeEL:
-                ShotSpeedUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSpeedUpgradeNumber)).toString());
-            case FireRateUpgradeEL:
-                FireRateUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.FireRateUpgradeNumber)).toString());
-            case ShotsFiredUpgradeEL:
-                ShotsFiredUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotsFiredUpgradeNumber)).toString());
-            case MultiShotUpgradeEL:
-                MultiShotUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MultiShotUpgradeNumber)).toString());
-            case ShotSizeUpgradeEL:
-                ShotSizeUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSizeUpgradeNumber)).toString());
-            case HealthUpgradeEL:
-                HealthUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.HealthUpgradeNumber)).toString());
-            case MoneyUpgradeEL:
-                MoneyUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MoneyMultUpgradeNumber)).toString());
-            default:
-                break;
-        }
-    })
-}
+
 function updateHighScores(scores: any[]) {
     scores.sort((a: number, b: number) => a - b);
     for (let index = 0; index < scores.length; index++) {
@@ -503,8 +431,7 @@ function animate() {
 }
 //whenever the user clicks, spawn a projectile
 addEventListener("click", (event) => {
-    if (GameStarted == true && Paused == false && player.fireCooldown == 0) {
-        player.fireCooldown = player.FireRate
+    if (GameStarted == true && Paused == false) {
         //get the x and y of the click
         const x = event.clientX;
         const y = event.clientY;
@@ -560,48 +487,6 @@ addEventListener("keydown", (event) => {
     }
 });
 addEventListener("load", () => { PageLoad() });
-DamageUpgradeEL.addEventListener("click", () => {
-    player.Damage = DamageCurve[player.DamageUpgradeNumber];
-    player.DamageUpgradeNumber++;
-    player.Money -= 10 ^ player.DamageUpgradeNumber;
-    console.log("Player Damage: %d\nPlayer Damage Upgrade Number: %d", player.Damage, player.DamageUpgradeNumber);
-});
-ShotSpeedUpgradeEL.addEventListener("click", () => {
-    player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber];
-    player.ShotSpeedUpgradeNumber++;
-    player.Money -= 10 ^ player.ShotSpeedUpgradeNumber;
-    console.log("Player Shot Speed: %d\nPlayer Shot Speed Upgrade Number: %d", player.ShotSpeed, player.ShotSpeedUpgradeNumber);
-});
-FireRateUpgradeEL.addEventListener("click", () => {
-    player.FireRate = FireRateCurve[player.FireRateUpgradeNumber];
-    player.FireRateUpgradeNumber++;
-    player.Money -= 10 ^ player.FireRateUpgradeNumber;
-    console.log("Player Fire Rate: %d\nPlayer Fire Rate Upgrade Number: %d", player.FireRate, player.FireRateUpgradeNumber);
-});
-ShotsFiredUpgradeEL.addEventListener("click", () => {
-    player.ShotsFired = ProjectileCountCurve[player.ShotsFiredUpgradeNumber];
-    player.ShotsFiredUpgradeNumber++;
-    player.Money -= 10 ^ player.ShotsFiredUpgradeNumber;
-    console.log("Player Shots Fired Rate: %d\nPlayer Shots Fired Upgrade Number: %d", player.ShotsFired, player.ShotsFiredUpgradeNumber);
-});
-MultiShotUpgradeEL.addEventListener("click", () => {
-    player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumber];
-    player.MultiShotUpgradeNumber++;
-    player.Money -= 10 ^ player.MultiShotUpgradeNumber;
-    console.log("Player Multishot: %d\nPlayer Multishot Upgrade Number: %d", player.MultiShot, player.MultiShotUpgradeNumber);
-});
-ShotSizeUpgradeEL.addEventListener("click", () => {
-    player.ShotSize = ProjectileSizeCurve[player.ShotSizeUpgradeNumber];
-    player.ShotSizeUpgradeNumber++;
-    player.Money -= 10 ^ player.ShotSizeUpgradeNumber;
-    console.log("Player Shot Size: %d\nPlayer Shot Size Upgrade Number: %d", player.ShotSize, player.ShotSizeUpgradeNumber);
-});
-MoneyUpgradeEL.addEventListener("click", () => {
-    player.moneyMult = player.MoneyMultUpgradeNumber + 1;
-    player.moneyMultUpgradeNumber++;
-    player.Money -= 10 ^ player.MoneyMultUpgradeNumber;
-    console.log("Player Money Multiplier: %d\nPlayer Money Multiplier Upgrade Number: %d", player.moneyMult, player.MoneyMultUpgradeNumber);
-});
 ShopCloseButton.addEventListener("click", () => {
     HideShop();
 });

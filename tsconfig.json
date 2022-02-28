@@ -13,6 +13,7 @@
   },
   "files": ["./src/TS/vars.ts",
             "./src/TS/helperFunctions.ts",
-            "./src/TS/UpgradeCurves.ts",
+            "./src/TS/Upgrade.ts",
+            "./src/TS/UpgradeDefinitions.ts",
             "./src/TS/index.ts"]
 }

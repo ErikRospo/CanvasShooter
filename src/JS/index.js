@@ -20,6 +20,9 @@ function logx(val, base) {
 function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
 }
+function intBetween(min, max) {
+    return Math.round(randomBetween(min, max));
+}
 function FrameIDToTime(ID) {
     var Second = ID / 60;
     return Second;
@@ -27,35 +30,240 @@ function FrameIDToTime(ID) {
 function distance(x1, y1, x2, y2) {
     return Math.pow(((Math.pow((x1 - x2), 2)) + (Math.pow((y1 - y2), 2))), 0.5);
 }
-var DamageCurve = [];
-var ShotSpeedCurve = [];
-var FireRateCurve = [];
-var ProjectileCountCurve = [];
-var MultiShotCurve = [];
-var ProjectileSizeCurve = [];
-var HealthCurve = [];
-var DamageVal = 0;
-var ShotSpeedVal = 0;
-var FireRateVal = 0;
-var ProjectileCountVal = 0;
-var MultiShotVal = 0;
-var ProjectileSizeVal = 0;
-var HealthVal = 0;
-for (let x = 0; x < 75; x++) {
-    DamageVal = 10.472 + ((-0.00006 * x ^ 4) + (0.00598 * x ^ 3) - (0.00744 * x ^ 2) + (0.95992 * x) - 1.93696) / 4.1;
-    ShotSpeedVal = (0.000000004 * x ^ 4) + (0.000002506 * x ^ 3) + (0.007937004 * x ^ 2) + (0.752945336 * x) + 5.094244544;
-    FireRateVal = 60 + (Math.pow(((-12.5 * x) / 109.768), 1)) + (Math.pow(((2.1 * x) / 109.768), 2)) + (Math.pow(((-2.3 * x) / 109.768), 3)) + (Math.pow((x / 109.768), 4)) + (Math.pow((x / 109.768), 5));
-    ProjectileCountVal = ((Math.round(logx(x + 1, 1.6)) * 1.9) + 2.2) / 2.5;
-    MultiShotVal = ((Math.round(logx(x + 1, 1.6)) * 1.9) + 2.2) / 2.5;
-    ProjectileSizeVal = logx(45 * x + 1, 1.6);
-    HealthVal = logx(x, 1.53994824906);
-    DamageCurve.push(DamageVal);
-    ShotSpeedCurve.push(ShotSpeedVal);
-    FireRateCurve.push(FireRateVal);
-    ProjectileCountCurve.push(ProjectileCountVal);
-    MultiShotCurve.push(MultiShotVal);
-    ProjectileSizeCurve.push(ProjectileSizeVal);
-    HealthCurve.push(HealthVal);
+function randomChoice(value) {
+    let i = Math.round(Math.random() * value.length);
+    return value[i];
+}
+function randomChoiceNot(value, not) {
+    let i = randomChoice(value);
+    while (i in not) {
+        i = randomChoice(value);
+    }
+    return i;
+}
+function randomBetweenNot(min, max, not) {
+    let i = randomBetween(min, max);
+    while (i in not) {
+        i = randomBetween(min, max);
+    }
+    return i;
+}
+function intBetweenNot(min, max, not) {
+    let i = intBetween(min, max);
+    while (i in not) {
+        i = intBetween(min, max);
+    }
+    return i;
+}
+function coinFlip(bias) {
+    return (Math.random() > bias);
+}
+class Upgrade {
+    constructor(description) {
+        this.Description = description;
+        this.effects = [];
+        this.requirements = [];
+    }
+    addEffect(effect) {
+        this.effects.push(effect);
+    }
+    addRequirement(requirement) {
+        this.requirements.push(requirement);
+    }
+}
+class UpgradeList {
+    constructor(Upgrades) {
+        this.upgrades = Upgrades;
+    }
+    addUpgrade(value) {
+        this.upgrades.push(value);
+        return this.upgrades;
+    }
+    removeUpgrade(value) {
+        this.upgrades.splice(this.upgrades.indexOf(value), 1);
+        return this.upgrades;
+    }
+}
+class AllUpgradesList extends UpgradeList {
+    constructor(Upgrades) {
+        super(Upgrades);
+    }
+    get availibility() {
+        return this.upgrades.filter((value, _, array) => {
+            let requirementTruthy = [];
+            value.requirements.forEach((value1) => {
+                requirementTruthy.push(value1.IsRequirementTrue(array));
+            });
+            return requirementTruthy.every((value) => { return value; });
+        });
+    }
+}
+class Effect {
+    constructor(type, value, valuetype) {
+        this.type = type.toLowerCase();
+        this.value = value;
+        this.valuetype = valuetype;
+    }
+    apply(player) {
+        switch (this.type) {
+            case "d":
+                if (this.valuetype == 1) {
+                    player.damage += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.damage *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.damage = this.value;
+                }
+                break;
+            case "ss":
+                if (this.valuetype == 1) {
+                    player.ShotSpeed += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.ShotSpeed *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.ShotSpeed = this.value;
+                }
+                break;
+            case "sf":
+                if (this.valuetype == 1) {
+                    player.ShotsFired += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.ShotsFired *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.ShotsFired = this.value;
+                }
+                break;
+            case "ms":
+                if (this.valuetype == 1) {
+                    player.MultiShot += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.MultiShot *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.MultiShot = this.value;
+                }
+                break;
+            case "sz":
+                if (this.valuetype == 1) {
+                    player.ShotSize += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.ShotSize *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.ShotSize = this.value;
+                }
+                break;
+            case "h":
+                if (this.valuetype == 1) {
+                    player.Health += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.Health *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.Health = this.value;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+}
+class Requirement {
+    constructor(requirement1, requirement2, operation, not) {
+        this.requirement1 = requirement1;
+        this.requirement2 = requirement2;
+        this.operation = operation;
+        this.not = not;
+    }
+    IsRequirementTrue(upgrades) {
+        upgrades.push(null);
+        if (this.operation == "or") {
+            if (!this.not) {
+                return ((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
+            }
+            else if (this.not) {
+                return !((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
+            }
+        }
+        else if (this.operation == "and") {
+            if (!this.not) {
+                return ((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
+            }
+            else if (this.not) {
+                return !((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
+            }
+        }
+        else if (this.operation == "not") {
+            return ((upgrades.indexOf(this.requirement1) == -1));
+        }
+    }
+}
+function CreateUpgrades() {
+    let upgrade1 = new Upgrade("increases projectile size, decreases projectile speed.");
+    let upgrade2 = new Upgrade("decreases projectile size, increases projectile speed.");
+    let upgrade3 = new Upgrade("increases health, decreases everything else.");
+    let upgrade4 = new Upgrade("Makes shots super slow, and damage super high.");
+    let upgrade5 = new Upgrade("Makes shots super quick, but have very little damage.");
+    let upgrades = [];
+    upgrade1.addEffect(new Effect("ss", -10, 1));
+    upgrade1.addEffect(new Effect("sz", 10, 1));
+    upgrade2.addEffect(new Effect("ss", 10, 1));
+    upgrade2.addEffect(new Effect("sz", -10, 1));
+    upgrade3.addEffect(new Effect("d", -1, 1));
+    upgrade3.addEffect(new Effect("h", 1, 1));
+    upgrade3.addEffect(new Effect("ms", -1, 1));
+    upgrade3.addEffect(new Effect("sf", -1, 1));
+    upgrade3.addEffect(new Effect("ss", -1, 1));
+    upgrade3.addEffect(new Effect("sz", -1, 1));
+    upgrade4.addEffect(new Effect("d", 20, 3));
+    upgrade4.addEffect(new Effect("ss", 0.5, 3));
+    upgrade5.addEffect(new Effect("ss", 20, 3));
+    upgrade5.addEffect(new Effect("d", 0.5, 3));
+    upgrade1.addRequirement(new Requirement(upgrade2, null, "not", false));
+    upgrade2.addRequirement(new Requirement(upgrade1, null, "not", false));
+    upgrade4.addRequirement(new Requirement(upgrade5, null, "not", false));
+    upgrade5.addRequirement(new Requirement(upgrade4, null, "not", false));
+    upgrades.push(upgrade1);
+    upgrades.push(upgrade2);
+    upgrades.push(upgrade3);
+    upgrades.push(upgrade4);
+    upgrades.push(upgrade5);
+    return upgrades;
+}
+function CreateRandomUpgrades() {
+    let upgrades = [];
+    let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"];
+    let RequirementTypes = ["and", "or", "not"];
+    for (let index = 0; index < 100; index++) {
+        let upgrade = new Upgrade("");
+        for (let _ = 0; _ < intBetween(1, EffectTypes.length - 1); _++) {
+            let type = randomChoice(EffectTypes);
+            while (type in upgrade.effects) {
+                type = randomChoice(EffectTypes);
+            }
+            let value = intBetween(-50, 50);
+            let valueType = intBetween(1, 3);
+            if (valueType == 3) {
+                value = Math.abs(value);
+            }
+            upgrade.addEffect(new Effect(type, value, valueType));
+        }
+        upgrades.push(upgrade);
+    }
+    for (let index = 0; index < upgrades.length; index++) {
+        let upgrade = upgrades[index];
+        upgrade.addRequirement(new Requirement(randomChoiceNot(upgrades, [upgrade]), randomChoiceNot(upgrades, [upgrade]), randomChoice(RequirementTypes), coinFlip(0.5)));
+    }
+    return upgrades;
 }
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
@@ -116,27 +324,14 @@ class Player {
         this.moneyMult = 1;
         this.Damage = 10;
         this.ShotSpeed = 5;
-        this.FireRate = -1;
         this.ShotsFired = 1;
         this.MultiShot = 1;
         this.AutoFire = false;
         this.AutoRotate = false;
         this.ShotSize = 5;
         this.Health = 1;
-        this.DamageUpgradeNumber = 0;
-        this.ShotSpeedUpgradeNumber = 0;
-        this.FireRateUpgradeNumber = 0;
-        this.ShotsFiredUpgradeNumber = 0;
-        this.MultiShotUpgradeNumber = 0;
-        this.ShotSizeUpgradeNumber = 0;
-        this.HealthUpgradeNumber = 0;
-        this.MoneyMultUpgradeNumber = 0;
-        this.fireCooldown = 0;
     }
     update() {
-        if (this.fireCooldown != 0) {
-            this.fireCooldown -= 1;
-        }
         this.draw();
     }
     draw() {
@@ -236,30 +431,6 @@ let DefaultEnemySpawnTime = 50;
 console.log(ShopCloseButton);
 function ShowShop() {
     ShopELs.forEach((value) => {
-        if (value != ShopDivEL && value != ShopCloseButton) {
-            switch (value) {
-                case DamageUpgradeEL:
-                    DamageUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.DamageUpgradeNumber)).toString());
-                case ShotSpeedUpgradeEL:
-                    ShotSpeedUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSpeedUpgradeNumber)).toString());
-                case FireRateUpgradeEL:
-                    FireRateUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.FireRateUpgradeNumber)).toString());
-                case ShotsFiredUpgradeEL:
-                    ShotsFiredUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotsFiredUpgradeNumber)).toString());
-                case MultiShotUpgradeEL:
-                    MultiShotUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MultiShotUpgradeNumber)).toString());
-                case ShotSizeUpgradeEL:
-                    ShotSizeUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSizeUpgradeNumber)).toString());
-                case HealthUpgradeEL:
-                    HealthUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.HealthUpgradeNumber)).toString());
-                case MoneyUpgradeEL:
-                    MoneyUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MoneyMultUpgradeNumber)).toString());
-                default:
-                    console.warn("value should be an upgrade. value is " + value.toString());
-                    break;
-            }
-        }
-        ;
         value.setAttribute("style", "display:block;");
         if (value == ShopDivEL) {
             value.setAttribute("style", "display:flex;");
@@ -277,30 +448,6 @@ function HideShop() {
     });
     ShopOpen = false;
     Paused = false;
-}
-function UpdateShop() {
-    ShopELs.forEach((value) => {
-        switch (value) {
-            case DamageUpgradeEL:
-                DamageUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.DamageUpgradeNumber)).toString());
-            case ShotSpeedUpgradeEL:
-                ShotSpeedUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSpeedUpgradeNumber)).toString());
-            case FireRateUpgradeEL:
-                FireRateUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.FireRateUpgradeNumber)).toString());
-            case ShotsFiredUpgradeEL:
-                ShotsFiredUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotsFiredUpgradeNumber)).toString());
-            case MultiShotUpgradeEL:
-                MultiShotUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MultiShotUpgradeNumber)).toString());
-            case ShotSizeUpgradeEL:
-                ShotSizeUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.ShotSizeUpgradeNumber)).toString());
-            case HealthUpgradeEL:
-                HealthUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.HealthUpgradeNumber)).toString());
-            case MoneyUpgradeEL:
-                MoneyUpgradeEL.setAttribute("disabled", (player.Money < (10 ^ player.MoneyMultUpgradeNumber)).toString());
-            default:
-                break;
-        }
-    });
 }
 function updateHighScores(scores) {
     scores.sort((a, b) => a - b);
@@ -446,8 +593,7 @@ function animate() {
     }
 }
 addEventListener("click", (event) => {
-    if (GameStarted == true && Paused == false && player.fireCooldown == 0) {
-        player.fireCooldown = player.FireRate;
+    if (GameStarted == true && Paused == false) {
         const x = event.clientX;
         const y = event.clientY;
         const angle = Math.atan2(y - ch, x - cw);
@@ -493,48 +639,6 @@ addEventListener("keydown", (event) => {
     }
 });
 addEventListener("load", () => { PageLoad(); });
-DamageUpgradeEL.addEventListener("click", () => {
-    player.Damage = DamageCurve[player.DamageUpgradeNumber];
-    player.DamageUpgradeNumber++;
-    player.Money -= 10 ^ player.DamageUpgradeNumber;
-    console.log("Player Damage: %d\nPlayer Damage Upgrade Number: %d", player.Damage, player.DamageUpgradeNumber);
-});
-ShotSpeedUpgradeEL.addEventListener("click", () => {
-    player.ShotSpeed = ShotSpeedCurve[player.ShotSpeedUpgradeNumber];
-    player.ShotSpeedUpgradeNumber++;
-    player.Money -= 10 ^ player.ShotSpeedUpgradeNumber;
-    console.log("Player Shot Speed: %d\nPlayer Shot Speed Upgrade Number: %d", player.ShotSpeed, player.ShotSpeedUpgradeNumber);
-});
-FireRateUpgradeEL.addEventListener("click", () => {
-    player.FireRate = FireRateCurve[player.FireRateUpgradeNumber];
-    player.FireRateUpgradeNumber++;
-    player.Money -= 10 ^ player.FireRateUpgradeNumber;
-    console.log("Player Fire Rate: %d\nPlayer Fire Rate Upgrade Number: %d", player.FireRate, player.FireRateUpgradeNumber);
-});
-ShotsFiredUpgradeEL.addEventListener("click", () => {
-    player.ShotsFired = ProjectileCountCurve[player.ShotsFiredUpgradeNumber];
-    player.ShotsFiredUpgradeNumber++;
-    player.Money -= 10 ^ player.ShotsFiredUpgradeNumber;
-    console.log("Player Shots Fired Rate: %d\nPlayer Shots Fired Upgrade Number: %d", player.ShotsFired, player.ShotsFiredUpgradeNumber);
-});
-MultiShotUpgradeEL.addEventListener("click", () => {
-    player.MultiShot = MultiShotCurve[player.MultiShotUpgradeNumber];
-    player.MultiShotUpgradeNumber++;
-    player.Money -= 10 ^ player.MultiShotUpgradeNumber;
-    console.log("Player Multishot: %d\nPlayer Multishot Upgrade Number: %d", player.MultiShot, player.MultiShotUpgradeNumber);
-});
-ShotSizeUpgradeEL.addEventListener("click", () => {
-    player.ShotSize = ProjectileSizeCurve[player.ShotSizeUpgradeNumber];
-    player.ShotSizeUpgradeNumber++;
-    player.Money -= 10 ^ player.ShotSizeUpgradeNumber;
-    console.log("Player Shot Size: %d\nPlayer Shot Size Upgrade Number: %d", player.ShotSize, player.ShotSizeUpgradeNumber);
-});
-MoneyUpgradeEL.addEventListener("click", () => {
-    player.moneyMult = player.MoneyMultUpgradeNumber + 1;
-    player.moneyMultUpgradeNumber++;
-    player.Money -= 10 ^ player.MoneyMultUpgradeNumber;
-    console.log("Player Money Multiplier: %d\nPlayer Money Multiplier Upgrade Number: %d", player.moneyMult, player.MoneyMultUpgradeNumber);
-});
 ShopCloseButton.addEventListener("click", () => {
     HideShop();
 });
