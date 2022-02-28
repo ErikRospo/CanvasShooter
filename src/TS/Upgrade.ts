@@ -48,7 +48,7 @@ class Effect {
     value: number;
     valuetype: number;
     constructor(type: string, value: number, valuetype: number) {
-        this.type = type.toLowerCase();
+        this.type = type;
         this.value = value;
         this.valuetype = valuetype
     }
