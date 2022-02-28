@@ -112,7 +112,12 @@ class Player {
         this.fireCooldown = 0
     }
 
-
+    update() {
+        if (this.fireCooldown != 0) {
+            this.fireCooldown -= 1
+        }
+        this.draw()
+    }
     draw() {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
@@ -406,7 +411,7 @@ function animate() {
         }
         //draw the player
         UnpauseGame();
-        player.draw();
+        player.update();
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade in effect
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;

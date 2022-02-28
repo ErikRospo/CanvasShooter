@@ -133,6 +133,12 @@ class Player {
         this.MoneyMultUpgradeNumber = 0;
         this.fireCooldown = 0;
     }
+    update() {
+        if (this.fireCooldown != 0) {
+            this.fireCooldown -= 1;
+        }
+        this.draw();
+    }
     draw() {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
@@ -375,7 +381,7 @@ function animate() {
             EnemySpawnTime -= 1;
         }
         UnpauseGame();
-        player.draw();
+        player.update();
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
@@ -602,12 +608,4 @@ function CloseOptionsMenu() {
     OptionsOpen = false;
 }
 ;
-function Test1(UpgradeELs, value) {
-    UpgradeELs.forEach((value1) => {
-        if (value == value1) {
-            return true;
-        }
-    });
-    return false;
-}
 //# sourceMappingURL=index.js.map
