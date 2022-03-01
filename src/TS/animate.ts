@@ -8,8 +8,9 @@ function animate() {
         //draw the player
         UnpauseGame();
         player.update();
+        AnimateProgressBar(animationID);
         //fill the canvas with an almost black.
-        //the 0.1 Alpha value means that things have a nice fade in effect
+        //the 0.1 Alpha value means that things have a nice fade out effect
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
@@ -49,6 +50,7 @@ function animate() {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                 // if dist minus the radiuses of the enemy and the projectile are less than 0
                 if (dist - enemy.radius - projectile.radius < 0) {
+                    IncreaseProgressBar(enemy.startingRadius / 10)
                     //create Explosions
                     if (UseParticles) {
                         for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {

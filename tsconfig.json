@@ -18,6 +18,7 @@
             "./src/TS/helperFunctions.ts",
             "./src/TS/Upgrade.ts",
             "./src/TS/UpgradeDefinitions.ts",
+            "./src/TS/ProgressBar.ts",
             "./src/TS/classes/player.ts",
             "./src/TS/classes/projectile.ts",
             "./src/TS/classes/enemy.ts",

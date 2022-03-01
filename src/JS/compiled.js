@@ -22,16 +22,6 @@ let highScores = [];
 const ShootSound = new Audio("Audio/sound/Shoot.wav");
 const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
 const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
-const DamageUpgradeEL = document.querySelector("#DamageUpgrade");
-const ShotSpeedUpgradeEL = document.querySelector("#ShotSpeedUpgrade");
-const FireRateUpgradeEL = document.querySelector("#FireRateUpgrade");
-const ShotsFiredUpgradeEL = document.querySelector("#ShotsFiredUpgrade");
-const MultiShotUpgradeEL = document.querySelector("#MultiShotUpgrade");
-const AutoFireUpgradeEL = document.querySelector("#AutoFireUpgrade");
-const AutoRotateUpgradeEL = document.querySelector("#AutoRotateUpgrade");
-const ShotSizeUpgradeEL = document.querySelector("#ShotSizeUpgrade");
-const HealthUpgradeEL = document.querySelector("#HealthUpgrade");
-const MoneyUpgradeEL = document.querySelector("#MoneyMultUpgrade");
 const ShopDivEL = document.querySelector("#UpgradeDivEL");
 const ShopELs = document.querySelectorAll(".shop");
 const UpgradeELs = document.querySelectorAll(".UpgradeButton");
@@ -47,37 +37,31 @@ const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
 const ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
 const ToggleParticlesBtnDontUse = document.querySelector("#ToggleParticlesBtnDontUse");
 const OptionsBackButton = document.querySelector("#OptionsBackButton");
+const XPBar = document.querySelector("#XPBar");
 const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
-
 function logx(val, base) {
     return Math.log(val) / Math.log(base);
 }
-
 function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
 }
-
 function intBetween(min, max) {
     return Math.round(randomBetween(min, max));
 }
-
 function FrameIDToTime(ID) {
     var Second = ID / 60;
     return Second;
 }
-
 function distance(x1, y1, x2, y2) {
     return Math.pow(((Math.pow((x1 - x2), 2)) + (Math.pow((y1 - y2), 2))), 0.5);
 }
-
 function randomChoice(value) {
     let i = Math.round(Math.random() * value.length);
     return value[i];
 }
-
 function randomChoiceNot(value, not) {
     let i = randomChoice(value);
     while (i in not) {
@@ -85,7 +69,6 @@ function randomChoiceNot(value, not) {
     }
     return i;
 }
-
 function randomBetweenNot(min, max, not) {
     let i = randomBetween(min, max);
     while (i in not) {
@@ -93,7 +76,6 @@ function randomBetweenNot(min, max, not) {
     }
     return i;
 }
-
 function intBetweenNot(min, max, not) {
     let i = intBetween(min, max);
     while (i in not) {
@@ -101,7 +83,6 @@ function intBetweenNot(min, max, not) {
     }
     return i;
 }
-
 function coinFlip(bias) {
     return (Math.random() > bias);
 }
@@ -156,54 +137,66 @@ class Effect {
             case "d":
                 if (this.valuetype == 1) {
                     player.Damage += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.Damage *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.Damage = this.value;
                 }
                 break;
             case "ss":
                 if (this.valuetype == 1) {
                     player.ShotSpeed += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.ShotSpeed *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.ShotSpeed = this.value;
                 }
                 break;
             case "sf":
                 if (this.valuetype == 1) {
                     player.ShotsFired += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.ShotsFired *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.ShotsFired = this.value;
                 }
                 break;
             case "ms":
                 if (this.valuetype == 1) {
                     player.MultiShot += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.MultiShot *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.MultiShot = this.value;
                 }
                 break;
             case "sz":
                 if (this.valuetype == 1) {
                     player.ShotSize += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.ShotSize *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.ShotSize = this.value;
                 }
                 break;
             case "h":
                 if (this.valuetype == 1) {
                     player.Health += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.Health *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.Health = this.value;
                 }
                 break;
@@ -224,21 +217,24 @@ class Requirement {
         if (this.operation == "or") {
             if (!this.not) {
                 return ((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
-            } else if (this.not) {
+            }
+            else if (this.not) {
                 return !((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
             }
-        } else if (this.operation == "and") {
+        }
+        else if (this.operation == "and") {
             if (!this.not) {
                 return ((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
-            } else if (this.not) {
+            }
+            else if (this.not) {
                 return !((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
             }
-        } else if (this.operation == "not") {
+        }
+        else if (this.operation == "not") {
             return ((upgrades.indexOf(this.requirement1) == -1));
         }
     }
 }
-
 function CreateUpgrades() {
     let upgrade1 = new Upgrade("increases projectile size, decreases projectile speed.");
     let upgrade2 = new Upgrade("decreases projectile size, increases projectile speed.");
@@ -271,7 +267,6 @@ function CreateUpgrades() {
     upgrades.push(upgrade5);
     return upgrades;
 }
-
 function CreateRandomUpgrades() {
     let upgrades = [];
     let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"];
@@ -297,6 +292,15 @@ function CreateRandomUpgrades() {
         upgrade.addRequirement(new Requirement(randomChoiceNot(upgrades, [upgrade]), randomChoiceNot(upgrades, [upgrade]), randomChoice(RequirementTypes), coinFlip(0.5)));
     }
     return upgrades;
+}
+function SetProgressBar(Value) {
+    XPBar.setAttribute("value", (Value / 10).toString(10));
+}
+function IncreaseProgressBar(Value) {
+    XPBar.setAttribute("value", (XPBar.getAttribute("value") + Value / 10).toString());
+}
+function AnimateProgressBar(frameID) {
+    XPBar.style.backgroundColor = `linear-gradient(90deg, #5ba2ac ${frameID % 100}%, #28257f ${(frameID + 50) % 100}%, #1a641a ${(frameID + 100) % 100}%);`;
 }
 class Player {
     constructor(x, y, radius, color) {
@@ -352,6 +356,7 @@ class Enemy {
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
+        this.startingRadius = this.radius;
     }
     draw() {
         c.beginPath();
@@ -454,7 +459,6 @@ OptionsMenuOpenerButton.addEventListener("click", () => {
 OptionsBackButton.addEventListener("click", () => {
     CloseOptionsMenu();
 });
-
 function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
@@ -464,13 +468,15 @@ function animate() {
         }
         UnpauseGame();
         player.update();
+        AnimateProgressBar(animationID);
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
             particles.forEach((particle, index) => {
                 if (particle.alpha <= 0) {
                     particles.splice(index, 1);
-                } else {
+                }
+                else {
                     particle.update();
                 }
             });
@@ -493,6 +499,7 @@ function animate() {
             projectiles.forEach((projectile, index2) => {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                 if (dist - enemy.radius - projectile.radius < 0) {
+                    IncreaseProgressBar(enemy.startingRadius / 10);
                     if (UseParticles) {
                         for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
                             particles.push(new Particle(projectile.x, projectile.y, Math.random() * (5 - 1) + 1, enemy.color, {
@@ -510,7 +517,8 @@ function animate() {
                         setTimeout(() => {
                             projectiles.splice(index2, 1);
                         }, 0);
-                    } else {
+                    }
+                    else {
                         if (!Muted) {
                             HitAndKillSound.play();
                         }
@@ -556,20 +564,19 @@ let EnemySpawnTime = 50;
 let animationID;
 let score = 0;
 let DefaultEnemySpawnTime = 50;
-
 function ShowShop() {
     ShopELs.forEach((value) => {
         value.setAttribute("style", "display:block;");
         if (value == ShopDivEL) {
             value.setAttribute("style", "display:flex;");
-        } else if (value == ShopCloseButton) {
+        }
+        else if (value == ShopCloseButton) {
             value.setAttribute("style", "display:contents;");
         }
     });
     ShopOpen = true;
     Paused = true;
 }
-
 function HideShop() {
     ShopELs.forEach((value) => {
         value.setAttribute("style", "display:none;");
@@ -577,7 +584,6 @@ function HideShop() {
     ShopOpen = false;
     Paused = false;
 }
-
 function updateHighScores(scores) {
     scores.sort((a, b) => a - b);
     for (let index = 0; index < scores.length; index++) {
@@ -587,7 +593,6 @@ function updateHighScores(scores) {
         HighScoreList.appendChild(node);
     }
 }
-
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     HideShop();
@@ -604,7 +609,6 @@ function init() {
     MoneyEL.innerHTML = player.Money.toString(10);
     GameStarted = true;
 }
-
 function PageLoad() {
     CloseOptionsMenu();
     PausedModalEL.setAttribute("style", "display:none;");
@@ -616,7 +620,6 @@ function PageLoad() {
     OptionsOpen = false;
     ModalEL.setAttribute("style", "display:flex;");
 }
-
 function SpawnEnemy() {
     let x;
     let y;
@@ -624,7 +627,8 @@ function SpawnEnemy() {
     if (Math.random() < EnemySpawnBias) {
         x = Math.random() < 0.5 ? 0 - radius : w + radius;
         y = Math.random() * h;
-    } else {
+    }
+    else {
         x = Math.random() * w;
         y = Math.random() < 0.5 ? 0 - radius : h + radius;
     }
@@ -636,7 +640,6 @@ function SpawnEnemy() {
     };
     enemies.push(new Enemy(x, y, radius, color, velocity));
 }
-
 function AddScore(Value) {
     score += Value;
     player.Money += (Value / 10) * player.moneyMult;
@@ -644,7 +647,6 @@ function AddScore(Value) {
     MoneyEL.innerHTML = player.Money.toString(10);
     ShopMoney.innerHTML = player.Money.toString(10);
 }
-
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
     ModalEL.setAttribute("style", "display:flex;");
@@ -653,7 +655,6 @@ function gameOver(AnimationID) {
     BigScoreEL.setAttribute("style", "display:block;");
     BigScoreEL.innerHTML = score.toString(10);
 }
-
 function PauseGame() {
     PausedModalEL.setAttribute("style", "display:flex;");
     PausedBigScoreEL.setAttribute("style", "display:initial;");
@@ -661,16 +662,16 @@ function PauseGame() {
     restartGameButtonEL.setAttribute("style", "display:initial;");
     PausedBigScoreEL.innerHTML = score.toString(10);
     Paused = true;
-};
-
+}
+;
 function UnpauseGame() {
     PausedModalEL.setAttribute("style", "display:none;");
     PausedBigScoreEL.setAttribute("style", "display:none;");
     resumeGameButton.setAttribute("style", "display:none;");
     restartGameButtonEL.setAttribute("style", "display:none;");
     Paused = false;
-};
-
+}
+;
 function OpenOptionsMenu() {
     OptionsMenu.setAttribute("style", "display:flex;");
     PausedModalEL.setAttribute("style", "opacity:0.2;");
@@ -678,8 +679,8 @@ function OpenOptionsMenu() {
     resumeGameButton.setAttribute("style", "opacity:0.2;");
     restartGameButtonEL.setAttribute("style", "opacity:0.2;");
     OptionsOpen = true;
-};
-
+}
+;
 function CloseOptionsMenu() {
     OptionsMenu.setAttribute("style", "display:none;");
     PausedModalEL.setAttribute("style", "opacity:1");
@@ -687,7 +688,8 @@ function CloseOptionsMenu() {
     resumeGameButton.setAttribute("style", "opacity:1");
     restartGameButtonEL.setAttribute("style", "opacity:1");
     OptionsOpen = false;
-};
+}
+;
 console.log("random");
 console.log(CreateRandomUpgrades());
 console.log("predefined:");

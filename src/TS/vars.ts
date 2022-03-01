@@ -19,9 +19,9 @@ const MaxEnemies = 10;
 
 
 let player = new Player(cw, ch, PlayerRadius, PlayerColor);
-let projectiles = [];
-let enemies = [];
-let particles = [];
+let projectiles = [] as Projectile[];
+let enemies = [] as Enemy[];
+let particles = [] as Particle[];
 let GameStarted = false;
 let UseParticles = true;
 let Paused = false;

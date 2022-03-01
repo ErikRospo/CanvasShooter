@@ -5,12 +5,14 @@ class Enemy {
     radius: number;
     color: string;
     velocity: { x: number, y: number };
+    startingRadius: number;
     constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }) {
         this.x = x;
         this.y = y;
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
+        this.startingRadius = this.radius;
     }
     draw() {
         c.beginPath();

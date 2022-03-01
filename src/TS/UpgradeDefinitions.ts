@@ -1,4 +1,4 @@
-function CreateUpgrades() {
+function CreateUpgrades(): Upgrade[] {
     let upgrade1 = new Upgrade("increases projectile size, decreases projectile speed.")
     let upgrade2 = new Upgrade("decreases projectile size, increases projectile speed.")
     let upgrade3 = new Upgrade("increases health, decreases everything else.")
@@ -30,7 +30,7 @@ function CreateUpgrades() {
     upgrades.push(upgrade5)
     return upgrades
 }
-function CreateRandomUpgrades() {
+function CreateRandomUpgrades(): Upgrade[] {
     let upgrades = []
     let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"]
     let RequirementTypes = ["and", "or", "not"]

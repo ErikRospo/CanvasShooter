@@ -70,7 +70,7 @@ function randomChoiceNot(value: any[], not: any[]) {
  * @param not Numbers not to choose
  * @returns A number between Min and Max that is not in not
  */
-function randomBetweenNot(min: number, max: number, not: any[]): number {
+function randomBetweenNot(min: number, max: number, not: number[]): number {
     let i = randomBetween(min, max)
     while (i in not) {
         i = randomBetween(min, max)
@@ -83,7 +83,7 @@ function randomBetweenNot(min: number, max: number, not: any[]): number {
  * @param not Numbers not to choose
  * @returns An integer between Min and Max that is not in not
 */
-function intBetweenNot(min: number, max: number, not: any[]): number {
+function intBetweenNot(min: number, max: number, not: number[]): number {
     let i = intBetween(min, max)
     while (i in not) {
         i = intBetween(min, max)
