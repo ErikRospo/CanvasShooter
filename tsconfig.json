@@ -7,15 +7,23 @@
     "sourceMap": true,
     "lib": ["ES2015","ES2016","ES2017","ES2018","ES2019","ES2020","ES2021","DOM"],
     // "outDir": "./src/JS",
-    "outFile": "./src/JS/index.js",
+    "moduleResolution": "node",
+    "outFile": "./src/JS/compiled.js",
     "checkJs": true,
 
   },
-  "files": ["./src/TS/vars.ts",
+  "files": [
+            "./src/TS/init.ts",
             "./src/TS/helperFunctions.ts",
             "./src/TS/Upgrade.ts",
             "./src/TS/UpgradeDefinitions.ts",
-            "./src/TS/index.ts",
+            "./src/TS/classes/player.ts",
+            "./src/TS/classes/projectile.ts",
+            "./src/TS/classes/enemy.ts",
+            "./src/TS/classes/particle.ts",
+            "src/TS/Events.ts",
+            "./src/TS/vars.ts",
+            "./src/TS/functions.ts",
             "./src/TS/endTests.ts"
           ]
 }

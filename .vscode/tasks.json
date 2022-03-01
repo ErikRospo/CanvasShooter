@@ -10,7 +10,7 @@
 			],
 			"group": "build",
 			"label": "tsc: watch - tsconfig.json",
-			"options":{"cwd": "tsc"}
+			"options":{"cwd": "tsc -d"}
 		}
 	]
 }
