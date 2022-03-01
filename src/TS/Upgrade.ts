@@ -52,15 +52,15 @@ class Effect {
         this.value = value;
         this.valuetype = valuetype
     }
-    apply(player) {
+    apply(player: Player) {
         switch (this.type) {
             case "d":
                 if (this.valuetype == 1) {
-                    player.damage += this.value
+                    player.Damage += this.value
                 } else if (this.valuetype==2) {
-                    player.damage *= this.value
+                    player.Damage *= this.value
                 } else if (this.valuetype==3){
-                    player.damage=this.value
+                    player.Damage = this.value
                 }
                 break;
             case "ss":

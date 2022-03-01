@@ -51,26 +51,33 @@ const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
+
 function logx(val, base) {
     return Math.log(val) / Math.log(base);
 }
+
 function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
 }
+
 function intBetween(min, max) {
     return Math.round(randomBetween(min, max));
 }
+
 function FrameIDToTime(ID) {
     var Second = ID / 60;
     return Second;
 }
+
 function distance(x1, y1, x2, y2) {
     return Math.pow(((Math.pow((x1 - x2), 2)) + (Math.pow((y1 - y2), 2))), 0.5);
 }
+
 function randomChoice(value) {
     let i = Math.round(Math.random() * value.length);
     return value[i];
 }
+
 function randomChoiceNot(value, not) {
     let i = randomChoice(value);
     while (i in not) {
@@ -78,6 +85,7 @@ function randomChoiceNot(value, not) {
     }
     return i;
 }
+
 function randomBetweenNot(min, max, not) {
     let i = randomBetween(min, max);
     while (i in not) {
@@ -85,6 +93,7 @@ function randomBetweenNot(min, max, not) {
     }
     return i;
 }
+
 function intBetweenNot(min, max, not) {
     let i = intBetween(min, max);
     while (i in not) {
@@ -92,6 +101,7 @@ function intBetweenNot(min, max, not) {
     }
     return i;
 }
+
 function coinFlip(bias) {
     return (Math.random() > bias);
 }
@@ -145,67 +155,55 @@ class Effect {
         switch (this.type) {
             case "d":
                 if (this.valuetype == 1) {
-                    player.damage += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.damage *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.damage = this.value;
+                    player.Damage += this.value;
+                } else if (this.valuetype == 2) {
+                    player.Damage *= this.value;
+                } else if (this.valuetype == 3) {
+                    player.Damage = this.value;
                 }
                 break;
             case "ss":
                 if (this.valuetype == 1) {
                     player.ShotSpeed += this.value;
-                }
-                else if (this.valuetype == 2) {
+                } else if (this.valuetype == 2) {
                     player.ShotSpeed *= this.value;
-                }
-                else if (this.valuetype == 3) {
+                } else if (this.valuetype == 3) {
                     player.ShotSpeed = this.value;
                 }
                 break;
             case "sf":
                 if (this.valuetype == 1) {
                     player.ShotsFired += this.value;
-                }
-                else if (this.valuetype == 2) {
+                } else if (this.valuetype == 2) {
                     player.ShotsFired *= this.value;
-                }
-                else if (this.valuetype == 3) {
+                } else if (this.valuetype == 3) {
                     player.ShotsFired = this.value;
                 }
                 break;
             case "ms":
                 if (this.valuetype == 1) {
                     player.MultiShot += this.value;
-                }
-                else if (this.valuetype == 2) {
+                } else if (this.valuetype == 2) {
                     player.MultiShot *= this.value;
-                }
-                else if (this.valuetype == 3) {
+                } else if (this.valuetype == 3) {
                     player.MultiShot = this.value;
                 }
                 break;
             case "sz":
                 if (this.valuetype == 1) {
                     player.ShotSize += this.value;
-                }
-                else if (this.valuetype == 2) {
+                } else if (this.valuetype == 2) {
                     player.ShotSize *= this.value;
-                }
-                else if (this.valuetype == 3) {
+                } else if (this.valuetype == 3) {
                     player.ShotSize = this.value;
                 }
                 break;
             case "h":
                 if (this.valuetype == 1) {
                     player.Health += this.value;
-                }
-                else if (this.valuetype == 2) {
+                } else if (this.valuetype == 2) {
                     player.Health *= this.value;
-                }
-                else if (this.valuetype == 3) {
+                } else if (this.valuetype == 3) {
                     player.Health = this.value;
                 }
                 break;
@@ -226,24 +224,21 @@ class Requirement {
         if (this.operation == "or") {
             if (!this.not) {
                 return ((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
-            }
-            else if (this.not) {
+            } else if (this.not) {
                 return !((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
             }
-        }
-        else if (this.operation == "and") {
+        } else if (this.operation == "and") {
             if (!this.not) {
                 return ((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
-            }
-            else if (this.not) {
+            } else if (this.not) {
                 return !((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
             }
-        }
-        else if (this.operation == "not") {
+        } else if (this.operation == "not") {
             return ((upgrades.indexOf(this.requirement1) == -1));
         }
     }
 }
+
 function CreateUpgrades() {
     let upgrade1 = new Upgrade("increases projectile size, decreases projectile speed.");
     let upgrade2 = new Upgrade("decreases projectile size, increases projectile speed.");
@@ -276,6 +271,7 @@ function CreateUpgrades() {
     upgrades.push(upgrade5);
     return upgrades;
 }
+
 function CreateRandomUpgrades() {
     let upgrades = [];
     let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"];
@@ -458,128 +454,7 @@ OptionsMenuOpenerButton.addEventListener("click", () => {
 OptionsBackButton.addEventListener("click", () => {
     CloseOptionsMenu();
 });
-const Difficulty = "easy";
-const EnemySpawnTimeDecrement = 1;
-const EnemySpawnBias = 0.5;
-const EnemyHealthMultiplier = 1;
-const EnemySpeedMultiplier = 1;
-const ProjectileSpeedMultiplier = 1;
-const ProjectileColor = "white";
-const PlayerColor = "white";
-const PlayerRadius = 10;
-const BackgroundColor = "0,0,0";
-const ParticleFriction = 0.99;
-const ParticleMultiplier = 2;
-const ParticleSpeed = 5;
-const ParticleFadeSpeedMultiplier = 1;
-const ParticlesDamageEnemies = false;
-const MaxEnemies = 10;
-let player = new Player(cw, ch, PlayerRadius, PlayerColor);
-let projectiles = [];
-let enemies = [];
-let particles = [];
-let GameStarted = false;
-let UseParticles = true;
-let Paused = false;
-let ShopOpen = false;
-let OptionsOpen = false;
-let Muted = true;
-let lastInterval;
-let EnemySpawnTime = 50;
-let animationID;
-let score = 0;
-let DefaultEnemySpawnTime = 50;
-function ShowShop() {
-    ShopELs.forEach((value) => {
-        value.setAttribute("style", "display:block;");
-        if (value == ShopDivEL) {
-            value.setAttribute("style", "display:flex;");
-        }
-        else if (value == ShopCloseButton) {
-            value.setAttribute("style", "display:contents;");
-        }
-    });
-    ShopOpen = true;
-    Paused = true;
-}
-function HideShop() {
-    ShopELs.forEach((value) => {
-        value.setAttribute("style", "display:none;");
-    });
-    ShopOpen = false;
-    Paused = false;
-}
-function updateHighScores(scores) {
-    scores.sort((a, b) => a - b);
-    for (let index = 0; index < scores.length; index++) {
-        const element = scores[index];
-        var node = document.createElement("li");
-        node.appendChild(document.createTextNode(element));
-        HighScoreList.appendChild(node);
-    }
-}
-function init() {
-    EnemySpawnTime = DefaultEnemySpawnTime;
-    HideShop();
-    CloseOptionsMenu();
-    Paused = false;
-    updateHighScores(highScores);
-    player = new Player(cw, ch, PlayerRadius, PlayerColor);
-    projectiles = [];
-    enemies = [];
-    particles = [];
-    score = 0;
-    scoreEL.innerHTML = score.toString(10);
-    BigScoreEL.innerHTML = score.toString(10);
-    MoneyEL.innerHTML = player.Money.toString(10);
-    GameStarted = true;
-}
-function PageLoad() {
-    CloseOptionsMenu();
-    PausedModalEL.setAttribute("style", "display:none;");
-    PausedBigScoreEL.setAttribute("style", "display:none;");
-    resumeGameButton.setAttribute("style", "display:none;");
-    restartGameButtonEL.setAttribute("style", "display:none;");
-    HideShop();
-    Paused = true;
-    OptionsOpen = false;
-    ModalEL.setAttribute("style", "display:flex;");
-}
-function SpawnEnemy() {
-    let x;
-    let y;
-    const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
-    if (Math.random() < EnemySpawnBias) {
-        x = Math.random() < 0.5 ? 0 - radius : w + radius;
-        y = Math.random() * h;
-    }
-    else {
-        x = Math.random() * w;
-        y = Math.random() < 0.5 ? 0 - radius : h + radius;
-    }
-    const color = `hsl(${Math.random() * 360},50%,50%)`;
-    const angle = Math.atan2(ch - y, cw - x);
-    const velocity = {
-        x: Math.cos(angle) * EnemySpeedMultiplier,
-        y: Math.sin(angle) * EnemySpeedMultiplier
-    };
-    enemies.push(new Enemy(x, y, radius, color, velocity));
-}
-function AddScore(Value) {
-    score += Value;
-    player.Money += (Value / 10) * player.moneyMult;
-    scoreEL.innerHTML = score.toString(10);
-    MoneyEL.innerHTML = player.Money.toString(10);
-    ShopMoney.innerHTML = player.Money.toString(10);
-}
-function gameOver(AnimationID) {
-    cancelAnimationFrame(AnimationID);
-    ModalEL.setAttribute("style", "display:flex;");
-    TitleEL.setAttribute("style", "display:none;");
-    BigScoreELLabel.setAttribute("style", "display:block;");
-    BigScoreEL.setAttribute("style", "display:block;");
-    BigScoreEL.innerHTML = score.toString(10);
-}
+
 function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
@@ -595,8 +470,7 @@ function animate() {
             particles.forEach((particle, index) => {
                 if (particle.alpha <= 0) {
                     particles.splice(index, 1);
-                }
-                else {
+                } else {
                     particle.update();
                 }
             });
@@ -636,8 +510,7 @@ function animate() {
                         setTimeout(() => {
                             projectiles.splice(index2, 1);
                         }, 0);
-                    }
-                    else {
+                    } else {
                         if (!Muted) {
                             HitAndKillSound.play();
                         }
@@ -652,6 +525,135 @@ function animate() {
         });
     }
 }
+const Difficulty = "easy";
+const EnemySpawnTimeDecrement = 1;
+const EnemySpawnBias = 0.5;
+const EnemyHealthMultiplier = 1;
+const EnemySpeedMultiplier = 1;
+const ProjectileSpeedMultiplier = 1;
+const ProjectileColor = "white";
+const PlayerColor = "white";
+const PlayerRadius = 10;
+const BackgroundColor = "0,0,0";
+const ParticleFriction = 0.99;
+const ParticleMultiplier = 2;
+const ParticleSpeed = 5;
+const ParticleFadeSpeedMultiplier = 1;
+const ParticlesDamageEnemies = false;
+const MaxEnemies = 10;
+let player = new Player(cw, ch, PlayerRadius, PlayerColor);
+let projectiles = [];
+let enemies = [];
+let particles = [];
+let GameStarted = false;
+let UseParticles = true;
+let Paused = false;
+let ShopOpen = false;
+let OptionsOpen = false;
+let Muted = true;
+let lastInterval;
+let EnemySpawnTime = 50;
+let animationID;
+let score = 0;
+let DefaultEnemySpawnTime = 50;
+
+function ShowShop() {
+    ShopELs.forEach((value) => {
+        value.setAttribute("style", "display:block;");
+        if (value == ShopDivEL) {
+            value.setAttribute("style", "display:flex;");
+        } else if (value == ShopCloseButton) {
+            value.setAttribute("style", "display:contents;");
+        }
+    });
+    ShopOpen = true;
+    Paused = true;
+}
+
+function HideShop() {
+    ShopELs.forEach((value) => {
+        value.setAttribute("style", "display:none;");
+    });
+    ShopOpen = false;
+    Paused = false;
+}
+
+function updateHighScores(scores) {
+    scores.sort((a, b) => a - b);
+    for (let index = 0; index < scores.length; index++) {
+        const element = scores[index];
+        var node = document.createElement("li");
+        node.appendChild(document.createTextNode(element));
+        HighScoreList.appendChild(node);
+    }
+}
+
+function init() {
+    EnemySpawnTime = DefaultEnemySpawnTime;
+    HideShop();
+    CloseOptionsMenu();
+    Paused = false;
+    updateHighScores(highScores);
+    player = new Player(cw, ch, PlayerRadius, PlayerColor);
+    projectiles = [];
+    enemies = [];
+    particles = [];
+    score = 0;
+    scoreEL.innerHTML = score.toString(10);
+    BigScoreEL.innerHTML = score.toString(10);
+    MoneyEL.innerHTML = player.Money.toString(10);
+    GameStarted = true;
+}
+
+function PageLoad() {
+    CloseOptionsMenu();
+    PausedModalEL.setAttribute("style", "display:none;");
+    PausedBigScoreEL.setAttribute("style", "display:none;");
+    resumeGameButton.setAttribute("style", "display:none;");
+    restartGameButtonEL.setAttribute("style", "display:none;");
+    HideShop();
+    Paused = true;
+    OptionsOpen = false;
+    ModalEL.setAttribute("style", "display:flex;");
+}
+
+function SpawnEnemy() {
+    let x;
+    let y;
+    const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
+    if (Math.random() < EnemySpawnBias) {
+        x = Math.random() < 0.5 ? 0 - radius : w + radius;
+        y = Math.random() * h;
+    } else {
+        x = Math.random() * w;
+        y = Math.random() < 0.5 ? 0 - radius : h + radius;
+    }
+    const color = `hsl(${Math.random() * 360},50%,50%)`;
+    const angle = Math.atan2(ch - y, cw - x);
+    const velocity = {
+        x: Math.cos(angle) * EnemySpeedMultiplier,
+        y: Math.sin(angle) * EnemySpeedMultiplier
+    };
+    enemies.push(new Enemy(x, y, radius, color, velocity));
+}
+
+function AddScore(Value) {
+    score += Value;
+    player.Money += (Value / 10) * player.moneyMult;
+    scoreEL.innerHTML = score.toString(10);
+    MoneyEL.innerHTML = player.Money.toString(10);
+    ShopMoney.innerHTML = player.Money.toString(10);
+}
+
+function gameOver(AnimationID) {
+    cancelAnimationFrame(AnimationID);
+    ModalEL.setAttribute("style", "display:flex;");
+    TitleEL.setAttribute("style", "display:none;");
+    BigScoreELLabel.setAttribute("style", "display:block;");
+    BigScoreEL.setAttribute("style", "display:block;");
+    BigScoreEL.innerHTML = score.toString(10);
+}
+
 function PauseGame() {
     PausedModalEL.setAttribute("style", "display:flex;");
     PausedBigScoreEL.setAttribute("style", "display:initial;");
@@ -659,16 +661,16 @@ function PauseGame() {
     restartGameButtonEL.setAttribute("style", "display:initial;");
     PausedBigScoreEL.innerHTML = score.toString(10);
     Paused = true;
-}
-;
+};
+
 function UnpauseGame() {
     PausedModalEL.setAttribute("style", "display:none;");
     PausedBigScoreEL.setAttribute("style", "display:none;");
     resumeGameButton.setAttribute("style", "display:none;");
     restartGameButtonEL.setAttribute("style", "display:none;");
     Paused = false;
-}
-;
+};
+
 function OpenOptionsMenu() {
     OptionsMenu.setAttribute("style", "display:flex;");
     PausedModalEL.setAttribute("style", "opacity:0.2;");
@@ -676,8 +678,8 @@ function OpenOptionsMenu() {
     resumeGameButton.setAttribute("style", "opacity:0.2;");
     restartGameButtonEL.setAttribute("style", "opacity:0.2;");
     OptionsOpen = true;
-}
-;
+};
+
 function CloseOptionsMenu() {
     OptionsMenu.setAttribute("style", "display:none;");
     PausedModalEL.setAttribute("style", "opacity:1");
@@ -685,8 +687,7 @@ function CloseOptionsMenu() {
     resumeGameButton.setAttribute("style", "opacity:1");
     restartGameButtonEL.setAttribute("style", "opacity:1");
     OptionsOpen = false;
-}
-;
+};
 console.log("random");
 console.log(CreateRandomUpgrades());
 console.log("predefined:");

@@ -10,8 +10,9 @@
     "moduleResolution": "node",
     "outFile": "./src/JS/compiled.js",
     "checkJs": true,
+    "declaration": true
 
-  },
+  },"compileOnSave": true,
   "files": [
             "./src/TS/init.ts",
             "./src/TS/helperFunctions.ts",
@@ -21,7 +22,8 @@
             "./src/TS/classes/projectile.ts",
             "./src/TS/classes/enemy.ts",
             "./src/TS/classes/particle.ts",
-            "src/TS/Events.ts",
+            "./src/TS/Events.ts",
+            "./src/TS/animate.ts",
             "./src/TS/vars.ts",
             "./src/TS/functions.ts",
             "./src/TS/endTests.ts"

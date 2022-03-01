@@ -80,7 +80,7 @@ declare class Effect {
     value: number;
     valuetype: number;
     constructor(type: string, value: number, valuetype: number);
-    apply(player: any): void;
+    apply(player: Player): void;
 }
 declare class Requirement {
     requirement1: Upgrade | null;
@@ -160,6 +160,7 @@ declare class Particle {
     draw(): void;
     update(): void;
 }
+declare function animate(): void;
 declare const Difficulty = "easy";
 declare const EnemySpawnTimeDecrement = 1;
 declare const EnemySpawnBias = 0.5;
@@ -199,7 +200,6 @@ declare function PageLoad(): void;
 declare function SpawnEnemy(): void;
 declare function AddScore(Value: number): void;
 declare function gameOver(AnimationID: number): void;
-declare function animate(): void;
 declare function PauseGame(): void;
 declare function UnpauseGame(): void;
 declare function OpenOptionsMenu(): void;
