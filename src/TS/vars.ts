@@ -14,3 +14,22 @@ const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
 const ParticlesDamageEnemies = false;
 const MaxEnemies = 10;
+//get a bunch of elements
+
+
+
+let player = new Player(cw, ch, PlayerRadius, PlayerColor);
+let projectiles = [] as Projectile[];
+let enemies = [] as Enemy[];
+let particles = [] as Particle[];
+let GameStarted = false;
+let UseParticles = true;
+let Paused = false;
+let ShopOpen = false;
+let OptionsOpen = false;
+let Muted = true;
+let lastInterval: any;
+let EnemySpawnTime = 50;
+let animationID: number;
+let score = 0;
+let DefaultEnemySpawnTime = 50;
