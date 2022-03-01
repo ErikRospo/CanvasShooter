@@ -15,7 +15,7 @@
             "./src/TS/helperFunctions.ts",
             "./src/TS/Upgrade.ts",
             "./src/TS/UpgradeDefinitions.ts",
-            // "./src/TS/index.ts",
+            "./src/TS/index.ts",
             "./src/TS/endTests.ts"
           ]
 }
