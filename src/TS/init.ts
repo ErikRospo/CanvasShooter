@@ -44,7 +44,11 @@ const OptionsBackButton = document.querySelector("#OptionsBackButton") as HTMLBu
 
 //XP bar at top of screen.
 const XPBar = document.querySelector("#XPBar") as HTMLProgressElement;
+const XPBarLabel = document.querySelector("#XPbarLabel") as HTMLParagraphElement;
 
+//debug elements:
+const debugDiv=document.querySelector("#debugDiv") as HTMLDivElement;
+const debugList=document.querySelector("#debugList") as HTMLUListElement;
 //define other global constants
 const w = canvas.width;
 const h = canvas.height;

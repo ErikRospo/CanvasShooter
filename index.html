@@ -21,6 +21,18 @@
             color: white;
         }
         
+        .debug {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+        }
+        
+        .debugItem {
+            color: white;
+            width: fit-content;
+            height: fit-content;
+        }
+        
         .UpgradeButton {
             background-color: rgb(50, 150, 250);
             color: white;
@@ -69,7 +81,8 @@
         <progress max="1" value="0.5" class="self-start"></progress>
     </div> -->
     <div class="fixed select-none items-center place-items-center" style="width: 50%; left:50%; top: 20px;">
-        <progress id="XPBar" max="1" value="0.5" class="self-start center relative"></progress>
+        <progress id="XPBar" max="1" value="0" class="self-start relative"></progress>
+        <p id="XPBarLabel" class="text-white hidden">test</p>
     </div>
     <!-- <div class="mr-2 mt-1 fixed flex items-center " id="AudioDiv">
          <audio controls id="musicEL" src="./Audio/music/Music1.mp3"></audio>
@@ -140,6 +153,11 @@
     <div class="fixed text-white ">
         <ol id="HighScores " class="text-white w-8 h-16 ">
         </ol>
+    </div>
+    <div id="debugDiv" class="debug">
+        <ul id="debugList" class="debugList debug select-none">
+
+        </ul>
     </div>
     <canvas></canvas>
     <script src="https://sfxr.me/riffwave.js "></script>
