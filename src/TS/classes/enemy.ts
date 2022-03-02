@@ -6,6 +6,8 @@ class Enemy {
     color: string;
     velocity: { x: number, y: number };
     startingRadius: number;
+    id: any;
+    timeCreated: number;
     constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }) {
         this.x = x;
         this.y = y;
@@ -13,6 +15,8 @@ class Enemy {
         this.color = color;
         this.velocity = velocity;
         this.startingRadius = this.radius;
+        this.timeCreated=Date.now()
+        this.id = hash(this, 64)
     }
     draw() {
         c.beginPath();

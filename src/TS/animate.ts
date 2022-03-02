@@ -1,6 +1,8 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
-
+    enemies = enemies.filter((value) => {
+        return !(value.id in enemiesToRemove)
+    })
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
@@ -51,7 +53,7 @@ function animate() {
             }
         });
         //draw the enemies
-        enemies.forEach((enemy, index) => {
+        enemies.forEach((enemy) => {
             //update each enemy
             enemy.update();
             //get the distance to the player
@@ -106,7 +108,7 @@ function animate() {
                         AddScore(250);
                         //on the next frame, delete the enemy and projectile
                         setTimeout(() => {
-                            queueMicrotask(() => { enemies.splice(index, 1) })
+                            enemiesToRemove.push(enemy.id)
                             // enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
                         }, 1);

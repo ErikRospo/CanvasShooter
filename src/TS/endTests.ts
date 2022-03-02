@@ -1,4 +1,5 @@
 console.log("random")
-console.log(CreateRandomUpgrades());
+let randomUpgrades = CreateRandomUpgrades()
+console.log(randomUpgrades);
 console.log("predefined:")
 console.log(CreateUpgrades());

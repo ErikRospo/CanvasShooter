@@ -89,6 +89,38 @@ function intBetweenNot(min, max, not) {
 function coinFlip(bias) {
     return (Math.random() > bias);
 }
+function hash(object, length) {
+    let finalString = "";
+    let objstr = JSON.stringify(object);
+    let half = Math.round(objstr.length / 2);
+    let firsthalf = objstr.slice(0, half);
+    let secondhalf = objstr.slice(half, objstr.length);
+    while (finalString.length < length) {
+        let processedString = "";
+        for (let n = 0; n < half; n++) {
+            processedString += (firsthalf.codePointAt(n) << 4 ^ secondhalf.codePointAt(n) >> 3).toString(10);
+        }
+        objstr = processedString.concat(processedString);
+        finalString += objstr;
+        half = Math.round(objstr.length / 2);
+        firsthalf = objstr.slice(0, half);
+        secondhalf = objstr.slice(half, objstr.length);
+    }
+    return finalString.slice(0, length + 1);
+}
+function AddDebugItem(value, id) {
+    var node = document.createElement("li");
+    node.id = id;
+    node.innerText = value.toString();
+    node.classList.add("debugItem");
+    debugList.appendChild(node);
+    return debugList;
+}
+function SetDebugItem(value, id) {
+    var node = document.getElementById(id);
+    node.innerText = value.toString();
+    return node;
+}
 class Upgrade {
     constructor(description) {
         this.Description = description;
@@ -378,6 +410,8 @@ class Enemy {
         this.color = color;
         this.velocity = velocity;
         this.startingRadius = this.radius;
+        this.timeCreated = Date.now();
+        this.id = hash(this, 64);
     }
     draw() {
         c.beginPath();
@@ -484,6 +518,9 @@ OptionsBackButton.addEventListener("click", () => {
 });
 function animate() {
     animationID = requestAnimationFrame(animate);
+    enemies = enemies.filter((value) => {
+        return !(value.id in enemiesToRemove);
+    });
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
@@ -526,7 +563,7 @@ function animate() {
                 projectiles.splice(index, 1);
             }
         });
-        enemies.forEach((enemy, index) => {
+        enemies.forEach((enemy) => {
             enemy.update();
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             if (dist - enemy.radius - player.radius < 0) {
@@ -560,7 +597,7 @@ function animate() {
                         }
                         AddScore(250);
                         setTimeout(() => {
-                            queueMicrotask(() => { enemies.splice(index, 1); });
+                            enemiesToRemove.push(enemy.id);
                             projectiles.splice(index2, 1);
                         }, 1);
                     }
@@ -600,6 +637,7 @@ let EnemySpawnTime = 50;
 let animationID;
 let score = 0;
 let DefaultEnemySpawnTime = 50;
+let enemiesToRemove = [];
 function ShowShop() {
     ShopELs.forEach((value) => {
         var htmlvalue = value;
@@ -731,21 +769,9 @@ function CloseOptionsMenu() {
     OptionsOpen = false;
 }
 ;
-function AddDebugItem(value, id) {
-    var node = document.createElement("li");
-    node.id = id;
-    node.innerText = value.toString();
-    node.classList.add("debugItem");
-    debugList.appendChild(node);
-    return debugList;
-}
-function SetDebugItem(value, id) {
-    var node = document.getElementById(id);
-    node.innerText = value.toString();
-    return node;
-}
 console.log("random");
-console.log(CreateRandomUpgrades());
+let randomUpgrades = CreateRandomUpgrades();
+console.log(randomUpgrades);
 console.log("predefined:");
 console.log(CreateUpgrades());
 //# sourceMappingURL=compiled.js.map

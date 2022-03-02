@@ -50,6 +50,9 @@ declare function randomChoiceNot(value: any[], not: any[]): any;
 declare function randomBetweenNot(min: number, max: number, not: number[]): number;
 declare function intBetweenNot(min: number, max: number, not: number[]): number;
 declare function coinFlip(bias: number): boolean;
+declare function hash(object: any, length: number): string;
+declare function AddDebugItem(value: any, id: string): HTMLUListElement;
+declare function SetDebugItem(value: any, id: string): HTMLElement;
 declare class Upgrade {
     effects: Effect[];
     requirements: Requirement[];
@@ -138,6 +141,8 @@ declare class Enemy {
         y: number;
     };
     startingRadius: number;
+    id: any;
+    timeCreated: number;
     constructor(x: number, y: number, r: number, color: string, velocity: {
         x: number;
         y: number;
@@ -194,6 +199,7 @@ declare let EnemySpawnTime: number;
 declare let animationID: number;
 declare let score: number;
 declare let DefaultEnemySpawnTime: number;
+declare let enemiesToRemove: string[];
 declare function ShowShop(): void;
 declare function HideShop(): void;
 declare function updateHighScores(scores: any[]): void;
@@ -206,5 +212,4 @@ declare function PauseGame(): void;
 declare function UnpauseGame(): void;
 declare function OpenOptionsMenu(): void;
 declare function CloseOptionsMenu(): void;
-declare function AddDebugItem(value: any, id: string): HTMLUListElement;
-declare function SetDebugItem(value: any, id: string): HTMLElement;
+declare let randomUpgrades: Upgrade[];
