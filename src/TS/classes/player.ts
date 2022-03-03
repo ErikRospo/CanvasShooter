@@ -31,7 +31,9 @@ class Player {
         this.AutoFire = false;
         this.AutoRotate = false;
         this.ShotSize = 5;
-        this.Health = 1;
+        this.Health = 5;
+        SetDebugItem(this.Health,"playerHealth");
+
     }
 
     update() {

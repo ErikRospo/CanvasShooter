@@ -53,14 +53,20 @@ function animate() {
             }
         });
         //draw the enemies
-        enemies.forEach((enemy) => {
+        enemies.forEach((enemy, index) => {
             //update each enemy
             enemy.update();
             //get the distance to the player
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             //if the enemy is touching the player, end the game
             if (dist - enemy.radius - player.radius < 0) {
-                gameOver(animationID);
+                if (player.Health == 0) {
+                    gameOver(animationID);
+                } else {
+                    player.Health -= 1;
+                    enemies.splice(index, 1);
+                    SetDebugItem(player.Health, "playerHealth");
+                }
 
             }
             projectiles.forEach((projectile, index2) => {
@@ -108,8 +114,8 @@ function animate() {
                         AddScore(250);
                         //on the next frame, delete the enemy and projectile
                         setTimeout(() => {
-                            enemiesToRemove.push(enemy.id)
-                            // enemies.splice(index, 1);
+                            // enemiesToRemove.push(enemy.id)
+                            enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
                         }, 1);
                     }

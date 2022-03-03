@@ -66,6 +66,7 @@ function PageLoad() {
     AddDebugItem(0, "playerLevel")
     AddDebugItem(0, "playerCashedLevels")
     AddDebugItem(false, "CantSpawn")
+    AddDebugItem(5, "playerHealth");
     // PausedModalEL.setAttribute("style", "display:none;");
     // PausedBigScoreEL.setAttribute("style", "display:none;");
     // resumeGameButton.setAttribute("style", "display:none;");

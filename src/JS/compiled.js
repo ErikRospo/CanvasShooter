@@ -4,6 +4,11 @@ canvas.width = innerWidth;
 canvas.height = innerHeight;
 c.shadowBlur = 20;
 c.shadowColor = "black";
+// c.shadowOffsetX = 10;
+// c.translate(10, 50);
+// c.filter("invert(100);");
+// c.filter = "blur(1px)";
+c.filter = "drop-shadow(5px,5px,2,rgb(0,0,0))";
 const scoreEL = document.querySelector("#scoreEL");
 const MoneyEL = document.querySelector("#moneyEL");
 const ShopMoney = document.querySelector("#ShopMoney");
@@ -370,7 +375,8 @@ class Player {
         this.AutoFire = false;
         this.AutoRotate = false;
         this.ShotSize = 5;
-        this.Health = 1;
+        this.Health = 5;
+        // SetDebugItem(this.Health, "playerHealth");
     }
     update() {
         this.draw();
@@ -563,11 +569,18 @@ function animate() {
                 projectiles.splice(index, 1);
             }
         });
-        enemies.forEach((enemy) => {
+        enemies.forEach((enemy, index) => {
             enemy.update();
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             if (dist - enemy.radius - player.radius < 0) {
-                gameOver(animationID);
+                if (player.Health == 0) {
+                    gameOver(animationID);
+                } else {
+                    player.Health -= 1;
+                    enemies.splice(index, 1);
+                    SetDebugItem(player.Health, "playerHealth");
+                }
+
             }
             projectiles.forEach((projectile, index2) => {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
@@ -597,7 +610,7 @@ function animate() {
                         }
                         AddScore(250);
                         setTimeout(() => {
-                            enemiesToRemove.push(enemy.id);
+                            enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
                         }, 1);
                     }
@@ -697,6 +710,7 @@ function PageLoad() {
     AddDebugItem(0, "playerLevel");
     AddDebugItem(0, "playerCashedLevels");
     AddDebugItem(false, "CantSpawn");
+    AddDebugItem(5, "playerHealth");
     HideShop();
     Paused = true;
     OptionsOpen = false;
