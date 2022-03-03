@@ -14,14 +14,15 @@ class Player {
     AutoRotate: boolean;
     ShotSize: number;
     Health: number;
+    cachedLevels: number;
+    level: number;
     constructor(x: number, y: number, radius: number, color: string) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.color = color;
-
-        this.Money = 0;
-        this.moneyMult = 1;
+        this.cachedLevels = 0
+        this.level = 0
 
         this.Damage = 10;
         this.ShotSpeed = 5;

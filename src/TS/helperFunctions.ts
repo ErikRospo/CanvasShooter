@@ -98,3 +98,24 @@ function intBetweenNot(min: number, max: number, not: number[]): number {
 function coinFlip(bias: number): boolean {
     return (Math.random() > bias)
 }
+
+function hash(object: any, length: number): string {
+    let finalString = ""
+    let objstr = JSON.stringify(object)
+    let half = Math.round(objstr.length / 2)
+    let firsthalf = objstr.slice(0, half)
+    let secondhalf = objstr.slice(half, objstr.length)
+    while (finalString.length < length) {
+        let processedString = ""
+        for (let n = 0; n < half; n++) {
+            processedString += (firsthalf.codePointAt(n) << 4 ^ secondhalf.codePointAt(n) >> 3).toString(10)
+        }
+        objstr = processedString.concat(processedString)
+        finalString += objstr
+        half = Math.round(objstr.length / 2)
+        firsthalf = objstr.slice(0, half)
+        secondhalf = objstr.slice(half, objstr.length)
+
+    }
+    return finalString.slice(0, length + 1)
+}

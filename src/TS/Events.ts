@@ -27,7 +27,8 @@ addEventListener("click", (event) => {
 addEventListener("load", () => { PageLoad() });
 //when the user clicks the start button, start the game
 startGameButton.addEventListener("click", () => {
-    ModalEL.setAttribute("style", "display:none;");
+    // ModalEL.setAttribute("style", "display:none;");
+    ModalEL.style.display = "none"
 
     init();
     animate();
@@ -42,22 +43,30 @@ ShopCloseButton.addEventListener("click", () => {
     HideShop();
 });
 ToggleMuteBtnUnmuted.addEventListener("click", () => {
-    ToggleMuteBtnUnmuted.setAttribute("style", "display:none;");
-    ToggleMuteBtnMuted.setAttribute("style", "display:initial;");
+    // ToggleMuteBtnUnmuted.setAttribute("style", "display:none;");
+    // ToggleMuteBtnMuted.setAttribute("style", "display:initial;");
+    ToggleMuteBtnUnmuted.style.display = "none";
+    ToggleMuteBtnMuted.style.display = "initial";
     Muted = true;
 });
 ToggleMuteBtnMuted.addEventListener("click", () => {
-    ToggleMuteBtnMuted.setAttribute("style", "display:none;");
-    ToggleMuteBtnUnmuted.setAttribute("style", "display:initial;");
+    ToggleMuteBtnMuted.style.display = "none";
+    ToggleMuteBtnUnmuted.style.display = "initial"
+    // ToggleMuteBtnMuted.setAttribute("style", "display:none;");
+    // ToggleMuteBtnUnmuted.setAttribute("style", "display:initial;");
     Muted = false;
 });
 
 ToggleParticlesBtnUse.addEventListener("click", () => {
-    ToggleParticlesBtnDontUse.setAttribute("style", "display:initial;");
-    ToggleParticlesBtnUse.setAttribute("style", "display:none;");
+    ToggleParticlesBtnDontUse.style.display = "initial";
+    ToggleParticlesBtnUse.style.display = "none";
+    // ToggleParticlesBtnDontUse.setAttribute("style", "display:initial;");
+    // ToggleParticlesBtnUse.setAttribute("style", "display:none;");
     UseParticles = false;
 });
 ToggleParticlesBtnDontUse.addEventListener("click", () => {
+    ToggleParticlesBtnDontUse.style.display = "none";
+    ToggleParticlesBtnUse.style.display = "initial"
     ToggleParticlesBtnDontUse.setAttribute("style", "display:none;");
     ToggleParticlesBtnUse.setAttribute("style", "display:initial;");
     UseParticles = true;

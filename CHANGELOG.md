@@ -22,4 +22,5 @@
 0.3.0:Changed from using upgrades to a single attribute to using upgrades that upgrade one thing, and downgrade another. Removed Upgrade numbers, as well as fire rate upgrade. removed click event listeners for shop  
 0.3.1: Split functions into files. added classes folder, and moved classes into their respective files.  
 0.3.2: Started adding progress bar for XP.   
-0.3.3: Merged `MainTS` with `main` branch 
+0.3.3: Merged `MainTS` with `main` branch
+0.3.4: continued adding progress bar. Upgrades now have more of a difficulty curve.
