@@ -31,12 +31,14 @@ class Player {
         this.AutoFire = false;
         this.AutoRotate = false;
         this.ShotSize = 5;
-        this.Health = 5;
+        this.Health = 0;
+        // AddDebugItem(this.Health, "playerHealth");
         SetDebugItem(this.Health,"playerHealth");
 
     }
 
     update() {
+        SetDebugItem(this.Health, "playerHealth");
         this.draw()
     }
     draw() {

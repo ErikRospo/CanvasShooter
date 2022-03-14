@@ -24,23 +24,23 @@ function HideShop() {
     Paused = false;
 }
 
-function updateHighScores(scores: any[]) {
-    scores.sort((a: number, b: number) => a - b);
-    for (let index = 0; index < scores.length; index++) {
-        const element = scores[index];
-        var node = document.createElement("li");
-        node.appendChild(document.createTextNode(element));
-        HighScoreList.appendChild(node);
+// function updateHighScores(scores: any[]) {
+//     scores.sort((a: number, b: number) => a - b);
+//     for (let index = 0; index < scores.length; index++) {
+//         const element = scores[index];
+//         var node = document.createElement("li");
+//         node.appendChild(document.createTextNode(element));
+//         HighScoreList.appendChild(node);
 
-    }
-}
+//     }
+// }
 
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     HideShop();
     CloseOptionsMenu();
     Paused = false;
-    updateHighScores(highScores);
+    // updateHighScores(highScores);
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
     enemies = [];
@@ -128,16 +128,18 @@ function AddScore(Value: number) {
 
 function gameOver(AnimationID: number) {
     cancelAnimationFrame(AnimationID);
+    Scores.addScore(score)
     //and add the end screen back up
     ModalEL.setAttribute("style", "display:flex;");
     // TitleEL.setAttribute("style", "display:none;");
     // BigScoreELLabel.setAttribute("style", "display:block;");
     // BigScoreEL.setAttribute("style", "display:block;");
     // ModalEL.style.display = "flex"
-    TitleEL.style.display = "none"
-    BigScoreELLabel.style.display = "block"
-    BigScoreEL.style.display = "block"
-
+    HighScoreList.innerHTML = Scores.Html;
+    console.log(Scores)
+    // TitleEL.style.display = "none";
+    BigScoreELLabel.style.display = "block";
+    BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();
 }
 

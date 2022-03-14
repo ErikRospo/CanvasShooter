@@ -13,7 +13,6 @@ declare const HighScoreList: Element;
 declare const Music: Element;
 declare const Pause: Element;
 declare const Play: Element;
-declare let highScores: any[];
 declare const ShootSound: HTMLAudioElement;
 declare const HitNoKillSound: HTMLAudioElement;
 declare const HitAndKillSound: HTMLAudioElement;
@@ -43,6 +42,14 @@ declare const ch: number;
 declare function logx(val: number, base: number): number;
 declare function randomBetween(min: number, max: number): number;
 declare function intBetween(min: number, max: number): number;
+declare function map(input: number, input_start: number, input_end: number, output_start: number, output_end: number): number;
+declare function threshold(p1: {
+    x: number;
+    y: number;
+}, p2: {
+    x: number;
+    y: number;
+}, t: number): boolean;
 declare function FrameIDToTime(ID: number): number;
 declare function distance(x1: number, y1: number, x2: number, y2: number): number;
 declare function randomChoice(value: any[]): any;
@@ -167,6 +174,13 @@ declare class Particle {
     draw(): void;
     update(): void;
 }
+declare class HighScore {
+    scores: number[];
+    constructor();
+    addScore(score: number): void;
+    sort(): void;
+    get Html(): string;
+}
 declare function animate(): void;
 declare const Difficulty = "easy";
 declare const EnemySpawnTimeDecrement = 1;
@@ -200,9 +214,9 @@ declare let animationID: number;
 declare let score: number;
 declare let DefaultEnemySpawnTime: number;
 declare let enemiesToRemove: string[];
+declare let Scores: HighScore;
 declare function ShowShop(): void;
 declare function HideShop(): void;
-declare function updateHighScores(scores: any[]): void;
 declare function init(): void;
 declare function PageLoad(): void;
 declare function SpawnEnemy(): void;
@@ -213,3 +227,4 @@ declare function UnpauseGame(): void;
 declare function OpenOptionsMenu(): void;
 declare function CloseOptionsMenu(): void;
 declare let randomUpgrades: Upgrade[];
+//# sourceMappingURL=compiled.d.ts.map

@@ -1,5 +1,4 @@
 Planned:
-    [ ] @todo @high Add highscores
     [ ] @todo @high Add difficulty curve
     [ ] @todo Add better menus
         [ ] @todo @high Add main menu
@@ -10,9 +9,12 @@ Planned:
     [ ] @todo @ongoing Bug fixes
     [ ] @todo @ongoing Difficulty tweaks
     [ ] @todo @ongoing Balance changes
-Today:
-    [ ] @todo #1 @high Add firing delay
+    [ ] @todo @high Fix enemies disapearing randomly.
+    [ ] @todo @low Shots bounce off of maybe enemies/maybe wall @maybe
+
 Archive:
+  [x] @todo @high Add highscores @started(22-03-14 10:14) @done(22-03-14 13:44) @lasted(3h30m19s) @project(Planned)
+  [-] @todo #1 @high Add firing delay @cancelled(22-03-14 11:35) @project(Today)
   [-] @todo @low set up tooltips for options menu items. @cancelled(22-02-23 11:26) @project(Planned)
   [x] @todo Add upgrades @done(22-02-21 16:19) @project(Today)
   [x] @todo Add Damage upgrades @done(22-02-21 16:19) @project(Today)

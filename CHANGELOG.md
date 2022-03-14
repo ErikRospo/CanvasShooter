@@ -17,10 +17,11 @@
 0.2.1: Changed workspace settings, changed shop enabling/disabling from an if statement to a switch/case statement.   
 0.2.2: Changed TSConfig settings. Changed the `FireRateVal`.   
 0.2.3: Removed the Title Screen. Removed the tooltip CSS styles. Changed the opacity of the pause menu when the options menu is open. changed TSConfig to compile to ES6, added declaration map.  
-0.2.4:Changed TSConfig to transpile to single file. Formatting  
-0.2.5:Removed `Test1();` function. Changed from `player.draw();` to `player.update();`   
-0.3.0:Changed from using upgrades to a single attribute to using upgrades that upgrade one thing, and downgrade another. Removed Upgrade numbers, as well as fire rate upgrade. removed click event listeners for shop  
+0.2.4: Changed TSConfig to transpile to single file. Formatting  
+0.2.5: Removed `Test1();` function. Changed from `player.draw();` to `player.update();`   
+0.3.0: Changed from using upgrades to a single attribute to using upgrades that upgrade one thing, and downgrade another. Removed Upgrade numbers, as well as fire rate upgrade. removed click event listeners for shop  
 0.3.1: Split functions into files. added classes folder, and moved classes into their respective files.  
 0.3.2: Started adding progress bar for XP.   
 0.3.3: Merged `MainTS` with `main` branch
 0.3.4: continued adding progress bar. Upgrades now have more of a difficulty curve.
+0.3.5: Readded HighScore

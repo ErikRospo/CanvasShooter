@@ -23,8 +23,30 @@ function randomBetween(min: number, max: number) {
  * @param max the maximum number
  * @returns a random integer between min and max
  */
-function intBetween(min: number, max: number) {
+function intBetween(min: number, max: number):number {
     return Math.round(randomBetween(min, max))
+}
+/**
+ * 
+ * @param input the input of the function
+ * @param input_start the minumum value of input
+ * @param input_end the maximum value of input
+ * @param output_start the minumum return value
+ * @param output_end the maximum return value
+ * @returns a number between @param output_start and @param output_end
+ */
+function map(input: number, input_start: number, input_end: number, output_start: number, output_end: number):number {
+    return output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start);
+}
+/**
+ * 
+ * @param p1 a point with an x and y
+ * @param p2 a point with an x and y
+ * @param t threshold to test within
+ * @returns boolean value determining if the points are in range of the threshold
+ */
+function threshold(p1: { x: number; y: number; }, p2: { x: number; y: number; }, t: number):boolean {
+    return (Math.sqrt(((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)) - (2 * t) < 0);
 }
 
 function FrameIDToTime(ID: number) {
@@ -97,25 +119,4 @@ function intBetweenNot(min: number, max: number, not: number[]): number {
  */
 function coinFlip(bias: number): boolean {
     return (Math.random() > bias)
-}
-
-function hash(object: any, length: number): string {
-    let finalString = ""
-    let objstr = JSON.stringify(object)
-    let half = Math.round(objstr.length / 2)
-    let firsthalf = objstr.slice(0, half)
-    let secondhalf = objstr.slice(half, objstr.length)
-    while (finalString.length < length) {
-        let processedString = ""
-        for (let n = 0; n < half; n++) {
-            processedString += (firsthalf.codePointAt(n) << 4 ^ secondhalf.codePointAt(n) >> 3).toString(10)
-        }
-        objstr = processedString.concat(processedString)
-        finalString += objstr
-        half = Math.round(objstr.length / 2)
-        firsthalf = objstr.slice(0, half)
-        secondhalf = objstr.slice(half, objstr.length)
-
-    }
-    return finalString.slice(0, length + 1)
 }

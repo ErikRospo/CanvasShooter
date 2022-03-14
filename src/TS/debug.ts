@@ -8,6 +8,7 @@ function AddDebugItem(value: any, id: string) {
 }
 function SetDebugItem(value: any, id: string) {
     var node = document.getElementById(id)
-    node.innerText = value.toString()
+    node.innerText = id.toString() + ": " + value.toString()
     return node
 }
+AddDebugItem(0, "playerHealth")

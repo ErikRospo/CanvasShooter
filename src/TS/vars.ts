@@ -34,3 +34,4 @@ let animationID: number;
 let score = 0 as number;
 let DefaultEnemySpawnTime = 50 as number;
 let enemiesToRemove = [] as string[];
+let Scores = new HighScore() as HighScore;

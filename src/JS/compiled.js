@@ -4,11 +4,6 @@ canvas.width = innerWidth;
 canvas.height = innerHeight;
 c.shadowBlur = 20;
 c.shadowColor = "black";
-// c.shadowOffsetX = 10;
-// c.translate(10, 50);
-// c.filter("invert(100);");
-// c.filter = "blur(1px)";
-c.filter = "drop-shadow(5px,5px,2,rgb(0,0,0))";
 const scoreEL = document.querySelector("#scoreEL");
 const MoneyEL = document.querySelector("#moneyEL");
 const ShopMoney = document.querySelector("#ShopMoney");
@@ -18,12 +13,11 @@ const TitleEL = document.querySelector("#titleElement");
 const BigScoreEL = document.querySelector("#BigScoreEL");
 const BigScoreELLabel = document.querySelector("#PointsLabelEL");
 const NameDiv = document.querySelector("#NameInputDiv");
-const HighScoreList = document.querySelector("#HighScores");
+const HighScoreList = document.querySelector("#HighScore");
 const Music = document.querySelector("#MusicEL");
 console.log(Music);
 const Pause = document.querySelector("#PauseEL");
 const Play = document.querySelector("#PlayEL");
-let highScores = [];
 const ShootSound = new Audio("Audio/sound/Shoot.wav");
 const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
 const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
@@ -58,6 +52,12 @@ function randomBetween(min, max) {
 }
 function intBetween(min, max) {
     return Math.round(randomBetween(min, max));
+}
+function map(input, input_start, input_end, output_start, output_end) {
+    return output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start);
+}
+function threshold(p1, p2, t) {
+    return (Math.sqrt((Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2))) - (2 * t) < 0);
 }
 function FrameIDToTime(ID) {
     var Second = ID / 60;
@@ -123,9 +123,10 @@ function AddDebugItem(value, id) {
 }
 function SetDebugItem(value, id) {
     var node = document.getElementById(id);
-    node.innerText = value.toString();
+    node.innerText = id.toString() + ": " + value.toString();
     return node;
 }
+AddDebugItem(0, "playerHealth");
 class Upgrade {
     constructor(description) {
         this.Description = description;
@@ -375,10 +376,11 @@ class Player {
         this.AutoFire = false;
         this.AutoRotate = false;
         this.ShotSize = 5;
-        this.Health = 5;
-        // SetDebugItem(this.Health, "playerHealth");
+        this.Health = 0;
+        SetDebugItem(this.Health, "playerHealth");
     }
     update() {
+        SetDebugItem(this.Health, "playerHealth");
         this.draw();
     }
     draw() {
@@ -456,6 +458,47 @@ class Particle {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
         this.alpha -= randomBetween(0.001, 0.025) * ParticleFadeSpeedMultiplier;
+    }
+}
+class HighScore {
+    constructor() {
+        this.scores = [];
+    }
+    addScore(score) {
+        if (score != 0)
+            this.scores.push(score);
+        this.sort();
+    }
+    sort() {
+        this.scores.sort((a, b) => a - b);
+        this.scores.reverse();
+    }
+    get Html() {
+        let ScoreElement = document.createElement("ol");
+        this.sort();
+        for (let index = 0; index < Math.min(this.scores.length, 10); index++) {
+            const element = this.scores[index];
+            var node = document.createElement("li");
+            switch (index) {
+                case 0:
+                    node.style.color = "#ffd700";
+                    node.appendChild(document.createTextNode(element.toString(10)));
+                    break;
+                case 1:
+                    node.style.color = "#c0c0c0";
+                    node.appendChild(document.createTextNode(element.toString(10)));
+                    break;
+                case 2:
+                    node.style.color = "#CD7F32";
+                    node.appendChild(document.createTextNode(element.toString(10)));
+                    break;
+                default:
+                    node.appendChild(document.createTextNode(element.toString(10)));
+                    break;
+            }
+            ScoreElement.appendChild(node);
+        }
+        return ScoreElement.innerHTML;
     }
 }
 addEventListener("click", (event) => {
@@ -575,12 +618,12 @@ function animate() {
             if (dist - enemy.radius - player.radius < 0) {
                 if (player.Health == 0) {
                     gameOver(animationID);
-                } else {
+                }
+                else {
                     player.Health -= 1;
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health, "playerHealth");
                 }
-
             }
             projectiles.forEach((projectile, index2) => {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
@@ -651,6 +694,7 @@ let animationID;
 let score = 0;
 let DefaultEnemySpawnTime = 50;
 let enemiesToRemove = [];
+let Scores = new HighScore();
 function ShowShop() {
     ShopELs.forEach((value) => {
         var htmlvalue = value;
@@ -673,21 +717,11 @@ function HideShop() {
     ShopOpen = false;
     Paused = false;
 }
-function updateHighScores(scores) {
-    scores.sort((a, b) => a - b);
-    for (let index = 0; index < scores.length; index++) {
-        const element = scores[index];
-        var node = document.createElement("li");
-        node.appendChild(document.createTextNode(element));
-        HighScoreList.appendChild(node);
-    }
-}
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     HideShop();
     CloseOptionsMenu();
     Paused = false;
-    updateHighScores(highScores);
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
     enemies = [];
@@ -742,8 +776,10 @@ function AddScore(Value) {
 }
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
+    Scores.addScore(score);
     ModalEL.setAttribute("style", "display:flex;");
-    TitleEL.style.display = "none";
+    HighScoreList.innerHTML = Scores.Html;
+    console.log(Scores);
     BigScoreELLabel.style.display = "block";
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();
