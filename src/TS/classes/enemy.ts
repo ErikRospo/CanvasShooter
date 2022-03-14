@@ -16,8 +16,13 @@ class Enemy {
         this.velocity = velocity;
         this.startingRadius = this.radius;
         this.timeCreated=Date.now()
-        this.id = hash(this, 64)
+        this.id = md5(this.toString)
     }
+
+    public get toString(): string {
+        return JSON.stringify(this)
+    }
+
     draw() {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
