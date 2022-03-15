@@ -13,6 +13,10 @@ class Projectile {
         this.velocity = velocity;
     }
     draw() {
+        if (DEBUGFLAG) {
+            c.strokeStyle = "rgb(255,128,0)"
+            c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2)
+        }
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;

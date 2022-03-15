@@ -88,7 +88,7 @@ function SpawnEnemy() {
     let x: number;
     let y: number;
     //give it a radius
-    const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
+    const radius = randomBetween(4, 30) * EnemyHealthMultiplier + 4;
     //randomly decide whether to spawn it height or width-wise
     if (Math.random() < EnemySpawnBias) {
         //spawn it along the x axis
@@ -101,7 +101,7 @@ function SpawnEnemy() {
     }
     //choose a random color
     //the 50 saturation and lightness gives it a pastel-like color
-    const color = `hsl(${Math.random() * 360},50%,50%)`;
+    const color = `hsl(${randomBetween(0, 360)},50%,50%)`;
     //calculate the angle to the center from its current position
     const angle = Math.atan2(ch - y, cw - x);
     //set the x and y values accordingly
@@ -110,7 +110,21 @@ function SpawnEnemy() {
         y: Math.sin(angle) * EnemySpeedMultiplier
     };
     //add it to the enemies list
-    enemies.push(new Enemy(x, y, radius, color, velocity));
+    switch (randomInt(0, 10)) {
+        case 0:
+            enemies.push(new Enemy(x, y, radius, color, velocity));
+            break;
+        case 1:
+            enemies.push(new FastEnemy(x, y, radius, velocity));
+            break;
+        case 2:
+            enemies.push(new SlowEnemy(x, y, radius, velocity));
+            break;
+        default:
+            enemies.push(new Enemy(x, y, radius, color, velocity));
+            break;
+    }
+    // enemies.push(new Enemy(x, y, radius, color, velocity));
     //trigger every second
 }
 

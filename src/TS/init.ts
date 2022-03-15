@@ -53,3 +53,4 @@ const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
+const DEBUGFLAG = true;

@@ -1,8 +1,14 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
-    enemies = enemies.filter((value) => {
-        return !(value.id in enemiesToRemove)
+    // SetDebugItem(enemiesToRemove, "enemiesRemove");
+    // SetDebugItem(enemies, "enemies");
+    enemies = enemies.filter((value, index) => {
+        let tr = !(value.id in enemiesToRemove)
+        if (tr) { enemiesToRemove.splice(index, 1) }
+        return tr
     })
+
+
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
@@ -93,7 +99,7 @@ function animate() {
                         }
                     }
                     //shrink enemy if it is large
-                    if (enemy.radius - player.Damage > 5) {
+                    if (!enemy.ShouldDie(player.Damage)) {
                         if (!Muted) {
                             HitNoKillSound.play();
                         }
@@ -114,9 +120,9 @@ function animate() {
                         AddScore(250);
                         //on the next frame, delete the enemy and projectile
                         setTimeout(() => {
-                            // enemiesToRemove.push(enemy.id)
+                            enemiesToRemove.push(enemy.id)
                             enemies.splice(index, 1);
-                            projectiles.splice(index2, 1);
+                            // projectiles.splice(index2, 1);
                         }, 1);
                     }
                 }

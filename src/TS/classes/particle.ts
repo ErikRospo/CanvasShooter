@@ -16,6 +16,10 @@ class Particle {
         this.alpha = 1;
     }
     draw() {
+        if (DEBUGFLAG) {
+            c.strokeStyle = "rgb(0,0,255)"
+            c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2)
+        }
         c.save();
         c.globalAlpha = this.alpha;
         c.beginPath();

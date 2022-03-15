@@ -2,7 +2,7 @@ Planned:
     [ ] @todo @high Add difficulty curve
     [ ] @todo Add better menus
         [ ] @todo @high Add main menu
-    [ ] @todo Add different enemies
+    [ ] @todo Add different enemies @started(22-03-15 10:22)
         [ ] @todo Fast, large, but less health
         [ ] @todo slow, small, lots of health
     [ ] @todo @low Add tooltips

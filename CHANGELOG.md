@@ -24,4 +24,5 @@
 0.3.2: Started adding progress bar for XP.   
 0.3.3: Merged `MainTS` with `main` branch
 0.3.4: continued adding progress bar. Upgrades now have more of a difficulty curve.
-0.3.5: Readded HighScore
+0.3.5: Re-added HighScore
+0.3.6: Added enemy types (fast but big), and (big but slow)

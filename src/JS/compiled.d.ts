@@ -39,6 +39,7 @@ declare const w: number;
 declare const h: number;
 declare const cw: number;
 declare const ch: number;
+declare const DEBUGFLAG = true;
 declare const RotateLeft: (lValue: number, iShiftBits: number) => number;
 declare function AddUnsigned(lX: number, lY: number): number;
 declare const F: (x: number, y: number, z: number) => number;
@@ -71,7 +72,7 @@ declare const S44 = 21;
 declare const md5: (str: string) => string;
 declare function logx(val: number, base: number): number;
 declare function randomBetween(min: number, max: number): number;
-declare function intBetween(min: number, max: number): number;
+declare function randomInt(min: number, max: number): number;
 declare function map(input: number, input_start: number, input_end: number, output_start: number, output_end: number): number;
 declare function threshold(p1: {
     x: number;
@@ -93,7 +94,9 @@ declare class Upgrade {
     effects: Effect[];
     requirements: Requirement[];
     Description: string;
-    constructor(description: string);
+    color: string;
+    name: string;
+    constructor(name: string, description?: string);
     addEffect(effect: Effect): void;
     addRequirement(requirement: Requirement): void;
 }
@@ -179,6 +182,8 @@ declare class Enemy {
     startingRadius: number;
     id: any;
     timeCreated: number;
+    type: number;
+    minHealth: number;
     constructor(x: number, y: number, r: number, color: string, velocity: {
         x: number;
         y: number;
@@ -186,6 +191,19 @@ declare class Enemy {
     get toString(): string;
     draw(): void;
     update(): void;
+    ShouldDie(damage: number): boolean;
+}
+declare class FastEnemy extends Enemy {
+    constructor(x: number, y: number, r: number, velocity: {
+        x: number;
+        y: number;
+    });
+}
+declare class SlowEnemy extends Enemy {
+    constructor(x: number, y: number, r: number, velocity: {
+        x: number;
+        y: number;
+    });
 }
 declare class Particle {
     x: number;
