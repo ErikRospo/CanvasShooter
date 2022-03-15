@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "file": "${workspaceFolder}/index.html",
+            "name": "Attach(Chrome)",
+            "request": "attach",
+            "port": 5500,
+            "sourceMaps": true,
+            "type": "pwa-chrome",
+            "url": "127.0.0.1:9222",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "file": "${workspaceFolder}/index.html",
+            "showAsyncStacks": true,
+            "name": "Launch (Chrome)",
+            "request": "launch",
+            "sourceMaps": true,
+            "type": "pwa-chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+    ]
+}

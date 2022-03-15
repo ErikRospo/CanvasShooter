@@ -1,9 +1,37 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "outDir": "./src/js",
-        "sourceMap": true,
-        "watch": true
-    }
+  "compilerOptions": {
+    "module": "AMD",
+    "removeComments": true,
+    "noUnusedParameters": true,
+    "target": "ES6",
+    "sourceMap": true,
+    "lib": ["ES2015","ES2016","ES2017","ES2018","ES2019","ES2020","ES2021","DOM"],
+    // "outDir": "./src/JS",
+    "moduleResolution": "node",
+    "outFile": "./src/JS/compiled.js",
+    "checkJs": true,
+    "declaration": true,
+    "declarationMap": true,
+  },
+
+  "compileOnSave": true,
+  "files": [
+            "./src/TS/init.ts",
+            "./src/TS/md5.ts",
+            "./src/TS/helperFunctions.ts",
+            "./src/TS/debug.ts",
+            "./src/TS/Upgrade.ts",
+            "./src/TS/UpgradeDefinitions.ts",
+            "./src/TS/ProgressBar.ts",
+            "./src/TS/classes/player.ts",
+            "./src/TS/classes/projectile.ts",
+            "./src/TS/classes/enemy.ts",
+            "./src/TS/classes/particle.ts",
+            "./src/TS/classes/highScores.ts",
+            "./src/TS/Events.ts",
+            "./src/TS/animate.ts",
+            "./src/TS/vars.ts",
+            "./src/TS/functions.ts",
+            "./src/TS/endTests.ts"
+          ]
 }
