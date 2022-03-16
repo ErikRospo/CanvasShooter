@@ -1,5 +1,26 @@
 {
     "recommendations": [
-        "ritwickdey.LiveServer"
-    ]
+        "ritwickdey.liveserver",
+        "alefragnani.bookmarks",
+        "wilsonsio.color-vision",
+        "hookyqr.jsdoctagcomplete",
+        "janisdd.vscode-edit-csv",
+        "github.copilot",
+        "github.vscode-pull-request-github",
+        "github.remotehub",
+        "dbankier.vscode-instant-markdown",
+        "cmstead.js-codeformer",
+        "cmstead.jsrefactor",
+        "lllllllqw.jsdoc",
+        "bierner.lit-html",
+        "yzhang.markdown-all-in-one",
+        "pkief.material-icon-theme",
+        "ibm.output-colorizer",
+        "johnpapa.pwa-tools",
+        "tyriar.sort-lines",
+        "emeraldwalk.runonsave",
+        "rarnoldmobile.todo-txt",
+        "fabiospampinato.vscode-todo-plus",
+        "VisualStudioExptTeam.vscodeintellicode"
+    ], 
 }

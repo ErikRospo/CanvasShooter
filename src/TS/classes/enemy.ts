@@ -7,7 +7,7 @@ class Enemy {
     velocity: { x: number, y: number };
     startingRadius: number;
     id: any;
-    timeCreated: number;
+    timeCreated: Date;
     type: number;
     minHealth: number;
     /**
@@ -25,7 +25,7 @@ class Enemy {
         this.color = color;
         this.velocity = velocity;
         this.startingRadius = this.radius;
-        this.timeCreated = Date.now();
+        this.timeCreated = new Date();
         this.type = 0;
         this.id = md5(this.toString);
         this.minHealth = 5
@@ -60,7 +60,7 @@ class Enemy {
         this.y += this.velocity.y;
     }
     ShouldDie(damage: number): boolean {
-        return this.radius - damage > this.minHealth;
+        return (this.radius - damage > this.minHealth);
     }
 }
 class FastEnemy extends Enemy {

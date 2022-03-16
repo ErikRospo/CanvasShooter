@@ -1,7 +1,5 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
-    // SetDebugItem(enemiesToRemove, "enemiesRemove");
-    // SetDebugItem(enemies, "enemies");
     enemies = enemies.filter((value, index) => {
         let tr = !(value.id in enemiesToRemove)
         if (tr) { enemiesToRemove.splice(index, 1) }
@@ -12,7 +10,7 @@ function animate() {
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
-        SetDebugItem(player.cachedLevels, "playerCashedLevels")
+        SetDebugItem(player.cachedLevels, "playerCashedLevels");
         let cantspawn = false;
         enemies.forEach((enemy) => {
             projectiles.forEach((projectile) => {

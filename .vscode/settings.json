@@ -6,6 +6,9 @@
         "default": "right",
         "jupyter-notebook": "left"
     },
+    "workbench.settings.editor": "json",
+    "workbench.editor.showIcons": true,
+    "workbench.editor.closeOnFileDelete": true,
     "files.autoSave": "afterDelay",
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",

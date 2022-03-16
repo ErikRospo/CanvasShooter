@@ -181,7 +181,7 @@ declare class Enemy {
     };
     startingRadius: number;
     id: any;
-    timeCreated: number;
+    timeCreated: Date;
     type: number;
     minHealth: number;
     constructor(x: number, y: number, r: number, color: string, velocity: {
