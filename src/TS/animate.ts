@@ -1,12 +1,9 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
     enemies = enemies.filter((value, index) => {
-        let tr = !(value.id in enemiesToRemove)
-        if (tr) { enemiesToRemove.splice(index, 1) }
-        return tr
+        return !(value.id in enemiesToRemove)
     })
-
-
+    enemiesToRemove.slice();
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");

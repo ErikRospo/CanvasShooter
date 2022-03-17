@@ -600,17 +600,17 @@ class Projectile {
     }
 }
 class Enemy {
-    constructor(x, y, r, color, velocity) {
+    constructor(x, y, r, color, velocity, pepper) {
         this.x = x;
         this.y = y;
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
         this.startingRadius = this.radius;
+
         this.timeCreated = new Date();
         this.type = 0;
-        this.id = md5(this.toString);
-        this.minHealth = 5;
+
     }
     get toString() {
         return JSON.stringify(this);
@@ -799,6 +799,7 @@ function animate() {
         }
         return tr;
     });
+    enemiesToRemove.slice();
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
@@ -979,37 +980,32 @@ function PageLoad() {
     OptionsOpen = false;
 }
 function SpawnEnemy() {
-    let x;
-    let y;
-    const radius = randomBetween(4, 30) * EnemyHealthMultiplier + 4;
-    if (Math.random() < EnemySpawnBias) {
-        x = Math.random() < 0.5 ? 0 - radius : w + radius;
-        y = Math.random() * h;
+    function genEnemy(pepper) {
+        let x;
+        let y;
+        const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
+        if (Math.random() < EnemySpawnBias) {
+            x = Math.random() < 0.5 ? 0 - radius : w + radius;
+            y = Math.random() * h;
+        }
+        else {
+            x = Math.random() * w;
+            y = Math.random() < 0.5 ? 0 - radius : h + radius;
+        }
+        const color = `hsl(${Math.random() * 360},50%,50%)`;
+        const angle = Math.atan2(ch - y, cw - x);
+        const velocity = {
+            x: Math.cos(angle) * EnemySpeedMultiplier,
+            y: Math.sin(angle) * EnemySpeedMultiplier
+        };
+        return new Enemy(x, y, radius, color, velocity, pepper);
     }
-    else {
-        x = Math.random() * w;
-        y = Math.random() < 0.5 ? 0 - radius : h + radius;
+    let tryEnemy = genEnemy();
+    while (enemies.find((value) => { return value.id == tryEnemy.id; }) != undefined) {
+        tryEnemy = genEnemy(Math.random());
+        console.count("collisions: ");
     }
-    const color = `hsl(${randomBetween(0, 360)},50%,50%)`;
-    const angle = Math.atan2(ch - y, cw - x);
-    const velocity = {
-        x: Math.cos(angle) * EnemySpeedMultiplier,
-        y: Math.sin(angle) * EnemySpeedMultiplier
-    };
-    switch (randomInt(0, 10)) {
-        case 0:
-            enemies.push(new Enemy(x, y, radius, color, velocity));
-            break;
-        case 1:
-            enemies.push(new FastEnemy(x, y, radius, velocity));
-            break;
-        case 2:
-            enemies.push(new SlowEnemy(x, y, radius, velocity));
-            break;
-        default:
-            enemies.push(new Enemy(x, y, radius, color, velocity));
-            break;
-    }
+    enemies.push(tryEnemy);
 }
 function AddScore(Value) {
     score += Value;

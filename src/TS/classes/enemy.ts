@@ -7,9 +7,10 @@ class Enemy {
     velocity: { x: number, y: number };
     startingRadius: number;
     id: any;
-    timeCreated: Date;
-    type: number;
-    minHealth: number;
+    timeCreated: string | Date;
+    private salt: number;
+    pepper: number | null;
+    constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }, pepper?: number) {
     /**
      * 
      * @param x starting x for Enemy
@@ -25,14 +26,13 @@ class Enemy {
         this.color = color;
         this.velocity = velocity;
         this.startingRadius = this.radius;
-        this.timeCreated = new Date();
-        this.type = 0;
+        this.timeCreated = Date();
+        this.salt = randomBetween(0, 1000);
+        this.pepper = pepper;
         this.id = md5(this.toString);
-        this.minHealth = 5
     }
-
-    public get toString(): string {
-        return JSON.stringify(this)
+    private get toString(): string {
+        return JSON.stringify(this);
     }
     /**
      * @name draw
@@ -61,39 +61,5 @@ class Enemy {
     }
     ShouldDie(damage: number): boolean {
         return (this.radius - damage > this.minHealth);
-    }
-}
-class FastEnemy extends Enemy {
-    /**
-     * 
-     * @param x starting x for Enemy
-     * @param y starting y for Enemy
-     * @param r starting radius for Enemy
-     * @param velocity Starting velocity for enemy.
-     */
-    constructor(x: number, y: number, r: number, velocity: { x: number; y: number; }) {
-        super(x, y, r, "hsv(0,80%,100%)", velocity);
-        this.type = 1;
-        this.velocity.x *= 1.5;
-        this.velocity.y *= 1.5;
-        this.radius += 20;
-        this.minHealth = 10;
-    }
-}
-class SlowEnemy extends Enemy {
-    /**
-     * 
-     * @param x starting x for Enemy
-     * @param y starting y for Enemy
-     * @param r starting radius for Enemy
-     * @param velocity Starting velocity for enemy.
-     */
-    constructor(x: number, y: number, r: number, velocity: { x: number; y: number; }) {
-        super(x, y, r, "hsv(128,80%,80%);", velocity);
-        this.type = 2;
-        this.velocity.x /= 1.5;
-        this.velocity.y /= 1.5;
-        this.radius /= 2;
-        this.minHealth = 3;
     }
 }

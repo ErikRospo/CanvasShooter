@@ -181,14 +181,18 @@ declare class Enemy {
     };
     startingRadius: number;
     id: any;
+
+    timeCreated: string | Date;
+    private salt;
+    pepper: number | null;
     timeCreated: Date;
     type: number;
     minHealth: number;
     constructor(x: number, y: number, r: number, color: string, velocity: {
         x: number;
         y: number;
-    });
-    get toString(): string;
+    }, pepper?: number);
+    private get toString();
     draw(): void;
     update(): void;
     ShouldDie(damage: number): boolean;
