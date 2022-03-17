@@ -181,12 +181,9 @@ declare class Enemy {
     };
     startingRadius: number;
     id: any;
-
     timeCreated: string | Date;
     private salt;
     pepper: number | null;
-    timeCreated: Date;
-    type: number;
     minHealth: number;
     constructor(x: number, y: number, r: number, color: string, velocity: {
         x: number;
@@ -196,18 +193,6 @@ declare class Enemy {
     draw(): void;
     update(): void;
     ShouldDie(damage: number): boolean;
-}
-declare class FastEnemy extends Enemy {
-    constructor(x: number, y: number, r: number, velocity: {
-        x: number;
-        y: number;
-    });
-}
-declare class SlowEnemy extends Enemy {
-    constructor(x: number, y: number, r: number, velocity: {
-        x: number;
-        y: number;
-    });
 }
 declare class Particle {
     x: number;
@@ -236,7 +221,7 @@ declare class HighScore {
 declare function animate(): void;
 declare const Difficulty = "easy";
 declare const EnemySpawnTimeDecrement = 1;
-declare const EnemySpawnBias = 0.5;
+declare const EnemySpawnBias: number;
 declare const EnemyHealthMultiplier = 1;
 declare const EnemySpeedMultiplier = 1;
 declare const ProjectileSpeedMultiplier = 1;

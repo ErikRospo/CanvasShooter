@@ -67,6 +67,8 @@ function PageLoad() {
     AddDebugItem(0, "playerCashedLevels")
     AddDebugItem(false, "CantSpawn")
     AddDebugItem(5, "playerHealth");
+    AddDebugItem(EnemySpawnTime, "SpawnTime");
+    AddDebugItem(EnemySpawnBias, "Bias")
     // PausedModalEL.setAttribute("style", "display:none;");
     // PausedBigScoreEL.setAttribute("style", "display:none;");
     // resumeGameButton.setAttribute("style", "display:none;");

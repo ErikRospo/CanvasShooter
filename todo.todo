@@ -3,32 +3,34 @@ LongTerm:
     [ ] @todo @low add VFX
     [ ] @todo @low clean up codebase
 Todo:
-    [ ] @todo @bugs @critical Fix enemies disappearing all at once. @started(22-03-16 10:30)
-    [ ] @todo @bugs @critical Figure out why LiveServer is bugging out with this project.
-    [ ] @todo @high Add difficulty curve
-    [ ] @todo @high Add main menu
-    [ ] @todo @low Re-add music+option to turn off
-    [ ] @todo @high @bugs Fix options menu
-    [ ] @todo @low Re-add SFX+option +option to turn off
+
     [ ] @todo @bugs @high Fix enemies disapearing randomly.
-    [ ] @todo @low Add tooltips
     [ ] @todo @low Shots bounce off of maybe enemies/maybe wall @maybe
     [ ] @todo @ongoing Balance changes
     [ ] @todo @ongoing Difficulty tweaks
     [ ] @todo Add better menus
-    [ ] @todo Fix enemy's collision, @bugs
-    [x] @todo Add different enemies @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m39s)
-    [x] @todo Fast, large, but less health @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m29s)
-    [x] @todo slow, small, lots of health @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m25s)
-    [-] @todo #1 @high Add firing delay @cancelled(22-03-14 11:35) @project(Today)
-    [-] @todo @low set up tooltips for options menu items. @cancelled(22-02-23 11:26) @project(Planned)
-    [x] @todo @critical: fix bullet particles/ bullet hit colistion. @done(22-02-20 15:31) @project(Today)
-    [x] @todo @high Add highscores @started(22-03-14 10:14) @done(22-03-14 13:44) @lasted(3h30m19s) @project(Planned)
-    [x] @todo Add Damage upgrades @done(22-02-21 16:19) @project(Today)
-    [x] @todo Add ext. variables @done(22-02-20 15:04)
-    [x] @todo Add pause menu @done(22-02-20 15:04)
-    [x] @todo Add sound effects. @done(22-02-20 15:04)
-    [x] @todo Add upgrades @done(22-02-21 16:19) @project(Today)
-    [x] @todo Set up particle on/off switch in options menu. @done(22-02-21 16:18) @project(Today)
-    [x] @todo: set up back button for options menu @done(22-02-20 15:04)
-    [x] @todo: set up hiding of options menu. @done(22-02-20 15:04)
+    [ ] @todo @high Add main menu
+    [ ] @todo @high @bugs Fix options menu
+    [ ] @todo @low Re-add music+option to turn off
+    [ ] @todo @low Re-add SFX+option +option to turn off
+Archive:
+  [-] @todo Fix enemy's collision, @bugs @cancelled(22-03-17 12:53) @project(Todo)
+  [x] @todo Add different enemies @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m39s) @project(Todo)
+  [x] @todo @bugs @critical Fix enemies disappearing all at once. @started(22-03-16 10:30) @done(22-03-17 12:52) @lasted(1d2h22m43s) @project(Todo)
+  [x] @todo @bugs @critical Figure out why LiveServer is bugging out with this project. @done(22-03-17 12:52) @project(Todo)
+  [x] @todo @high Add difficulty curve @done(22-03-17 12:52) @project(Todo)
+  [-] @todo @low Add tooltips @cancelled(22-03-17 12:52) @project(Todo)
+  [x] @todo Fast, large, but less health @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m29s) @project(Todo)
+  [x] @todo slow, small, lots of health @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m25s) @project(Todo)
+  [-] @todo #1 @high Add firing delay @cancelled(22-03-14 11:35) @project(Today) @project(Todo)
+  [-] @todo @low set up tooltips for options menu items. @cancelled(22-02-23 11:26) @project(Planned) @project(Todo)
+  [x] @todo Add Damage upgrades @done(22-02-21 16:19) @project(Today) @project(Todo)
+  [x] @todo Add ext. variables @done(22-02-20 15:04) @project(Todo)
+  [x] @todo Add upgrades @done(22-02-21 16:19) @project(Today) @project(Todo)
+  [x] @todo Set up particle on/off switch in options menu. @done(22-02-21 16:18) @project(Today) @project(Todo)
+  [x] @todo @critical: fix bullet particles/ bullet hit colistion. @done(22-02-20 15:31) @project(Today) @project(Todo)
+  [x] @todo @high Add highscores @started(22-03-14 10:14) @done(22-03-14 13:44) @lasted(3h30m19s) @project(Planned) @project(Todo)
+  [x] @todo Add pause menu @done(22-02-20 15:04) @project(Todo)
+  [x] @todo Add sound effects. @done(22-02-20 15:04) @project(Todo)
+  [x] @todo: set up back button for options menu @done(22-02-20 15:04) @project(Todo)
+  [x] @todo: set up hiding of options menu. @done(22-02-20 15:04) @project(Todo)

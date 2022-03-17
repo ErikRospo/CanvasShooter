@@ -607,10 +607,11 @@ class Enemy {
         this.color = color;
         this.velocity = velocity;
         this.startingRadius = this.radius;
-
-        this.timeCreated = new Date();
-        this.type = 0;
-
+        this.minHealth = 5;
+        this.timeCreated = Date();
+        this.salt = randomBetween(0, 1000);
+        this.pepper = pepper;
+        this.id = md5(this.toString);
     }
     get toString() {
         return JSON.stringify(this);
@@ -631,27 +632,7 @@ class Enemy {
         this.y += this.velocity.y;
     }
     ShouldDie(damage) {
-        return (this.radius - damage > this.minHealth);
-    }
-}
-class FastEnemy extends Enemy {
-    constructor(x, y, r, velocity) {
-        super(x, y, r, "hsv(0,80%,100%)", velocity);
-        this.type = 1;
-        this.velocity.x *= 1.5;
-        this.velocity.y *= 1.5;
-        this.radius += 20;
-        this.minHealth = 10;
-    }
-}
-class SlowEnemy extends Enemy {
-    constructor(x, y, r, velocity) {
-        super(x, y, r, "hsv(128,80%,80%);", velocity);
-        this.type = 2;
-        this.velocity.x /= 1.5;
-        this.velocity.y /= 1.5;
-        this.radius /= 2;
-        this.minHealth = 3;
+        return (this.radius - damage < this.minHealth);
     }
 }
 class Particle {
@@ -792,12 +773,8 @@ OptionsBackButton.addEventListener("click", () => {
 });
 function animate() {
     animationID = requestAnimationFrame(animate);
-    enemies = enemies.filter((value, index) => {
-        let tr = !(value.id in enemiesToRemove);
-        if (tr) {
-            enemiesToRemove.splice(index, 1);
-        }
-        return tr;
+    enemies = enemies.filter((value) => {
+        return !(value.id in enemiesToRemove);
     });
     enemiesToRemove.slice();
     if (!Paused) {
@@ -814,10 +791,12 @@ function animate() {
             });
         });
         SetDebugItem(cantspawn ? "true" : "false", "CantSpawn");
-        if (((animationID % EnemySpawnTime == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5) && !cantspawn) {
+        if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5) && !cantspawn) {
             SpawnEnemy();
-            EnemySpawnTime -= 1;
+            console.log(enemies);
+            EnemySpawnTime -= 0.125;
         }
+        SetDebugItem(EnemySpawnTime, "SpawnTime");
         UnpauseGame();
         player.update();
         AnimateProgressBar(animationID);
@@ -875,7 +854,7 @@ function animate() {
                         enemy.radius -= player.Damage;
                         setTimeout(() => {
                             projectiles.splice(index2, 1);
-                        }, 0);
+                        }, 2);
                     }
                     else {
                         if (!Muted) {
@@ -885,7 +864,8 @@ function animate() {
                         setTimeout(() => {
                             enemiesToRemove.push(enemy.id);
                             enemies.splice(index, 1);
-                        }, 1);
+                            projectiles.splice(index2, 1);
+                        }, 2);
                     }
                 }
             });
@@ -894,7 +874,7 @@ function animate() {
 }
 const Difficulty = "easy";
 const EnemySpawnTimeDecrement = 1;
-const EnemySpawnBias = 0.5;
+const EnemySpawnBias = window.innerHeight / window.innerWidth;
 const EnemyHealthMultiplier = 1;
 const EnemySpeedMultiplier = 1;
 const ProjectileSpeedMultiplier = 1;
@@ -975,6 +955,8 @@ function PageLoad() {
     AddDebugItem(0, "playerCashedLevels");
     AddDebugItem(false, "CantSpawn");
     AddDebugItem(5, "playerHealth");
+    AddDebugItem(EnemySpawnTime, "SpawnTime");
+    AddDebugItem(EnemySpawnBias, "Bias");
     HideShop();
     Paused = true;
     OptionsOpen = false;

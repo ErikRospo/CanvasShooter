@@ -1,6 +1,6 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
-    enemies = enemies.filter((value, index) => {
+    enemies = enemies.filter((value) => {
         return !(value.id in enemiesToRemove)
     })
     enemiesToRemove.slice();
@@ -20,10 +20,12 @@ function animate() {
             })
         })
         SetDebugItem(cantspawn ? "true" : "false", "CantSpawn")
-        if (((animationID % EnemySpawnTime == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5) && !cantspawn) {
+        if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5) && !cantspawn) {
             SpawnEnemy();
-            EnemySpawnTime -= 1;
+            console.log(enemies);
+            EnemySpawnTime -= 0.125;
         }
+        SetDebugItem(EnemySpawnTime, "SpawnTime")
         //draw the player
         UnpauseGame();
         player.update();
@@ -99,13 +101,12 @@ function animate() {
                             HitNoKillSound.play();
                         }
                         AddScore(100);
-                        //smooth changing that value
                         enemy.radius -= player.Damage;
                         setTimeout(() => {
                             //delete the projectile
                             projectiles.splice(index2, 1);
 
-                        }, 0);
+                        }, 2);
                         //otherwise
                     } else {
                         if (!Muted) {
@@ -117,8 +118,8 @@ function animate() {
                         setTimeout(() => {
                             enemiesToRemove.push(enemy.id)
                             enemies.splice(index, 1);
-                            // projectiles.splice(index2, 1);
-                        }, 1);
+                            projectiles.splice(index2, 1);
+                        }, 2);
                     }
                 }
             });

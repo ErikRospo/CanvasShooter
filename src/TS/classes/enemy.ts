@@ -10,22 +10,25 @@ class Enemy {
     timeCreated: string | Date;
     private salt: number;
     pepper: number | null;
-    constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }, pepper?: number) {
-    /**
+    minHealth: number;
+        /**
      * 
      * @param x starting x for Enemy
      * @param y starting y for Enemy
      * @param r starting radius for Enemy
      * @param color color for Enemy
      * @param velocity Starting velocity for enemy.
+     * @param pepper A number to add to the opject to hopefully add some randomness to the ids
      */
-    constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }) {
+    constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }, pepper?: number) {
+
         this.x = x;
         this.y = y;
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
         this.startingRadius = this.radius;
+        this.minHealth = 5;
         this.timeCreated = Date();
         this.salt = randomBetween(0, 1000);
         this.pepper = pepper;
@@ -60,6 +63,6 @@ class Enemy {
         this.y += this.velocity.y;
     }
     ShouldDie(damage: number): boolean {
-        return (this.radius - damage > this.minHealth);
+        return (this.radius - damage < this.minHealth);
     }
 }

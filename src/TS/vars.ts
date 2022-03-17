@@ -1,6 +1,6 @@
 const Difficulty = "easy";
 const EnemySpawnTimeDecrement = 1;
-const EnemySpawnBias = 0.5;
+const EnemySpawnBias = window.innerHeight / window.innerWidth;
 const EnemyHealthMultiplier = 1;
 const EnemySpeedMultiplier = 1;
 const ProjectileSpeedMultiplier = 1;
