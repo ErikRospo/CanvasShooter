@@ -5,13 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "command": "npm start",
+            "name": "Run npm start",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
             "file": "${workspaceFolder}/index.html",
             "name": "Attach(Chrome)",
             "request": "attach",
             "port": 5500,
             "sourceMaps": true,
             "type": "pwa-chrome",
-            "url": "127.0.0.1:9222",
+            "url": "http://127.0.0.1:5500/",
             "webRoot": "${workspaceFolder}"
         },
         {
@@ -22,7 +28,11 @@
             "sourceMaps": true,
             "type": "pwa-chrome",
             "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}",
+            "browserLaunchLocation": "workspace",
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "runtimeExecutable": "stable"
         },
     ]
 }

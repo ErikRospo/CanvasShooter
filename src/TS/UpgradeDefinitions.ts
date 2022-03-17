@@ -1,9 +1,9 @@
 function CreateUpgrades(): Upgrade[] {
-    let upgrade1 = new Upgrade("increases projectile size, decreases projectile speed.")
-    let upgrade2 = new Upgrade("decreases projectile size, increases projectile speed.")
-    let upgrade3 = new Upgrade("increases health, decreases everything else.")
-    let upgrade4 = new Upgrade("Makes shots super slow, and damage super high.")
-    let upgrade5 = new Upgrade("Makes shots super quick, but have very little damage.")
+    let upgrade1 = new Upgrade("gigantisizer", "increases projectile size, decreases projectile speed.")
+    let upgrade2 = new Upgrade("shrinker", "decreases projectile size, increases projectile speed.")
+    let upgrade3 = new Upgrade("tankifier", "increases health, decreases everything else.")
+    let upgrade4 = new Upgrade("slowifier", "Makes shots super slow, and damage super high.")
+    let upgrade5 = new Upgrade("quickifier", "Makes shots super quick, but have very little damage.")
     let upgrades = []
     upgrade1.addEffect(new Effect("ss", -10, 1))
     upgrade1.addEffect(new Effect("sz", 10, 1))
@@ -35,14 +35,14 @@ function CreateRandomUpgrades(): Upgrade[] {
     let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"]
     let RequirementTypes = ["and", "or", "not"]
     for (let index = 0; index < 100; index++) {
-        let upgrade = new Upgrade("")
-        for (let _ = 0; _ < intBetween(1, EffectTypes.length - 1); _++) {
+        let upgrade = new Upgrade("", "")
+        for (let _ = 0; _ < randomInt(1, EffectTypes.length - 1); _++) {
             let type = randomChoice(EffectTypes)
             while (type in upgrade.effects) {
                 type = randomChoice(EffectTypes)
             }
-            let value = intBetween(-50, 50)
-            let valueType = intBetween(1, 3)
+            let value = randomInt(-50, 50)
+            let valueType = randomInt(1, 3)
             if (valueType == 3) {
                 value = Math.abs(value)
             }

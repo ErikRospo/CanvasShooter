@@ -1,8 +1,12 @@
 class Upgrade {
     effects: Effect[];
     requirements: Requirement[];
-    Description: string
-    constructor(description: string) {
+    Description: string;
+    color: string;
+    name: string;
+    constructor(name: string, description?: string) {
+        this.color = "#00000";
+        this.name = name;
         this.Description = description
         this.effects = [];
         this.requirements = [];

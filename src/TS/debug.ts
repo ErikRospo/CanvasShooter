@@ -1,4 +1,7 @@
 function AddDebugItem(value: any, id: string) {
+    if (!DEBUGFLAG) {
+        return null;
+    }
     var node = document.createElement("li");
     node.id = id;
     node.innerText = value.toString()
@@ -7,6 +10,9 @@ function AddDebugItem(value: any, id: string) {
     return debugList
 }
 function SetDebugItem(value: any, id: string) {
+    if (!DEBUGFLAG) {
+        return null;
+    }
     var node = document.getElementById(id)
     node.innerText = id.toString() + ": " + value.toString()
     return node

@@ -44,6 +44,7 @@ const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
+const DEBUGFLAG = true;
 const RotateLeft = (lValue, iShiftBits) => (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 function AddUnsigned(lX, lY) {
     const lX8 = lX & 0x80000000;
@@ -245,8 +246,8 @@ function logx(val, base) {
 function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
 }
-function intBetween(min, max) {
-    return Math.round(randomBetween(min, max));
+function randomInt(min, max) {
+    return Math.floor(randomBetween(min, max));
 }
 function map(input, input_start, input_end, output_start, output_end) {
     return output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start);
@@ -280,9 +281,9 @@ function randomBetweenNot(min, max, not) {
     return i;
 }
 function intBetweenNot(min, max, not) {
-    let i = intBetween(min, max);
+    let i = randomInt(min, max);
     while (i in not) {
-        i = intBetween(min, max);
+        i = randomInt(min, max);
     }
     return i;
 }
@@ -290,6 +291,9 @@ function coinFlip(bias) {
     return (Math.random() > bias);
 }
 function AddDebugItem(value, id) {
+    if (!DEBUGFLAG) {
+        return null;
+    }
     var node = document.createElement("li");
     node.id = id;
     node.innerText = value.toString();
@@ -298,13 +302,18 @@ function AddDebugItem(value, id) {
     return debugList;
 }
 function SetDebugItem(value, id) {
+    if (!DEBUGFLAG) {
+        return null;
+    }
     var node = document.getElementById(id);
     node.innerText = id.toString() + ": " + value.toString();
     return node;
 }
 AddDebugItem(0, "playerHealth");
 class Upgrade {
-    constructor(description) {
+    constructor(name, description) {
+        this.color = "#00000";
+        this.name = name;
         this.Description = description;
         this.effects = [];
         this.requirements = [];
@@ -453,11 +462,11 @@ class Requirement {
     }
 }
 function CreateUpgrades() {
-    let upgrade1 = new Upgrade("increases projectile size, decreases projectile speed.");
-    let upgrade2 = new Upgrade("decreases projectile size, increases projectile speed.");
-    let upgrade3 = new Upgrade("increases health, decreases everything else.");
-    let upgrade4 = new Upgrade("Makes shots super slow, and damage super high.");
-    let upgrade5 = new Upgrade("Makes shots super quick, but have very little damage.");
+    let upgrade1 = new Upgrade("gigantisizer", "increases projectile size, decreases projectile speed.");
+    let upgrade2 = new Upgrade("shrinker", "decreases projectile size, increases projectile speed.");
+    let upgrade3 = new Upgrade("tankifier", "increases health, decreases everything else.");
+    let upgrade4 = new Upgrade("slowifier", "Makes shots super slow, and damage super high.");
+    let upgrade5 = new Upgrade("quickifier", "Makes shots super quick, but have very little damage.");
     let upgrades = [];
     upgrade1.addEffect(new Effect("ss", -10, 1));
     upgrade1.addEffect(new Effect("sz", 10, 1));
@@ -489,14 +498,14 @@ function CreateRandomUpgrades() {
     let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"];
     let RequirementTypes = ["and", "or", "not"];
     for (let index = 0; index < 100; index++) {
-        let upgrade = new Upgrade("");
-        for (let _ = 0; _ < intBetween(1, EffectTypes.length - 1); _++) {
+        let upgrade = new Upgrade("", "");
+        for (let _ = 0; _ < randomInt(1, EffectTypes.length - 1); _++) {
             let type = randomChoice(EffectTypes);
             while (type in upgrade.effects) {
                 type = randomChoice(EffectTypes);
             }
-            let value = intBetween(-50, 50);
-            let valueType = intBetween(1, 3);
+            let value = randomInt(-50, 50);
+            let valueType = randomInt(1, 3);
             if (valueType == 3) {
                 value = Math.abs(value);
             }
@@ -575,6 +584,10 @@ class Projectile {
         this.velocity = velocity;
     }
     draw() {
+        if (DEBUGFLAG) {
+            c.strokeStyle = "rgb(255,128,0)";
+            c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2);
+        }
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;
@@ -594,15 +607,19 @@ class Enemy {
         this.color = color;
         this.velocity = velocity;
         this.startingRadius = this.radius;
-        this.timeCreated = Date();
-        this.salt = randomBetween(0, 1000);
-        this.pepper = pepper;
-        this.id = md5(this.toString);
+
+        this.timeCreated = new Date();
+        this.type = 0;
+
     }
     get toString() {
         return JSON.stringify(this);
     }
     draw() {
+        if (DEBUGFLAG) {
+            c.strokeStyle = "rgb(0,255,0)";
+            c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2);
+        }
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
         c.fillStyle = this.color;
@@ -612,6 +629,29 @@ class Enemy {
         this.draw();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+    }
+    ShouldDie(damage) {
+        return (this.radius - damage > this.minHealth);
+    }
+}
+class FastEnemy extends Enemy {
+    constructor(x, y, r, velocity) {
+        super(x, y, r, "hsv(0,80%,100%)", velocity);
+        this.type = 1;
+        this.velocity.x *= 1.5;
+        this.velocity.y *= 1.5;
+        this.radius += 20;
+        this.minHealth = 10;
+    }
+}
+class SlowEnemy extends Enemy {
+    constructor(x, y, r, velocity) {
+        super(x, y, r, "hsv(128,80%,80%);", velocity);
+        this.type = 2;
+        this.velocity.x /= 1.5;
+        this.velocity.y /= 1.5;
+        this.radius /= 2;
+        this.minHealth = 3;
     }
 }
 class Particle {
@@ -624,6 +664,10 @@ class Particle {
         this.alpha = 1;
     }
     draw() {
+        if (DEBUGFLAG) {
+            c.strokeStyle = "rgb(0,0,255)";
+            c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2);
+        }
         c.save();
         c.globalAlpha = this.alpha;
         c.beginPath();
@@ -748,8 +792,12 @@ OptionsBackButton.addEventListener("click", () => {
 });
 function animate() {
     animationID = requestAnimationFrame(animate);
-    enemies = enemies.filter((value) => {
-        return !(value.id in enemiesToRemove);
+    enemies = enemies.filter((value, index) => {
+        let tr = !(value.id in enemiesToRemove);
+        if (tr) {
+            enemiesToRemove.splice(index, 1);
+        }
+        return tr;
     });
     enemiesToRemove.slice();
     if (!Paused) {
@@ -819,7 +867,7 @@ function animate() {
                             }));
                         }
                     }
-                    if (enemy.radius - player.Damage > 5) {
+                    if (!enemy.ShouldDie(player.Damage)) {
                         if (!Muted) {
                             HitNoKillSound.play();
                         }
@@ -835,8 +883,8 @@ function animate() {
                         }
                         AddScore(250);
                         setTimeout(() => {
+                            enemiesToRemove.push(enemy.id);
                             enemies.splice(index, 1);
-                            projectiles.splice(index2, 1);
                         }, 1);
                     }
                 }

@@ -13,7 +13,6 @@
     "declaration": true,
     "declarationMap": true,
   },
-
   "compileOnSave": true,
   "files": [
             "./src/TS/init.ts",

@@ -1,6 +1,0 @@
-- upgrade1
-  - damage 110%
-- upgrade2
-  - damage 120%
-- upgrade3
-  - damage 120%
