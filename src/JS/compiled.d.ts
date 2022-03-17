@@ -178,12 +178,14 @@ declare class Enemy {
     };
     startingRadius: number;
     id: any;
-    timeCreated: number;
+    timeCreated: string | Date;
+    private salt;
+    pepper: number | null;
     constructor(x: number, y: number, r: number, color: string, velocity: {
         x: number;
         y: number;
-    });
-    get toString(): string;
+    }, pepper?: number);
+    private get toString();
     draw(): void;
     update(): void;
 }

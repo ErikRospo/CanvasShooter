@@ -83,34 +83,41 @@ function PageLoad() {
 
 function SpawnEnemy() {
     //create a new enemy
-
-    //give it an x, and y.
-    let x: number;
-    let y: number;
-    //give it a radius
-    const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
-    //randomly decide whether to spawn it height or width-wise
-    if (Math.random() < EnemySpawnBias) {
-        //spawn it along the x axis
-        x = Math.random() < 0.5 ? 0 - radius : w + radius;
-        y = Math.random() * h;
-    } else {
-        //spawn it along the y axis
-        x = Math.random() * w;
-        y = Math.random() < 0.5 ? 0 - radius : h + radius;
+    function genEnemy(pepper?: number) {
+        //give it an x, and y.
+        let x: number;
+        let y: number;
+        //give it a radius
+        const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
+        //randomly decide whether to spawn it height or width-wise
+        if (Math.random() < EnemySpawnBias) {
+            //spawn it along the x axis
+            x = Math.random() < 0.5 ? 0 - radius : w + radius;
+            y = Math.random() * h;
+        } else {
+            //spawn it along the y axis
+            x = Math.random() * w;
+            y = Math.random() < 0.5 ? 0 - radius : h + radius;
+        }
+        //choose a random color
+        //the 50 saturation and lightness gives it a pastel-like color
+        const color = `hsl(${Math.random() * 360},50%,50%)`;
+        //calculate the angle to the center from its current position
+        const angle = Math.atan2(ch - y, cw - x);
+        //set the x and y values accordingly
+        const velocity = {
+            x: Math.cos(angle) * EnemySpeedMultiplier,
+            y: Math.sin(angle) * EnemySpeedMultiplier
+        };
+        return new Enemy(x, y, radius, color, velocity, pepper)
     }
-    //choose a random color
-    //the 50 saturation and lightness gives it a pastel-like color
-    const color = `hsl(${Math.random() * 360},50%,50%)`;
-    //calculate the angle to the center from its current position
-    const angle = Math.atan2(ch - y, cw - x);
-    //set the x and y values accordingly
-    const velocity = {
-        x: Math.cos(angle) * EnemySpeedMultiplier,
-        y: Math.sin(angle) * EnemySpeedMultiplier
-    };
     //add it to the enemies list
-    enemies.push(new Enemy(x, y, radius, color, velocity));
+    let tryEnemy = genEnemy();
+    while (enemies.find((value) => { return value.id == tryEnemy.id }) != undefined) {
+        tryEnemy = genEnemy(Math.random());
+        console.count("collisions: ")
+    }
+    enemies.push(tryEnemy);
     //trigger every second
 }
 

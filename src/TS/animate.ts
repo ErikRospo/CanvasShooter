@@ -3,6 +3,7 @@ function animate() {
     enemies = enemies.filter((value) => {
         return !(value.id in enemiesToRemove)
     })
+    enemiesToRemove.slice();
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
