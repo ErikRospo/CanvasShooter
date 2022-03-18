@@ -3,7 +3,6 @@ LongTerm:
     [ ] @todo @low add VFX
     [ ] @todo @low clean up codebase
 Todo:
-
     [ ] @todo @bugs @high Fix enemies disapearing randomly.
     [ ] @todo @low Shots bounce off of maybe enemies/maybe wall @maybe
     [ ] @todo @ongoing Balance changes
@@ -12,9 +11,15 @@ Todo:
     [ ] @todo @high Add main menu
     [ ] @todo @high @bugs Fix options menu
     [ ] @todo @low Re-add music+option to turn off
-    [ ] @todo @low Re-add SFX+option +option to turn off
-    [ ] @todo @low Add lives when player reaches a certain score? @maybe
+    [ ] @todo @low Re-add SFX+option to turn off
+    [ ] @todo @low Add performance mode
+    [ ] @todo @low @maybe Re-add Particles damage enemies.
+    [ ] @todo @low @maybe Set Particle's damage to be proportional to its speed.
+    [ ] @todo @high Add difficulty levels to the game.
+    [ ] @todo @low Change DEBUGFLAG to work based on a url argument.
 Archive:
+  [x] @todo @low Add lives when player reaches a certain score? @maybe @started(22-03-18 10:06) @done(22-03-18 13:06) @lasted(3h12s) @project(Todo)
+  [x] @todo @high Change Start button to work in the entire button area @done @project(Todo)
   [-] @todo Fix enemy's collision, @bugs @cancelled(22-03-17 12:53) @project(Todo)
   [x] @todo Add different enemies @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m39s) @project(Todo)
   [x] @todo @bugs @critical Fix enemies disappearing all at once. @started(22-03-16 10:30) @done(22-03-17 12:52) @lasted(1d2h22m43s) @project(Todo)

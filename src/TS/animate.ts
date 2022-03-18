@@ -19,10 +19,10 @@ function animate() {
                 }
             })
         })
-        SetDebugItem(cantspawn ? "true" : "false", "CantSpawn")
+        SetDebugItem(cantspawn ? "true" : "false", "CantSpawn");
         if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5) && !cantspawn) {
             SpawnEnemy();
-            console.log(enemies);
+            // console.log(enemies);
             EnemySpawnTime -= 0.125;
         }
         SetDebugItem(EnemySpawnTime, "SpawnTime")
@@ -124,5 +124,11 @@ function animate() {
                 }
             });
         });
+        if ((lastScore % freq > score % freq) && (score != 0)) {
+            player.Health += 1
+        }
+        lastScore = score;
+
     }
+
 }

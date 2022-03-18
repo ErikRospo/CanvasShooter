@@ -7,7 +7,7 @@ c.shadowColor = "black";
 const scoreEL = document.querySelector("#scoreEL");
 const MoneyEL = document.querySelector("#moneyEL");
 const ShopMoney = document.querySelector("#ShopMoney");
-const startGameButton = document.querySelector("#startGameBtn");
+const startGameButton = document.querySelector("#StartGameWrapper");
 const ModalEL = document.querySelector("#ModalEL");
 const TitleEL = document.querySelector("#titleElement");
 const BigScoreEL = document.querySelector("#BigScoreEL");
@@ -793,7 +793,6 @@ function animate() {
         SetDebugItem(cantspawn ? "true" : "false", "CantSpawn");
         if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5) && !cantspawn) {
             SpawnEnemy();
-            console.log(enemies);
             EnemySpawnTime -= 0.125;
         }
         SetDebugItem(EnemySpawnTime, "SpawnTime");
@@ -870,6 +869,10 @@ function animate() {
                 }
             });
         });
+        if ((lastScore % freq > score % freq) && (score != 0)) {
+            player.Health += 1;
+        }
+        lastScore = score;
     }
 }
 const Difficulty = "easy";
@@ -905,6 +908,8 @@ let score = 0;
 let DefaultEnemySpawnTime = 50;
 let enemiesToRemove = [];
 let Scores = new HighScore();
+let lastScore = 0;
+let freq = 25000;
 function ShowShop() {
     ShopELs.forEach((value) => {
         var htmlvalue = value;
@@ -1003,6 +1008,7 @@ function gameOver(AnimationID) {
     BigScoreELLabel.style.display = "block";
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();
+    BigScoreEL.classList.add("animate-bounce");
 }
 function PauseGame() {
     PausedModalEL.style.display = "flex";

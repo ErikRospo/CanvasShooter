@@ -150,6 +150,7 @@ function gameOver(AnimationID: number) {
     BigScoreELLabel.style.display = "block";
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();
+    BigScoreEL.classList.add("animate-bounce")
 }
 
 

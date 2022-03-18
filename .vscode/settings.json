@@ -6,9 +6,6 @@
         "default": "right",
         "jupyter-notebook": "left"
     },
-    "workbench.settings.editor": "json",
-    "workbench.editor.showIcons": true,
-    "workbench.editor.closeOnFileDelete": true,
     "files.autoSave": "afterDelay",
     "editor.suggestSelection": "first",
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
@@ -26,7 +23,8 @@
         "*": true,
         "yaml": false,
         "plaintext": true,
-        "markdown": false
+        "markdown": false,
+        "typescript": false
     },
     "git.confirmSync": false,
     "git.autofetch": true,
@@ -50,17 +48,18 @@
     "latex-workshop.view.pdf.viewer": "tab",
     "liveServer.settings.donotVerifyTags": true,
     "liveServer.settings.donotShowInfoMsg": true,
-
     "[json]": {
         "editor.defaultFormatter": "lonefy.vscode-JS-CSS-HTML-formatter"
     },
     "json.format.enable": false,
     "emeraldwalk.runonsave": {
-            
         "commands": [
             {
                 "match": "(tailwind.config.js)|(index.css)",
                 "cmd": "npx tailwindcss -i index.css -o tailwind.css"    
+            }, {
+                "match": ".//src//TS//*.ts",
+                "cmd": "tsc"
             }
         ]
     },
@@ -86,21 +85,34 @@
     },
     "editor.formatOnSaveMode": "modificationsIfAvailable",
     "files.autoSaveDelay": 2000,
-    "vscode.tsc.compiler.alertTSConfigChanges": "never",
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true
-    },
-    "explorerExclude.backup": null,
-    "cSpell.words": [
-        "Cooldown",
-        "Mult",
-        "Multishot",
-        "referrerpolicy"
+    "window.title": "${dirty}${activeEditorMedium}${separator}${rootName}${separator}${appName}",
+    "todo.tags.names": [
+        "critical",
+        "high",
+        "low",
+        "today",
+        "maybe",
+        "ongoing",
+        "bugs"
     ],
+    "todo.timekeeping.created.enabled": true,
+    "liveServer.settings.ChromeDebuggingAttachment": true,
+    "workbench.startupEditor": "none",
+    "html.autoClosingTags": true,
+    "html.validate.styles": true,
+    "html.validate.scripts": true,
+    "html.hover.documentation": true,
+    "html.hover.references": true,
+    "html.suggest.html5": true,
+    "css.hover.documentation": true,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "git.closeDiffOnOperation": true,
+    "todo.timekeeping.created.time": true,
+    "todo.timekeeping.elapsed.enabled": true,
+    "todo.timer.statusbar.enabled": "estimate",
+    "explorer.autoReveal": true,
+    "scm.defaultViewMode": "tree",
+    "scm.diffDecorationsIgnoreTrimWhitespace": "true",
 
 }

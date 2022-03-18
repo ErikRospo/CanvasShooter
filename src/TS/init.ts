@@ -7,7 +7,7 @@ c.shadowColor = "black";
 const scoreEL = document.querySelector("#scoreEL") as HTMLSpanElement;
 const MoneyEL = document.querySelector("#moneyEL") as HTMLSpanElement;
 const ShopMoney = document.querySelector("#ShopMoney") as HTMLSpanElement;
-const startGameButton = document.querySelector("#startGameBtn") as HTMLButtonElement;
+const startGameButton = document.querySelector("#StartGameWrapper") as HTMLDivElement;
 const ModalEL = document.querySelector("#ModalEL") as HTMLDivElement;
 const TitleEL = document.querySelector("#titleElement") as HTMLHeadingElement;
 const BigScoreEL = document.querySelector("#BigScoreEL") as HTMLHeadingElement;
@@ -45,7 +45,7 @@ const OptionsBackButton = document.querySelector("#OptionsBackButton") as HTMLBu
 const XPBar = document.querySelector("#XPBar") as HTMLProgressElement;
 const XPBarLabel = document.querySelector("#XPbarLabel") as HTMLParagraphElement;
 
-//debug elements:
+//debugging elements:
 const debugDiv=document.querySelector("#debugDiv") as HTMLDivElement;
 const debugList=document.querySelector("#debugList") as HTMLUListElement;
 //define other global constants
