@@ -562,7 +562,8 @@ class Player {
         this.AutoFire = false;
         this.AutoRotate = false;
         this.ShotSize = 5;
-        this.Health = 0;
+        this.MaxHealth = 5;
+        this.Health = 1;
         SetDebugItem(this.Health, "playerHealth");
     }
     update() {
@@ -708,6 +709,35 @@ class HighScore {
         return ScoreElement.innerHTML;
     }
 }
+function SetHealthICONs(health, MaxHealth) {
+    let outElem = document.createElement("div");
+    let CdivElem = document.getElementById("HealthDiv");
+    let LabelText = document.createElement("span");
+    console.log(CdivElem);
+    LabelText.innerText = "Health";
+    outElem.appendChild(LabelText);
+    for (let index = 0; index < MaxHealth; index++) {
+        let healthElem = document.createElement("span");
+        healthElem.classList.add("material-icons");
+        healthElem.style.color = "red";
+        if (index < health) {
+            healthElem.innerText = "favorite";
+        }
+        else {
+            healthElem.innerText = "favorite_border";
+        }
+        outElem.appendChild(healthElem);
+    }
+    for (let index = 0; index < CdivElem.children.length; index++) {
+        CdivElem.removeChild(CdivElem.children.item(index));
+    }
+    for (let index = 0; index < outElem.children.length; index++) {
+        CdivElem.appendChild(outElem.children.item(index));
+    }
+    console.log(CdivElem);
+    outElem.remove();
+    LabelText.remove();
+}
 addEventListener("click", (event) => {
     if (GameStarted == true && Paused == false) {
         const x = event.clientX;
@@ -825,7 +855,7 @@ function animate() {
             enemy.update();
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             if (dist - enemy.radius - player.radius < 0) {
-                if (player.Health == 0) {
+                if (player.Health - 1 == 0) {
                     gameOver(animationID);
                 }
                 else {
@@ -833,6 +863,7 @@ function animate() {
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health, "playerHealth");
                 }
+                SetHealthICONs(player.Health, player.MaxHealth);
             }
             projectiles.forEach((projectile, index2) => {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
@@ -872,6 +903,7 @@ function animate() {
         });
         if ((lastScore % freq > score % freq) && (score != 0)) {
             player.Health += 1;
+            SetHealthICONs(player.Health, player.MaxHealth);
         }
         lastScore = score;
     }
@@ -956,6 +988,7 @@ function PageLoad() {
     PausedBigScoreEL.style.display = "none";
     resumeGameButton.style.display = "none";
     restartGameButtonEL.style.display = "none";
+    HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none";
     AddDebugItem(0, "playerLevel");
@@ -964,6 +997,7 @@ function PageLoad() {
     AddDebugItem(5, "playerHealth");
     AddDebugItem(EnemySpawnTime, "SpawnTime");
     AddDebugItem(EnemySpawnBias, "Bias");
+    SetHealthICONs(1, 5);
     HideShop();
     Paused = true;
     OptionsOpen = false;

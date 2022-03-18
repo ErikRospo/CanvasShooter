@@ -157,9 +157,27 @@ body {
 }
 
 #highScoreTextModal {
+    --tw-bg-opacity: 1;
+    -webkit-text-size-adjust: 100%;
     animation: both 1s ease-in-out myAnim infinite;
+    border-color: #e5e7eb;
+    border-style: solid;
+    border-width: 0;
+    box-sizing: border-box;
     color: gold;
-    display: none;
+    cursor: move;
+    display: block;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    left: 126px;
+    line-height: inherit;
+    margin: 0;
+    position: relative;
+    tab-size: 4;
+    text-align: center;
+    top: -1px;
+    transform: translate(-34px, -112px);
+    transition: none 0s ease 0s;
+    user-select: none;
 }
 
 @keyframes myAnim {

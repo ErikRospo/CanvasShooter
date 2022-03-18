@@ -113,7 +113,6 @@ class Effect {
                 }
                 break;
             default:
-                
                 break;
         }
     }

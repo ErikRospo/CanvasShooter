@@ -16,6 +16,7 @@ class Player {
     Health: number;
     cachedLevels: number;
     level: number;
+    MaxHealth:number;
     constructor(x: number, y: number, radius: number, color: string) {
         this.x = x;
         this.y = y;
@@ -31,7 +32,8 @@ class Player {
         this.AutoFire = false;
         this.AutoRotate = false;
         this.ShotSize = 5;
-        this.Health = 0;
+        this.MaxHealth=5;
+        this.Health = 1;
         // AddDebugItem(this.Health, "playerHealth");
         SetDebugItem(this.Health,"playerHealth");
 

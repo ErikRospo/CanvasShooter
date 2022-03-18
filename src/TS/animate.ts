@@ -1,6 +1,7 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
     enemies = enemies.filter((value) => {
+        
         return !(value.id in enemiesToRemove)
     })
     enemiesToRemove.slice();
@@ -63,14 +64,15 @@ function animate() {
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             //if the enemy is touching the player, end the game
             if (dist - enemy.radius - player.radius < 0) {
-                if (player.Health == 0) {
+                if (player.Health-1 == 0) {
                     gameOver(animationID);
                 } else {
                     player.Health -= 1;
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health, "playerHealth");
+                    
                 }
-
+                SetHealthICONs(player.Health,player.MaxHealth);
             }
             projectiles.forEach((projectile, index2) => {
                 //get the distance between the projectile and the enemy
@@ -105,7 +107,6 @@ function animate() {
                         setTimeout(() => {
                             //delete the projectile
                             projectiles.splice(index2, 1);
-
                         }, 2);
                         //otherwise
                     } else {
@@ -116,7 +117,7 @@ function animate() {
                         AddScore(250);
                         //on the next frame, delete the enemy and projectile
                         setTimeout(() => {
-                            enemiesToRemove.push(enemy.id)
+                            enemiesToRemove.push(enemy.id);
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
                         }, 2);
@@ -126,9 +127,8 @@ function animate() {
         });
         if ((lastScore % freq > score % freq) && (score != 0)) {
             player.Health += 1
+            SetHealthICONs(player.Health,player.MaxHealth);
         }
         lastScore = score;
-
     }
-
 }

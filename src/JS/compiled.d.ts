@@ -151,6 +151,7 @@ declare class Player {
     Health: number;
     cachedLevels: number;
     level: number;
+    MaxHealth: number;
     constructor(x: number, y: number, radius: number, color: string);
     update(): void;
     draw(): void;
@@ -219,6 +220,7 @@ declare class HighScore {
     sort(): void;
     get Html(): string;
 }
+declare function SetHealthICONs(health: number, MaxHealth?: number | 5): void;
 declare function animate(): void;
 declare const Difficulty = "easy";
 declare const EnemySpawnTimeDecrement = 1;

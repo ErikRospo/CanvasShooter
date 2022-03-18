@@ -70,6 +70,7 @@
     "todo.archive.sortByDate": true,
     "todo.colors.tag": "#82e65e",
     "todo.colors.types": {
+        "maybe":"#ccff00",
         "TODO": "#ffcc00",
         "FIXME": "#cc0000",
         "FIX": "#cc0000",
@@ -83,6 +84,7 @@
         "NOTE": "#cc00cc",
         "IDEA": "#cc00cc"
     },
+    "todo.statistics.statusbar.enabled": "global.all > 0",
     "editor.formatOnSaveMode": "modificationsIfAvailable",
     "files.autoSaveDelay": 2000,
     "window.title": "${dirty}${activeEditorMedium}${separator}${rootName}${separator}${appName}",

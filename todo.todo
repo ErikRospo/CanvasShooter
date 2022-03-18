@@ -1,12 +1,13 @@
 LongTerm:
     [ ] @todo @low make an electron branch
     [ ] @todo @low add VFX
-    [ ] @todo @low clean up codebase
+    [ ] @todo @high clean up codebase
+    [ ] @todo @ongoing Balance changes
+    [ ] @todo @ongoing Difficulty tweaks
+
 Todo:
     [ ] @todo @bugs @high Fix enemies disapearing randomly.
     [ ] @todo @low Shots bounce off of maybe enemies/maybe wall @maybe
-    [ ] @todo @ongoing Balance changes
-    [ ] @todo @ongoing Difficulty tweaks
     [ ] @todo Add better menus
     [ ] @todo @high Add main menu
     [ ] @todo @high @bugs Fix options menu
@@ -16,11 +17,15 @@ Todo:
     [ ] @todo @low @maybe Re-add Particles damage enemies.
     [ ] @todo @low @maybe Set Particle's damage to be proportional to its speed.
     [ ] @todo @high Add difficulty levels to the game.
+    [ ] @todo @critical Add a display of how much health you have.
+    [ ] @todo @low @maybe Add a cap for how much health you can have
     [ ] @todo @low Change DEBUGFLAG to work based on a url argument.
+    [ ] @todo @low CSS/styling of menus.
+    [ ] @todo @maybe Add mystery ball: takes random number of shots to kill. e.g. radius does not determine health.
 Archive:
   [x] @todo @low Add lives when player reaches a certain score? @maybe @started(22-03-18 10:06) @done(22-03-18 13:06) @lasted(3h12s) @project(Todo)
   [x] @todo @high Change Start button to work in the entire button area @done @project(Todo)
-  [-] @todo Fix enemy's collision, @bugs @cancelled(22-03-17 12:53) @project(Todo)
+  [x] @todo Fix enemy's collision, @bugs @done(22-03-17 12:53) @project(Todo)
   [x] @todo Add different enemies @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m39s) @project(Todo)
   [x] @todo @bugs @critical Fix enemies disappearing all at once. @started(22-03-16 10:30) @done(22-03-17 12:52) @lasted(1d2h22m43s) @project(Todo)
   [x] @todo @bugs @critical Figure out why LiveServer is bugging out with this project. @done(22-03-17 12:52) @project(Todo)

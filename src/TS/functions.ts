@@ -61,6 +61,7 @@ function PageLoad() {
     PausedBigScoreEL.style.display = "none";
     resumeGameButton.style.display = "none";
     restartGameButtonEL.style.display = "none";
+    HighScoreLabel.style.display="none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
     AddDebugItem(0, "playerLevel")
@@ -68,7 +69,8 @@ function PageLoad() {
     AddDebugItem(false, "CantSpawn")
     AddDebugItem(5, "playerHealth");
     AddDebugItem(EnemySpawnTime, "SpawnTime");
-    AddDebugItem(EnemySpawnBias, "Bias")
+    AddDebugItem(EnemySpawnBias, "Bias");
+    SetHealthICONs(1,5);
     // PausedModalEL.setAttribute("style", "display:none;");
     // PausedBigScoreEL.setAttribute("style", "display:none;");
     // resumeGameButton.setAttribute("style", "display:none;");
@@ -117,7 +119,7 @@ function SpawnEnemy() {
     let tryEnemy = genEnemy();
     while (enemies.find((value) => { return value.id == tryEnemy.id }) != undefined) {
         tryEnemy = genEnemy(Math.random());
-        console.count("collisions: ")
+        console.count("collisions: ");
     }
     enemies.push(tryEnemy);
     //trigger every second
