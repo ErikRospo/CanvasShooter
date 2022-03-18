@@ -1,3 +1,7 @@
+:root {
+    --rotation: 20deg;
+}
+
 body {
     margin: 0;
     background-color: black;
@@ -145,10 +149,6 @@ body {
     animation: forwards 1s ease-in pingNoFade;
 }
 
-#HighScore>li:hover {
-    animation: forwards 1s ease-in pingNoFade;
-}
-
 @keyframes pingNoFade {
     75%,
     100% {
@@ -156,32 +156,18 @@ body {
     }
 }
 
-#ModelEL {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    top: 0px;
-    right: 0px;
-    left: 0px;
-    bottom: 0px;
-    width: 50%;
+#highScoreTextModal {
+    animation: both 1s ease-in-out myAnim infinite;
+    color: gold;
+    display: none;
 }
 
-#ModelEL>div {
-    background-color: rgb(100, 116, 139);
-    max-width: 28rem;
-    width: 100%;
-    padding: 1.5rem;
-    text-align: center;
-    border-radius: 1.5em;
-}
-
-#BigScoreEL {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-    color: white;
-    line-height: 1;
-    font-weight: 700;
+@keyframes myAnim {
+    0%,
+    100% {
+        transform: scale(2) rotate(5deg);
+    }
+    50% {
+        transform: scale(1) rotate(15deg);
+    }
 }

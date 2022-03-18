@@ -35,4 +35,5 @@ let DefaultEnemySpawnTime = 50 as number;
 let enemiesToRemove = [] as string[];
 let Scores = new HighScore() as HighScore;
 let lastScore = 0 as number;
-let freq = 25000
+let freq = 25000;
+let HS = true

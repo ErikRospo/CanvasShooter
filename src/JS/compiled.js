@@ -8,6 +8,7 @@ const scoreEL = document.querySelector("#scoreEL");
 const MoneyEL = document.querySelector("#moneyEL");
 const ShopMoney = document.querySelector("#ShopMoney");
 const startGameButton = document.querySelector("#StartGameWrapper");
+const HighScoreLabel = document.querySelector("#highScoreTextModal");
 const ModalEL = document.querySelector("#ModalEL");
 const TitleEL = document.querySelector("#titleElement");
 const BigScoreEL = document.querySelector("#BigScoreEL");
@@ -910,6 +911,7 @@ let enemiesToRemove = [];
 let Scores = new HighScore();
 let lastScore = 0;
 let freq = 25000;
+let HS = true;
 function ShowShop() {
     ShopELs.forEach((value) => {
         var htmlvalue = value;
@@ -1001,10 +1003,17 @@ function AddScore(Value) {
 }
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
+    if (Scores.scores.every((value) => { return value < score; })) {
+        HS = true;
+    }
+    else {
+        HS = false;
+    }
     Scores.addScore(score);
     ModalEL.setAttribute("style", "display:flex;");
     HighScoreList.innerHTML = Scores.Html;
     console.log(Scores);
+    HighScoreLabel.style.display = HS ? "block" : "none";
     BigScoreELLabel.style.display = "block";
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();

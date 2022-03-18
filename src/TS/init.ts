@@ -8,6 +8,7 @@ const scoreEL = document.querySelector("#scoreEL") as HTMLSpanElement;
 const MoneyEL = document.querySelector("#moneyEL") as HTMLSpanElement;
 const ShopMoney = document.querySelector("#ShopMoney") as HTMLSpanElement;
 const startGameButton = document.querySelector("#StartGameWrapper") as HTMLDivElement;
+const HighScoreLabel = document.querySelector("#highScoreTextModal") as HTMLParagraphElement;
 const ModalEL = document.querySelector("#ModalEL") as HTMLDivElement;
 const TitleEL = document.querySelector("#titleElement") as HTMLHeadingElement;
 const BigScoreEL = document.querySelector("#BigScoreEL") as HTMLHeadingElement;
