@@ -13,6 +13,7 @@ Todo:
     [ ] @todo @high @bugs Fix options menu
     [ ] @todo @low Re-add music+option to turn off
     [ ] @todo @low Re-add SFX+option +option to turn off
+    [ ] @todo @low Add lives when player reaches a certain score? @maybe
 Archive:
   [-] @todo Fix enemy's collision, @bugs @cancelled(22-03-17 12:53) @project(Todo)
   [x] @todo Add different enemies @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m39s) @project(Todo)

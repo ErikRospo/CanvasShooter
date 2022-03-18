@@ -117,6 +117,6 @@ function intBetweenNot(min: number, max: number, not: number[]): number {
  * @param bias A number between 0 and 1 that determines the bias of the coin flip
  * @returns true or false, weighted by bias
  */
-function coinFlip(bias: number): boolean {
+function coinFlip(bias?: number|0.5): boolean {
     return (Math.random() > bias)
 }
