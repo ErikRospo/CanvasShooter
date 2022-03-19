@@ -61,7 +61,7 @@ function PageLoad() {
     PausedBigScoreEL.style.display = "none";
     resumeGameButton.style.display = "none";
     restartGameButtonEL.style.display = "none";
-    HighScoreLabel.style.display="none";
+    HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
     AddDebugItem(0, "playerLevel")
@@ -70,7 +70,7 @@ function PageLoad() {
     AddDebugItem(5, "playerHealth");
     AddDebugItem(EnemySpawnTime, "SpawnTime");
     AddDebugItem(EnemySpawnBias, "Bias");
-    SetHealthICONs(1,5);
+    SetHealthICONs(1, 5);
     // PausedModalEL.setAttribute("style", "display:none;");
     // PausedBigScoreEL.setAttribute("style", "display:none;");
     // resumeGameButton.setAttribute("style", "display:none;");
@@ -94,7 +94,7 @@ function SpawnEnemy() {
         //give it a radius
         const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
         //randomly decide whether to spawn it height or width-wise
-        if (Math.random() < EnemySpawnBias) {
+        if (coinFlip(EnemySpawnBias)) {
             //spawn it along the x axis
             x = Math.random() < 0.5 ? 0 - radius : w + radius;
             y = Math.random() * h;

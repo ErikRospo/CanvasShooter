@@ -1,7 +1,7 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
     enemies = enemies.filter((value) => {
-        
+
         return !(value.id in enemiesToRemove)
     })
     enemiesToRemove.slice();
@@ -64,15 +64,16 @@ function animate() {
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             //if the enemy is touching the player, end the game
             if (dist - enemy.radius - player.radius < 0) {
-                if (player.Health-1 == 0) {
+                if (player.Health - 1 == 0) {
                     gameOver(animationID);
                 } else {
                     player.Health -= 1;
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health, "playerHealth");
-                    
+                    EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
+
                 }
-                SetHealthICONs(player.Health,player.MaxHealth);
+                SetHealthICONs(player.Health, player.MaxHealth);
             }
             projectiles.forEach((projectile, index2) => {
                 //get the distance between the projectile and the enemy
@@ -127,7 +128,7 @@ function animate() {
         });
         if ((lastScore % freq > score % freq) && (score != 0)) {
             player.Health += 1
-            SetHealthICONs(player.Health,player.MaxHealth);
+            SetHealthICONs(player.Health, player.MaxHealth);
         }
         lastScore = score;
     }

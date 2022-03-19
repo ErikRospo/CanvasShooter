@@ -19,24 +19,22 @@ class HighScore {
             var node = document.createElement("li");
             switch (index) {
                 case 0:
-                    node.style.color = "#ffd700"
+                    node.style.color = "#ffd700";
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
                 case 1:
-                    node.style.color = "#c0c0c0"
+                    node.style.color = "#c0c0c0";
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
                 case 2:
-                    node.style.color = "#CD7F32"
+                    node.style.color = "#CD7F32";
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
                 default:
+                    node.style.color = "#FFFFFF"
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
             }
-            // node.appendChild(document.createTextNode(element.toString(10)));
-
-
             ScoreElement.appendChild(node)
         }
         return ScoreElement.innerHTML
