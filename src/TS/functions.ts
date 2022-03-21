@@ -26,25 +26,7 @@ function PageLoad() {
     Paused = true;
     OptionsOpen = false;
 }
-function SpawnParticles(enemy: Enemy, projectile: Projectile) {
-    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
-        //add a particle to the rendering list
-        particles.push(new Particle(projectile.x,
-            projectile.y,
-            //give it a random radius
-            Math.random() * (5 - 1) + 1,
-            //set its color to the killed enemy's
-            enemy.color,
-            // give it a random speed
-            {
-                x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
-                y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
-            }));
-    }
-    HideShop();
-    Paused = true;
-    OptionsOpen = false;
-}
+
 
 function SpawnEnemy() {
     //create a new enemy
@@ -113,70 +95,38 @@ function gameOver(AnimationID: number) {
     BigScoreEL.innerText = score.toString();
     BigScoreEL.classList.add("animate-bounce")
 }
-function HandleCollisions(enemy: Enemy, projectile: Projectile, index2: number, index: number) {
-    IncreaseProgressBar(enemy.startingRadius);
-    //create Explosions
-    if (UseParticles) {
-        SpawnParticles(enemy, projectile);
-    }
-    //shrink enemy if it is large
-    if (!enemy.ShouldDie(player.Damage)) {
-        if (!Muted) {
-            HitNoKillSound.play();
-        }
-        AddScore(100);
-        enemy.radius -= player.Damage;
-        setTimeout(() => {
-            //delete the projectile
-            projectiles.splice(index2, 1);
-        }, 2);
-        //otherwise
-    } else {
-        if (!Muted) {
-            HitAndKillSound.play();
-        }
-        //add the score, and update the content
-        AddScore(250);
-        //on the next frame, delete the enemy and projectile
-        setTimeout(() => {
-            enemiesToRemove.push(enemy.id);
-            enemies.splice(index, 1);
-            projectiles.splice(index2, 1);
-        }, 2);
-    }
-}
+
 function PauseGame() {
-    PausedModalEL.style.display = "flex"
-    PausedBigScoreEL.style.display = "initial"
-    resumeGameButton.style.display = "initial"
-    restartGameButtonEL.style.display = "initial"
-    PausedBigScoreEL.innerHTML = score.toString(10);
+    PauseModal.style.display = "flex"
+    PauseModalScore.style.display = "initial"
+    PauseModalPlayButton.style.display = "initial"
+    // PauseModalRestartButton.style.display = "initial"
+    PauseModalScore.innerHTML = score.toString(10);
     Paused = true;
 };
 
 function UnpauseGame() {
-    PausedModalEL.style.display = "none";
-    PausedBigScoreEL.style.display = "none";
-    resumeGameButton.style.display = "none";
-    restartGameButtonEL.style.display = "none"
+    PauseModal.style.display = "none";
+    PauseModalScore.style.display = "none";
+    PauseModalPlayButton.style.display = "none";
+    // PauseModalRestartButton.style.display = "none"
     Paused = false;
 };
 
 function OpenOptionsMenu() {
-    OptionsMenu.style.display = "flex"
-    PausedModalEL.style.opacity = "0.2"
-    PausedBigScoreEL.style.opacity = "0.2"
-    resumeGameButton.style.opacity = "0.2"
-    restartGameButtonEL.style.opacity = "0.2"
+    // OptionsMenu.style.display = "flex"
+    PauseModal.style.opacity = "0.2"
+    PauseModalScore.style.opacity = "0.2"
+    PauseModalPlayButton.style.opacity = "0.2"
+    // PauseModalRestartButton.style.opacity = "0.2"
     OptionsOpen = true;
 };
 
 function CloseOptionsMenu() { 
-    OptionsMenu.style.display = "none"
-    PausedModalEL.style.opacity = "1"
-    PausedBigScoreEL.style.opacity = "1"
-    resumeGameButton.style.opacity = "1"
-    restartGameButtonEL.style.opacity = "1"
-
+    // OptionsMenu.style.display = "none"
+    PauseModal.style.opacity = "1"
+    PauseModalScore.style.opacity = "1"
+    PauseModalPlayButton.style.opacity = "1"
+    // PauseModalRestartButton.style.opacity = "1"
     OptionsOpen = false;
 };
