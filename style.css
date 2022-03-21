@@ -57,7 +57,6 @@ body {
 #HighScore {
     list-style: decimal;
     margin-top: 20px;
-    /* margin-right: 10px; */
     position: absolute;
     text-align: center;
     right: 15px;
@@ -165,7 +164,6 @@ body {
     border-width: 0;
     box-sizing: border-box;
     color: gold;
-    /* cursor: move; */
     display: block;
     font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     left: 126px;
@@ -188,4 +186,88 @@ body {
     50% {
         transform: scale(1) rotate(15deg);
     }
+}
+
+#PauseModal {
+    position: absolute;
+    display: none;
+    width: 400px;
+    height: 280px;
+    top: 50%;
+    left: 50%;
+    background-color: slategray;
+    transform: translate(-50%, -50%);
+    border-radius: 15px;
+}
+
+#PauseModal>h2 {
+    text-align: center;
+    position: relative;
+    font-size: x-large;
+    top: 5px;
+    text-shadow: rgb(50, 50, 50) 1px 1px;
+}
+
+#PauseModalScore {
+    position: absolute;
+    font-weight: 900;
+    font-size: 48pt;
+    text-align: center;
+    align-self: center;
+    justify-self: center;
+    right: 10px;
+    left: 10px;
+}
+
+#PauseModalScoreLabel {
+    color: black;
+    position: absolute;
+    font-size: medium;
+    font-weight: 100;
+    right: 50%;
+    width: 20px;
+    top: 40%;
+    text-align: center;
+}
+
+#PauseModalRestartButton {
+    position: absolute;
+    right: 18%;
+    width: 250px;
+    height: 45px;
+    align-self: center;
+    text-align: center;
+    bottom: 2px;
+    background-color: rgb(200, 50, 50);
+    color: white;
+    border: 1px white;
+    border-radius: 20px;
+}
+
+#PauseModalPlayButton {
+    position: absolute;
+    right: 18%;
+    width: 250px;
+    height: 45px;
+    align-self: center;
+    text-align: center;
+    bottom: 50px;
+    background-color: rgb(50, 100, 200);
+    color: white;
+    border: 1px white;
+    border-radius: 20px;
+}
+
+#PauseModalOptionsButton {
+    position: absolute;
+    right: 18%;
+    width: 250px;
+    height: 45px;
+    align-self: center;
+    text-align: center;
+    bottom: 100px;
+    background-color: rgb(50, 200, 50);
+    color: white;
+    border: 1px white;
+    border-radius: 20px;
 }

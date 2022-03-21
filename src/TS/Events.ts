@@ -34,55 +34,21 @@ startGameButton.addEventListener("click", () => {
     animate();
     //hide the UI
 });
-resumeGameButton.addEventListener("click", () => {
-    UnpauseGame();
+PauseModalPlayButton.addEventListener("click", () => {
+    PauseModal.style.display = "none";
 });
-
-
-ShopCloseButton.addEventListener("click", () => {
-    HideShop();
-});
-ToggleMuteBtnUnmuted.addEventListener("click", () => {
-    // ToggleMuteBtnUnmuted.setAttribute("style", "display:none;");
-    // ToggleMuteBtnMuted.setAttribute("style", "display:initial;");
-    ToggleMuteBtnUnmuted.style.display = "none";
-    ToggleMuteBtnMuted.style.display = "initial";
-    Muted = true;
-});
-ToggleMuteBtnMuted.addEventListener("click", () => {
-    ToggleMuteBtnMuted.style.display = "none";
-    ToggleMuteBtnUnmuted.style.display = "initial"
-    // ToggleMuteBtnMuted.setAttribute("style", "display:none;");
-    // ToggleMuteBtnUnmuted.setAttribute("style", "display:initial;");
-    Muted = false;
-});
-
-ToggleParticlesBtnUse.addEventListener("click", () => {
-    ToggleParticlesBtnDontUse.style.display = "initial";
-    ToggleParticlesBtnUse.style.display = "none";
-    // ToggleParticlesBtnDontUse.setAttribute("style", "display:initial;");
-    // ToggleParticlesBtnUse.setAttribute("style", "display:none;");
-    UseParticles = false;
-});
-ToggleParticlesBtnDontUse.addEventListener("click", () => {
-    ToggleParticlesBtnDontUse.style.display = "none";
-    ToggleParticlesBtnUse.style.display = "initial"
-    ToggleParticlesBtnDontUse.setAttribute("style", "display:none;");
-    ToggleParticlesBtnUse.setAttribute("style", "display:initial;");
-    UseParticles = true;
-});
-restartGameButtonEL.addEventListener("click", () => {
-    var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.");
-    if (UserConfirm) {
-        UnpauseGame();
-        Paused = false;
+PauseModalRestartButton.addEventListener("click", () => {
+    PauseModal.style.display = "none";
+    if (confirm("Are you sure?")) {
         init();
         animate();
     }
 });
-OptionsMenuOpenerButton.addEventListener("click", () => {
-    OpenOptionsMenu();
-});
-OptionsBackButton.addEventListener("click", () => {
-    CloseOptionsMenu();
-});
+addEventListener("keypress", (event) => {
+    console.log(event.key);
+    if (event.key == "q") {
+        Paused = true;
+        PauseModal.style.display = "block"
+        PauseModalScore.innerHTML = score.toString(10);
+    }
+})

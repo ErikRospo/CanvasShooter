@@ -22,21 +22,12 @@ const Play = document.querySelector("#PlayEL");
 const ShootSound = new Audio("Audio/sound/Shoot.wav");
 const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
 const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
-const ShopDivEL = document.querySelector("#UpgradeDivEL");
-const ShopELs = document.querySelectorAll(".shop");
-const UpgradeELs = document.querySelectorAll(".UpgradeButton");
-const ShopCloseButton = document.querySelector("#CloseShop");
-const resumeGameButton = document.querySelector("#ResumeGameBtn");
-const restartGameButtonEL = document.querySelector("#RestartGameBtn");
-const PausedModalEL = document.querySelector("#PauseModalEL");
-const PausedBigScoreEL = document.querySelector("#BigScorePauseMenuEL");
-const OptionsMenuOpenerButton = document.querySelector("#OptionsMenuOpener");
-const OptionsMenu = document.querySelector("#OptionsModalEl");
-const ToggleMuteBtnUnmuted = document.querySelector("#ToggleMuteBtnUnmuted");
-const ToggleMuteBtnMuted = document.querySelector("#ToggleMuteBtnMuted");
-const ToggleParticlesBtnUse = document.querySelector("#ToggleParticlesBtnUse");
-const ToggleParticlesBtnDontUse = document.querySelector("#ToggleParticlesBtnDontUse");
-const OptionsBackButton = document.querySelector("#OptionsBackButton");
+const PauseModal = document.querySelector("#PauseModal");
+const PauseModalScore = document.querySelector("#PauseModalScore");
+const PauseModalScoreLabel = document.querySelector("#PauseModalScoreLabel");
+const PauseModalOptionsButton = document.querySelector("#PauseModalOptionsButton");
+const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton");
+const PauseModalRestartButton = document.querySelector("#PauseModalRestartButton");
 const XPBar = document.querySelector("#XPBar");
 const XPBarLabel = document.querySelector("#XPbarLabel");
 const debugDiv = document.querySelector("#debugDiv");
@@ -701,6 +692,7 @@ class HighScore {
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
                 default:
+                    node.style.color = "#FFFFFF";
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
             }
@@ -759,48 +751,23 @@ startGameButton.addEventListener("click", () => {
     init();
     animate();
 });
-resumeGameButton.addEventListener("click", () => {
-    UnpauseGame();
+PauseModalPlayButton.addEventListener("click", () => {
+    PauseModal.style.display = "none";
 });
-ShopCloseButton.addEventListener("click", () => {
-    HideShop();
-});
-ToggleMuteBtnUnmuted.addEventListener("click", () => {
-    ToggleMuteBtnUnmuted.style.display = "none";
-    ToggleMuteBtnMuted.style.display = "initial";
-    Muted = true;
-});
-ToggleMuteBtnMuted.addEventListener("click", () => {
-    ToggleMuteBtnMuted.style.display = "none";
-    ToggleMuteBtnUnmuted.style.display = "initial";
-    Muted = false;
-});
-ToggleParticlesBtnUse.addEventListener("click", () => {
-    ToggleParticlesBtnDontUse.style.display = "initial";
-    ToggleParticlesBtnUse.style.display = "none";
-    UseParticles = false;
-});
-ToggleParticlesBtnDontUse.addEventListener("click", () => {
-    ToggleParticlesBtnDontUse.style.display = "none";
-    ToggleParticlesBtnUse.style.display = "initial";
-    ToggleParticlesBtnDontUse.setAttribute("style", "display:none;");
-    ToggleParticlesBtnUse.setAttribute("style", "display:initial;");
-    UseParticles = true;
-});
-restartGameButtonEL.addEventListener("click", () => {
-    var UserConfirm = confirm("Are you sure you want to restart? All progress will be lost.");
-    if (UserConfirm) {
-        UnpauseGame();
-        Paused = false;
+PauseModalRestartButton.addEventListener("click", () => {
+    PauseModal.style.display = "none";
+    if (confirm("Are you sure?")) {
         init();
         animate();
     }
 });
-OptionsMenuOpenerButton.addEventListener("click", () => {
-    OpenOptionsMenu();
-});
-OptionsBackButton.addEventListener("click", () => {
-    CloseOptionsMenu();
+addEventListener("keypress", (event) => {
+    console.log(event.key);
+    if (event.key == "q") {
+        Paused = true;
+        PauseModal.style.display = "block";
+        PauseModalScore.innerHTML = score.toString(10);
+    }
 });
 function animate() {
     animationID = requestAnimationFrame(animate);
@@ -827,7 +794,6 @@ function animate() {
             EnemySpawnTime -= 0.125;
         }
         SetDebugItem(EnemySpawnTime, "SpawnTime");
-        UnpauseGame();
         player.update();
         AnimateProgressBar(animationID);
         c.fillStyle = `rgba(${BackgroundColor},0.1)`;
@@ -862,6 +828,7 @@ function animate() {
                     player.Health -= 1;
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health, "playerHealth");
+                    EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
                 }
                 SetHealthICONs(player.Health, player.MaxHealth);
             }
@@ -944,33 +911,8 @@ let Scores = new HighScore();
 let lastScore = 0;
 let freq = 25000;
 let HS = true;
-function ShowShop() {
-    ShopELs.forEach((value) => {
-        var htmlvalue = value;
-        htmlvalue.style.display = "block";
-        if (htmlvalue == ShopDivEL) {
-            htmlvalue.style.display = "flex";
-        }
-        else if (htmlvalue == ShopCloseButton) {
-            htmlvalue.style.display = "contents";
-        }
-    });
-    ShopOpen = true;
-    Paused = true;
-}
-function HideShop() {
-    ShopELs.forEach((value) => {
-        var htmlvalue = value;
-        htmlvalue.style.display = "none";
-    });
-    ShopOpen = false;
-    Paused = false;
-}
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
-    HideShop();
-    CloseOptionsMenu();
-    Paused = false;
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
     enemies = [];
@@ -983,11 +925,6 @@ function init() {
     GameStarted = true;
 }
 function PageLoad() {
-    CloseOptionsMenu();
-    PausedModalEL.style.display = "none";
-    PausedBigScoreEL.style.display = "none";
-    resumeGameButton.style.display = "none";
-    restartGameButtonEL.style.display = "none";
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none";
@@ -998,7 +935,6 @@ function PageLoad() {
     AddDebugItem(EnemySpawnTime, "SpawnTime");
     AddDebugItem(EnemySpawnBias, "Bias");
     SetHealthICONs(1, 5);
-    HideShop();
     Paused = true;
     OptionsOpen = false;
 }
@@ -1007,7 +943,7 @@ function SpawnEnemy() {
         let x;
         let y;
         const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
-        if (Math.random() < EnemySpawnBias) {
+        if (coinFlip(EnemySpawnBias)) {
             x = Math.random() < 0.5 ? 0 - radius : w + radius;
             y = Math.random() * h;
         }
@@ -1053,41 +989,6 @@ function gameOver(AnimationID) {
     BigScoreEL.innerText = score.toString();
     BigScoreEL.classList.add("animate-bounce");
 }
-function PauseGame() {
-    PausedModalEL.style.display = "flex";
-    PausedBigScoreEL.style.display = "initial";
-    resumeGameButton.style.display = "initial";
-    restartGameButtonEL.style.display = "initial";
-    PausedBigScoreEL.innerHTML = score.toString(10);
-    Paused = true;
-}
-;
-function UnpauseGame() {
-    PausedModalEL.style.display = "none";
-    PausedBigScoreEL.style.display = "none";
-    resumeGameButton.style.display = "none";
-    restartGameButtonEL.style.display = "none";
-    Paused = false;
-}
-;
-function OpenOptionsMenu() {
-    OptionsMenu.style.display = "flex";
-    PausedModalEL.style.opacity = "0.2";
-    PausedBigScoreEL.style.opacity = "0.2";
-    resumeGameButton.style.opacity = "0.2";
-    restartGameButtonEL.style.opacity = "0.2";
-    OptionsOpen = true;
-}
-;
-function CloseOptionsMenu() {
-    OptionsMenu.style.display = "none";
-    PausedModalEL.style.opacity = "1";
-    PausedBigScoreEL.style.opacity = "1";
-    resumeGameButton.style.opacity = "1";
-    restartGameButtonEL.style.opacity = "1";
-    OptionsOpen = false;
-}
-;
 console.log("random");
 let randomUpgrades = CreateRandomUpgrades();
 console.log(randomUpgrades);

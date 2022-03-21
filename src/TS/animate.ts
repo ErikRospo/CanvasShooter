@@ -28,7 +28,6 @@ function animate() {
         }
         SetDebugItem(EnemySpawnTime, "SpawnTime")
         //draw the player
-        UnpauseGame();
         player.update();
         AnimateProgressBar(animationID);
         //fill the canvas with an almost black.

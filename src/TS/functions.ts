@@ -1,46 +1,5 @@
-function ShowShop() {
-    ShopELs.forEach((value) => {
-        var htmlvalue = value as HTMLElement
-        // htmlvalue.setAttribute("style", "display:block;");
-        htmlvalue.style.display = "block"
-        if (htmlvalue == ShopDivEL) {
-            htmlvalue.style.display = "flex"
-            // value.setAttribute("style", "display:flex;");
-        } else if (htmlvalue == ShopCloseButton) {
-            // htmlvalue.setAttribute("style", "display:contents;");
-            htmlvalue.style.display = "contents"
-        }
-    });
-    ShopOpen = true;
-    Paused = true;
-}
-function HideShop() {
-    ShopELs.forEach((value) => {
-        var htmlvalue = value as HTMLElement
-        htmlvalue.style.display = "none"
-        // value.setAttribute("style", "display:none;");
-    });
-    ShopOpen = false;
-    Paused = false;
-}
-
-// function updateHighScores(scores: any[]) {
-//     scores.sort((a: number, b: number) => a - b);
-//     for (let index = 0; index < scores.length; index++) {
-//         const element = scores[index];
-//         var node = document.createElement("li");
-//         node.appendChild(document.createTextNode(element));
-//         HighScoreList.appendChild(node);
-
-//     }
-// }
-
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
-    HideShop();
-    CloseOptionsMenu();
-    Paused = false;
-    // updateHighScores(highScores);
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
     enemies = [];
@@ -56,11 +15,6 @@ function init() {
 }
 
 function PageLoad() {
-    CloseOptionsMenu();
-    PausedModalEL.style.display = "none";
-    PausedBigScoreEL.style.display = "none";
-    resumeGameButton.style.display = "none";
-    restartGameButtonEL.style.display = "none";
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
@@ -71,18 +25,9 @@ function PageLoad() {
     AddDebugItem(EnemySpawnTime, "SpawnTime");
     AddDebugItem(EnemySpawnBias, "Bias");
     SetHealthICONs(1, 5);
-    // PausedModalEL.setAttribute("style", "display:none;");
-    // PausedBigScoreEL.setAttribute("style", "display:none;");
-    // resumeGameButton.setAttribute("style", "display:none;");
-    // restartGameButtonEL.setAttribute("style", "display:none;");
-
-    HideShop();
-
     Paused = true;
     OptionsOpen = false;
 
-    // ModalEL.setAttribute("style", "display:flex;");
-    // XPBar.setAttribute("style", "display:none;");
 }
 
 function SpawnEnemy() {
@@ -160,58 +105,3 @@ function gameOver(AnimationID: number) {
     BigScoreEL.innerText = score.toString();
     BigScoreEL.classList.add("animate-bounce")
 }
-
-
-function PauseGame() {
-    // PausedModalEL.setAttribute("style", "display:flex;");
-    // PausedBigScoreEL.setAttribute("style", "display:initial;");
-    // resumeGameButton.setAttribute("style", "display:initial;");
-    // restartGameButtonEL.setAttribute("style", "display:initial;");
-    PausedModalEL.style.display = "flex"
-    PausedBigScoreEL.style.display = "initial"
-    resumeGameButton.style.display = "initial"
-    restartGameButtonEL.style.display = "initial"
-    PausedBigScoreEL.innerHTML = score.toString(10);
-    Paused = true;
-};
-
-function UnpauseGame() {
-    //     PausedModalEL.setAttribute("style", "display:none;");
-    //     PausedBigScoreEL.setAttribute("style", "display:none;");
-    //     resumeGameButton.setAttribute("style", "display:none;");
-    //     restartGameButtonEL.setAttribute("style", "display:none;");
-    PausedModalEL.style.display = "none";
-    PausedBigScoreEL.style.display = "none";
-    resumeGameButton.style.display = "none";
-    restartGameButtonEL.style.display = "none"
-    Paused = false;
-};
-
-function OpenOptionsMenu() {
-    // OptionsMenu.setAttribute("style", "display:flex;");
-    // PausedModalEL.setAttribute("style", "opacity:0.2;");
-    // PausedBigScoreEL.setAttribute("style", "opacity:0.2;");
-    // resumeGameButton.setAttribute("style", "opacity:0.2;");
-    // restartGameButtonEL.setAttribute("style", "opacity:0.2;");
-    OptionsMenu.style.display = "flex"
-    PausedModalEL.style.opacity = "0.2"
-    PausedBigScoreEL.style.opacity = "0.2"
-    resumeGameButton.style.opacity = "0.2"
-    restartGameButtonEL.style.opacity = "0.2"
-    OptionsOpen = true;
-};
-
-function CloseOptionsMenu() {
-    // OptionsMenu.setAttribute("style", "display:none;");
-    // PausedModalEL.setAttribute("style", "opacity:1");
-    // PausedBigScoreEL.setAttribute("style", "opacity:1");
-    // resumeGameButton.setAttribute("style", "opacity:1");
-    // restartGameButtonEL.setAttribute("style", "opacity:1");    
-    OptionsMenu.style.display = "none"
-    PausedModalEL.style.opacity = "1"
-    PausedBigScoreEL.style.opacity = "1"
-    resumeGameButton.style.opacity = "1"
-    restartGameButtonEL.style.opacity = "1"
-
-    OptionsOpen = false;
-};
