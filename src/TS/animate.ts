@@ -1,7 +1,6 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
     enemies = enemies.filter((value) => {
-
         return !(value.id in enemiesToRemove)
     })
     enemiesToRemove.slice();
@@ -73,7 +72,7 @@ function animate() {
                     EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
 
                 }
-                SetHealthICONs(player.Health, player.MaxHealth);
+                // SetHealthICONs(player.Health, player.MaxHealth);
             }
             projectiles.forEach((projectile, index2) => {
                 //get the distance between the projectile and the enemy
@@ -108,7 +107,7 @@ function animate() {
                         setTimeout(() => {
                             //delete the projectile
                             projectiles.splice(index2, 1);
-                        }, 2);
+                        }, 4);
                         //otherwise
                     } else {
                         if (!Muted) {
@@ -121,7 +120,7 @@ function animate() {
                             enemiesToRemove.push(enemy.id);
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
-                        }, 2);
+                        }, 5);
                     }
                 }
             });

@@ -18,7 +18,6 @@ function HideShop() {
     ShopELs.forEach((value) => {
         var htmlvalue = value as HTMLElement
         htmlvalue.style.display = "none"
-        // value.setAttribute("style", "display:none;");
     });
     ShopOpen = false;
     Paused = false;

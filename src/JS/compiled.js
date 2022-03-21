@@ -861,7 +861,6 @@ function animate() {
                     SetDebugItem(player.Health, "playerHealth");
                     EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
                 }
-                SetHealthICONs(player.Health, player.MaxHealth);
             }
             projectiles.forEach((projectile, index2) => {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
@@ -883,7 +882,7 @@ function animate() {
                         enemy.radius -= player.Damage;
                         setTimeout(() => {
                             projectiles.splice(index2, 1);
-                        }, 2);
+                        }, 4);
                     }
                     else {
                         if (!Muted) {
@@ -894,7 +893,7 @@ function animate() {
                             enemiesToRemove.push(enemy.id);
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
-                        }, 2);
+                        }, 5);
                     }
                 }
             });
