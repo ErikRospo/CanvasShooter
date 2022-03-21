@@ -1,5 +1,6 @@
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
+    Paused = false;
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
     enemies = [];
@@ -7,13 +8,10 @@ function init() {
     score = 0;
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
-    // MoneyEL.innerHTML = player.Money.toString(10);
     XPBar.style.display = "initial";
     ResetProgressBar();
     GameStarted = true;
-
 }
-
 function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
@@ -27,7 +25,6 @@ function PageLoad() {
     SetHealthICONs(1, 5);
     Paused = true;
     OptionsOpen = false;
-
 }
 function SpawnParticles(enemy: Enemy, projectile: Projectile) {
     for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
@@ -44,6 +41,9 @@ function SpawnParticles(enemy: Enemy, projectile: Projectile) {
                 y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
             }));
     }
+    HideShop();
+    Paused = true;
+    OptionsOpen = false;
 }
 
 function SpawnEnemy() {
@@ -145,3 +145,38 @@ function HandleCollisions(enemy: Enemy, projectile: Projectile, index2: number, 
         }, 2);
     }
 }
+function PauseGame() {
+    PausedModalEL.style.display = "flex"
+    PausedBigScoreEL.style.display = "initial"
+    resumeGameButton.style.display = "initial"
+    restartGameButtonEL.style.display = "initial"
+    PausedBigScoreEL.innerHTML = score.toString(10);
+    Paused = true;
+};
+
+function UnpauseGame() {
+    PausedModalEL.style.display = "none";
+    PausedBigScoreEL.style.display = "none";
+    resumeGameButton.style.display = "none";
+    restartGameButtonEL.style.display = "none"
+    Paused = false;
+};
+
+function OpenOptionsMenu() {
+    OptionsMenu.style.display = "flex"
+    PausedModalEL.style.opacity = "0.2"
+    PausedBigScoreEL.style.opacity = "0.2"
+    resumeGameButton.style.opacity = "0.2"
+    restartGameButtonEL.style.opacity = "0.2"
+    OptionsOpen = true;
+};
+
+function CloseOptionsMenu() { 
+    OptionsMenu.style.display = "none"
+    PausedModalEL.style.opacity = "1"
+    PausedBigScoreEL.style.opacity = "1"
+    resumeGameButton.style.opacity = "1"
+    restartGameButtonEL.style.opacity = "1"
+
+    OptionsOpen = false;
+};

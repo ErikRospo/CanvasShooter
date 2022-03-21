@@ -187,7 +187,6 @@ body {
         transform: scale(1) rotate(15deg);
     }
 }
-
 #PauseModal {
     position: absolute;
     display: none;
@@ -270,4 +269,3 @@ body {
     color: white;
     border: 1px white;
     border-radius: 20px;
-}

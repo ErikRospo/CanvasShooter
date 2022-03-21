@@ -10,10 +10,7 @@ declare const TitleEL: HTMLHeadingElement;
 declare const BigScoreEL: HTMLHeadingElement;
 declare const BigScoreELLabel: HTMLSpanElement;
 declare const NameDiv: HTMLDivElement;
-declare const HighScoreList: Element;
-declare const Music: Element;
-declare const Pause: Element;
-declare const Play: Element;
+declare const HighScoreList: HTMLOListElement;
 declare const ShootSound: HTMLAudioElement;
 declare const HitNoKillSound: HTMLAudioElement;
 declare const HitAndKillSound: HTMLAudioElement;
@@ -213,7 +210,6 @@ declare class HighScore {
 }
 declare function SetHealthICONs(health: number, MaxHealth?: number | 5): void;
 declare function animate(): void;
-declare const Difficulty = "easy";
 declare const EnemySpawnTimeDecrement = 1;
 declare const EnemySpawnBias: number;
 declare const EnemyHealthMultiplier = 1;
@@ -227,7 +223,6 @@ declare const ParticleFriction = 0.99;
 declare const ParticleMultiplier = 2;
 declare const ParticleSpeed = 5;
 declare const ParticleFadeSpeedMultiplier = 1;
-declare const ParticlesDamageEnemies = false;
 declare const MaxEnemies = 10;
 declare let player: Player;
 declare let projectiles: Projectile[];

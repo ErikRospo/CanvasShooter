@@ -1,7 +1,6 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
     enemies = enemies.filter((value) => {
-
         return !(value.id in enemiesToRemove)
     })
     while (enemiesToRemove.length > 0) {
@@ -74,7 +73,7 @@ function animate() {
                     EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
 
                 }
-                SetHealthICONs(player.Health, player.MaxHealth);
+                // SetHealthICONs(player.Health, player.MaxHealth);
             }
             projectiles.forEach((projectile, index2) => {
                 //get the distance between the projectile and the enemy
@@ -82,6 +81,31 @@ function animate() {
                 // if dist minus the radiuses of the enemy and the projectile are less than 0
                 if (dist - enemy.radius - projectile.radius < 0) {
                     HandleCollisions(enemy, projectile, index2, index);
+                    //shrink enemy if it is large
+                    if (!enemy.ShouldDie(player.Damage)) {
+                        if (!Muted) {
+                            HitNoKillSound.play();
+                        }
+                        AddScore(100);
+                        enemy.radius -= player.Damage;
+                        setTimeout(() => {
+                            //delete the projectile
+                            projectiles.splice(index2, 1);
+                        }, 4);
+                        //otherwise
+                    } else {
+                        if (!Muted) {
+                            HitAndKillSound.play();
+                        }
+                        //add the score, and update the content
+                        AddScore(250);
+                        //on the next frame, delete the enemy and projectile
+                        setTimeout(() => {
+                            enemiesToRemove.push(enemy.id);
+                            enemies.splice(index, 1);
+                            projectiles.splice(index2, 1);
+                        }, 5);
+                    }
                 }
             });
         });
