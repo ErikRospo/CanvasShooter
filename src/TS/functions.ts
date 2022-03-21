@@ -1,31 +1,5 @@
-function ShowShop() {
-    ShopELs.forEach((value) => {
-        var htmlvalue = value as HTMLElement
-        // htmlvalue.setAttribute("style", "display:block;");
-        htmlvalue.style.display = "block"
-        if (htmlvalue == ShopDivEL) {
-            htmlvalue.style.display = "flex"
-            // value.setAttribute("style", "display:flex;");
-        } else if (htmlvalue == ShopCloseButton) {
-            // htmlvalue.setAttribute("style", "display:contents;");
-            htmlvalue.style.display = "contents"
-        }
-    });
-    ShopOpen = true;
-    Paused = true;
-}
-function HideShop() {
-    ShopELs.forEach((value) => {
-        var htmlvalue = value as HTMLElement
-        htmlvalue.style.display = "none"
-    });
-    ShopOpen = false;
-    Paused = false;
-}
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
-    HideShop();
-    CloseOptionsMenu();
     Paused = false;
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
@@ -39,11 +13,6 @@ function init() {
     GameStarted = true;
 }
 function PageLoad() {
-    CloseOptionsMenu();
-    PausedModalEL.style.display = "none";
-    PausedBigScoreEL.style.display = "none";
-    resumeGameButton.style.display = "none";
-    restartGameButtonEL.style.display = "none";
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
@@ -54,6 +23,24 @@ function PageLoad() {
     AddDebugItem(EnemySpawnTime, "SpawnTime");
     AddDebugItem(EnemySpawnBias, "Bias");
     SetHealthICONs(1, 5);
+    Paused = true;
+    OptionsOpen = false;
+}
+function SpawnParticles(enemy: Enemy, projectile: Projectile) {
+    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+        //add a particle to the rendering list
+        particles.push(new Particle(projectile.x,
+            projectile.y,
+            //give it a random radius
+            Math.random() * (5 - 1) + 1,
+            //set its color to the killed enemy's
+            enemy.color,
+            // give it a random speed
+            {
+                x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
+                y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+            }));
+    }
     HideShop();
     Paused = true;
     OptionsOpen = false;
@@ -126,11 +113,39 @@ function gameOver(AnimationID: number) {
     BigScoreEL.innerText = score.toString();
     BigScoreEL.classList.add("animate-bounce")
 }
+function HandleCollisions(enemy: Enemy, projectile: Projectile, index2: number, index: number) {
+    IncreaseProgressBar(enemy.startingRadius);
+    //create Explosions
+    if (UseParticles) {
+        SpawnParticles(enemy, projectile);
+    }
+    //shrink enemy if it is large
+    if (!enemy.ShouldDie(player.Damage)) {
+        if (!Muted) {
+            HitNoKillSound.play();
+        }
+        AddScore(100);
+        enemy.radius -= player.Damage;
+        setTimeout(() => {
+            //delete the projectile
+            projectiles.splice(index2, 1);
+        }, 2);
+        //otherwise
+    } else {
+        if (!Muted) {
+            HitAndKillSound.play();
+        }
+        //add the score, and update the content
+        AddScore(250);
+        //on the next frame, delete the enemy and projectile
+        setTimeout(() => {
+            enemiesToRemove.push(enemy.id);
+            enemies.splice(index, 1);
+            projectiles.splice(index2, 1);
+        }, 2);
+    }
+}
 function PauseGame() {
-    // PausedModalEL.setAttribute("style", "display:flex;");
-    // PausedBigScoreEL.setAttribute("style", "display:initial;");
-    // resumeGameButton.setAttribute("style", "display:initial;");
-    // restartGameButtonEL.setAttribute("style", "display:initial;");
     PausedModalEL.style.display = "flex"
     PausedBigScoreEL.style.display = "initial"
     resumeGameButton.style.display = "initial"
@@ -140,10 +155,6 @@ function PauseGame() {
 };
 
 function UnpauseGame() {
-    //     PausedModalEL.setAttribute("style", "display:none;");
-    //     PausedBigScoreEL.setAttribute("style", "display:none;");
-    //     resumeGameButton.setAttribute("style", "display:none;");
-    //     restartGameButtonEL.setAttribute("style", "display:none;");
     PausedModalEL.style.display = "none";
     PausedBigScoreEL.style.display = "none";
     resumeGameButton.style.display = "none";
@@ -152,11 +163,6 @@ function UnpauseGame() {
 };
 
 function OpenOptionsMenu() {
-    // OptionsMenu.setAttribute("style", "display:flex;");
-    // PausedModalEL.setAttribute("style", "opacity:0.2;");
-    // PausedBigScoreEL.setAttribute("style", "opacity:0.2;");
-    // resumeGameButton.setAttribute("style", "opacity:0.2;");
-    // restartGameButtonEL.setAttribute("style", "opacity:0.2;");
     OptionsMenu.style.display = "flex"
     PausedModalEL.style.opacity = "0.2"
     PausedBigScoreEL.style.opacity = "0.2"
@@ -165,12 +171,7 @@ function OpenOptionsMenu() {
     OptionsOpen = true;
 };
 
-function CloseOptionsMenu() {
-    // OptionsMenu.setAttribute("style", "display:none;");
-    // PausedModalEL.setAttribute("style", "opacity:1");
-    // PausedBigScoreEL.setAttribute("style", "opacity:1");
-    // resumeGameButton.setAttribute("style", "opacity:1");
-    // restartGameButtonEL.setAttribute("style", "opacity:1");    
+function CloseOptionsMenu() { 
     OptionsMenu.style.display = "none"
     PausedModalEL.style.opacity = "1"
     PausedBigScoreEL.style.opacity = "1"

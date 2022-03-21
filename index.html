@@ -46,7 +46,7 @@
             </div>
         </div>
     </div>
-    <div class="inset-0 hidden items-center justify-center select-none fixed self-center flex-none" id="PauseModalEL">
+    <!-- <div class="inset-0 hidden items-center justify-center select-none fixed self-center flex-none" id="PauseModalEL">
         <div class="bg-slate-600 max-w-md w-full p-6 text-center block">
             <h1 class="text-white text-4xl font-bold leading-none" id="BigScorePauseMenuEL">0</h1>
             <p class=" text-sm text-white mb-4">Points</p>
@@ -66,42 +66,52 @@
             <button id="ToggleParticlesBtnDontUse" class="text-4xl text-center hidden ">&#9711;</button>
             <button id="OptionsBackButton" class="bg-blue-500 text-white w-full py-3 rounded-full text-sm ">Back</button>
         </div>
+    </div> -->
+    <div id="PauseModal">
+        <h2>Paused</h2>
+        <span id="PauseModalScore">1</span>
+        <span id="PauseModalScoreLabel">Points</span>
+        <div id="PauseModalButtonWrapper">
+            <button id="PauseModalOptionsButton">&#x2699 Options</button>
+            <button id="PauseModalPlayButton">Resume</button>
+            <button id="PauseModalRestartButton">Restart</button>
+        </div>
     </div>
-    <div class="fixed inset-0 flex items-center justify-center select-none shop" id="UpgradeDivEL">
+    <!-- <div class="fixed inset-0 flex items-center justify-center select-none shop" id="UpgradeDivEL">
         <div class="max-w-md w-full p-6 text-center items-center justify-center shop bg-slate-600">
             <span>Money:</span>
             <span id="ShopMoney">0</span>
             <ul>
-                <!--(li.upgrade-list-item.shop>button.UpgradeButton.bg-ButtonsEnabled[disabled=false])*10  -->
-                <li class="upgrade-list-item shop">
-                    <button class="UpgradeButton " disabled="false"></button>
-                </li>
-                <li class="upgrade-list-item shop ">
-                    <button class=" UpgradeButton " disabled="false "></button>
-                </li>
-                <li class="upgrade-list-item shop ">
-                    <button class="UpgradeButton " disabled="false "></button>
-                </li>
-                <li class="upgrade-list-item shop ">
-                    <button class=" UpgradeButton " disabled="false "></button>
-                </li>
-                <li class="upgrade-list-item shop ">
-                    <button class="UpgradeButton " disabled="false "></button>
-                </li>
-                <li class="upgrade-list-item shop ">
-                    <button class="UpgradeButton " disabled="false "></button>
-                </li>
-                <li class="upgrade-list-item shop ">
-                    <button class="UpgradeButton " disabled="false "></button>
-                </li>
-                <li class="upgrade-list-item shop ">
-                    <button class="UpgradeButton " disabled="false "></button>
-                </li>
+                (li.upgrade-list-item.shop>button.UpgradeButton.bg-ButtonsEnabled[disabled=false])*10
+    <li class="upgrade-list-item shop">
+        <button class="UpgradeButton " disabled="false"></button>
+    </li>
+    <li class="upgrade-list-item shop ">
+        <button class=" UpgradeButton " disabled="false "></button>
+    </li>
+    <li class="upgrade-list-item shop ">
+        <button class="UpgradeButton " disabled="false "></button>
+    </li>
+    <li class="upgrade-list-item shop ">
+        <button class=" UpgradeButton " disabled="false "></button>
+    </li>
+    <li class="upgrade-list-item shop ">
+        <button class="UpgradeButton " disabled="false "></button>
+    </li>
+    <li class="upgrade-list-item shop ">
+        <button class="UpgradeButton " disabled="false "></button>
+    </li>
+    <li class="upgrade-list-item shop ">
+        <button class="UpgradeButton " disabled="false "></button>
+    </li>
+    <li class="upgrade-list-item shop ">
+        <button class="UpgradeButton " disabled="false "></button>
+    </li>
 
-            </ul>
-            <button id="CloseShop" class=" shop text-red-500 text-2xl ">&#9747</button>
-        </div>
+    </ul>
+    <button id="CloseShop" class=" shop text-red-500 text-2xl ">&#9747</button>
     </div>
+    </div> -->
     </div>
     <div class="fixed text-white w-8 h-16 top-5 right-5 select-none" id="HighScoreDiv">
         <h2 id="highScoreTitle"><b>High Scores:</b></h2>

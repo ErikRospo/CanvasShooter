@@ -1,7 +1,7 @@
 LongTerm:
     [ ] @todo @low make an electron branch
     [ ] @todo @low add VFX
-    [ ] @todo @high clean up codebase
+    [ ] @todo @high @ongoing clean up codebase
     [ ] @todo @ongoing Balance changes
     [ ] @todo @ongoing Difficulty tweaks
 
@@ -10,7 +10,7 @@ Todo:
     [ ] @todo @low Shots bounce off of maybe enemies/maybe wall @maybe
     [ ] @todo Add better menus
     [ ] @todo @high Add main menu
-    [ ] @todo @high @bugs Fix options menu
+    [ ] @todo @high @bugs Fix options menu @started(22-03-21 10:23)
     [ ] @todo @low Re-add music+option to turn off
     [ ] @todo @low Re-add SFX+option to turn off
     [ ] @todo @low Add performance mode
@@ -22,6 +22,7 @@ Todo:
     [ ] @todo @low Change DEBUGFLAG to work based on a url argument.
     [ ] @todo @low CSS/styling of menus.
     [ ] @todo @maybe Add mystery ball: takes random number of shots to kill. e.g. radius does not determine health.
+    [ ] @todo @high @maybe add popup to score text when the High score is beaten
 Archive:
   [x] @todo @low Add lives when player reaches a certain score? @maybe @started(22-03-18 10:06) @done(22-03-18 13:06) @lasted(3h12s) @project(Todo)
   [x] @todo @high Change Start button to work in the entire button area @done @project(Todo)
