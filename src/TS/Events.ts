@@ -36,19 +36,19 @@ startGameButton.addEventListener("click", () => {
 });
 PauseModalPlayButton.addEventListener("click", () => {
     PauseModal.style.display = "none";
-});
-PauseModalRestartButton.addEventListener("click", () => {
-    PauseModal.style.display = "none";
-    if (confirm("Are you sure?")) {
-        init();
-        animate();
-    }
+    Paused = false;
 });
 addEventListener("keypress", (event) => {
     console.log(event.key);
-    if (event.key == "q") {
-        Paused = true;
-        PauseModal.style.display = "block"
-        PauseModalScore.innerHTML = score.toString(10);
+    if (event.key == "q" && GameStarted) {
+        if (!Paused) {
+            Paused = true;
+            PauseModal.style.display = "block"
+            PauseModalScore.innerHTML = score.toString(10);
+        } else {
+            Paused = false;
+            PauseModal.style.display = "none"
+            PauseModalScore.innerHTML = score.toString(10);
+        }
     }
 })

@@ -1,30 +1,15 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
-    enemies = enemies.filter((value) => {
-        return !(value.id in enemiesToRemove)
-    })
-    while (enemiesToRemove.length > 0) {
-        enemiesToRemove.slice(0, enemiesToRemove.length);
-    };
+    // enemies = enemies.filter((value) => {
+        // return !(value.id in enemiesToRemove)
+    // })
+    // enemiesToRemove.splice(0, enemiesToRemove.length);
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
         SetDebugItem(player.cachedLevels, "playerCashedLevels");
-        let cantspawn = false;
-        enemies.forEach((enemy) => {
-            projectiles.forEach((projectile) => {
-                //get the distance between the projectile and the enemy
-                const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
-                // if dist minus the radiuses of the enemy and the projectile are less than 0
-                if (dist - enemy.radius - projectile.radius <= 5) {
-                    cantspawn = true
-                }
-            })
-        })
-        SetDebugItem(cantspawn ? "true" : "false", "CantSpawn");
-        if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5) && !cantspawn) {
+        if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5)) {
             SpawnEnemy();
-            // console.log(enemies);
             EnemySpawnTime -= 0.125;
         }
         SetDebugItem(EnemySpawnTime, "SpawnTime")
@@ -48,7 +33,7 @@ function animate() {
         //draw the projectiles
         projectiles.forEach((projectile, index) => {
             projectile.update();
-            //if the projectile is off the screen, delete it. this saves rendering time
+            //if the projectile is off the screen, delete it. This saves rendering time
             if ((projectile.x + projectile.radius < 0) ||
                 (projectile.y + projectile.radius < 0) ||
                 (projectile.x - projectile.radius > w) ||
@@ -80,7 +65,20 @@ function animate() {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                 // if dist minus the radiuses of the enemy and the projectile are less than 0
                 if (dist - enemy.radius - projectile.radius < 0) {
-                    HandleCollisions(enemy, projectile, index2, index);
+                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+                        //add a particle to the rendering list
+                        particles.push(new Particle(projectile.x,
+                            projectile.y,
+                            //give it a random radius
+                            Math.random() * (5 - 1) + 1,
+                            //set its color to the killed enemy's
+                            enemy.color,
+                            // give it a random speed
+                            {
+                                x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
+                                y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+                            }));
+                    }
                     //shrink enemy if it is large
                     if (!enemy.ShouldDie(player.Damage)) {
                         if (!Muted) {
@@ -91,7 +89,7 @@ function animate() {
                         setTimeout(() => {
                             //delete the projectile
                             projectiles.splice(index2, 1);
-                        }, 4);
+                        }, 2);
                         //otherwise
                     } else {
                         if (!Muted) {
@@ -101,10 +99,10 @@ function animate() {
                         AddScore(250);
                         //on the next frame, delete the enemy and projectile
                         setTimeout(() => {
-                            enemiesToRemove.push(enemy.id);
+                            // enemiesToRemove.push(enemy.id);
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
-                        }, 5);
+                        }, 2);
                     }
                 }
             });

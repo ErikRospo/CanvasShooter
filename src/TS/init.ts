@@ -23,7 +23,7 @@ const PauseModalScore = document.querySelector("#PauseModalScore") as HTMLSpanEl
 const PauseModalScoreLabel = document.querySelector("#PauseModalScoreLabel") as HTMLSpanElement;
 const PauseModalOptionsButton = document.querySelector("#PauseModalOptionsButton") as HTMLButtonElement;
 const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton") as HTMLButtonElement;
-const PauseModalRestartButton = document.querySelector("#PauseModalRestartButton") as HTMLButtonElement;
+// const PauseModalRestartButton = document.querySelector("#PauseModalRestartButton") as HTMLButtonElement;
 //shop
 // const ShopDivEL = document.querySelector("#UpgradeDivEL") as HTMLDivElement;
 // const ShopELs = document.querySelectorAll(".shop");
