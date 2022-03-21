@@ -1,9 +1,7 @@
 function SetProgressBar(Value: number): void {
-    // XPBar.setAttribute("value", (Value / 10).toString(10))
     XPBar.value = ((Value) / 10)
 }
 function IncreaseProgressBar(Value: number): void {
-    // XPBar.setAttribute("value", (XPBar.getAttribute("value") + Value / 10).toString())
     XPBar.value = (XPBar.value + Value / 10)
 }
 function AnimateProgressBar(frameID: number): void {
@@ -21,7 +19,6 @@ function CheckForLevelUp(): boolean {
         player.cachedLevels += 1;
         XPBar.value = 0;
         XPBar.max = player.level;
-        // XPBarLabel.style.display = "block";
         return true
     } else {
         return false

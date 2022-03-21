@@ -251,8 +251,10 @@ declare let freq: number;
 declare let HS: boolean;
 declare function init(): void;
 declare function PageLoad(): void;
+declare function SpawnParticles(enemy: Enemy, projectile: Projectile): void;
 declare function SpawnEnemy(): void;
 declare function AddScore(Value: number): void;
 declare function gameOver(AnimationID: number): void;
+declare function HandleCollisions(enemy: Enemy, projectile: Projectile, index2: number, index: number): void;
 declare let randomUpgrades: Upgrade[];
 //# sourceMappingURL=compiled.d.ts.map

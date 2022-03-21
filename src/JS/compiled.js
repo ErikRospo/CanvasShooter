@@ -774,7 +774,10 @@ function animate() {
     enemies = enemies.filter((value) => {
         return !(value.id in enemiesToRemove);
     });
-    enemiesToRemove.slice();
+    while (enemiesToRemove.length > 0) {
+        enemiesToRemove.slice(0, enemiesToRemove.length);
+    }
+    ;
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
@@ -783,7 +786,7 @@ function animate() {
         enemies.forEach((enemy) => {
             projectiles.forEach((projectile) => {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
-                if (dist - enemy.radius - projectile.radius < 0) {
+                if (dist - enemy.radius - projectile.radius <= 5) {
                     cantspawn = true;
                 }
             });
@@ -835,36 +838,7 @@ function animate() {
             projectiles.forEach((projectile, index2) => {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                 if (dist - enemy.radius - projectile.radius < 0) {
-                    IncreaseProgressBar(enemy.startingRadius);
-                    if (UseParticles) {
-                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
-                            particles.push(new Particle(projectile.x, projectile.y, Math.random() * (5 - 1) + 1, enemy.color, {
-                                x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
-                                y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
-                            }));
-                        }
-                    }
-                    if (!enemy.ShouldDie(player.Damage)) {
-                        if (!Muted) {
-                            HitNoKillSound.play();
-                        }
-                        AddScore(100);
-                        enemy.radius -= player.Damage;
-                        setTimeout(() => {
-                            projectiles.splice(index2, 1);
-                        }, 2);
-                    }
-                    else {
-                        if (!Muted) {
-                            HitAndKillSound.play();
-                        }
-                        AddScore(250);
-                        setTimeout(() => {
-                            enemiesToRemove.push(enemy.id);
-                            enemies.splice(index, 1);
-                            projectiles.splice(index2, 1);
-                        }, 2);
-                    }
+                    HandleCollisions(enemy, projectile, index2, index);
                 }
             });
         });
@@ -938,6 +912,14 @@ function PageLoad() {
     Paused = true;
     OptionsOpen = false;
 }
+function SpawnParticles(enemy, projectile) {
+    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+        particles.push(new Particle(projectile.x, projectile.y, Math.random() * (5 - 1) + 1, enemy.color, {
+            x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
+            y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+        }));
+    }
+}
 function SpawnEnemy() {
     function genEnemy(pepper) {
         let x;
@@ -988,6 +970,33 @@ function gameOver(AnimationID) {
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();
     BigScoreEL.classList.add("animate-bounce");
+}
+function HandleCollisions(enemy, projectile, index2, index) {
+    IncreaseProgressBar(enemy.startingRadius);
+    if (UseParticles) {
+        SpawnParticles(enemy, projectile);
+    }
+    if (!enemy.ShouldDie(player.Damage)) {
+        if (!Muted) {
+            HitNoKillSound.play();
+        }
+        AddScore(100);
+        enemy.radius -= player.Damage;
+        setTimeout(() => {
+            projectiles.splice(index2, 1);
+        }, 2);
+    }
+    else {
+        if (!Muted) {
+            HitAndKillSound.play();
+        }
+        AddScore(250);
+        setTimeout(() => {
+            enemiesToRemove.push(enemy.id);
+            enemies.splice(index, 1);
+            projectiles.splice(index2, 1);
+        }, 2);
+    }
 }
 console.log("random");
 let randomUpgrades = CreateRandomUpgrades();

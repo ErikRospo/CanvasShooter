@@ -29,6 +29,22 @@ function PageLoad() {
     OptionsOpen = false;
 
 }
+function SpawnParticles(enemy: Enemy, projectile: Projectile) {
+    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+        //add a particle to the rendering list
+        particles.push(new Particle(projectile.x,
+            projectile.y,
+            //give it a random radius
+            Math.random() * (5 - 1) + 1,
+            //set its color to the killed enemy's
+            enemy.color,
+            // give it a random speed
+            {
+                x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
+                y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+            }));
+    }
+}
 
 function SpawnEnemy() {
     //create a new enemy
@@ -73,11 +89,8 @@ function SpawnEnemy() {
 //add and update the score
 function AddScore(Value: number) {
     score += Value;
-    // player.Money += (Value / 10) * player.moneyMult;
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
-    // MoneyEL.innerHTML = player.Money.toString(10);
-    // ShopMoney.innerHTML = player.Money.toString(10);
 }
 
 
@@ -92,16 +105,43 @@ function gameOver(AnimationID: number) {
     Scores.addScore(score);
     //and add the end screen back up
     ModalEL.setAttribute("style", "display:flex;");
-    // TitleEL.setAttribute("style", "display:none;");
-    // BigScoreELLabel.setAttribute("style", "display:block;");
-    // BigScoreEL.setAttribute("style", "display:block;");
-    // ModalEL.style.display = "flex"
     HighScoreList.innerHTML = Scores.Html;
     console.log(Scores)
-    // TitleEL.style.display = "none";
     HighScoreLabel.style.display = HS ? "block" : "none";
     BigScoreELLabel.style.display = "block";
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();
     BigScoreEL.classList.add("animate-bounce")
+}
+function HandleCollisions(enemy: Enemy, projectile: Projectile, index2: number, index: number) {
+    IncreaseProgressBar(enemy.startingRadius);
+    //create Explosions
+    if (UseParticles) {
+        SpawnParticles(enemy, projectile);
+    }
+    //shrink enemy if it is large
+    if (!enemy.ShouldDie(player.Damage)) {
+        if (!Muted) {
+            HitNoKillSound.play();
+        }
+        AddScore(100);
+        enemy.radius -= player.Damage;
+        setTimeout(() => {
+            //delete the projectile
+            projectiles.splice(index2, 1);
+        }, 2);
+        //otherwise
+    } else {
+        if (!Muted) {
+            HitAndKillSound.play();
+        }
+        //add the score, and update the content
+        AddScore(250);
+        //on the next frame, delete the enemy and projectile
+        setTimeout(() => {
+            enemiesToRemove.push(enemy.id);
+            enemies.splice(index, 1);
+            projectiles.splice(index2, 1);
+        }, 2);
+    }
 }
