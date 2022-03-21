@@ -15,10 +15,6 @@ const BigScoreEL = document.querySelector("#BigScoreEL");
 const BigScoreELLabel = document.querySelector("#PointsLabelEL");
 const NameDiv = document.querySelector("#NameInputDiv");
 const HighScoreList = document.querySelector("#HighScore");
-const Music = document.querySelector("#MusicEL");
-console.log(Music);
-const Pause = document.querySelector("#PauseEL");
-const Play = document.querySelector("#PlayEL");
 const ShootSound = new Audio("Audio/sound/Shoot.wav");
 const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
 const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
@@ -701,6 +697,7 @@ class HighScore {
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
                 default:
+                    node.style.color = "#FFFFFF";
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
             }
@@ -862,6 +859,7 @@ function animate() {
                     player.Health -= 1;
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health, "playerHealth");
+                    EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
                 }
                 SetHealthICONs(player.Health, player.MaxHealth);
             }
@@ -908,7 +906,6 @@ function animate() {
         lastScore = score;
     }
 }
-const Difficulty = "easy";
 const EnemySpawnTimeDecrement = 1;
 const EnemySpawnBias = window.innerHeight / window.innerWidth;
 const EnemyHealthMultiplier = 1;
@@ -922,7 +919,6 @@ const ParticleFriction = 0.99;
 const ParticleMultiplier = 2;
 const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
-const ParticlesDamageEnemies = false;
 const MaxEnemies = 10;
 let player = new Player(cw, ch, PlayerRadius, PlayerColor);
 let projectiles = [];
@@ -1007,7 +1003,7 @@ function SpawnEnemy() {
         let x;
         let y;
         const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
-        if (Math.random() < EnemySpawnBias) {
+        if (coinFlip(EnemySpawnBias)) {
             x = Math.random() < 0.5 ? 0 - radius : w + radius;
             y = Math.random() * h;
         }

@@ -1,4 +1,3 @@
-const Difficulty = "easy";
 const EnemySpawnTimeDecrement = 1;
 const EnemySpawnBias = window.innerHeight / window.innerWidth;
 const EnemyHealthMultiplier = 1;
@@ -12,7 +11,6 @@ const ParticleFriction = 0.99;
 const ParticleMultiplier = 2;
 const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
-const ParticlesDamageEnemies = false;
 const MaxEnemies = 10;
 
 

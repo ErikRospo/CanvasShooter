@@ -23,24 +23,11 @@ function HideShop() {
     ShopOpen = false;
     Paused = false;
 }
-
-// function updateHighScores(scores: any[]) {
-//     scores.sort((a: number, b: number) => a - b);
-//     for (let index = 0; index < scores.length; index++) {
-//         const element = scores[index];
-//         var node = document.createElement("li");
-//         node.appendChild(document.createTextNode(element));
-//         HighScoreList.appendChild(node);
-
-//     }
-// }
-
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     HideShop();
     CloseOptionsMenu();
     Paused = false;
-    // updateHighScores(highScores);
     player = new Player(cw, ch, PlayerRadius, PlayerColor);
     projectiles = [];
     enemies = [];
@@ -48,13 +35,10 @@ function init() {
     score = 0;
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
-    // MoneyEL.innerHTML = player.Money.toString(10);
     XPBar.style.display = "initial";
     ResetProgressBar();
     GameStarted = true;
-
 }
-
 function PageLoad() {
     CloseOptionsMenu();
     PausedModalEL.style.display = "none";
@@ -71,18 +55,9 @@ function PageLoad() {
     AddDebugItem(EnemySpawnTime, "SpawnTime");
     AddDebugItem(EnemySpawnBias, "Bias");
     SetHealthICONs(1, 5);
-    // PausedModalEL.setAttribute("style", "display:none;");
-    // PausedBigScoreEL.setAttribute("style", "display:none;");
-    // resumeGameButton.setAttribute("style", "display:none;");
-    // restartGameButtonEL.setAttribute("style", "display:none;");
-
     HideShop();
-
     Paused = true;
     OptionsOpen = false;
-
-    // ModalEL.setAttribute("style", "display:flex;");
-    // XPBar.setAttribute("style", "display:none;");
 }
 
 function SpawnEnemy() {
@@ -128,11 +103,8 @@ function SpawnEnemy() {
 //add and update the score
 function AddScore(Value: number) {
     score += Value;
-    // player.Money += (Value / 10) * player.moneyMult;
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
-    // MoneyEL.innerHTML = player.Money.toString(10);
-    // ShopMoney.innerHTML = player.Money.toString(10);
 }
 
 
@@ -147,21 +119,14 @@ function gameOver(AnimationID: number) {
     Scores.addScore(score);
     //and add the end screen back up
     ModalEL.setAttribute("style", "display:flex;");
-    // TitleEL.setAttribute("style", "display:none;");
-    // BigScoreELLabel.setAttribute("style", "display:block;");
-    // BigScoreEL.setAttribute("style", "display:block;");
-    // ModalEL.style.display = "flex"
     HighScoreList.innerHTML = Scores.Html;
     console.log(Scores)
-    // TitleEL.style.display = "none";
     HighScoreLabel.style.display = HS ? "block" : "none";
     BigScoreELLabel.style.display = "block";
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();
     BigScoreEL.classList.add("animate-bounce")
 }
-
-
 function PauseGame() {
     // PausedModalEL.setAttribute("style", "display:flex;");
     // PausedBigScoreEL.setAttribute("style", "display:initial;");
