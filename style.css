@@ -156,8 +156,6 @@ body {
 }
 
 #highScoreTextModal {
-    --tw-bg-opacity: 1;
-    -webkit-text-size-adjust: 100%;
     animation: both 1s ease-in-out myAnim infinite;
     border-color: #e5e7eb;
     border-style: solid;
@@ -187,6 +185,7 @@ body {
         transform: scale(1) rotate(15deg);
     }
 }
+
 #PauseModal {
     position: absolute;
     display: none;
@@ -197,9 +196,11 @@ body {
     background-color: slategray;
     transform: translate(-50%, -50%);
     border-radius: 15px;
+    user-select: none;
 }
 
 #PauseModal>h2 {
+    user-select: none;
     text-align: center;
     position: relative;
     font-size: x-large;
@@ -208,6 +209,7 @@ body {
 }
 
 #PauseModalScore {
+    user-select: none;
     position: absolute;
     font-weight: 900;
     font-size: 48pt;
@@ -219,6 +221,7 @@ body {
 }
 
 #PauseModalScoreLabel {
+    user-select: none;
     color: black;
     position: absolute;
     font-size: medium;
@@ -229,21 +232,8 @@ body {
     text-align: center;
 }
 
-#PauseModalRestartButton {
-    position: absolute;
-    right: 18%;
-    width: 250px;
-    height: 45px;
-    align-self: center;
-    text-align: center;
-    bottom: 2px;
-    background-color: rgb(200, 50, 50);
-    color: white;
-    border: 1px white;
-    border-radius: 20px;
-}
-
 #PauseModalPlayButton {
+    user-select: none;
     position: absolute;
     right: 18%;
     width: 250px;
@@ -258,6 +248,7 @@ body {
 }
 
 #PauseModalOptionsButton {
+    user-select: none;
     position: absolute;
     right: 18%;
     width: 250px;
@@ -269,3 +260,4 @@ body {
     color: white;
     border: 1px white;
     border-radius: 20px;
+}

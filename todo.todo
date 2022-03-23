@@ -22,8 +22,8 @@ Todo:
     [ ] @todo @low Change DEBUGFLAG to work based on a url argument.
     [ ] @todo @low CSS/styling of menus.
     [ ] @todo @maybe Add mystery ball: takes random number of shots to kill. e.g. radius does not determine health.
-    [ ] @todo @high @maybe add popup to score text when the High score is beaten
 Archive:
+  [x] @todo @high @maybe add popup to score text when the High score is beaten @done(22-03-23 10:39) @project(Todo)
   [x] @todo @low Add lives when player reaches a certain score? @maybe @started(22-03-18 10:06) @done(22-03-18 13:06) @lasted(3h12s) @project(Todo)
   [x] @todo @high Change Start button to work in the entire button area @done @project(Todo)
   [x] @todo Fix enemy's collision, @bugs @done(22-03-17 12:53) @project(Todo)
