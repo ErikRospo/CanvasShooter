@@ -10,9 +10,7 @@ Todo:
     [ ] @todo @low Shots bounce off of maybe enemies/maybe wall @maybe
     [ ] @todo Add better menus
     [ ] @todo @high Add main menu
-    [ ] @todo @high @bugs Fix options menu @started(22-03-21 10:23)
     [ ] @todo @low Re-add music+option to turn off
-    [ ] @todo @low Re-add SFX+option to turn off
     [ ] @todo @low Add performance mode
     [ ] @todo @low @maybe Re-add Particles damage enemies.
     [ ] @todo @low @maybe Set Particle's damage to be proportional to its speed.
@@ -22,27 +20,33 @@ Todo:
     [ ] @todo @low Change DEBUGFLAG to work based on a url argument.
     [ ] @todo @low CSS/styling of menus.
     [ ] @todo @maybe Add mystery ball: takes random number of shots to kill. e.g. radius does not determine health.
+    [ ] @todo @maybe Charge shot for player. E.G. More damage, More size? 
+    [ ] @todo @high @bug Fix Music player implementation.
+
 Archive:
-  [x] @todo @high @maybe add popup to score text when the High score is beaten @done(22-03-23 10:39) @project(Todo)
-  [x] @todo @low Add lives when player reaches a certain score? @maybe @started(22-03-18 10:06) @done(22-03-18 13:06) @lasted(3h12s) @project(Todo)
-  [x] @todo @high Change Start button to work in the entire button area @done @project(Todo)
-  [x] @todo Fix enemy's collision, @bugs @done(22-03-17 12:53) @project(Todo)
-  [x] @todo Add different enemies @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m39s) @project(Todo)
-  [x] @todo @bugs @critical Fix enemies disappearing all at once. @started(22-03-16 10:30) @done(22-03-17 12:52) @lasted(1d2h22m43s) @project(Todo)
-  [x] @todo @bugs @critical Figure out why LiveServer is bugging out with this project. @done(22-03-17 12:52) @project(Todo)
-  [x] @todo @high Add difficulty curve @done(22-03-17 12:52) @project(Todo)
-  [-] @todo @low Add tooltips @cancelled(22-03-17 12:52) @project(Todo)
-  [x] @todo Fast, large, but less health @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m29s) @project(Todo)
-  [x] @todo slow, small, lots of health @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m25s) @project(Todo)
-  [-] @todo #1 @high Add firing delay @cancelled(22-03-14 11:35) @project(Today) @project(Todo)
-  [-] @todo @low set up tooltips for options menu items. @cancelled(22-02-23 11:26) @project(Planned) @project(Todo)
-  [x] @todo Add Damage upgrades @done(22-02-21 16:19) @project(Today) @project(Todo)
-  [x] @todo Add ext. variables @done(22-02-20 15:04) @project(Todo)
-  [x] @todo Add upgrades @done(22-02-21 16:19) @project(Today) @project(Todo)
-  [x] @todo Set up particle on/off switch in options menu. @done(22-02-21 16:18) @project(Today) @project(Todo)
-  [x] @todo @critical: fix bullet particles/ bullet hit colistion. @done(22-02-20 15:31) @project(Today) @project(Todo)
-  [x] @todo @high Add highscores @started(22-03-14 10:14) @done(22-03-14 13:44) @lasted(3h30m19s) @project(Planned) @project(Todo)
-  [x] @todo Add pause menu @done(22-02-20 15:04) @project(Todo)
-  [x] @todo Add sound effects. @done(22-02-20 15:04) @project(Todo)
-  [x] @todo: set up back button for options menu @done(22-02-20 15:04) @project(Todo)
-  [x] @todo: set up hiding of options menu. @done(22-02-20 15:04) @project(Todo)
+    [x] @todo @low Re-add SFX+option to turn off @done(22-03-23 14:09) @project(Todo)
+    [x] @todo @high @bugs Option's menu sliders dont reflect their starting values @started(22-03-23 11:27) @done(22-03-23 11:44) @lasted(17m12s) @project(Todo)
+    [x] @todo @high @bugs Fix options menu @started(22-03-21 10:23) @done(22-03-23 11:26) @lasted(2d1h3m52s) @project(Todo)
+    [x] @todo @high @maybe add popup to score text when the High score is beaten @done(22-03-23 10:39) @project(Todo)
+    [x] @todo @low Add lives when player reaches a certain score? @maybe @started(22-03-18 10:06) @done(22-03-18 13:06) @lasted(3h12s) @project(Todo)
+    [x] @todo @high Change Start button to work in the entire button area @done @project(Todo)
+    [x] @todo Fix enemy's collision, @bugs @done(22-03-17 12:53) @project(Todo)
+    [x] @todo Add different enemies @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m39s) @project(Todo)
+    [x] @todo @bugs @critical Fix enemies disappearing all at once. @started(22-03-16 10:30) @done(22-03-17 12:52) @lasted(1d2h22m43s) @project(Todo)
+    [x] @todo @bugs @critical Figure out why LiveServer is bugging out with this project. @done(22-03-17 12:52) @project(Todo)
+    [x] @todo @high Add difficulty curve @done(22-03-17 12:52) @project(Todo)
+    [-] @todo @low Add tooltips @cancelled(22-03-17 12:52) @project(Todo)
+    [x] @todo Fast, large, but less health @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m29s) @project(Todo)
+    [x] @todo slow, small, lots of health @started(22-03-15 10:22) @done(22-03-16 11:29) @lasted(1d1h7m25s) @project(Todo)
+    [-] @todo #1 @high Add firing delay @cancelled(22-03-14 11:35) @project(Today) @project(Todo)
+    [-] @todo @low set up tooltips for options menu items. @cancelled(22-02-23 11:26) @project(Planned) @project(Todo)
+    [x] @todo Add Damage upgrades @done(22-02-21 16:19) @project(Today) @project(Todo)
+    [x] @todo Add ext. variables @done(22-02-20 15:04) @project(Todo)
+    [x] @todo Add upgrades @done(22-02-21 16:19) @project(Today) @project(Todo)
+    [x] @todo Set up particle on/off switch in options menu. @done(22-02-21 16:18) @project(Today) @project(Todo)
+    [x] @todo @critical: fix bullet particles/ bullet hit colistion. @done(22-02-20 15:31) @project(Today) @project(Todo)
+    [x] @todo @high Add highscores @started(22-03-14 10:14) @done(22-03-14 13:44) @lasted(3h30m19s) @project(Planned) @project(Todo)
+    [x] @todo Add pause menu @done(22-02-20 15:04) @project(Todo)
+    [x] @todo Add sound effects. @done(22-02-20 15:04) @project(Todo)
+    [x] @todo: set up back button for options menu @done(22-02-20 15:04) @project(Todo)
+    [x] @todo: set up hiding of options menu. @done(22-02-20 15:04) @project(Todo)

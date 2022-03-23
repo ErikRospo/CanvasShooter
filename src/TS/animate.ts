@@ -39,6 +39,9 @@ function animate() {
                 (projectile.x - projectile.radius > w) ||
                 (projectile.y - projectile.radius > h)) {
                 projectiles.splice(index, 1);
+                if (!SFXMuted) {
+                    MissSound.play();
+                }
             }
         });
         //draw the enemies
@@ -53,6 +56,9 @@ function animate() {
                     gameOver(animationID);
                 } else {
                     player.Health -= 1;
+                    if (!SFXMuted) {
+                        HealthLooseSound.play();
+                    };
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health, "playerHealth");
                     EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
@@ -80,19 +86,19 @@ function animate() {
                             }));
                     }
                     //shrink enemy if it is large
-                    if (!enemy.ShouldDie(player.Damage)) {
-                        if (!Muted) {
+                    if (!enemy.ShouldDie(projectile.damage)) {
+                        if (!SFXMuted) {
                             HitNoKillSound.play();
                         }
                         AddScore(100);
-                        enemy.radius -= player.Damage;
+                        enemy.radius -= projectile.damage;
                         setTimeout(() => {
                             //delete the projectile
                             projectiles.splice(index2, 1);
                         }, 2);
                         //otherwise
                     } else {
-                        if (!Muted) {
+                        if (!SFXMuted) {
                             HitAndKillSound.play();
                         }
                         //add the score, and update the content
@@ -110,6 +116,9 @@ function animate() {
         if ((lastScore % freq > score % freq) && (score != 0)) {
             player.Health += 1
             SetHealthICONs(player.Health, player.MaxHealth);
+            if (!SFXMuted) {
+                HealthGetSound.play();
+            }
         }
         lastScore = score;
     }

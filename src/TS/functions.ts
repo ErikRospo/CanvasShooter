@@ -16,6 +16,10 @@ function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
+    OptionsParticleSwitch.checked = true;
+    OptionsSoundSwitch.checked = false;
+    CloseOptionsMenu();
+    UnpauseGame();
     AddDebugItem(0, "playerLevel")
     AddDebugItem(0, "playerCashedLevels")
     AddDebugItem(false, "CantSpawn")
@@ -85,6 +89,7 @@ function gameOver(AnimationID: number) {
         HS = false
     }
     Scores.addScore(score);
+    GameStarted = false;
     //and add the end screen back up
     ModalEL.setAttribute("style", "display:flex;");
     HighScoreList.innerHTML = Scores.Html;
@@ -97,36 +102,22 @@ function gameOver(AnimationID: number) {
 }
 
 function PauseGame() {
-    PauseModal.style.display = "flex"
-    PauseModalScore.style.display = "initial"
-    PauseModalPlayButton.style.display = "initial"
-    // PauseModalRestartButton.style.display = "initial"
+    PauseModal.style.display = "block";
     PauseModalScore.innerHTML = score.toString(10);
     Paused = true;
 };
 
 function UnpauseGame() {
-    PauseModal.style.display = "none";
-    PauseModalScore.style.display = "none";
-    PauseModalPlayButton.style.display = "none";
-    // PauseModalRestartButton.style.display = "none"
+    PauseModal.style.display = "none"
     Paused = false;
 };
 
 function OpenOptionsMenu() {
-    // OptionsMenu.style.display = "flex"
-    PauseModal.style.opacity = "0.2"
-    PauseModalScore.style.opacity = "0.2"
-    PauseModalPlayButton.style.opacity = "0.2"
-    // PauseModalRestartButton.style.opacity = "0.2"
+    OptionsMenu.style.display = "block";
     OptionsOpen = true;
 };
 
-function CloseOptionsMenu() { 
-    // OptionsMenu.style.display = "none"
-    PauseModal.style.opacity = "1"
-    PauseModalScore.style.opacity = "1"
-    PauseModalPlayButton.style.opacity = "1"
-    // PauseModalRestartButton.style.opacity = "1"
+function CloseOptionsMenu() {
+    OptionsMenu.style.display = "none";
     OptionsOpen = false;
 };

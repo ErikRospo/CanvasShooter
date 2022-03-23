@@ -1,19 +1,17 @@
-const EnemySpawnTimeDecrement = 1;
-const EnemySpawnBias = window.innerHeight / window.innerWidth;
-const EnemyHealthMultiplier = 1;
-const EnemySpeedMultiplier = 1;
-const ProjectileSpeedMultiplier = 1;
-const ProjectileColor = "white";
-const PlayerColor = "white";
-const PlayerRadius = 10;
-const BackgroundColor = "0,0,0";
-const ParticleFriction = 0.99;
-const ParticleMultiplier = 2;
-const ParticleSpeed = 5;
-const ParticleFadeSpeedMultiplier = 1;
-const MaxEnemies = 10;
-
-
+const EnemySpawnTimeDecrement = 1 as number;
+const EnemySpawnBias = window.innerHeight / window.innerWidth as number;
+const EnemyHealthMultiplier = 1 as number;
+const EnemySpeedMultiplier = 1 as number;
+const ProjectileSpeedMultiplier = 1 as number;
+const ProjectileColor = "white" as string;
+const PlayerColor = "white" as string;
+const PlayerRadius = 10 as number;
+const BackgroundColor = "0,0,0" as string;
+const ParticleFriction = 0.99 as number;
+const ParticleMultiplier = 2 as number;
+const ParticleSpeed = 5 as number;
+const ParticleFadeSpeedMultiplier = 1 as number;
+const MaxEnemies = 10 as number;
 
 let player = new Player(cw, ch, PlayerRadius, PlayerColor);
 let projectiles = [] as Projectile[];
@@ -24,7 +22,8 @@ let UseParticles = true as boolean;
 let Paused = false as boolean;
 let ShopOpen = false as boolean;
 let OptionsOpen = false as boolean;
-let Muted = true as boolean;
+let SFXMuted = true as boolean;
+let MusicMuted = true as boolean;
 let lastInterval: any;
 let EnemySpawnTime = 50 as number;
 let animationID: number;
@@ -33,5 +32,5 @@ let DefaultEnemySpawnTime = 50 as number;
 let enemiesToRemove = [] as string[];
 let Scores = new HighScore() as HighScore;
 let lastScore = 0 as number;
-let freq = 25000;
-let HS = true
+let freq = 25000 as number;
+let HS = true as boolean;

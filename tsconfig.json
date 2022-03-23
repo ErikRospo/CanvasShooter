@@ -18,6 +18,8 @@
             "./src/TS/init.ts",
             "./src/TS/md5.ts",
             "./src/TS/helperFunctions.ts",
+            "./src/TS/classes/Playlist.ts",
+
             "./src/TS/debug.ts",
             "./src/TS/Upgrade.ts",
             "./src/TS/UpgradeDefinitions.ts",
@@ -29,8 +31,8 @@
             "./src/TS/classes/highScores.ts",
             "./src/TS/Health.ts",
             "./src/TS/Events.ts",
-            "./src/TS/animate.ts",
             "./src/TS/vars.ts",
+            "./src/TS/animate.ts",
             "./src/TS/functions.ts",
             "./src/TS/endTests.ts"
           ]

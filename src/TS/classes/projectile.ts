@@ -5,12 +5,14 @@ class Projectile {
     radius: number;
     color: string;
     velocity: { x: number, y: number };
-    constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }) {
+    damage: number;
+    constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }, damage: number) {
         this.x = x;
         this.y = y;
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
+        this.damage = damage;
     }
     draw() {
         if (DEBUGFLAG) {
