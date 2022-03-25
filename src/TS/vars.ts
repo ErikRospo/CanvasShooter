@@ -34,3 +34,4 @@ let Scores = new HighScore() as HighScore;
 let lastScore = 0 as number;
 let freq = 25000 as number;
 let HS = true as boolean;
+let Playlist = new MusicPlayer() as MusicPlayer;

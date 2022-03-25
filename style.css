@@ -1,5 +1,6 @@
 :root {
     --rotation: 20deg;
+    --sliderScale: 1.5;
 }
 
 body {
@@ -291,8 +292,9 @@ body {
 .switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: calc(30px*var(--sliderScale));
+    height: calc(17px*var(--sliderScale));
+    top: calc(10px*var(--sliderScale)/2);
 }
 
 
@@ -322,10 +324,10 @@ body {
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
+    height: calc(13px*var(--sliderScale));
+    width: calc(13px*var(--sliderScale));
+    left: calc(2px*var(--sliderScale));
+    bottom: calc(2px*var(--sliderScale));
     background-color: white;
     -webkit-transition: .4s;
     transition: .4s;
@@ -340,16 +342,16 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+    -webkit-transform: translateX(calc(13px*var(--sliderScale)));
+    -ms-transform: translateX(calc(13px*var(--sliderScale)));
+    transform: translateX(calc(13px*var(--sliderScale)));
 }
 
 
 /* Rounded sliders */
 
 .slider.round {
-    border-radius: 34px;
+    border-radius: calc(17px*var(--sliderScale));
 }
 
 .slider.round:before {
@@ -368,32 +370,9 @@ input:checked+.slider:before {
     top: 100px
 }
 
-#MusicOptionsDiv {
-    left: 65%;
-    position: absolute;
-    top: 140px;
-    display: none;
-}
-
-#SoundOptionsLabel {
-    position: relative;
-    top: 10px;
-    font-weight: bold;
-    font-size: 20pt;
-}
-
 #ParticlesOptionsLabel {
     position: relative;
     top: 10px;
-    font-weight: bold;
-    font-size: 20pt;
-}
-
-#MusicOptionsLabel {
-    position: relative;
-    top: 10px;
-    font-weight: bold;
-    font-size: 20pt;
 }
 
 #OptionsBackButton {

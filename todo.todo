@@ -10,7 +10,7 @@ Todo:
     [ ] @todo @low Shots bounce off of maybe enemies/maybe wall @maybe
     [ ] @todo Add better menus
     [ ] @todo @high Add main menu
-    [ ] @todo @low Re-add music+option to turn off
+    [-] @todo @low Re-add music+option to turn off @cancelled(22-03-25 11:57)
     [ ] @todo @low Add performance mode
     [ ] @todo @low @maybe Re-add Particles damage enemies.
     [ ] @todo @low @maybe Set Particle's damage to be proportional to its speed.
@@ -21,7 +21,7 @@ Todo:
     [ ] @todo @low CSS/styling of menus.
     [ ] @todo @maybe Add mystery ball: takes random number of shots to kill. e.g. radius does not determine health.
     [ ] @todo @maybe Charge shot for player. E.G. More damage, More size? 
-    [ ] @todo @high @bug Fix Music player implementation.
+    [-] @todo @high @bug Fix Music player implementation. @started(22-03-25 10:26) @cancelled(22-03-25 11:57) @wasted(1h31m27s)
 
 Archive:
     [x] @todo @low Re-add SFX+option to turn off @done(22-03-23 14:09) @project(Todo)

@@ -16,18 +16,18 @@ const BigScoreELLabel = document.querySelector("#PointsLabelEL") as HTMLSpanElem
 const NameDiv = document.querySelector("#NameInputDiv") as HTMLDivElement;
 const HighScoreList = document.querySelector("#HighScore") as HTMLOListElement;
 //Sound Effects
-const ShootSound = new Audio("Audio/sound/Shoot.wav") as HTMLAudioElement;
-const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav") as HTMLAudioElement;
+const ShootSound = new Audio("../Audio/sound/Shoot.wav") as HTMLAudioElement;
+const HitNoKillSound = new Audio("../Audio/sound/HitNoKill.wav") as HTMLAudioElement;
 const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav") as HTMLAudioElement;
 const HealthGetSound = new Audio("Audio/sound/HealthGet.wav") as HTMLAudioElement;
 const HealthLooseSound = new Audio("Audio/sound/HealthLose.wav") as HTMLAudioElement;
 const MissSound = new Audio("Audio/sound/Miss.wav") as HTMLAudioElement;
 //Music
-const Music1 = new Audio("Audio/music/Music1") as HTMLAudioElement;
-const Music2 = new Audio("Audio/music/Music2") as HTMLAudioElement;
-const Music3 = new Audio("Audio/music/Music3") as HTMLAudioElement;
-const Music4 = new Audio("Audio/music/Music4") as HTMLAudioElement;
-const Music5 = new Audio("Audio/music/Music5") as HTMLAudioElement;
+const Music1 = new Audio("Audio/music/Music1.mp3") as HTMLAudioElement;
+const Music2 = new Audio("Audio/music/Music2.mp3") as HTMLAudioElement;
+const Music3 = new Audio("Audio/music/Music3.mp3") as HTMLAudioElement;
+const Music4 = new Audio("Audio/music/Music4.mp3") as HTMLAudioElement;
+const Music5 = new Audio("Audio/music/Music5.mp3") as HTMLAudioElement;
 
 //Pause Menu
 const PauseModal = document.querySelector("#PauseModal") as HTMLDivElement;
@@ -38,9 +38,9 @@ const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton") as 
 
 //Options Menu
 const OptionsMenu = document.querySelector("#OptionsModal") as HTMLDivElement;
-const OptionsSoundSwitch = document.querySelector("#SoundOptionsSwitch") as HTMLInputElement;
+const OptionsMusicSlider = document.querySelector("#MusicSlider") as HTMLInputElement;
+const OptionsSFXSlider = document.querySelector("#SFXSlider") as HTMLInputElement;
 const OptionsParticleSwitch = document.querySelector("#ParticleOptionsSwitch") as HTMLInputElement;
-const OptionsMusicSwitch = document.querySelector("#MusicOptionsSwitch") as HTMLInputElement;
 const OptionsBackButton = document.querySelector("#OptionsBackButton") as HTMLButtonElement;
 //shop
 // const ShopDivEL = document.querySelector("#UpgradeDivEL") as HTMLDivElement;

@@ -53,12 +53,18 @@ PauseModalOptionsButton.addEventListener("click", () => {
 OptionsBackButton.addEventListener("click", () => {
     CloseOptionsMenu();
 });
-OptionsSoundSwitch.addEventListener("change", () => {
-    SFXMuted = !SFXMuted
-});
+
 OptionsParticleSwitch.addEventListener("change", () => {
     UseParticles = !UseParticles;
 })
-OptionsMusicSwitch.addEventListener("change",()=>{
-    MusicMuted=!MusicMuted;
+OptionsSFXSlider.addEventListener("change", () => {
+    ShootSound.volume = parseFloat(OptionsSFXSlider.value)
+    HitNoKillSound.volume = parseFloat(OptionsSFXSlider.value)
+    HitAndKillSound.volume = parseFloat(OptionsSFXSlider.value)
+    HealthGetSound.volume = parseFloat(OptionsSFXSlider.value)
+    HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value)
+    MissSound.volume = parseFloat(OptionsSFXSlider.value)
+});
+OptionsMusicSlider.addEventListener("change", () => {
+    Playlist.volume = parseFloat(OptionsMusicSlider.value);
 })

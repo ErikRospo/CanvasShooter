@@ -78,18 +78,10 @@
     <div id="OptionsModal">
         <h2>Options</h2>
         <div id="SoundOptionsDiv">
-            <span id="SoundOptionsLabel">Sound:</span>
-            <label class="switch">
-                <input id="SoundOptionsSwitch" type="checkbox">
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div id="MusicOptionsDiv">
+            <span id="SFXOptionsLabel">Sound:</span>
+            <input type="range" name="SFXAudio" min="0" max="1" step="0.05" id="SFXSlider">
             <span id="MusicOptionsLabel">Music:</span>
-            <label class="switch">
-                <input id="MusicOptionsSwitch" type="checkbox">
-                <span class="slider round"></span>
-            </label>
+            <input type="range" name="MusicAudio" min="0" max="1" step="0.05" id="MusicSlider">
         </div>
         <div id="ParticlesOptionsDiv">
             <span id="ParticlesOptionsLabel">Particles:</span>
