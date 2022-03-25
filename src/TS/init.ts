@@ -22,12 +22,6 @@ const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav") as HTMLAudioElem
 const HealthGetSound = new Audio("Audio/sound/HealthGet.wav") as HTMLAudioElement;
 const HealthLooseSound = new Audio("Audio/sound/HealthLose.wav") as HTMLAudioElement;
 const MissSound = new Audio("Audio/sound/Miss.wav") as HTMLAudioElement;
-//Music
-const Music1 = new Audio("Audio/music/Music1.mp3") as HTMLAudioElement;
-const Music2 = new Audio("Audio/music/Music2.mp3") as HTMLAudioElement;
-const Music3 = new Audio("Audio/music/Music3.mp3") as HTMLAudioElement;
-const Music4 = new Audio("Audio/music/Music4.mp3") as HTMLAudioElement;
-const Music5 = new Audio("Audio/music/Music5.mp3") as HTMLAudioElement;
 
 //Pause Menu
 const PauseModal = document.querySelector("#PauseModal") as HTMLDivElement;
@@ -38,7 +32,6 @@ const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton") as 
 
 //Options Menu
 const OptionsMenu = document.querySelector("#OptionsModal") as HTMLDivElement;
-const OptionsMusicSlider = document.querySelector("#MusicSlider") as HTMLInputElement;
 const OptionsSFXSlider = document.querySelector("#SFXSlider") as HTMLInputElement;
 const OptionsParticleSwitch = document.querySelector("#ParticleOptionsSwitch") as HTMLInputElement;
 const OptionsBackButton = document.querySelector("#OptionsBackButton") as HTMLButtonElement;

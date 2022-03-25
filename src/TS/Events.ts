@@ -65,6 +65,3 @@ OptionsSFXSlider.addEventListener("change", () => {
     HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value)
     MissSound.volume = parseFloat(OptionsSFXSlider.value)
 });
-OptionsMusicSlider.addEventListener("change", () => {
-    Playlist.volume = parseFloat(OptionsMusicSlider.value);
-})

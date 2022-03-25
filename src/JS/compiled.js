@@ -21,18 +21,12 @@ const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
 const HealthGetSound = new Audio("Audio/sound/HealthGet.wav");
 const HealthLooseSound = new Audio("Audio/sound/HealthLose.wav");
 const MissSound = new Audio("Audio/sound/Miss.wav");
-const Music1 = new Audio("Audio/music/Music1.mp3");
-const Music2 = new Audio("Audio/music/Music2.mp3");
-const Music3 = new Audio("Audio/music/Music3.mp3");
-const Music4 = new Audio("Audio/music/Music4.mp3");
-const Music5 = new Audio("Audio/music/Music5.mp3");
 const PauseModal = document.querySelector("#PauseModal");
 const PauseModalScore = document.querySelector("#PauseModalScore");
 const PauseModalScoreLabel = document.querySelector("#PauseModalScoreLabel");
 const PauseModalOptionsButton = document.querySelector("#PauseModalOptionsButton");
 const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton");
 const OptionsMenu = document.querySelector("#OptionsModal");
-const OptionsMusicSlider = document.querySelector("#MusicSlider");
 const OptionsSFXSlider = document.querySelector("#SFXSlider");
 const OptionsParticleSwitch = document.querySelector("#ParticleOptionsSwitch");
 const OptionsBackButton = document.querySelector("#OptionsBackButton");
@@ -289,70 +283,6 @@ function intBetweenNot(min, max, not) {
 }
 function coinFlip(bias) {
     return (Math.random() > bias);
-}
-class MusicPlayer {
-    constructor() {
-        this.songs = [Music1, Music2, Music3, Music4, Music5];
-        this.tracknum = 0;
-    }
-    get track() {
-        return this.tracknum;
-    }
-    set track(v) {
-        this.tracknum = v;
-        this.play(this.tracknum);
-    }
-    get trackAudio() {
-        return this.songs[this.tracknum];
-    }
-    AddTrack(v) {
-        this.songs.push(v);
-    }
-    play(i) {
-        this.songs.forEach(element => {
-            element.pause();
-            element.currentTime = 0;
-        });
-        this.songs[i].play();
-    }
-    stopAll() {
-        this.songs.forEach(element => {
-            element.pause();
-            element.currentTime = 0;
-        });
-    }
-    restartAll() {
-        this.songs.forEach(element => {
-            element.currentTime = 0;
-        });
-    }
-    set volume(v) {
-        this.songs.forEach(element => {
-            element.volume = v;
-        });
-    }
-    shuffle(current) {
-        let toplay = randomChoiceNot(this.songs, [current]);
-        toplay.play();
-        this.tracknum = this.songs.indexOf(toplay);
-    }
-    set ContinuePlaying(v) {
-        const ShuffleAfter = (event) => {
-            console.log(event);
-            this.shuffle(event.target);
-        };
-        console.log(this);
-        if (v) {
-            this.songs.forEach(element => {
-                element.addEventListener("onended", ShuffleAfter);
-            });
-        }
-        else {
-            this.songs.forEach((element) => {
-                element.removeEventListener("onended", ShuffleAfter);
-            });
-        }
-    }
 }
 function AddDebugItem(value, id) {
     if (!DEBUGFLAG) {
@@ -857,9 +787,6 @@ OptionsSFXSlider.addEventListener("change", () => {
     HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
     MissSound.volume = parseFloat(OptionsSFXSlider.value);
 });
-OptionsMusicSlider.addEventListener("change", () => {
-    Playlist.volume = parseFloat(OptionsMusicSlider.value);
-});
 const EnemySpawnTimeDecrement = 1;
 const EnemySpawnBias = window.innerHeight / window.innerWidth;
 const EnemyHealthMultiplier = 1;
@@ -895,7 +822,6 @@ let Scores = new HighScore();
 let lastScore = 0;
 let freq = 25000;
 let HS = true;
-let Playlist = new MusicPlayer();
 function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
@@ -1005,8 +931,6 @@ function init() {
     BigScoreEL.innerHTML = score.toString(10);
     XPBar.style.display = "initial";
     ResetProgressBar();
-    Playlist.ContinuePlaying = true;
-    Playlist.shuffle();
     GameStarted = true;
 }
 function PageLoad() {
@@ -1015,8 +939,6 @@ function PageLoad() {
     XPBar.style.display = "none";
     OptionsParticleSwitch.checked = true;
     OptionsSFXSlider.value = "0";
-    OptionsMusicSlider.value = "0";
-    Playlist.volume = parseFloat(OptionsMusicSlider.value);
     CloseOptionsMenu();
     UnpauseGame();
     AddDebugItem(0, "playerLevel");

@@ -10,8 +10,6 @@ function init() {
     BigScoreEL.innerHTML = score.toString(10);
     XPBar.style.display = "initial";
     ResetProgressBar();
-    Playlist.ContinuePlaying = true;
-    Playlist.shuffle();
     GameStarted = true;
 }
 function PageLoad() {
@@ -20,8 +18,6 @@ function PageLoad() {
     XPBar.style.display = "none"
     OptionsParticleSwitch.checked = true;
     OptionsSFXSlider.value = "0";
-    OptionsMusicSlider.value = "0";
-    Playlist.volume = parseFloat(OptionsMusicSlider.value);
     CloseOptionsMenu();
     UnpauseGame();
     AddDebugItem(0, "playerLevel")
