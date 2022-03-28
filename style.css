@@ -412,6 +412,10 @@ input:checked+.slider:before {
     background-color: black;
 }
 
+#MMGTW {
+    border-radius: 20px;
+}
+
 #MainMenuGameTitle {
     font-family: 'Times New Roman', Times, serif;
     font-size: xx-large;

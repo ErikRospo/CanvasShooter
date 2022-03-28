@@ -20,7 +20,6 @@ function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
-    OptionsParticleSwitch.checked = true;
     OptionsSFXSlider.value = "0";
     CloseOptionsMenu();
     updateMuteBTN();
@@ -134,13 +133,20 @@ function UnpauseGame() {
 };
 
 function OpenOptionsMenu() {
+
     OptionsParticleSpan.style.display = "block"
     OptionsMenu.style.display = "block";
+    OptionsSFXSlider.style.display = "block";
+    OptionsBackButton.style.display = "block";
+    OptionsParticleSwitch.style.display = "block"
     OptionsOpen = true;
 };
 
 function CloseOptionsMenu() {
     OptionsParticleSpan.style.display = "none"
     OptionsMenu.style.display = "none";
+    OptionsSFXSlider.style.display = "none";
+    OptionsBackButton.style.display = "none";
+    OptionsParticleSwitch.style.display = "none"
     OptionsOpen = false;
 };
