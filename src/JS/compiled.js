@@ -792,7 +792,7 @@ OptionsSFXSlider.addEventListener("change", () => {
     HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
     MissSound.volume = parseFloat(OptionsSFXSlider.value);
 });
-MainMenuStartButton.addEventListener("select", (_) => {
+MainMenuStartButton.addEventListener("click", (_) => {
     console.log("MAIN MENU START BTN PRESSED");
     ModalEL.style.display = "none";
     MainMenu.style.display = "none";
@@ -949,8 +949,6 @@ function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none";
-    OptionsParticleSwitch.checked = true;
-    OptionsSFXSlider.value = "0";
     CloseOptionsMenu();
     UnpauseGame();
     AddDebugItem(0, "playerLevel");

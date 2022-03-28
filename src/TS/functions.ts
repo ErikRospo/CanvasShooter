@@ -16,8 +16,8 @@ function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
-    OptionsParticleSwitch.checked = true;
-    OptionsSFXSlider.value = "0";
+    // OptionsParticleSwitch.checked = true;
+    // OptionsSFXSlider.value = "0";
     CloseOptionsMenu();
     UnpauseGame();
     AddDebugItem(0, "playerLevel")
