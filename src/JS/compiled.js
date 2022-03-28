@@ -792,6 +792,13 @@ OptionsSFXSlider.addEventListener("change", () => {
     HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
     MissSound.volume = parseFloat(OptionsSFXSlider.value);
 });
+MainMenuStartButton.addEventListener("select", (_) => {
+    console.log("MAIN MENU START BTN PRESSED");
+    ModalEL.style.display = "none";
+    MainMenu.style.display = "none";
+    init();
+    animate();
+});
 const EnemySpawnTimeDecrement = 1;
 const EnemySpawnBias = window.innerHeight / window.innerWidth;
 const EnemyHealthMultiplier = 1;

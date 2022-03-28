@@ -65,3 +65,10 @@ OptionsSFXSlider.addEventListener("change", () => {
     HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value)
     MissSound.volume = parseFloat(OptionsSFXSlider.value)
 });
+MainMenuStartButton.addEventListener("click", (_) => {
+    console.log("MAIN MENU START BTN PRESSED")
+    ModalEL.style.display = "none";
+    MainMenu.style.display = "none";
+    init();
+    animate();
+})
