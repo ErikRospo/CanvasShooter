@@ -19,7 +19,9 @@ Todo:
     [ ] @todo @low Change DEBUGFLAG to work based on a url argument.
     [ ] @todo @low CSS/styling of menus.
     [ ] @todo @maybe Add mystery ball: takes random number of shots to kill. e.g. radius does not determine health.
-    [ ] @todo @maybe Charge shot for player. E.G. More damage, More size? 
+    [ ] @todo @maybe Charge shot for player. E.G. More damage, More size?
+    [ ] @todo @low Fix XP Bar
+    [ ] @todo @critical Add Upgrades Based on XP 
 
 Archive:
   [-] @todo @low Re-add music+option to turn off @cancelled(22-03-25 11:57) @project(Todo)

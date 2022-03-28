@@ -70,6 +70,11 @@ MainMenuOptionsButton.addEventListener("onclick", () => {
 MainMenuStartButton.addEventListener("onclick", () => {
     MainMenu.style.display = "none";
     ModalEL.style.display = "none";
+});
+MainMenuStartButton.addEventListener("click", (_) => {
+    console.log("MAIN MENU START BTN PRESSED")
+    ModalEL.style.display = "none";
+    MainMenu.style.display = "none";
     init();
     animate();
 })
