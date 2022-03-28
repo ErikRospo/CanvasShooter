@@ -376,6 +376,7 @@ input:checked+.slider:before {
 
 #ParticlesOptionsDiv {
     left: 65px;
+    display: none;
     position: absolute;
     top: 100px
 }
@@ -447,13 +448,27 @@ input:checked+.slider:before {
     bottom: 5px;
 }
 
-#MainMenuStartButton {
+#MainMenuOptionsButton {
     position: relative;
-    top: 100px;
+    top: 20px;
     left: 5px;
     height: 50px;
     width: 490px;
     font: bold xx-large black;
     background-color: royalblue;
     border-radius: 50px;
+    margin-bottom: 5px;
+}
+
+#MainMenuStartButton {
+    position: relative;
+    /* top: 100px; */
+    top: 20px;
+    left: 5px;
+    height: 50px;
+    width: 490px;
+    font: bold xx-large black;
+    background-color: royalblue;
+    border-radius: 50px;
+    margin-top: 5px;
 }

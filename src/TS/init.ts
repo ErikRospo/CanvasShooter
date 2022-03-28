@@ -35,6 +35,7 @@ const OptionsMenu = document.querySelector("#OptionsModal") as HTMLDivElement;
 const OptionsSFXSlider = document.querySelector("#SFXSlider") as HTMLInputElement;
 const OptionsParticleSwitch = document.querySelector("#ParticleOptionsSwitch") as HTMLInputElement;
 const OptionsBackButton = document.querySelector("#OptionsBackButton") as HTMLButtonElement;
+const OptionsParticleSpan = document.querySelector("#ParticleOptionsSpan") as HTMLSpanElement;
 //shop
 // const ShopDivEL = document.querySelector("#UpgradeDivEL") as HTMLDivElement;
 // const ShopELs = document.querySelectorAll(".shop");
@@ -52,8 +53,9 @@ const debugList=document.querySelector("#debugList") as HTMLUListElement;
 const MainMenu = document.querySelector("#MainMenu") as HTMLDivElement;
 const MainMenuGameTitle = document.querySelector("#MainMenuGameTitle") as HTMLHeadingElement;
 const MainMenuStartButton = document.querySelector("#MainMenuStartButton") as HTMLButtonElement;
-const MainMenuMuteButton = document.querySelector("#MainMenuMuteButton") as HTMLButtonElement;
-const MainMenuMutedIndicator = document.querySelector("#MainMenuMutedIndicator") as HTMLSpanElement;
+const MainMenuMuteButton = document.querySelector("#MainMenuMuteButton") as HTMLSpanElement;
+// const MainMenuMutedIndicator = document.querySelector("#MainMenuMutedIndicator") as HTMLSpanElement;
+const MainMenuOptionsButton = document.querySelector("#MainMenuOptionsButton") as HTMLButtonElement;
 //define other global constants
 const w = canvas.width;
 const h = canvas.height;
