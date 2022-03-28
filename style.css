@@ -75,6 +75,16 @@ body {
     position: fixed;
 }
 
+.rainbow-background {
+    background-image: repeating-linear-gradient(30deg, violet, indigo, blue, green, yellow, orange, red, violet);
+    text-align: center;
+    background-size: 800% 800%;
+    -webkit-background-clip: content-box;
+    background-clip: border-box;
+    font-size: 24px;
+    animation: rainbow 4s linear infinite;
+}
+
 .rainbow-text {
     background-image: repeating-linear-gradient(45deg, violet, indigo, blue, green, yellow, orange, red, violet);
     text-align: center;
@@ -388,4 +398,62 @@ input:checked+.slider:before {
     height: 50px;
     font-size: large;
     font-weight: 700;
+}
+
+#MainMenu {
+    user-select: none;
+    margin: 0;
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+}
+
+#MainMenuGameTitle {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: xx-large;
+    font-weight: bolder;
+    user-select: none;
+    position: relative;
+    color: black;
+    align-self: center;
+    left: 0px;
+    top: 0px;
+    right: 50%;
+    justify-self: center;
+    text-align: center;
+}
+
+#MainMenuWrapper {
+    background-color: grey;
+    top: 60vh;
+    left: 100vw;
+    width: 500px;
+    height: 200px;
+    transform: translate(100%, 120%);
+}
+
+#MainMenuMuteButton {
+    position: absolute;
+    background-color: black;
+    color: royalblue;
+    width: 50px;
+    height: 50px;
+    border: 0;
+    padding: 0;
+    left: 5px;
+    bottom: 5px;
+}
+
+#MainMenuStartButton {
+    position: relative;
+    top: 100px;
+    left: 5px;
+    height: 50px;
+    width: 490px;
+    font: bold xx-large black;
+    background-color: royalblue;
+    border-radius: 50px;
 }
