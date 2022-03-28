@@ -1,3 +1,7 @@
+function updateMuteBTN(State?: boolean) {
+    if (State != undefined) SFXMuted = State;
+    MainMenuMuteButton.innerText = SFXMuted ? "volume_off" : "volume_up"
+}
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     Paused = false;
@@ -16,9 +20,11 @@ function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
+    OptionsParticleSpan.style.display = "none";
     OptionsParticleSwitch.checked = true;
     OptionsSFXSlider.value = "0";
     CloseOptionsMenu();
+    updateMuteBTN();
     UnpauseGame();
     AddDebugItem(0, "playerLevel")
     AddDebugItem(0, "playerCashedLevels")
@@ -30,7 +36,23 @@ function PageLoad() {
     Paused = true;
     OptionsOpen = false;
 }
-
+function UpdateSFXSlider() {
+    updateMuteBTN((parseFloat(OptionsSFXSlider.value) === 0))
+    ShootSound.muted = SFXMuted
+    HitNoKillSound.muted = SFXMuted
+    HitAndKillSound.muted = SFXMuted
+    HealthGetSound.muted = SFXMuted
+    HealthLooseSound.muted = SFXMuted
+    MissSound.muted = SFXMuted
+    if (!SFXMuted) {
+        ShootSound.volume = parseFloat(OptionsSFXSlider.value);
+        HitNoKillSound.volume = parseFloat(OptionsSFXSlider.value);
+        HitAndKillSound.volume = parseFloat(OptionsSFXSlider.value);
+        HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
+        HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
+        MissSound.volume = parseFloat(OptionsSFXSlider.value);
+    }
+}
 
 function SpawnEnemy() {
     //create a new enemy
@@ -113,11 +135,13 @@ function UnpauseGame() {
 };
 
 function OpenOptionsMenu() {
+    OptionsParticleSpan.style.display = "block"
     OptionsMenu.style.display = "block";
     OptionsOpen = true;
 };
 
 function CloseOptionsMenu() {
+    OptionsParticleSpan.style.display = "none"
     OptionsMenu.style.display = "none";
     OptionsOpen = false;
 };

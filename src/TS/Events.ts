@@ -58,10 +58,18 @@ OptionsParticleSwitch.addEventListener("change", () => {
     UseParticles = !UseParticles;
 })
 OptionsSFXSlider.addEventListener("change", () => {
-    ShootSound.volume = parseFloat(OptionsSFXSlider.value)
-    HitNoKillSound.volume = parseFloat(OptionsSFXSlider.value)
-    HitAndKillSound.volume = parseFloat(OptionsSFXSlider.value)
-    HealthGetSound.volume = parseFloat(OptionsSFXSlider.value)
-    HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value)
-    MissSound.volume = parseFloat(OptionsSFXSlider.value)
+    UpdateSFXSlider();
 });
+MainMenuMuteButton.addEventListener("onclick", () => {
+    console.log("Mute Button Clicked!")
+    updateMuteBTN(!SFXMuted)
+})
+MainMenuOptionsButton.addEventListener("onclick", () => {
+    OpenOptionsMenu();
+})
+MainMenuStartButton.addEventListener("onclick", () => {
+    MainMenu.style.display = "none";
+    ModalEL.style.display = "none";
+    init();
+    animate();
+})

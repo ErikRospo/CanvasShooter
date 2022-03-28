@@ -10,8 +10,11 @@
     <meta name="robots" content="index, follow">
     <meta name="rating" content="general">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
+    <!-- <link rel="stylesheet" href="GoogleMaterialFont.css">
+     -->
 </head>
 
 <body>
@@ -83,51 +86,48 @@
             <div class="rainbow-background">
                 <h1 id="MainMenuGameTitle">Game title</h1>
             </div>
+            <button id="MainMenuOptionsButton">&#x2699 Options</button>
+
             <button id="MainMenuStartButton" class="Button">Start</button>
         </div>
-        <button id="MainMenuMuteButton">
-            <span class="material-icons-outlined">
-            volume_off
-            </span>
-        </button>
+        <span id="MainMenuMuteButton" class="material-icons ">volume_off</span>
     </div>
-    <div id="PauseModal">
+    <div id="PauseModal ">
         <h2>Paused</h2>
-        <span id="PauseModalScore">1</span>
-        <span id="PauseModalScoreLabel">Points</span>
-        <div id="PauseModalButtonWrapper">
-            <button id="PauseModalOptionsButton">&#x2699 Options</button>
-            <button id="PauseModalPlayButton">Resume</button>
-            <!-- <button id="PauseModalRestartButton">Restart</button> -->
+        <span id="PauseModalScore ">1</span>
+        <span id="PauseModalScoreLabel ">Points</span>
+        <div id="PauseModalButtonWrapper ">
+            <button id="PauseModalOptionsButton ">&#x2699 Options</button>
+            <button id="PauseModalPlayButton ">Resume</button>
         </div>
     </div>
-    <div id="OptionsModal">
+    <div id="OptionsModal ">
         <h2>Options</h2>
-        <div id="SoundOptionsDiv">
-            <span id="SFXOptionsLabel">Sound:</span>
-            <input type="range" name="SFXAudio" min="0" max="1" step="0.05" id="SFXSlider">
-            <span id="MusicOptionsLabel">Music:</span>
-            <input type="range" name="MusicAudio" min="0" max="1" step="0.05" id="MusicSlider">
+        <div id="SoundOptionsDiv ">
+            <span id="SFXOptionsLabel ">Sound:</span>
+            <input type="range " name="SFXAudio " min="0 " max="1 " step="0.05 " id="SFXSlider ">
+            <span id="MusicOptionsLabel ">Music:</span>
+            <input type="range " name="MusicAudio " min="0 " max="1 " step="0.05 " id="MusicSlider ">
         </div>
-        <div id="ParticlesOptionsDiv">
-            <span id="ParticlesOptionsLabel">Particles:</span>
-            <label class="switch">
-                <input id="ParticleOptionsSwitch" type="checkbox">
-                <span class="slider round"></span>
+        <div id="ParticlesOptionsDiv ">
+            <span id="ParticlesOptionsLabel ">Particles:</span>
+            <label class="switch ">
+                <input id="ParticleOptionsSwitch " type="checkbox ">
+                <span class="slider round " id="ParticleOptionsSpan"></span>
             </label>
         </div>
 
 
-        <button id="OptionsBackButton">Back</button>
+        <button id="OptionsBackButton ">Back</button>
     </div>
-    <!-- <div class="fixed inset-0 flex items-center justify-center select-none shop" id="UpgradeDivEL">
-        <div class="max-w-md w-full p-6 text-center items-center justify-center shop bg-slate-600">
+    <!-- <div class="fixed inset-0 flex items-center justify-center select-none shop " id="UpgradeDivEL ">
+        <div class="max-w-md w-full p-6 text-center items-center justify-center shop bg-slate-600 ">
             <span>Money:</span>
-            <span id="ShopMoney">0</span>
+            <span id="ShopMoney ">0</span>
             <ul>
                 (li.upgrade-list-item.shop>button.UpgradeButton.bg-ButtonsEnabled[disabled=false])*10
-    <li class="upgrade-list-item shop">
-        <button class="UpgradeButton " disabled="false"></button>
+    <li class="upgrade-list-item shop ">
+        <button class="UpgradeButton " disabled="false "></button>
     </li>
     <li class="upgrade-list-item shop ">
         <button class=" UpgradeButton " disabled="false "></button>
@@ -152,20 +152,20 @@
     </li>
 
     </ul>
-    <button id="CloseShop" class=" shop text-red-500 text-2xl ">&#9747</button>
+    <button id="CloseShop " class=" shop text-red-500 text-2xl ">&#9747</button>
     </div>
     </div> -->
     </div>
-    <div class="fixed text-white w-8 h-16 top-5 right-5 select-none" id="HighScoreDiv">
-        <h2 id="highScoreTitle"><b>High Scores:</b></h2>
-        <ol id="HighScore"></ol>
+    <div class="fixed text-white w-8 h-16 top-5 right-5 select-none " id="HighScoreDiv ">
+        <h2 id="highScoreTitle "><b>High Scores:</b></h2>
+        <ol id="HighScore "></ol>
     </div>
-    <div id="debugDiv" class="debug">
-        <ul id="debugList" class="debugList debug select-none">
+    <div id="debugDiv " class="debug ">
+        <ul id="debugList " class="debugList debug select-none ">
 
         </ul>
     </div>
-    <canvas>Your browser does not support Canvas. <span style="font-size: 72pt;">:(</span></canvas>
+    <canvas>Your browser does not support Canvas. <span style="font-size: 72pt; ">:(</span></canvas>
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js " integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin=" anonymous " referrerpolicy="no-referrer "></script>
     <script src="./src/JS/compiled.js " defer></script>
 </body>
