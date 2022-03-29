@@ -38,13 +38,14 @@ const debugList = document.querySelector("#debugList");
 const MainMenu = document.querySelector("#MainMenu");
 const MainMenuGameTitle = document.querySelector("#MainMenuGameTitle");
 const MainMenuStartButton = document.querySelector("#MainMenuStartButton");
-const MainMenuMuteButton = document.querySelector("#MainMenuMuteButton");
+const MainMenuMuteButton = document.querySelector("#<ainMenuMuteButton");
 const MainMenuOptionsButton = document.querySelector("#MainMenuOptionsButton");
 const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
 const DEBUGFLAG = true;
+let SFXMuted = true;
 const RotateLeft = (lValue, iShiftBits) => (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 function AddUnsigned(lX, lY) {
     const lX8 = lX & 0x80000000;
@@ -829,7 +830,6 @@ let UseParticles = true;
 let Paused = false;
 let ShopOpen = false;
 let OptionsOpen = false;
-let SFXMuted = true;
 let MusicMuted = true;
 let lastInterval;
 let EnemySpawnTime = 50;
@@ -939,9 +939,7 @@ function animate() {
     }
 }
 function updateMuteBTN(State) {
-    if (State != undefined)
-        SFXMuted = State;
-    MainMenuMuteButton.innerText = SFXMuted ? "volume_off" : "volume_up";
+    MainMenuMuteButton.innerText = State ? "volume_off" : "volume_up";
 }
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
@@ -963,7 +961,8 @@ function PageLoad() {
     XPBar.style.display = "none";
     OptionsSFXSlider.value = "0";
     CloseOptionsMenu();
-    updateMuteBTN();
+    HighScoreList.style.display = "none";
+    updateMuteBTN(SFXMuted);
     UnpauseGame();
     AddDebugItem(0, "playerLevel");
     AddDebugItem(0, "playerCashedLevels");

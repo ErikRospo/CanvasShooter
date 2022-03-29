@@ -53,7 +53,7 @@ const debugList=document.querySelector("#debugList") as HTMLUListElement;
 const MainMenu = document.querySelector("#MainMenu") as HTMLDivElement;
 const MainMenuGameTitle = document.querySelector("#MainMenuGameTitle") as HTMLHeadingElement;
 const MainMenuStartButton = document.querySelector("#MainMenuStartButton") as HTMLButtonElement;
-const MainMenuMuteButton = document.querySelector("#MainMenuMuteButton") as HTMLSpanElement;
+const MainMenuMuteButton = document.querySelector("#<ainMenuMuteButton") as HTMLSpanElement;
 // const MainMenuMutedIndicator = document.querySelector("#MainMenuMutedIndicator") as HTMLSpanElement;
 const MainMenuOptionsButton = document.querySelector("#MainMenuOptionsButton") as HTMLButtonElement;
 //define other global constants
@@ -62,3 +62,4 @@ const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
 const DEBUGFLAG = true;
+let SFXMuted = true as boolean;

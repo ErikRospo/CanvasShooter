@@ -444,12 +444,14 @@ input:checked+.slider:before {
     position: absolute;
     background-color: black;
     color: royalblue;
-    width: 50px;
-    height: 50px;
+    font-size: 50px;
+    max-width: 50px;
+    max-height: 50px;
     border: 0;
-    padding: 0;
-    left: 5px;
     bottom: 5px;
+    left: 5px;
+    padding: 10px;
+    transform: translate(-25%, -25%)
 }
 
 #MainMenuOptionsButton {

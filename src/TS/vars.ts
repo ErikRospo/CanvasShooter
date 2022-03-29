@@ -22,7 +22,6 @@ let UseParticles = true as boolean;
 let Paused = false as boolean;
 let ShopOpen = false as boolean;
 let OptionsOpen = false as boolean;
-let SFXMuted = true as boolean;
 let MusicMuted = true as boolean;
 let lastInterval: any;
 let EnemySpawnTime = 50 as number;

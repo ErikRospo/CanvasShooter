@@ -1,6 +1,6 @@
-function updateMuteBTN(State?: boolean) {
-    if (State != undefined) SFXMuted = State;
-    MainMenuMuteButton.innerText = SFXMuted ? "volume_off" : "volume_up"
+function updateMuteBTN(State: boolean) {
+
+    MainMenuMuteButton.innerText = State ? "volume_off" : "volume_up"
 }
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
@@ -22,7 +22,8 @@ function PageLoad() {
     XPBar.style.display = "none"
     OptionsSFXSlider.value = "0";
     CloseOptionsMenu();
-    updateMuteBTN();
+    HighScoreList.style.display = "none";
+    updateMuteBTN(SFXMuted);
     UnpauseGame();
     AddDebugItem(0, "playerLevel")
     AddDebugItem(0, "playerCashedLevels")
