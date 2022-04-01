@@ -11,9 +11,7 @@
     "declaration": true,
     "declarationMap": true,
     "diagnostics": true,
-    "noErrorTruncation": true,
-    "listFiles": true,
-    
+    "noErrorTruncation": true,    
   },
   "files": [
     "./src/TS/init.ts",
