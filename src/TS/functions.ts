@@ -1,3 +1,7 @@
+function updateMuteBTN(State: boolean) {
+
+    MainMenuMuteButton.innerText = State ? "volume_off" : "volume_up"
+}
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     Paused = false;
@@ -16,6 +20,11 @@ function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
+    OptionsSFXSlider.value = "0";
+    CloseOptionsMenu();
+    HighScoreList.style.display = "none";
+    updateMuteBTN(SFXMuted);
+    UnpauseGame();
     AddDebugItem(0, "playerLevel")
     AddDebugItem(0, "playerCashedLevels")
     AddDebugItem(false, "CantSpawn")
@@ -26,7 +35,23 @@ function PageLoad() {
     Paused = true;
     OptionsOpen = false;
 }
-
+function UpdateSFXSlider() {
+    updateMuteBTN((parseFloat(OptionsSFXSlider.value) === 0))
+    ShootSound.muted = SFXMuted
+    HitNoKillSound.muted = SFXMuted
+    HitAndKillSound.muted = SFXMuted
+    HealthGetSound.muted = SFXMuted
+    HealthLooseSound.muted = SFXMuted
+    MissSound.muted = SFXMuted
+    if (!SFXMuted) {
+        ShootSound.volume = parseFloat(OptionsSFXSlider.value);
+        HitNoKillSound.volume = parseFloat(OptionsSFXSlider.value);
+        HitAndKillSound.volume = parseFloat(OptionsSFXSlider.value);
+        HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
+        HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
+        MissSound.volume = parseFloat(OptionsSFXSlider.value);
+    }
+}
 
 function SpawnEnemy() {
     //create a new enemy
@@ -85,6 +110,7 @@ function gameOver(AnimationID: number) {
         HS = false
     }
     Scores.addScore(score);
+    GameStarted = false;
     //and add the end screen back up
     ModalEL.setAttribute("style", "display:flex;");
     HighScoreList.innerHTML = Scores.Html;
@@ -97,36 +123,31 @@ function gameOver(AnimationID: number) {
 }
 
 function PauseGame() {
-    PauseModal.style.display = "flex"
-    PauseModalScore.style.display = "initial"
-    PauseModalPlayButton.style.display = "initial"
-    // PauseModalRestartButton.style.display = "initial"
+    PauseModal.style.display = "block";
     PauseModalScore.innerHTML = score.toString(10);
     Paused = true;
 };
 
 function UnpauseGame() {
-    PauseModal.style.display = "none";
-    PauseModalScore.style.display = "none";
-    PauseModalPlayButton.style.display = "none";
-    // PauseModalRestartButton.style.display = "none"
+    PauseModal.style.display = "none"
     Paused = false;
 };
 
 function OpenOptionsMenu() {
-    // OptionsMenu.style.display = "flex"
-    PauseModal.style.opacity = "0.2"
-    PauseModalScore.style.opacity = "0.2"
-    PauseModalPlayButton.style.opacity = "0.2"
-    // PauseModalRestartButton.style.opacity = "0.2"
+
+    OptionsParticleSpan.style.display = "block"
+    OptionsMenu.style.display = "block";
+    OptionsSFXSlider.style.display = "block";
+    OptionsBackButton.style.display = "block";
+    OptionsParticleSwitch.style.display = "block"
     OptionsOpen = true;
 };
 
-function CloseOptionsMenu() { 
-    // OptionsMenu.style.display = "none"
-    PauseModal.style.opacity = "1"
-    PauseModalScore.style.opacity = "1"
-    PauseModalPlayButton.style.opacity = "1"
-    // PauseModalRestartButton.style.opacity = "1"
+function CloseOptionsMenu() {
+    OptionsParticleSpan.style.display = "none"
+    OptionsMenu.style.display = "none";
+    OptionsSFXSlider.style.display = "none";
+    OptionsBackButton.style.display = "none";
+    OptionsParticleSwitch.style.display = "none"
     OptionsOpen = false;
 };

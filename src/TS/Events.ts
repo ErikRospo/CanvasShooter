@@ -1,4 +1,3 @@
-
 //whenever the user clicks, spawn a projectile
 addEventListener("click", (event) => {
     if (GameStarted == true && Paused == false) {
@@ -12,14 +11,17 @@ addEventListener("click", (event) => {
             x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
             y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier
         };
+        const radius = 5;
+        const damage = player.Damage;
         //add it to the projectiles list
         projectiles.push(new Projectile(
             cw,
             ch,
-            5,
+            radius,
             ProjectileColor,
-            velocity));
-        if (!Muted) {
+            velocity,
+            damage));
+        if (!SFXMuted) {
             ShootSound.play();
         }
     }
@@ -27,28 +29,52 @@ addEventListener("click", (event) => {
 addEventListener("load", () => { PageLoad() });
 //when the user clicks the start button, start the game
 startGameButton.addEventListener("click", () => {
-    // ModalEL.setAttribute("style", "display:none;");
     ModalEL.style.display = "none"
-
     init();
     animate();
     //hide the UI
 });
 PauseModalPlayButton.addEventListener("click", () => {
-    PauseModal.style.display = "none";
-    Paused = false;
+    UnpauseGame();
 });
 addEventListener("keypress", (event) => {
-    console.log(event.key);
     if (event.key == "q" && GameStarted) {
         if (!Paused) {
-            Paused = true;
-            PauseModal.style.display = "block"
-            PauseModalScore.innerHTML = score.toString(10);
+            PauseGame();
         } else {
-            Paused = false;
-            PauseModal.style.display = "none"
-            PauseModalScore.innerHTML = score.toString(10);
+            CloseOptionsMenu();
+            UnpauseGame();
         }
     }
+});
+PauseModalOptionsButton.addEventListener("click", () => {
+    OpenOptionsMenu();
+});
+OptionsBackButton.addEventListener("click", () => {
+    CloseOptionsMenu();
+});
+
+OptionsParticleSwitch.addEventListener("change", () => {
+    UseParticles = !UseParticles;
+})
+OptionsSFXSlider.addEventListener("change", () => {
+    UpdateSFXSlider();
+});
+MainMenuMuteButton.addEventListener("onclick", () => {
+    console.log("Mute Button Clicked!")
+    updateMuteBTN(!SFXMuted)
+})
+MainMenuOptionsButton.addEventListener("onclick", () => {
+    OpenOptionsMenu();
+})
+MainMenuStartButton.addEventListener("onclick", () => {
+    MainMenu.style.display = "none";
+    ModalEL.style.display = "none";
+});
+MainMenuStartButton.addEventListener("click", (_) => {
+    console.log("MAIN MENU START BTN PRESSED")
+    ModalEL.style.display = "none";
+    MainMenu.style.display = "none";
+    init();
+    animate();
 })

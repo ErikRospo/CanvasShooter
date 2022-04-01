@@ -1,5 +1,6 @@
 :root {
     --rotation: 20deg;
+    --sliderScale: 1.5;
 }
 
 body {
@@ -14,7 +15,9 @@ body {
 }
 
 .debugItem {
-    color: white;
+    filter: brightness(200%) contrast(200%);
+    color: cyan;
+    font-family: monospace;
     width: fit-content;
     height: fit-content;
 }
@@ -70,6 +73,16 @@ body {
     right: 2rem;
     user-select: none;
     position: fixed;
+}
+
+.rainbow-background {
+    background-image: repeating-linear-gradient(30deg, violet, indigo, blue, green, yellow, orange, red, violet);
+    text-align: center;
+    background-size: 800% 800%;
+    -webkit-background-clip: content-box;
+    background-clip: border-box;
+    font-size: 24px;
+    animation: rainbow 4s linear infinite;
 }
 
 .rainbow-text {
@@ -135,6 +148,7 @@ body {
 }
 
 #StartGameText {
+    margin-top: 10px;
     position: relative;
     line-height: 1em;
     font-size: 2em;
@@ -156,8 +170,6 @@ body {
 }
 
 #highScoreTextModal {
-    --tw-bg-opacity: 1;
-    -webkit-text-size-adjust: 100%;
     animation: both 1s ease-in-out myAnim infinite;
     border-color: #e5e7eb;
     border-style: solid;
@@ -187,6 +199,7 @@ body {
         transform: scale(1) rotate(15deg);
     }
 }
+
 #PauseModal {
     position: absolute;
     display: none;
@@ -197,9 +210,11 @@ body {
     background-color: slategray;
     transform: translate(-50%, -50%);
     border-radius: 15px;
+    user-select: none;
 }
 
 #PauseModal>h2 {
+    user-select: none;
     text-align: center;
     position: relative;
     font-size: x-large;
@@ -208,6 +223,7 @@ body {
 }
 
 #PauseModalScore {
+    user-select: none;
     position: absolute;
     font-weight: 900;
     font-size: 48pt;
@@ -219,6 +235,7 @@ body {
 }
 
 #PauseModalScoreLabel {
+    user-select: none;
     color: black;
     position: absolute;
     font-size: medium;
@@ -229,21 +246,8 @@ body {
     text-align: center;
 }
 
-#PauseModalRestartButton {
-    position: absolute;
-    right: 18%;
-    width: 250px;
-    height: 45px;
-    align-self: center;
-    text-align: center;
-    bottom: 2px;
-    background-color: rgb(200, 50, 50);
-    color: white;
-    border: 1px white;
-    border-radius: 20px;
-}
-
 #PauseModalPlayButton {
+    user-select: none;
     position: absolute;
     right: 18%;
     width: 250px;
@@ -258,6 +262,7 @@ body {
 }
 
 #PauseModalOptionsButton {
+    user-select: none;
     position: absolute;
     right: 18%;
     width: 250px;
@@ -269,3 +274,207 @@ body {
     color: white;
     border: 1px white;
     border-radius: 20px;
+}
+
+#OptionsModal {
+    margin: 0;
+    user-select: none;
+    position: absolute;
+    width: 290px;
+    height: 250px;
+    top: 50%;
+    left: 50%;
+    background-color: rgb(68, 77, 87);
+    transform: translate(-50%, -50%);
+    border-radius: 3px;
+    box-shadow: inset darkslategray 2px 2px;
+}
+
+#OptionsModal>h2 {
+    margin: 0;
+    text-align: center;
+    position: relative;
+    font-size: x-large;
+    top: 5px;
+    text-shadow: rgb(50, 50, 50) 1px 1px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: calc(30px*var(--sliderScale));
+    height: calc(17px*var(--sliderScale));
+    top: calc(10px*var(--sliderScale)/2);
+}
+
+
+/* Hide default HTML checkbox */
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+
+/* The slider */
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: calc(13px*var(--sliderScale));
+    width: calc(13px*var(--sliderScale));
+    left: calc(2px*var(--sliderScale));
+    bottom: calc(2px*var(--sliderScale));
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(calc(13px*var(--sliderScale)));
+    -ms-transform: translateX(calc(13px*var(--sliderScale)));
+    transform: translateX(calc(13px*var(--sliderScale)));
+}
+
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: calc(17px*var(--sliderScale));
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+#SoundOptionsDiv {
+    left: 75px;
+    position: absolute;
+    top: 60px;
+}
+
+#ParticlesOptionsDiv {
+    left: 65px;
+    display: none;
+    position: absolute;
+    top: 100px
+}
+
+#ParticlesOptionsLabel {
+    position: relative;
+    top: 10px;
+}
+
+#OptionsBackButton {
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    align-self: center;
+    left: 20px;
+    background: royalblue;
+    border: 0px;
+    border-radius: 20px;
+    width: 250px;
+    height: 50px;
+    font-size: large;
+    font-weight: 700;
+}
+
+#MainMenu {
+    user-select: none;
+    margin: 0;
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+}
+
+#MMGTW {
+    border-radius: 20px;
+}
+
+#MainMenuGameTitle {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: xx-large;
+    font-weight: bolder;
+    user-select: none;
+    position: relative;
+    color: black;
+    align-self: center;
+    left: 0px;
+    top: 0px;
+    right: 50%;
+    justify-self: center;
+    text-align: center;
+}
+
+#MainMenuWrapper {
+    background-color: grey;
+    top: 60vh;
+    left: 100vw;
+    width: 500px;
+    height: 200px;
+    transform: translate(100%, 120%);
+}
+
+#MainMenuMuteButton {
+    position: absolute;
+    background-color: black;
+    color: royalblue;
+    font-size: 50px;
+    max-width: 50px;
+    max-height: 50px;
+    border: 0;
+    bottom: 5px;
+    left: 5px;
+    padding: 10px;
+    transform: translate(-25%, -25%)
+}
+
+#MainMenuOptionsButton {
+    position: relative;
+    top: 20px;
+    left: 5px;
+    height: 50px;
+    width: 490px;
+    font: bold xx-large black;
+    background-color: royalblue;
+    border-radius: 50px;
+    margin-bottom: 5px;
+}
+
+#MainMenuStartButton {
+    position: relative;
+    /* top: 100px; */
+    top: 20px;
+    left: 5px;
+    height: 50px;
+    width: 490px;
+    font: bold xx-large black;
+    background-color: royalblue;
+    border-radius: 50px;
+    margin-top: 5px;
+}

@@ -15,23 +15,37 @@ const BigScoreEL = document.querySelector("#BigScoreEL");
 const BigScoreELLabel = document.querySelector("#PointsLabelEL");
 const NameDiv = document.querySelector("#NameInputDiv");
 const HighScoreList = document.querySelector("#HighScore");
-const ShootSound = new Audio("Audio/sound/Shoot.wav");
-const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
+const ShootSound = new Audio("../Audio/sound/Shoot.wav");
+const HitNoKillSound = new Audio("../Audio/sound/HitNoKill.wav");
 const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
+const HealthGetSound = new Audio("Audio/sound/HealthGet.wav");
+const HealthLooseSound = new Audio("Audio/sound/HealthLose.wav");
+const MissSound = new Audio("Audio/sound/Miss.wav");
 const PauseModal = document.querySelector("#PauseModal");
 const PauseModalScore = document.querySelector("#PauseModalScore");
 const PauseModalScoreLabel = document.querySelector("#PauseModalScoreLabel");
 const PauseModalOptionsButton = document.querySelector("#PauseModalOptionsButton");
 const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton");
+const OptionsMenu = document.querySelector("#OptionsModal");
+const OptionsSFXSlider = document.querySelector("#SFXSlider");
+const OptionsParticleSwitch = document.querySelector("#ParticleOptionsSwitch");
+const OptionsBackButton = document.querySelector("#OptionsBackButton");
+const OptionsParticleSpan = document.querySelector("#ParticleOptionsSpan");
 const XPBar = document.querySelector("#XPBar");
 const XPBarLabel = document.querySelector("#XPbarLabel");
 const debugDiv = document.querySelector("#debugDiv");
 const debugList = document.querySelector("#debugList");
+const MainMenu = document.querySelector("#MainMenu");
+const MainMenuGameTitle = document.querySelector("#MainMenuGameTitle");
+const MainMenuStartButton = document.querySelector("#MainMenuStartButton");
+const MainMenuMuteButton = document.querySelector("#<ainMenuMuteButton");
+const MainMenuOptionsButton = document.querySelector("#MainMenuOptionsButton");
 const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
 const DEBUGFLAG = true;
+let SFXMuted = true;
 const RotateLeft = (lValue, iShiftBits) => (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 function AddUnsigned(lX, lY) {
     const lX8 = lX & 0x80000000;
@@ -564,12 +578,13 @@ class Player {
     }
 }
 class Projectile {
-    constructor(x, y, r, color, velocity) {
+    constructor(x, y, r, color, velocity, damage) {
         this.x = x;
         this.y = y;
         this.radius = r;
         this.color = color;
         this.velocity = velocity;
+        this.damage = damage;
     }
     draw() {
         if (DEBUGFLAG) {
@@ -734,8 +749,10 @@ addEventListener("click", (event) => {
             x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
             y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier
         };
-        projectiles.push(new Projectile(cw, ch, 5, ProjectileColor, velocity));
-        if (!Muted) {
+        const radius = 5;
+        const damage = player.Damage;
+        projectiles.push(new Projectile(cw, ch, radius, ProjectileColor, velocity, damage));
+        if (!SFXMuted) {
             ShootSound.play();
         }
     }
@@ -747,24 +764,83 @@ startGameButton.addEventListener("click", () => {
     animate();
 });
 PauseModalPlayButton.addEventListener("click", () => {
-    PauseModal.style.display = "none";
-    Paused = false;
+    UnpauseGame();
 });
 addEventListener("keypress", (event) => {
-    console.log(event.key);
     if (event.key == "q" && GameStarted) {
         if (!Paused) {
-            Paused = true;
-            PauseModal.style.display = "block";
-            PauseModalScore.innerHTML = score.toString(10);
+            PauseGame();
         }
         else {
-            Paused = false;
-            PauseModal.style.display = "none";
-            PauseModalScore.innerHTML = score.toString(10);
+            CloseOptionsMenu();
+            UnpauseGame();
         }
     }
 });
+PauseModalOptionsButton.addEventListener("click", () => {
+    OpenOptionsMenu();
+});
+OptionsBackButton.addEventListener("click", () => {
+    CloseOptionsMenu();
+});
+OptionsParticleSwitch.addEventListener("change", () => {
+    UseParticles = !UseParticles;
+});
+OptionsSFXSlider.addEventListener("change", () => {
+    UpdateSFXSlider();
+});
+MainMenuMuteButton.addEventListener("onclick", () => {
+    console.log("Mute Button Clicked!");
+    updateMuteBTN(!SFXMuted);
+});
+MainMenuOptionsButton.addEventListener("onclick", () => {
+    OpenOptionsMenu();
+});
+MainMenuStartButton.addEventListener("onclick", () => {
+    MainMenu.style.display = "none";
+    ModalEL.style.display = "none";
+});
+MainMenuStartButton.addEventListener("click", (_) => {
+    console.log("MAIN MENU START BTN PRESSED");
+    ModalEL.style.display = "none";
+    MainMenu.style.display = "none";
+    init();
+    animate();
+});
+const EnemySpawnTimeDecrement = 1;
+const EnemySpawnBias = window.innerHeight / window.innerWidth;
+const EnemyHealthMultiplier = 1;
+const EnemySpeedMultiplier = 1;
+const ProjectileSpeedMultiplier = 1;
+const ProjectileColor = "white";
+const PlayerColor = "white";
+const PlayerRadius = 10;
+const BackgroundColor = "0,0,0";
+const ParticleFriction = 0.99;
+const ParticleMultiplier = 2;
+const ParticleSpeed = 5;
+const ParticleFadeSpeedMultiplier = 1;
+const MaxEnemies = 10;
+let player = new Player(cw, ch, PlayerRadius, PlayerColor);
+let projectiles = [];
+let enemies = [];
+let particles = [];
+let GameStarted = false;
+let UseParticles = true;
+let Paused = false;
+let ShopOpen = false;
+let OptionsOpen = false;
+let MusicMuted = true;
+let lastInterval;
+let EnemySpawnTime = 50;
+let animationID;
+let score = 0;
+let DefaultEnemySpawnTime = 50;
+let enemiesToRemove = [];
+let Scores = new HighScore();
+let lastScore = 0;
+let freq = 25000;
+let HS = true;
 function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
@@ -797,6 +873,9 @@ function animate() {
                 (projectile.x - projectile.radius > w) ||
                 (projectile.y - projectile.radius > h)) {
                 projectiles.splice(index, 1);
+                if (!SFXMuted) {
+                    MissSound.play();
+                }
             }
         });
         enemies.forEach((enemy, index) => {
@@ -808,6 +887,10 @@ function animate() {
                 }
                 else {
                     player.Health -= 1;
+                    if (!SFXMuted) {
+                        HealthLooseSound.play();
+                    }
+                    ;
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health, "playerHealth");
                     EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
@@ -822,18 +905,18 @@ function animate() {
                             y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
                         }));
                     }
-                    if (!enemy.ShouldDie(player.Damage)) {
-                        if (!Muted) {
+                    if (!enemy.ShouldDie(projectile.damage)) {
+                        if (!SFXMuted) {
                             HitNoKillSound.play();
                         }
                         AddScore(100);
-                        enemy.radius -= player.Damage;
+                        enemy.radius -= projectile.damage;
                         setTimeout(() => {
                             projectiles.splice(index2, 1);
                         }, 2);
                     }
                     else {
-                        if (!Muted) {
+                        if (!SFXMuted) {
                             HitAndKillSound.play();
                         }
                         AddScore(250);
@@ -848,44 +931,16 @@ function animate() {
         if ((lastScore % freq > score % freq) && (score != 0)) {
             player.Health += 1;
             SetHealthICONs(player.Health, player.MaxHealth);
+            if (!SFXMuted) {
+                HealthGetSound.play();
+            }
         }
         lastScore = score;
     }
 }
-const EnemySpawnTimeDecrement = 1;
-const EnemySpawnBias = window.innerHeight / window.innerWidth;
-const EnemyHealthMultiplier = 1;
-const EnemySpeedMultiplier = 1;
-const ProjectileSpeedMultiplier = 1;
-const ProjectileColor = "white";
-const PlayerColor = "white";
-const PlayerRadius = 10;
-const BackgroundColor = "0,0,0";
-const ParticleFriction = 0.99;
-const ParticleMultiplier = 2;
-const ParticleSpeed = 5;
-const ParticleFadeSpeedMultiplier = 1;
-const MaxEnemies = 10;
-let player = new Player(cw, ch, PlayerRadius, PlayerColor);
-let projectiles = [];
-let enemies = [];
-let particles = [];
-let GameStarted = false;
-let UseParticles = true;
-let Paused = false;
-let ShopOpen = false;
-let OptionsOpen = false;
-let Muted = true;
-let lastInterval;
-let EnemySpawnTime = 50;
-let animationID;
-let score = 0;
-let DefaultEnemySpawnTime = 50;
-let enemiesToRemove = [];
-let Scores = new HighScore();
-let lastScore = 0;
-let freq = 25000;
-let HS = true;
+function updateMuteBTN(State) {
+    MainMenuMuteButton.innerText = State ? "volume_off" : "volume_up";
+}
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     Paused = false;
@@ -904,6 +959,11 @@ function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none";
+    OptionsSFXSlider.value = "0";
+    CloseOptionsMenu();
+    HighScoreList.style.display = "none";
+    updateMuteBTN(SFXMuted);
+    UnpauseGame();
     AddDebugItem(0, "playerLevel");
     AddDebugItem(0, "playerCashedLevels");
     AddDebugItem(false, "CantSpawn");
@@ -913,6 +973,23 @@ function PageLoad() {
     SetHealthICONs(1, 5);
     Paused = true;
     OptionsOpen = false;
+}
+function UpdateSFXSlider() {
+    updateMuteBTN((parseFloat(OptionsSFXSlider.value) === 0));
+    ShootSound.muted = SFXMuted;
+    HitNoKillSound.muted = SFXMuted;
+    HitAndKillSound.muted = SFXMuted;
+    HealthGetSound.muted = SFXMuted;
+    HealthLooseSound.muted = SFXMuted;
+    MissSound.muted = SFXMuted;
+    if (!SFXMuted) {
+        ShootSound.volume = parseFloat(OptionsSFXSlider.value);
+        HitNoKillSound.volume = parseFloat(OptionsSFXSlider.value);
+        HitAndKillSound.volume = parseFloat(OptionsSFXSlider.value);
+        HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
+        HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
+        MissSound.volume = parseFloat(OptionsSFXSlider.value);
+    }
 }
 function SpawnEnemy() {
     function genEnemy(pepper) {
@@ -956,6 +1033,7 @@ function gameOver(AnimationID) {
         HS = false;
     }
     Scores.addScore(score);
+    GameStarted = false;
     ModalEL.setAttribute("style", "display:flex;");
     HighScoreList.innerHTML = Scores.Html;
     console.log(Scores);
@@ -966,31 +1044,31 @@ function gameOver(AnimationID) {
     BigScoreEL.classList.add("animate-bounce");
 }
 function PauseGame() {
-    PauseModal.style.display = "flex";
-    PauseModalScore.style.display = "initial";
-    PauseModalPlayButton.style.display = "initial";
+    PauseModal.style.display = "block";
     PauseModalScore.innerHTML = score.toString(10);
     Paused = true;
 }
 ;
 function UnpauseGame() {
     PauseModal.style.display = "none";
-    PauseModalScore.style.display = "none";
-    PauseModalPlayButton.style.display = "none";
     Paused = false;
 }
 ;
 function OpenOptionsMenu() {
-    PauseModal.style.opacity = "0.2";
-    PauseModalScore.style.opacity = "0.2";
-    PauseModalPlayButton.style.opacity = "0.2";
+    OptionsParticleSpan.style.display = "block";
+    OptionsMenu.style.display = "block";
+    OptionsSFXSlider.style.display = "block";
+    OptionsBackButton.style.display = "block";
+    OptionsParticleSwitch.style.display = "block";
     OptionsOpen = true;
 }
 ;
 function CloseOptionsMenu() {
-    PauseModal.style.opacity = "1";
-    PauseModalScore.style.opacity = "1";
-    PauseModalPlayButton.style.opacity = "1";
+    OptionsParticleSpan.style.display = "none";
+    OptionsMenu.style.display = "none";
+    OptionsSFXSlider.style.display = "none";
+    OptionsBackButton.style.display = "none";
+    OptionsParticleSwitch.style.display = "none";
     OptionsOpen = false;
 }
 ;

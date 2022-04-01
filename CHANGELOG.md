@@ -27,3 +27,5 @@
 0.3.5: Re-added HighScore
 0.3.6: Added enemy types (fast but big), and (big but slow)  
 0.3.7: Undid 0.3.6 changes. Fixed disappearing enemies bug a bit. Added a difficulty curve to the enemies.  
+0.3.8: Re-added Options menu
+0.3.9: Added Main Menu, removed Music
