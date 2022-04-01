@@ -547,6 +547,7 @@ input:checked+.slider:before {
     top: 1.25rem;
     right: 1.25rem;
     user-select: none;
+    font-size: small;
 }
 
 #HealthDiv {

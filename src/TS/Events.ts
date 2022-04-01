@@ -50,9 +50,7 @@ addEventListener("keypress", (event) => {
 PauseModalOptionsButton.addEventListener("click", () => {
     OpenOptionsMenu();
 });
-OptionsBackButton.addEventListener("click", () => {
-    CloseOptionsMenu();
-});
+OptionsBackButton.addEventListener("onclick", () => { CloseOptionsMenu() });
 
 OptionsParticleSwitch.addEventListener("change", () => {
     UseParticles = !UseParticles;
@@ -61,8 +59,8 @@ OptionsSFXSlider.addEventListener("change", () => {
     UpdateSFXSlider();
 });
 MainMenuMuteButton.addEventListener("onclick", () => {
-    console.log("Mute Button Clicked!")
-    updateMuteBTN(!SFXMuted)
+    console.log("Mute Button Clicked!");
+    updateMuteBTN(!SFXMuted);
 })
 MainMenuOptionsButton.addEventListener("onclick", () => {
     OpenOptionsMenu();

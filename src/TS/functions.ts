@@ -144,10 +144,10 @@ function OpenOptionsMenu() {
 };
 
 function CloseOptionsMenu() {
-    OptionsParticleSpan.style.display = "none"
+    OptionsParticleSpan.style.display = "none";
     OptionsMenu.style.display = "none";
     OptionsSFXSlider.style.display = "none";
     OptionsBackButton.style.display = "none";
-    OptionsParticleSwitch.style.display = "none"
+    OptionsParticleSwitch.style.display = "none";
     OptionsOpen = false;
 };

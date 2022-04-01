@@ -780,9 +780,7 @@ addEventListener("keypress", (event) => {
 PauseModalOptionsButton.addEventListener("click", () => {
     OpenOptionsMenu();
 });
-OptionsBackButton.addEventListener("click", () => {
-    CloseOptionsMenu();
-});
+OptionsBackButton.addEventListener("onclick", () => { CloseOptionsMenu(); });
 OptionsParticleSwitch.addEventListener("change", () => {
     UseParticles = !UseParticles;
 });
