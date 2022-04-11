@@ -20,11 +20,8 @@
     "editor.multiCursorModifier": "ctrlCmd",
     "workbench.editor.enablePreview": false,
     "github.copilot.enable": {
+    
         "*": true,
-        "yaml": false,
-        "plaintext": true,
-        "markdown": false,
-        "typescript": false
     },
     "git.confirmSync": false,
     "git.autofetch": true,

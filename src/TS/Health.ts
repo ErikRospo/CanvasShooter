@@ -1,37 +1,38 @@
-
-function SetHealthICONs(health:number,MaxHealth?:number|5) {
-    /*
-        <span style="line-height: 24pt;">Health:</span>
-        <span class="material-icons">favorite</span>
-        <span class="material-icons">favorite</span>
-        <span class="material-icons">favorite</span>
-        <span class="material-icons">favorite</span>
-        <span class="material-icons">favorite_border</span> 
-     */
-    let outElem=document.createElement("div");
-    let CdivElem=document.getElementById("HealthDiv");
-    let LabelText=document.createElement("span");
-    console.log(CdivElem)
-    LabelText.innerText="Health";
-    outElem.appendChild(LabelText)
-    for (let index = 0; index < MaxHealth; index++) {
-        let healthElem=document.createElement("span")
-        healthElem.classList.add("material-icons");
-        healthElem.style.color="red"
-        if (index<health){
-            healthElem.innerText="favorite";
-        }else{
-            healthElem.innerText="favorite_border"
-        }
-        outElem.appendChild(healthElem)
+function CreateHealth(health: number, MaxHealth?: number | 5) {
+    let Health = new HealthBar(health, MaxHealth);
+    return Health;
+}
+class HealthBar {
+    private health: number;
+    private MaxHealth: number | 5;
+    constructor(health: number, MaxHealth?: number | 5) {
+        this.health = health;
+        this.MaxHealth = MaxHealth;
     }
-    for (let index = 0; index < CdivElem.children.length; index++) {
-        CdivElem.removeChild(CdivElem.children.item(index))
-    }   
-    for (let index = 0; index < outElem.children.length; index++) {
-        CdivElem.appendChild(outElem.children.item(index))
+    public get Health() {
+        return this.health;
     }
-    console.log(CdivElem)
-    outElem.remove();
-    LabelText.remove();
+    public get maxHealth() {
+        return this.MaxHealth;
+    }
+    public set Health(health: number) {
+        this.health = health;
+    }
+    public set maxHealth(MaxHealth: number | 5) {
+        this.MaxHealth = MaxHealth;
+    }
+    public addHealth(health: number) {
+        this.health += health;
+        return this.health;
+    }
+    public removeHealth(health: number) {
+        this.health -= health;
+        return this.health;
+    }
+    public draw(ctx: CanvasRenderingContext2D) {
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 20, 20, 100);
+        ctx.fillStyle = "red";
+        ctx.fillRect(0, 20, 20, 100 * (this.health / this.MaxHealth));
+    }
 }

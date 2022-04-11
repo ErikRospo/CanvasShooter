@@ -34,7 +34,7 @@ declare const debugList: HTMLUListElement;
 declare const MainMenu: HTMLDivElement;
 declare const MainMenuGameTitle: HTMLHeadingElement;
 declare const MainMenuStartButton: HTMLButtonElement;
-declare const MainMenuMuteButton: HTMLSpanElement;
+declare const MainMenuMuteButton: HTMLButtonElement;
 declare const MainMenuOptionsButton: HTMLButtonElement;
 declare const w: number;
 declare const h: number;
@@ -42,6 +42,7 @@ declare const cw: number;
 declare const ch: number;
 declare const DEBUGFLAG = true;
 declare let SFXMuted: boolean;
+declare let OptionsOpen: boolean;
 declare const RotateLeft: (lValue: number, iShiftBits: number) => number;
 declare function AddUnsigned(lX: number, lY: number): number;
 declare const F: (x: number, y: number, z: number) => number;
@@ -149,10 +150,9 @@ declare class Player {
     AutoFire: boolean;
     AutoRotate: boolean;
     ShotSize: number;
-    Health: number;
+    Health: HealthBar;
     cachedLevels: number;
     level: number;
-    MaxHealth: number;
     constructor(x: number, y: number, radius: number, color: string);
     update(): void;
     draw(): void;
@@ -222,7 +222,20 @@ declare class HighScore {
     sort(): void;
     get Html(): string;
 }
-declare function SetHealthICONs(health: number, MaxHealth?: number | 5): void;
+declare function CreateHealth(health: number, MaxHealth?: number | 5): HealthBar;
+declare class HealthBar {
+    private health;
+    private MaxHealth;
+    constructor(health: number, MaxHealth?: number | 5);
+    get Health(): number;
+    get maxHealth(): number | 5;
+    set Health(health: number);
+    set maxHealth(MaxHealth: number | 5);
+    addHealth(health: number): number;
+    removeHealth(health: number): number;
+    draw(ctx: CanvasRenderingContext2D): void;
+}
+declare function StartGame(): void;
 declare const EnemySpawnTimeDecrement: number;
 declare const EnemySpawnBias: number;
 declare const EnemyHealthMultiplier: number;
@@ -245,7 +258,6 @@ declare let GameStarted: boolean;
 declare let UseParticles: boolean;
 declare let Paused: boolean;
 declare let ShopOpen: boolean;
-declare let OptionsOpen: boolean;
 declare let MusicMuted: boolean;
 declare let lastInterval: any;
 declare let EnemySpawnTime: number;
@@ -269,5 +281,4 @@ declare function PauseGame(): void;
 declare function UnpauseGame(): void;
 declare function OpenOptionsMenu(): void;
 declare function CloseOptionsMenu(): void;
-declare let randomUpgrades: Upgrade[];
 //# sourceMappingURL=compiled.d.ts.map

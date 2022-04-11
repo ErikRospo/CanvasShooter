@@ -10,7 +10,7 @@
     "outFile": "./src/JS/compiled.js",
     "declaration": true,
     "declarationMap": true,
-    "diagnostics": true,
+    // "diagnostics": true,
     "noErrorTruncation": true,    
   },
   "files": [
@@ -30,7 +30,6 @@
     "./src/TS/Events.ts",
     "./src/TS/vars.ts",
     "./src/TS/animate.ts",
-    "./src/TS/functions.ts",
-    "./src/TS/endTests.ts"
+    "./src/TS/functions.ts"
   ]
 }

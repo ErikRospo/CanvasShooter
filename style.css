@@ -9,13 +9,19 @@ body {
     background-color: black;
 }
 
+html {
+    overflow: hidden;
+}
+
 .debug {
     position: fixed;
     bottom: 0;
     right: 50px;
+    text-decoration: none;
 }
 
 .debugItem {
+    list-style: none;
     filter: brightness(200%) contrast(200%);
     color: cyan;
     font-family: monospace;
@@ -461,6 +467,7 @@ input:checked+.slider:before {
     width: 100vw;
     height: 100vh;
     background-color: black;
+    overflow: hidden;
 }
 
 #MainMenuGameTitleWrapper {
@@ -487,7 +494,7 @@ input:checked+.slider:before {
     top: 60vh;
     left: 100vw;
     width: 500px;
-    height: 200px;
+    height: 210px;
     transform: translate(100%, 120%);
 }
 
@@ -499,13 +506,15 @@ input:checked+.slider:before {
     max-width: 50px;
     max-height: 50px;
     border: 0;
-    bottom: 5px;
-    left: 5px;
+    bottom: 10px;
+    left: 10px;
     padding: 10px;
-    transform: translate(-25%, -25%)
+    transform: translate(-20%, -25%);
+    cursor: pointer;
 }
 
 #MainMenuOptionsButton {
+    cursor: pointer;
     position: relative;
     top: 20px;
     left: 5px;
@@ -518,6 +527,7 @@ input:checked+.slider:before {
 }
 
 #MainMenuStartButton {
+    cursor: pointer;
     position: relative;
     /* top: 100px; */
     top: 20px;

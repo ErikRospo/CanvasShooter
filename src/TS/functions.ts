@@ -16,6 +16,7 @@ function init() {
     ResetProgressBar();
     GameStarted = true;
 }
+
 function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
@@ -31,7 +32,7 @@ function PageLoad() {
     AddDebugItem(5, "playerHealth");
     AddDebugItem(EnemySpawnTime, "SpawnTime");
     AddDebugItem(EnemySpawnBias, "Bias");
-    SetHealthICONs(1, 5);
+    player.Health.draw(c);
     Paused = true;
     OptionsOpen = false;
 }

@@ -52,15 +52,15 @@ function animate() {
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             //if the enemy is touching the player, end the game
             if (dist - enemy.radius - player.radius < 0) {
-                if (player.Health - 1 == 0) {
+                if (player.Health.Health - 1 == 0) {
                     gameOver(animationID);
                 } else {
-                    player.Health -= 1;
+                    player.Health.removeHealth(1);
                     if (!SFXMuted) {
                         HealthLooseSound.play();
                     };
                     enemies.splice(index, 1);
-                    SetDebugItem(player.Health, "playerHealth");
+                    SetDebugItem(player.Health.Health, "playerHealth");
                     EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
 
                 }
@@ -114,8 +114,7 @@ function animate() {
             });
         });
         if ((lastScore % freq > score % freq) && (score != 0)) {
-            player.Health += 1
-            SetHealthICONs(player.Health, player.MaxHealth);
+            player.Health.addHealth(1)
             if (!SFXMuted) {
                 HealthGetSound.play();
             }

@@ -105,11 +105,11 @@ class Effect {
                 break;
             case "h":
                 if (this.valuetype == 1) {
-                    player.Health += this.value
+                    player.Health.Health += this.value
                 } else if (this.valuetype==2) {
-                    player.Health *= this.value
+                    player.Health.Health *= this.value
                 } else if (this.valuetype==3){
-                    player.Health=this.value
+                    player.Health.Health=this.value
                 }
                 break;
             default:

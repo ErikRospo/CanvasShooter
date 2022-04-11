@@ -13,10 +13,9 @@ class Player {
     AutoFire: boolean;
     AutoRotate: boolean;
     ShotSize: number;
-    Health: number;
+    Health: HealthBar;
     cachedLevels: number;
     level: number;
-    MaxHealth:number;
     constructor(x: number, y: number, radius: number, color: string) {
         this.x = x;
         this.y = y;
@@ -32,15 +31,13 @@ class Player {
         this.AutoFire = false;
         this.AutoRotate = false;
         this.ShotSize = 5;
-        this.MaxHealth=5;
-        this.Health = 1;
+        this.Health = CreateHealth(5, 5);
         // AddDebugItem(this.Health, "playerHealth");
-        SetDebugItem(this.Health,"playerHealth");
-
+        SetDebugItem(this.Health.Health, "playerHealth");
     }
 
     update() {
-        SetDebugItem(this.Health, "playerHealth");
+        SetDebugItem(this.Health.Health, "playerHealth");
         this.draw()
     }
     draw() {

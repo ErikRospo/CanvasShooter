@@ -43,14 +43,16 @@ addEventListener("keypress", (event) => {
             PauseGame();
         } else {
             CloseOptionsMenu();
+            OptionsOpen = false;
             UnpauseGame();
         }
     }
 });
 PauseModalOptionsButton.addEventListener("click", () => {
     OpenOptionsMenu();
+    OptionsOpen = true;
 });
-OptionsBackButton.addEventListener("onclick", () => { CloseOptionsMenu() });
+OptionsBackButton.addEventListener("onclick", () => { CloseOptionsMenu(); OptionsOpen = false; });
 
 OptionsParticleSwitch.addEventListener("change", () => {
     UseParticles = !UseParticles;
@@ -64,15 +66,39 @@ MainMenuMuteButton.addEventListener("onclick", () => {
 })
 MainMenuOptionsButton.addEventListener("onclick", () => {
     OpenOptionsMenu();
+    OptionsOpen = true;
 })
 MainMenuStartButton.addEventListener("onclick", () => {
     MainMenu.style.display = "none";
     ModalEL.style.display = "none";
 });
-MainMenuStartButton.addEventListener("click", (_) => {
-    console.log("MAIN MENU START BTN PRESSED")
+MainMenuStartButton.onclick = () => {
     ModalEL.style.display = "none";
     MainMenu.style.display = "none";
+    GameStarted = true;
     init();
     animate();
-})
+
+}
+//add the event listener for the start button
+MainMenuStartButton.addEventListener("onclick", () => {
+    console.log("Start Button Clicked!");
+    StartGame()
+});
+// MainMenuStartButton.attributes.item
+startGameButton.addEventListener("click", () => {
+    ModalEL.style.display = "none"
+    init();
+    animate();
+    //hide the UI
+});
+function StartGame() {
+    console.log("Started Game!");
+    
+    MainMenu.style.display = "none";
+    ModalEL.style.display = "none";
+    GameStarted = true;
+    init();
+    animate();
+}
+console.log(MainMenuStartButton)
