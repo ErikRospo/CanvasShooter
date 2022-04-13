@@ -11,6 +11,7 @@ class Enemy {
     private salt: number;
     pepper: number | null;
     minHealth: number;
+    burning: boolean;
         /**
      * 
      * @param x starting x for Enemy
@@ -33,6 +34,7 @@ class Enemy {
         this.salt = randomBetween(0, 1000);
         this.pepper = pepper;
         this.id = md5(this.toString);
+        this.burning = false;
     }
     private get toString(): string {
         return JSON.stringify(this);
@@ -48,7 +50,7 @@ class Enemy {
             c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2)
         }
         c.beginPath();
-        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
         c.fill();
     }
@@ -64,5 +66,9 @@ class Enemy {
     }
     ShouldDie(damage: number): boolean {
         return (this.radius - damage < this.minHealth);
+    }
+    damage(amount: number) {
+        this.radius -= amount
+        return this.ShouldDie(amount)
     }
 }

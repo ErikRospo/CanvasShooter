@@ -12,7 +12,7 @@ const ParticleMultiplier = 2 as number;
 const ParticleSpeed = 5 as number;
 const ParticleFadeSpeedMultiplier = 1 as number;
 const MaxEnemies = 10 as number;
-
+const TWOPI = Math.PI * 2;
 let player = new Player(cw, ch, PlayerRadius, PlayerColor);
 let projectiles = [] as Projectile[];
 let enemies = [] as Enemy[];

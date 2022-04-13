@@ -104,7 +104,7 @@
     "html.hover.references": true,
     "html.suggest.html5": true,
     "css.hover.documentation": true,
-    "editor.fontFamily": "Fira Code",
+    "editor.fontFamily": "Fira Code, Consolas, 'Courier New', monospace",
     "editor.fontLigatures": true,
     "git.closeDiffOnOperation": true,
     "todo.timekeeping.created.time": true,

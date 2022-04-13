@@ -18,6 +18,9 @@ function logx(val: number, base: number) {
 function randomBetween(min: number, max: number): number {
     return Math.random() * (max - min) + min
 }
+function random(min: number, max: number): number {
+    return randomBetween(min, max)
+}
 /**
  * @param {number} min the minumum number [inclusive]
  * @param {number} max the maximum number [exclusive]
@@ -119,4 +122,28 @@ function intBetweenNot(min: number, max: number, not: number[]): number {
  */
 function coinFlip(bias?: number|0.5): boolean {
     return (Math.random() > bias)
+}
+function clip(n: number, min: number, max: number): number {
+    return Math.min(Math.max(n, min), max)
+}
+/**
+ * Returns a number that is strictly between omin and omax
+ * @param {number} i number to scale
+ * @param {number} imin the minumum value for i
+ * @param {number} imax the maximum value for i
+ * @param {number} omin the minumum value for output
+ * @param {number} omax the maximum value for output
+ * @returns {number} the result
+ */
+function strictScale(i: number, imin: number, imax: number, omin: number, omax: number) {
+    return clip(map(clip(i, imin, imax), imin, imax, omin, omax), omin, omax)
+}
+
+function sum(input: Array<number>) {
+    let result = 0
+    for (let i = 0; index < i.length; i++) {
+        result += input[i]
+    }
+    return result
+
 }
