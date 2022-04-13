@@ -64,7 +64,7 @@ class Halo{
                 }
             case 2:
                 for (let index = 0; index < this.starts.length; index++) {
-                    this.speed=random(0.5,2)
+                    this.speed = random(-0.5, 2)
                     this.starts[index]+=0.01*dt*speed
                     this.ends[index]+=0.01*dt*speed
                 }
@@ -76,12 +76,11 @@ class Halo{
         this.ends=this.ends.map((value)=>{clip(value,0,TWOPI)})
         this.starts=this.starts.map((value)=>{clip(value,0,TWOPI)})
         if (Math.max(this.ends)<TWOPI){
-            let i=this.ends.indexOf(Math.max(this.ends))
-            this.ends[i]=TWOPI
+            this.ends[this.ends.indexOf(Math.max(this.ends))] = TWOPI
         }
-        if (Math.min(this.starts)<TWOPI){
-            let i=this.starts.indexOf(Math.min(this.starts))
-            this.starts[i]=0
+        if (Math.min(this.starts) > 0) {
+            //set the min to zero, if it is not already.
+            this.starts[this.starts.indexOf(Math.min(this.starts))] = 0
         }
     }
     /**
@@ -90,12 +89,12 @@ class Halo{
      * @param {CanvasRenderingContext2D} canvas 
      * 
      */
-    public draw(width,canvasParam:CanvasRenderingContext2D) {
-        let canvas =canvasParam
+    public draw(width) {
+        let canvas = c
         for (let index = 0; index < this.starts.length; index++) {
             canvas.fillStyle=this.colors[index]
             canvas.beginPath()
-            canvas.arc(this.x,this.y,this.radius+width,this.starts[index],this.ends[index])
+            canvas.arc(this.x, this.y, this.radius + map(index, 0, this.starts.length, 0, width * 2), this.starts[index], this.ends[index])
             canvas.closePath()
             canvas.fill()
             canvas.stroke()

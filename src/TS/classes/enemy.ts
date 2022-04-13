@@ -12,7 +12,8 @@ class Enemy {
     pepper: number | null;
     minHealth: number;
     burning: boolean;
-        /**
+    haloObject: Halo;
+    /**
      * 
      * @param x starting x for Enemy
      * @param y starting y for Enemy
@@ -35,6 +36,7 @@ class Enemy {
         this.pepper = pepper;
         this.id = md5(this.toString);
         this.burning = false;
+        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "ff8800", "ffff00"], this, 2)
     }
     private get toString(): string {
         return JSON.stringify(this);
@@ -49,6 +51,9 @@ class Enemy {
             c.strokeStyle = "rgb(0,255,0)"
             c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2)
         }
+        if (this.burning) {
+            this.haloObject.draw(5)
+        }
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
@@ -60,9 +65,11 @@ class Enemy {
      * @returns none
      */
     update(): void {
-        this.draw();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+        this.haloObject.update(5, this)
+        this.draw();
+
     }
     ShouldDie(damage: number): boolean {
         return (this.radius - damage < this.minHealth);
