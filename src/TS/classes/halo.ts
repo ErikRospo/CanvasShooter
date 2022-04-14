@@ -6,6 +6,8 @@ class Halo{
     y:number
     radius:number
     moving:false|number
+    isValid: boolean
+    speed: number
     constructor(starts:Array<number>,ends:Array<number>,colors:Array<string>,parent:{x:number,y:number,radius:number},moving:false|number) {
         this.starts=starts
         this.ends=ends
@@ -40,8 +42,8 @@ class Halo{
 
         return true;
     }
-    public range(index) : Array<number> {
-        return [this.starts[index], this.ends[index],this.colors[index]]
+    public range(index: number): Array<number> {
+        return [this.starts[index], this.ends[index], this.colors.values[index]]
     }
     public updateVals(parent:{x:number,y:number,radius:number}){
         this.x=parent.x
@@ -65,23 +67,18 @@ class Halo{
             case 2:
                 for (let index = 0; index < this.starts.length; index++) {
                     this.speed = random(-0.5, 2)
-                    this.starts[index]+=0.01*dt*speed
-                    this.ends[index]+=0.01*dt*speed
+                    this.starts[index]+=0.01*dt*this.speed
+                    this.ends[index]+=0.01*dt*this.speed
                 }
             default:
                 break;
         }
     }
     public fix(){
-        this.ends=this.ends.map((value)=>{clip(value,0,TWOPI)})
-        this.starts=this.starts.map((value)=>{clip(value,0,TWOPI)})
-        if (Math.max(this.ends)<TWOPI){
-            this.ends[this.ends.indexOf(Math.max(this.ends))] = TWOPI
-        }
-        if (Math.min(this.starts) > 0) {
-            //set the min to zero, if it is not already.
-            this.starts[this.starts.indexOf(Math.min(this.starts))] = 0
-        }
+        this.ends = this.ends.map((value) => { return clip(value, 0, TWOPI) })
+        this.starts = this.starts.map((value) => { return clip(value, 0, TWOPI) })
+        this.ends[this.ends.indexOf(maxl(this.ends))] = TWOPI
+        this.starts[this.starts.indexOf(minl(this.starts))] = 0
     }
     /**
      * draw

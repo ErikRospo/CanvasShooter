@@ -135,15 +135,29 @@ function clip(n: number, min: number, max: number): number {
  * @param {number} omax the maximum value for output
  * @returns {number} the result
  */
-function strictScale(i: number, imin: number, imax: number, omin: number, omax: number) {
+function strictScale(i: number, imin: number, imax: number, omin: number, omax: number): number {
     return clip(map(clip(i, imin, imax), imin, imax, omin, omax), omin, omax)
 }
 
 function sum(input: Array<number>) {
     let result = 0
-    for (let i = 0; index < i.length; i++) {
-        result += input[i]
+    for (let index = 0; index < input.length; index++) {
+        result += input[index]
     }
     return result
 
+}
+function minl(numbers:ArrayLike<number>){
+    let v:number
+    for (let i=0;i<=numbers.length;i++){
+        v=Math.min(v,numbers[i])
+    }
+    return v
+}
+function maxl(numbers:ArrayLike<number>){
+    let v:number
+    for (let i=0;i<=numbers.length;i++){
+        v=Math.max(v,numbers[i])
+    }
+    return v
 }

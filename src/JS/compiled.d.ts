@@ -75,6 +75,7 @@ declare const S44 = 21;
 declare const md5: (str: string) => string;
 declare function logx(val: number, base: number): number;
 declare function randomBetween(min: number, max: number): number;
+declare function random(min: number, max: number): number;
 declare function randomInt(min: number, max: number): number;
 declare function map(input: number, input_start: number, input_end: number, output_start: number, output_end: number): number;
 declare function threshold(p1: {
@@ -91,6 +92,11 @@ declare function randomChoiceNot(value: any[], not: any[]): any;
 declare function randomBetweenNot(min: number, max: number, not: number[]): number;
 declare function intBetweenNot(min: number, max: number, not: number[]): number;
 declare function coinFlip(bias?: number | 0.5): boolean;
+declare function clip(n: number, min: number, max: number): number;
+declare function strictScale(i: number, imin: number, imax: number, omin: number, omax: number): number;
+declare function sum(input: Array<number>): number;
+declare function minl(numbers: ArrayLike<number>): number;
+declare function maxl(numbers: ArrayLike<number>): number;
 declare function AddDebugItem(value: any, id: string): HTMLUListElement;
 declare function SetDebugItem(value: any, id: string): HTMLElement;
 declare class Upgrade {
@@ -136,6 +142,37 @@ declare function IncreaseProgressBar(Value: number): void;
 declare function AnimateProgressBar(frameID: number): void;
 declare function ResetProgressBar(): void;
 declare function CheckForLevelUp(): boolean;
+declare class Halo {
+    starts: Array<number>;
+    ends: Array<number>;
+    colors: Array<string>;
+    x: number;
+    y: number;
+    radius: number;
+    moving: false | number;
+    isValid: boolean;
+    speed: number;
+    constructor(starts: Array<number>, ends: Array<number>, colors: Array<string>, parent: {
+        x: number;
+        y: number;
+        radius: number;
+    }, moving: false | number);
+    private checkForValidity;
+    range(index: number): Array<number>;
+    updateVals(parent: {
+        x: number;
+        y: number;
+        radius: number;
+    }): void;
+    update(dt: number, parent: {
+        x: number;
+        y: number;
+        radius: number;
+    }): void;
+    step(dt: number): void;
+    fix(): void;
+    draw(width: any): void;
+}
 declare class Player {
     x: number;
     y: number;
@@ -189,6 +226,8 @@ declare class Enemy {
     private salt;
     pepper: number | null;
     minHealth: number;
+    burning: boolean;
+    haloObject: Halo;
     constructor(x: number, y: number, r: number, color: string, velocity: {
         x: number;
         y: number;
@@ -197,6 +236,7 @@ declare class Enemy {
     draw(): void;
     update(): void;
     ShouldDie(damage: number): boolean;
+    damage(amount: number): boolean;
 }
 declare class Particle {
     x: number;
@@ -250,6 +290,7 @@ declare const ParticleMultiplier: number;
 declare const ParticleSpeed: number;
 declare const ParticleFadeSpeedMultiplier: number;
 declare const MaxEnemies: number;
+declare const TWOPI: number;
 declare let player: Player;
 declare let projectiles: Projectile[];
 declare let enemies: Enemy[];

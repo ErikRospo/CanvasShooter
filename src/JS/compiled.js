@@ -249,6 +249,9 @@ function logx(val, base) {
 function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
 }
+function random(min, max) {
+    return randomBetween(min, max);
+}
 function randomInt(min, max) {
     return Math.floor(randomBetween(min, max));
 }
@@ -292,6 +295,33 @@ function intBetweenNot(min, max, not) {
 }
 function coinFlip(bias) {
     return (Math.random() > bias);
+}
+function clip(n, min, max) {
+    return Math.min(Math.max(n, min), max);
+}
+function strictScale(i, imin, imax, omin, omax) {
+    return clip(map(clip(i, imin, imax), imin, imax, omin, omax), omin, omax);
+}
+function sum(input) {
+    let result = 0;
+    for (let index = 0; index < input.length; index++) {
+        result += input[index];
+    }
+    return result;
+}
+function minl(numbers) {
+    let v;
+    for (let i = 0; i <= numbers.length; i++) {
+        v = Math.min(v, numbers[i]);
+    }
+    return v;
+}
+function maxl(numbers) {
+    let v;
+    for (let i = 0; i <= numbers.length; i++) {
+        v = Math.max(v, numbers[i]);
+    }
+    return v;
 }
 function AddDebugItem(value, id) {
     if (!DEBUGFLAG) {
@@ -549,6 +579,90 @@ function CheckForLevelUp() {
         return false;
     }
 }
+class Halo {
+    constructor(starts, ends, colors, parent, moving) {
+        this.starts = starts;
+        this.ends = ends;
+        this.colors = colors;
+        this.isValid = this.checkForValidity();
+        this.x = parent.x;
+        this.y = parent.y;
+        this.radius = parent.radius;
+        this.moving = moving;
+    }
+    checkForValidity() {
+        if (this.starts.length != this.ends.length) {
+            throw new Error("Starts And Ends length must be the same");
+            return false;
+        }
+        if (this.starts.length != this.colors.length) {
+            throw new Error("Starts And Colors length must be the same");
+            return false;
+        }
+        if (this.colors.length != this.ends.length) {
+            throw new Error("Colors And Ends length must be the same");
+            return false;
+        }
+        if (this.starts.some((value) => { return value > TWOPI || value < 0; })) {
+            throw new Error("Starts must be in the range 0-2*PI");
+            return false;
+        }
+        if (this.ends.some((value) => { return value > TWOPI || value < 0; })) {
+            throw new Error("Ends must be in the range 0-2*PI");
+            return false;
+        }
+        return true;
+    }
+    range(index) {
+        return [this.starts[index], this.ends[index], this.colors.values[index]];
+    }
+    updateVals(parent) {
+        this.x = parent.x;
+        this.y = parent.y;
+        this.radius = parent.radius;
+    }
+    update(dt, parent) {
+        this.updateVals(parent);
+        this.step(dt);
+        this.fix();
+    }
+    step(dt) {
+        switch (this.moving) {
+            case false:
+                break;
+            case 1:
+                for (let index = 0; index < this.starts.length; index++) {
+                    this.starts[index] += 0.01 * dt;
+                    this.ends[index] += 0.01 * dt;
+                }
+            case 2:
+                for (let index = 0; index < this.starts.length; index++) {
+                    this.speed = random(-0.5, 2);
+                    this.starts[index] += 0.01 * dt * this.speed;
+                    this.ends[index] += 0.01 * dt * this.speed;
+                }
+            default:
+                break;
+        }
+    }
+    fix() {
+        this.ends = this.ends.map((value) => { return clip(value, 0, TWOPI); });
+        this.starts = this.starts.map((value) => { return clip(value, 0, TWOPI); });
+        this.ends[this.ends.indexOf(maxl(this.ends))] = TWOPI;
+        this.starts[this.starts.indexOf(minl(this.starts))] = 0;
+    }
+    draw(width) {
+        let canvas = c;
+        for (let index = 0; index < this.starts.length; index++) {
+            canvas.fillStyle = this.colors[index];
+            canvas.beginPath();
+            canvas.arc(this.x, this.y, this.radius + map(index, 0, this.starts.length, 0, width * 2), this.starts[index], this.ends[index]);
+            canvas.closePath();
+            canvas.fill();
+            canvas.stroke();
+        }
+    }
+}
 class Player {
     constructor(x, y, radius, color) {
         this.x = x;
@@ -616,6 +730,8 @@ class Enemy {
         this.salt = randomBetween(0, 1000);
         this.pepper = pepper;
         this.id = md5(this.toString);
+        this.burning = false;
+        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "ff8800", "ffff00"], this, 2);
     }
     get toString() {
         return JSON.stringify(this);
@@ -625,18 +741,26 @@ class Enemy {
             c.strokeStyle = "rgb(0,255,0)";
             c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2);
         }
+        if (this.burning) {
+            this.haloObject.draw(5);
+        }
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
         c.fill();
     }
     update() {
-        this.draw();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+        this.haloObject.update(5, this);
+        this.draw();
     }
     ShouldDie(damage) {
         return (this.radius - damage < this.minHealth);
+    }
+    damage(amount) {
+        this.radius -= amount;
+        return this.ShouldDie(amount);
     }
 }
 class Particle {
@@ -848,6 +972,7 @@ const ParticleMultiplier = 2;
 const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
 const MaxEnemies = 10;
+const TWOPI = Math.PI * 2;
 let player = new Player(cw, ch, PlayerRadius, PlayerColor);
 let projectiles = [];
 let enemies = [];
