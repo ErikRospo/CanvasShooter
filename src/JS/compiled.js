@@ -573,7 +573,7 @@ class Player {
     }
     draw() {
         c.beginPath();
-        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
         c.fill();
     }
@@ -593,7 +593,7 @@ class Projectile {
             c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2);
         }
         c.beginPath();
-        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
         c.fill();
     }
@@ -626,7 +626,7 @@ class Enemy {
             c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2);
         }
         c.beginPath();
-        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
         c.fill();
     }
@@ -656,7 +656,7 @@ class Particle {
         c.save();
         c.globalAlpha = this.alpha;
         c.beginPath();
-        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
         c.fill();
         c.restore();

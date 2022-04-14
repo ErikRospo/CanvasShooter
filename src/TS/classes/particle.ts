@@ -23,7 +23,7 @@ class Particle {
         c.save();
         c.globalAlpha = this.alpha;
         c.beginPath();
-        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
         c.fill();
         c.restore();
