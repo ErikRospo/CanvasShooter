@@ -1,4 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 src/js/* linguist-generated=true
-Timing/* linguist-documentation=true
+Timing/* -linguist-documentation
