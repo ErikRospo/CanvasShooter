@@ -31,11 +31,6 @@ declare const XPBar: HTMLProgressElement;
 declare const XPBarLabel: HTMLParagraphElement;
 declare const debugDiv: HTMLDivElement;
 declare const debugList: HTMLUListElement;
-declare const MainMenu: HTMLDivElement;
-declare const MainMenuGameTitle: HTMLHeadingElement;
-declare const MainMenuStartButton: HTMLButtonElement;
-declare const MainMenuMuteButton: HTMLButtonElement;
-declare const MainMenuOptionsButton: HTMLButtonElement;
 declare const w: number;
 declare const h: number;
 declare const cw: number;
@@ -192,6 +187,7 @@ declare class Player {
     level: number;
     constructor(x: number, y: number, radius: number, color: string);
     update(): void;
+    drawHealth(): void;
     draw(): void;
 }
 declare class Projectile {
@@ -273,9 +269,8 @@ declare class HealthBar {
     set maxHealth(MaxHealth: number | 5);
     addHealth(health: number): number;
     removeHealth(health: number): number;
-    draw(ctx: CanvasRenderingContext2D): void;
+    draw(): void;
 }
-declare function StartGame(): void;
 declare const EnemySpawnTimeDecrement: number;
 declare const EnemySpawnBias: number;
 declare const EnemyHealthMultiplier: number;
@@ -311,7 +306,6 @@ declare let lastScore: number;
 declare let freq: number;
 declare let HS: boolean;
 declare function animate(): void;
-declare function updateMuteBTN(State: boolean): void;
 declare function init(): void;
 declare function PageLoad(): void;
 declare function UpdateSFXSlider(): void;

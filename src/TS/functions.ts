@@ -1,7 +1,3 @@
-function updateMuteBTN(State: boolean) {
-
-    MainMenuMuteButton.innerText = State ? "volume_off" : "volume_up"
-}
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     Paused = false;
@@ -24,7 +20,6 @@ function PageLoad() {
     OptionsSFXSlider.value = "0";
     CloseOptionsMenu();
     HighScoreList.style.display = "none";
-    updateMuteBTN(SFXMuted);
     UnpauseGame();
     AddDebugItem(0, "playerLevel")
     AddDebugItem(0, "playerCashedLevels")
@@ -32,12 +27,11 @@ function PageLoad() {
     AddDebugItem(5, "playerHealth");
     AddDebugItem(EnemySpawnTime, "SpawnTime");
     AddDebugItem(EnemySpawnBias, "Bias");
-    player.Health.draw(c);
+    player.Health.draw();
     Paused = true;
     OptionsOpen = false;
 }
 function UpdateSFXSlider() {
-    updateMuteBTN((parseFloat(OptionsSFXSlider.value) === 0))
     ShootSound.muted = SFXMuted
     HitNoKillSound.muted = SFXMuted
     HitAndKillSound.muted = SFXMuted

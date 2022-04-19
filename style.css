@@ -27,6 +27,7 @@ html {
     font-family: monospace;
     width: fit-content;
     height: fit-content;
+    user-select: none;
 }
 
 .UpgradeButton {
@@ -198,13 +199,25 @@ html {
     width: 100%;
     padding: 1.5rem;
     text-align: center;
+    border-radius: 10px;
+    box-shadow: #5ba2ac 0 0 20px;
+    transition-property: border-radius box-shadow;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.5s;
+    transition-delay: 0s;
+}
+
+#ModalELWrapper:hover {
+    border-radius: 20px;
+    box-shadow: #3b92cc 5px 5px 30px;
 }
 
 #BigScoreEL {
-    font-size: 2.25rem;
-    line-height: 1;
+    font-size: 4.25rem;
+    line-height: 0.25;
     color: white;
     font-weight: 700;
+    margin-top: 1rem;
 }
 
 #PointsLabelEL {
@@ -213,7 +226,7 @@ html {
     color: white;
     font-weight: 100;
     margin-bottom: 1rem;
-    margin-top: 0.25rem;
+    margin-top: 0.1rem;
 }
 
 #XPBarWrapper {
@@ -261,7 +274,7 @@ html {
     position: absolute;
     display: none;
     width: 400px;
-    height: 280px;
+    height: 300px;
     top: 50%;
     left: 50%;
     background-color: slategray;
@@ -289,6 +302,7 @@ html {
     justify-self: center;
     right: 10px;
     left: 10px;
+    top: 50px;
 }
 
 #PauseModalScoreLabel {
@@ -458,6 +472,8 @@ input:checked+.slider:before {
     font-weight: 700;
 }
 
+
+/* 
 #MainMenu {
     user-select: none;
     margin: 0;
@@ -529,16 +545,17 @@ input:checked+.slider:before {
 #MainMenuStartButton {
     cursor: pointer;
     position: relative;
-    /* top: 100px; */
-    top: 20px;
-    left: 5px;
-    height: 50px;
-    width: 490px;
-    font: bold xx-large black;
-    background-color: royalblue;
-    border-radius: 50px;
-    margin-top: 5px;
+top: 20px;
+left: 5px;
+height: 50px;
+width: 490px;
+font: bold xx-large black;
+background-color: royalblue;
+border-radius: 50px;
+margin-top: 5px;
+
 }
+*/
 
 #UpperScoreWrapper {
     position: fixed;
@@ -558,8 +575,4 @@ input:checked+.slider:before {
     right: 1.25rem;
     user-select: none;
     font-size: small;
-}
-
-#HealthDiv {
-    display: none;
 }
