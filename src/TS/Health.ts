@@ -17,22 +17,51 @@ class HealthBar {
     }
     public set Health(health: number) {
         this.health = health;
+        this.draw()
     }
     public set maxHealth(MaxHealth: number | 5) {
         this.MaxHealth = MaxHealth;
+        this.draw();
     }
     public addHealth(health: number) {
         this.health += health;
+        this.draw()
         return this.health;
     }
     public removeHealth(health: number) {
         this.health -= health;
+        this.draw()
         return this.health;
     }
-    public draw(ctx: CanvasRenderingContext2D) {
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 20, 20, 100);
-        ctx.fillStyle = "red";
-        ctx.fillRect(0, 20, 20, 100 * (this.health / this.MaxHealth));
+    public draw() {
+        //Define a draw function that gets the health bar dom element and updates it
+        //the health bar has spans with either "favorite" or "favorite-border" innerHTML
+        //if there is more max health than spans, create more spans
+        //if there is less max health than spans, remove the extra spans
+        let healthBarEl=document.getElementById("healthBar");
+        let healthBarSpanCount=healthBarEl.children.length;
+        let healthBarSpanMax=this.MaxHealth;
+        //remove all of the spans, then add the correct number of spans
+        for (let i = 0; i < healthBarSpanCount; i++) {
+            healthBarEl.removeChild(healthBarEl.firstChild);
+        }
+        for (let i = 0; i < healthBarSpanMax; i++) {
+            let healthBarSpan=document.createElement("span");
+            healthBarSpan.classList.add("material-icons");
+            healthBarSpan.classList.add("healthBarSpan");
+            healthBarEl.appendChild(healthBarSpan);
+        }
+        let healthBarSpans=healthBarEl.children
+        for(let i=0;i<healthBarSpanMax;i++){
+            var el=healthBarSpans.item(i) as HTMLSpanElement;
+            el.innerText="favorite";
+
+            if(i<this.health){
+                el.style.color="red"
+            }
+            else{
+                el.style.color="grey"
+            }
+        }
     }
 }

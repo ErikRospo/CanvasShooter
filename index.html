@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Game</title>
-    <meta name="description" content="This a HTML5 based game I wrote in vanilla TS. It is still in development">
+    <meta name="description" content="This a HTML5 based game I wrote in Typescript. It is still in development">
     <meta name="author" content="Erik Rospo">
     <meta name="robots" content="index, follow">
     <meta name="rating" content="general">
@@ -20,12 +20,14 @@
         <span>Score: </span>
         <span id="scoreEL">0</span><br>
         <div id="HealthDiv" class="hidden">
-            <span style="line-height: 24pt;">Health:</span>
-            <span class="material-icons">favorite</span>
-            <span class="material-icons">favorite</span>
-            <span class="material-icons">favorite</span>
-            <span class="material-icons">favorite</span>
-            <span class="material-icons">favorite_border</span>
+            <span style="line-height: 24pt;" id="healthLabel">Health:</span>
+            <div id="healthBar">
+                <span class="material-icons HealthBarSpan">favorite</span>
+                <span class="material-icons HealthBarSpan">favorite</span>
+                <span class="material-icons HealthBarSpan">favorite</span>
+                <span class="material-icons HealthBarSpan">favorite</span>
+                <span class="material-icons HealthBarSpan">favorite_border</span>
+            </div>
         </div>
     </div>
 
@@ -33,7 +35,7 @@
         <progress id="XPBar" max="1 " value="0 "></progress>
         <p id="XPBarLabel">test</p>
     </div>
-    <div id="MainMenu">
+    <!-- <div id="MainMenu">
         <div id="MainMenuWrapper">
             <div class="rainbow-background">
                 <h1 id="MainMenuGameTitle">Game title</h1>
@@ -46,7 +48,7 @@
             </span>
         </button>
 
-    </div>
+    </div> -->
     <div id="ModalEL">
         <div id="ModalELWrapper">
             <p id="highScoreTextModal">High Score!</p>
@@ -57,7 +59,7 @@
             </div>
         </div>
     </div>
-    <div id="MainMenu">
+    <!-- <div id="MainMenu">
         <div id="MainMenuWrapper">
             <div id="MainMenuGameTitleWrapper" class="rainbow-background ">
                 <h1 id="MainMenuGameTitle">Game title</h1>
@@ -66,7 +68,7 @@
             <button id="MainMenuStartButton" class="Button ">Start</button>
         </div>
         <button id="MainMenuMuteButton" class="material-icons ">volume_off</button>
-    </div>
+    </div> -->
     <div id="PauseModal">
         <h2>Paused</h2>
         <span id="PauseModalScore">1</span>
@@ -136,7 +138,7 @@
         <ol id="HighScore"></ol>
     </div>
     <div id="debugDiv" class="debug ">
-        <ul id="debugList" class="debugList debug select-none ">
+        <ul id="debugList" class="debug select-none ">
         </ul>
     </div>
     <canvas>Your browser does not support Canvas. <span style="font-size: 72pt;">:(</span></canvas>

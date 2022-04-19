@@ -50,12 +50,12 @@ const XPBarLabel = document.querySelector("#XPbarLabel") as HTMLParagraphElement
 const debugDiv=document.querySelector("#debugDiv") as HTMLDivElement;
 const debugList=document.querySelector("#debugList") as HTMLUListElement;
 //Main Menu
-const MainMenu = document.querySelector("#MainMenu") as HTMLDivElement;
-const MainMenuGameTitle = document.querySelector("#MainMenuGameTitle") as HTMLHeadingElement;
-const MainMenuStartButton = document.querySelector("#MainMenuStartButton") as HTMLButtonElement;
-const MainMenuMuteButton = document.querySelector("#MainMenuMuteButton") as HTMLButtonElement;
-console.log(MainMenuStartButton.innerHTML);
-const MainMenuOptionsButton = document.querySelector("#MainMenuOptionsButton") as HTMLButtonElement;
+// const MainMenu = document.querySelector("#MainMenu") as HTMLDivElement;
+// const MainMenuGameTitle = document.querySelector("#MainMenuGameTitle") as HTMLHeadingElement;
+// const MainMenuStartButton = document.querySelector("#MainMenuStartButton") as HTMLButtonElement;
+// const MainMenuMuteButton = document.querySelector("#MainMenuMuteButton") as HTMLButtonElement;
+// console.log(MainMenuStartButton.innerHTML);
+// const MainMenuOptionsButton = document.querySelector("#MainMenuOptionsButton") as HTMLButtonElement;
 //define other global constants
 const w = canvas.width;
 const h = canvas.height;

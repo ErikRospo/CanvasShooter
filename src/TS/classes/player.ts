@@ -32,6 +32,7 @@ class Player {
         this.AutoRotate = false;
         this.ShotSize = 5;
         this.Health = CreateHealth(5, 5);
+        this.Health.draw();
         // AddDebugItem(this.Health, "playerHealth");
         SetDebugItem(this.Health.Health, "playerHealth");
     }
@@ -39,6 +40,11 @@ class Player {
     update() {
         SetDebugItem(this.Health.Health, "playerHealth");
         this.draw()
+        this.drawHealth()
+
+    }
+    drawHealth() {
+        this.Health.draw();
     }
     draw() {
         c.beginPath();
