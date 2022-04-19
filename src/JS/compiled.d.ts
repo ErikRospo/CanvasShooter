@@ -322,4 +322,3 @@ declare function PauseGame(): void;
 declare function UnpauseGame(): void;
 declare function OpenOptionsMenu(): void;
 declare function CloseOptionsMenu(): void;
-//# sourceMappingURL=compiled.d.ts.map

@@ -7,6 +7,7 @@ outfile = open(abspath(argv[2]), "tw")
 currentFileW = open(abspath(argv[3]), "tw")
 currentfileR = open(abspath(argv[3]), "tr")
 lines = infile.readlines()
+print(lines)
 fixedLines = []
 clearedLines = []
 p = compile("[A-Za-z/\\ ]*:\\s*(\\d{1,2}\\.\\d{1,2})s")
