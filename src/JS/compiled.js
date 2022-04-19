@@ -904,8 +904,8 @@ addEventListener("click", (event) => {
             y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
             m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
         };
-        const radius = random(player.ShotSize, player.ShotSize * 2);
-        const damage = (player.Damage * radius) / 3;
+        const radius = player.ShotSize;
+        const damage = player.Damage;
         projectiles.push(new Projectile(cw, ch, radius, ProjectileColor, velocity, damage));
         if (!SFXMuted) {
             ShootSound.play();
