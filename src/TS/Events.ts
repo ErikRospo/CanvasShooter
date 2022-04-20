@@ -12,7 +12,7 @@ addEventListener("click", (event) => {
       y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
       m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
     };
-    const radius = player.ShotSize;
+    const radius = 5;
     const damage = player.Damage
     //add it to the projectiles list
     projectiles.push(

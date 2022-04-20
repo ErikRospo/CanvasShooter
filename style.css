@@ -332,6 +332,12 @@ html {
     color: white;
     border: 1px white;
     border-radius: 20px;
+    outline: grey 2px outset;
+    transition: outline-style 0.2s;
+}
+
+#PauseModalPlayButton:active {
+    outline-style: inset;
 }
 
 #PauseModalOptionsButton {
@@ -347,6 +353,12 @@ html {
     color: white;
     border: 1px white;
     border-radius: 20px;
+    outline: grey 2px outset;
+    transition: outline-style 0.2s;
+}
+
+#PauseModalOptionsButton:active {
+    outline-style: inset;
 }
 
 #OptionsModal {
@@ -472,6 +484,16 @@ input:checked+.slider:before {
     height: 50px;
     font-size: large;
     font-weight: 700;
+    outline-style: outset;
+    outline-color: darkgrey;
+    outline-width: 2px;
+    transition-property: outline-style;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+}
+
+#OptionsBackButton:active {
+    outline-style: inset;
 }
 
 
