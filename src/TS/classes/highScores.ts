@@ -11,6 +11,9 @@ class HighScore {
         this.scores.sort((a: number, b: number) => a - b);
         this.scores.reverse();
     }
+    isHighScore(score: number): boolean {
+        return this.scores.every((value) => { return value < score });
+    }
     public get Html(): string {
         let ScoreElement = document.createElement("ol");
         this.sort();

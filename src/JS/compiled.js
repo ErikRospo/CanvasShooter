@@ -806,6 +806,9 @@ class HighScore {
         this.scores.sort((a, b) => a - b);
         this.scores.reverse();
     }
+    isHighScore(score) {
+        return this.scores.every((value) => { return value < score; });
+    }
     get Html() {
         let ScoreElement = document.createElement("ol");
         this.sort();
@@ -1162,16 +1165,12 @@ function AddScore(Value) {
 }
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
-    if (Scores.scores.every((value) => { return value < score; })) {
-        HS = true;
-    }
-    else {
-        HS = false;
-    }
+    HS = Scores.isHighScore(score);
     Scores.addScore(score);
     GameStarted = false;
-    ModalEL.setAttribute("style", "display:flex;");
+    ModalEL.style.display = "flex";
     HighScoreList.innerHTML = Scores.Html;
+    HighScoreList.style.display = "block";
     console.log(Scores);
     HighScoreLabel.style.display = HS ? "block" : "none";
     BigScoreELLabel.style.display = "block";

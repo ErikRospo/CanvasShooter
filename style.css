@@ -1,7 +1,7 @@
 :root {
     --rotation: 20deg;
     --sliderScale: 1.5;
-    --font: Arial, Helvetica, sans-serif;
+    --font: 'Roboto', sans-serif;
 }
 
 body {
@@ -78,6 +78,7 @@ html {
     position: absolute;
     text-align: center;
     right: 15px;
+    font-size: 1.25rem;
 }
 
 #highScoreTitle {
@@ -86,6 +87,7 @@ html {
     overflow: hidden;
     width: 6rem;
     right: 2rem;
+    font-size: 1rem;
     user-select: none;
     position: fixed;
 }

@@ -99,18 +99,17 @@ function AddScore(Value: number) {
 
 function gameOver(AnimationID: number) {
     cancelAnimationFrame(AnimationID);
-    if (Scores.scores.every((value) => { return value < score })) {
-        HS = true
-    } else {
-        HS = false
-    }
+    HS = Scores.isHighScore(score);
     Scores.addScore(score);
     GameStarted = false;
     //and add the end screen back up
-    ModalEL.setAttribute("style", "display:flex;");
+    ModalEL.style.display = "flex";
+
     HighScoreList.innerHTML = Scores.Html;
+    HighScoreList.style.display = "block";
     console.log(Scores)
     HighScoreLabel.style.display = HS ? "block" : "none";
+
     BigScoreELLabel.style.display = "block";
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();
