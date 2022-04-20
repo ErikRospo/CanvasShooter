@@ -223,7 +223,7 @@ html {
 }
 
 #PointsLabelEL {
-    font-size: 0.75rem;
+    font-size: 1rem;
     line-height: 1rem;
     color: white;
     font-weight: 100;
@@ -562,7 +562,7 @@ margin-top: 5px;
 #UpperScoreWrapper {
     position: fixed;
     color: white;
-    font-size: small;
+    font-size: medium;
     margin-left: 0.5rem;
     margin-top: 0.25rem;
     user-select: none;
