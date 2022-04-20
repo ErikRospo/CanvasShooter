@@ -13,6 +13,7 @@ class Upgrade {
     }
     addEffect(effect: Effect) {
         this.effects.push(effect)
+        
     }
     addRequirement(requirement: Requirement) {
         this.requirements.push(requirement)

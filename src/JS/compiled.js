@@ -806,6 +806,9 @@ class HighScore {
         this.scores.sort((a, b) => a - b);
         this.scores.reverse();
     }
+    isHighScore(score) {
+        return this.scores.every((value) => { return value < score; });
+    }
     get Html() {
         let ScoreElement = document.createElement("ol");
         this.sort();
@@ -904,8 +907,8 @@ addEventListener("click", (event) => {
             y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
             m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
         };
-        const radius = random(player.ShotSize, player.ShotSize * 2);
-        const damage = (player.Damage * radius) / 3;
+        const radius = player.ShotSize;
+        const damage = player.Damage;
         projectiles.push(new Projectile(cw, ch, radius, ProjectileColor, velocity, damage));
         if (!SFXMuted) {
             ShootSound.play();
@@ -1162,16 +1165,12 @@ function AddScore(Value) {
 }
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
-    if (Scores.scores.every((value) => { return value < score; })) {
-        HS = true;
-    }
-    else {
-        HS = false;
-    }
+    HS = Scores.isHighScore(score);
     Scores.addScore(score);
     GameStarted = false;
-    ModalEL.setAttribute("style", "display:flex;");
+    ModalEL.style.display = "flex";
     HighScoreList.innerHTML = Scores.Html;
+    HighScoreList.style.display = "block";
     console.log(Scores);
     HighScoreLabel.style.display = HS ? "block" : "none";
     BigScoreELLabel.style.display = "block";

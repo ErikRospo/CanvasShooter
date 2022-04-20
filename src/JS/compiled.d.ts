@@ -256,6 +256,7 @@ declare class HighScore {
     constructor();
     addScore(score: number): void;
     sort(): void;
+    isHighScore(score: number): boolean;
     get Html(): string;
 }
 declare function CreateHealth(health: number, MaxHealth?: number | 5): HealthBar;
