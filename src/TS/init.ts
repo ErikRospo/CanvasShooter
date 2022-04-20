@@ -7,20 +7,34 @@ c.shadowColor = "black";
 const scoreEL = document.querySelector("#scoreEL") as HTMLSpanElement;
 const MoneyEL = document.querySelector("#moneyEL") as HTMLSpanElement;
 const ShopMoney = document.querySelector("#ShopMoney") as HTMLSpanElement;
-const startGameButton = document.querySelector("#StartGameWrapper") as HTMLDivElement;
-const HighScoreLabel = document.querySelector("#highScoreTextModal") as HTMLParagraphElement;
+const startGameButton = document.querySelector(
+    "#StartGameWrapper"
+) as HTMLDivElement;
+const HighScoreLabel = document.querySelector(
+    "#highScoreTextModal"
+) as HTMLParagraphElement;
 const ModalEL = document.querySelector("#ModalEL") as HTMLDivElement;
 const TitleEL = document.querySelector("#titleElement") as HTMLHeadingElement;
 const BigScoreEL = document.querySelector("#BigScoreEL") as HTMLHeadingElement;
-const BigScoreELLabel = document.querySelector("#PointsLabelEL") as HTMLSpanElement;
+const BigScoreELLabel = document.querySelector(
+    "#PointsLabelEL"
+) as HTMLSpanElement;
 const NameDiv = document.querySelector("#NameInputDiv") as HTMLDivElement;
 const HighScoreList = document.querySelector("#HighScore") as HTMLOListElement;
 //Sound Effects
 const ShootSound = new Audio("../Audio/sound/Shoot.wav") as HTMLAudioElement;
-const HitNoKillSound = new Audio("../Audio/sound/HitNoKill.wav") as HTMLAudioElement;
-const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav") as HTMLAudioElement;
-const HealthGetSound = new Audio("Audio/sound/HealthGet.wav") as HTMLAudioElement;
-const HealthLooseSound = new Audio("Audio/sound/HealthLose.wav") as HTMLAudioElement;
+const HitNoKillSound = new Audio(
+    "../Audio/sound/HitNoKill.wav"
+) as HTMLAudioElement;
+const HitAndKillSound = new Audio(
+    "Audio/sound/HitAndKill.wav"
+) as HTMLAudioElement;
+const HealthGetSound = new Audio(
+    "Audio/sound/HealthGet.wav"
+) as HTMLAudioElement;
+const HealthLooseSound = new Audio(
+    "Audio/sound/HealthLose.wav"
+) as HTMLAudioElement;
 const MissSound = new Audio("Audio/sound/Miss.wav") as HTMLAudioElement;
 // define music
 const Music1 = new Audio("Audio/music/Music1.mp3") as HTMLAudioElement;
@@ -31,18 +45,36 @@ const Music5 = new Audio("Audio/music/Music5.mp3") as HTMLAudioElement;
 
 //Pause Menu
 const PauseModal = document.querySelector("#PauseModal") as HTMLDivElement;
-const PauseModalScore = document.querySelector("#PauseModalScore") as HTMLSpanElement;
-const PauseModalScoreLabel = document.querySelector("#PauseModalScoreLabel") as HTMLSpanElement;
-const PauseModalOptionsButton = document.querySelector("#PauseModalOptionsButton") as HTMLButtonElement;
-const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton") as HTMLButtonElement;
+const PauseModalScore = document.querySelector(
+    "#PauseModalScore"
+) as HTMLSpanElement;
+const PauseModalScoreLabel = document.querySelector(
+    "#PauseModalScoreLabel"
+) as HTMLSpanElement;
+const PauseModalOptionsButton = document.querySelector(
+    "#PauseModalOptionsButton"
+) as HTMLButtonElement;
+const PauseModalPlayButton = document.querySelector(
+    "#PauseModalPlayButton"
+) as HTMLButtonElement;
 
 //Options Menu
 const OptionsMenu = document.querySelector("#OptionsModal") as HTMLDivElement;
-const OptionsSFXSlider = document.querySelector("#SFXSlider") as HTMLInputElement;
-const OptionsMusicSlider = document.querySelector("#MusicSlider") as HTMLInputElement;
-const OptionsParticleSwitch = document.querySelector("#ParticleOptionsSwitch") as HTMLInputElement;
-const OptionsBackButton = document.querySelector("#OptionsBackButton") as HTMLButtonElement;
-const OptionsParticleSpan = document.querySelector("#ParticleOptionsSpan") as HTMLSpanElement;
+const OptionsSFXSlider = document.querySelector(
+    "#SFXSlider"
+) as HTMLInputElement;
+const OptionsMusicSlider = document.querySelector(
+    "#MusicSlider"
+) as HTMLInputElement;
+const OptionsParticleSwitch = document.querySelector(
+    "#ParticleOptionsSwitch"
+) as HTMLInputElement;
+const OptionsBackButton = document.querySelector(
+    "#OptionsBackButton"
+) as HTMLButtonElement;
+const OptionsParticleSpan = document.querySelector(
+    "#ParticleOptionsSpan"
+) as HTMLSpanElement;
 //shop
 // const ShopDivEL = document.querySelector("#UpgradeDivEL") as HTMLDivElement;
 // const ShopELs = document.querySelectorAll(".shop");
@@ -51,11 +83,13 @@ const OptionsParticleSpan = document.querySelector("#ParticleOptionsSpan") as HT
 
 //XP bar at top of screen.
 const XPBar = document.querySelector("#XPBar") as HTMLProgressElement;
-const XPBarLabel = document.querySelector("#XPbarLabel") as HTMLParagraphElement;
+const XPBarLabel = document.querySelector(
+    "#XPbarLabel"
+) as HTMLParagraphElement;
 
 //debugging elements:
-const debugDiv=document.querySelector("#debugDiv") as HTMLDivElement;
-const debugList=document.querySelector("#debugList") as HTMLUListElement;
+const debugDiv = document.querySelector("#debugDiv") as HTMLDivElement;
+const debugList = document.querySelector("#debugList") as HTMLUListElement;
 //Main Menu
 // const MainMenu = document.querySelector("#MainMenu") as HTMLDivElement;
 // const MainMenuGameTitle = document.querySelector("#MainMenuGameTitle") as HTMLHeadingElement;

@@ -23,6 +23,7 @@ function PageLoad() {
     CloseOptionsMenu();
     HighScoreList.style.display = "none";
     UnpauseGame();
+    
     AddDebugItem(0, "playerLevel")
     AddDebugItem(0, "playerCashedLevels")
     AddDebugItem(false, "CantSpawn")

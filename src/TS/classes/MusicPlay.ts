@@ -56,18 +56,18 @@ class Music {
     this.current = randomInt(0, this.music.length - 1);
     this.music[this.current].play();
   }
-public set continue(value: boolean) {
-    this.Continue=value
+  public set continue(value: boolean) {
+    this.Continue = value
     if (this.Continue) {
-        this.music[this.current].onended = () => {
-            this.next();
-        };
-        }
-    else {
-        this.music[this.current].onended = () => {
-            this.music[this.current].pause();
-        };
+      this.music[this.current].onended = () => {
+        this.next();
+      };
     }
-    
-}
+    else {
+      this.music[this.current].onended = () => {
+        this.music[this.current].pause();
+      };
+    }
+
+  }
 }

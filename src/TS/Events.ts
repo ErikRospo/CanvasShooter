@@ -73,10 +73,10 @@ OptionsMusicSlider.addEventListener("change", () => {
   } else {
     MusicMuted = false;
   }
-  MusicPlayer.Volume=parseFloat(OptionsMusicSlider.value)
+  MusicPlayer.Volume = parseFloat(OptionsMusicSlider.value)
   PlayMusic();
   MusicPlayer.shuffle()
-  MusicPlayer.continue=true
+  MusicPlayer.continue = true
 });
 
 // MainMenuMuteButton.addEventListener("onclick", () => {
