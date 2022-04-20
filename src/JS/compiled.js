@@ -21,6 +21,11 @@ const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
 const HealthGetSound = new Audio("Audio/sound/HealthGet.wav");
 const HealthLooseSound = new Audio("Audio/sound/HealthLose.wav");
 const MissSound = new Audio("Audio/sound/Miss.wav");
+const Music1 = new Audio("Audio/music/Music1.mp3");
+const Music2 = new Audio("Audio/music/Music2.mp3");
+const Music3 = new Audio("Audio/music/Music3.mp3");
+const Music4 = new Audio("Audio/music/Music4.mp3");
+const Music5 = new Audio("Audio/music/Music5.mp3");
 const PauseModal = document.querySelector("#PauseModal");
 const PauseModalScore = document.querySelector("#PauseModalScore");
 const PauseModalScoreLabel = document.querySelector("#PauseModalScoreLabel");
@@ -28,6 +33,7 @@ const PauseModalOptionsButton = document.querySelector("#PauseModalOptionsButton
 const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton");
 const OptionsMenu = document.querySelector("#OptionsModal");
 const OptionsSFXSlider = document.querySelector("#SFXSlider");
+const OptionsMusicSlider = document.querySelector("#MusicSlider");
 const OptionsParticleSwitch = document.querySelector("#ParticleOptionsSwitch");
 const OptionsBackButton = document.querySelector("#OptionsBackButton");
 const OptionsParticleSpan = document.querySelector("#ParticleOptionsSpan");
@@ -838,6 +844,74 @@ class HighScore {
         return ScoreElement.innerHTML;
     }
 }
+class Music {
+    constructor(music) {
+        this.music = music;
+        this.current = 0;
+        this.music[this.current].play();
+    }
+    get Current() {
+        return this.music[this.current];
+    }
+    get Volume() {
+        return this.volume;
+    }
+    set Volume(value) {
+        this.volume = value;
+        this.music.forEach((value) => {
+            value.volume = this.volume;
+        });
+        this.muted = this.volume == 0;
+    }
+    get Muted() {
+        return this.muted;
+    }
+    set Muted(value) {
+        this.muted = value;
+        this.music.forEach((value) => {
+            value.muted = this.muted;
+        });
+    }
+    play() {
+        this.music[this.current].play();
+    }
+    pause() {
+        this.music[this.current].pause();
+    }
+    next() {
+        this.current = (this.current + 1) % this.music.length;
+        this.music[this.current].play();
+    }
+    previous() {
+        this.current = (this.current - 1 + this.music.length) % this.music.length;
+        this.music[this.current].play();
+    }
+    toggle() {
+        if (this.music[this.current].paused) {
+            this.music[this.current].play();
+        }
+        else {
+            this.music[this.current].pause();
+        }
+    }
+    shuffle() {
+        this.current = randomInt(0, this.music.length - 1);
+        this.music[this.current].play();
+    }
+    set continue(value) {
+        this.Continue = value;
+        if (this.Continue) {
+            this.music[this.current].onended = () => {
+                this.next();
+            };
+        }
+        else {
+            this.music[this.current].onended = () => {
+                this.music[this.current].pause();
+            };
+        }
+    }
+}
 function CreateHealth(health, MaxHealth) {
     let Health = new HealthBar(health, MaxHealth);
     return Health;
@@ -950,7 +1024,25 @@ OptionsParticleSwitch.addEventListener("change", () => {
     UseParticles = !UseParticles;
 });
 OptionsSFXSlider.addEventListener("change", () => {
+    if (OptionsSFXSlider.value == "0") {
+        SFXMuted = true;
+    }
+    else {
+        SFXMuted = false;
+    }
     UpdateSFXSlider();
+});
+OptionsMusicSlider.addEventListener("change", () => {
+    if (OptionsMusicSlider.value == "0") {
+        MusicMuted = true;
+    }
+    else {
+        MusicMuted = false;
+    }
+    MusicPlayer.Volume = parseFloat(OptionsMusicSlider.value);
+    PlayMusic();
+    MusicPlayer.shuffle();
+    MusicPlayer.continue = true;
 });
 const EnemySpawnTimeDecrement = 1;
 const EnemySpawnBias = window.innerHeight / window.innerWidth;
@@ -986,6 +1078,7 @@ let Scores = new HighScore();
 let lastScore = 0;
 let freq = 25000;
 let HS = true;
+let MusicPlayer = new Music([Music1, Music2, Music3, Music4, Music5]);
 function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
@@ -1101,6 +1194,7 @@ function PageLoad() {
     ModalEL.style.display = "flex";
     XPBar.style.display = "none";
     OptionsSFXSlider.value = "0";
+    OptionsMusicSlider.value = "0";
     CloseOptionsMenu();
     HighScoreList.style.display = "none";
     UnpauseGame();
@@ -1128,6 +1222,11 @@ function UpdateSFXSlider() {
         HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
         HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
         MissSound.volume = parseFloat(OptionsSFXSlider.value);
+    }
+}
+function PlayMusic() {
+    if (!MusicMuted) {
+        MusicPlayer.shuffle();
     }
 }
 function SpawnEnemy() {
@@ -1165,12 +1264,16 @@ function AddScore(Value) {
 }
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
-    HS = Scores.isHighScore(score);
+    if (Scores.scores.every((value) => { return value < score; })) {
+        HS = true;
+    }
+    else {
+        HS = false;
+    }
     Scores.addScore(score);
     GameStarted = false;
-    ModalEL.style.display = "flex";
+    ModalEL.setAttribute("style", "display:flex;");
     HighScoreList.innerHTML = Scores.Html;
-    HighScoreList.style.display = "block";
     console.log(Scores);
     HighScoreLabel.style.display = HS ? "block" : "none";
     BigScoreELLabel.style.display = "block";

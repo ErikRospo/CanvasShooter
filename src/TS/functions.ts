@@ -18,6 +18,8 @@ function PageLoad() {
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
     OptionsSFXSlider.value = "0";
+    OptionsMusicSlider.value = "0";
+    
     CloseOptionsMenu();
     HighScoreList.style.display = "none";
     UnpauseGame();
@@ -45,6 +47,11 @@ function UpdateSFXSlider() {
         HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
         HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
         MissSound.volume = parseFloat(OptionsSFXSlider.value);
+    }
+}
+function PlayMusic() {
+    if (!MusicMuted) {
+        MusicPlayer.shuffle();
     }
 }
 
@@ -99,17 +106,18 @@ function AddScore(Value: number) {
 
 function gameOver(AnimationID: number) {
     cancelAnimationFrame(AnimationID);
-    HS = Scores.isHighScore(score);
+    if (Scores.scores.every((value) => { return value < score })) {
+        HS = true
+    } else {
+        HS = false
+    }
     Scores.addScore(score);
     GameStarted = false;
     //and add the end screen back up
-    ModalEL.style.display = "flex";
-
+    ModalEL.setAttribute("style", "display:flex;");
     HighScoreList.innerHTML = Scores.Html;
-    HighScoreList.style.display = "block";
     console.log(Scores)
     HighScoreLabel.style.display = HS ? "block" : "none";
-
     BigScoreELLabel.style.display = "block";
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();

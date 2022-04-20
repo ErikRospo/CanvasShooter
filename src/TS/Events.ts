@@ -13,7 +13,7 @@ addEventListener("click", (event) => {
       m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
     };
     const radius = 5;
-    const damage = player.Damage
+    const damage = player.Damage;
     //add it to the projectiles list
     projectiles.push(
       new Projectile(cw, ch, radius, ProjectileColor, velocity, damage)
@@ -57,11 +57,28 @@ OptionsBackButton.addEventListener("click", () => {
 });
 
 OptionsParticleSwitch.addEventListener("change", () => {
-    UseParticles = !UseParticles;
-})
-OptionsSFXSlider.addEventListener("change", () => {
-    UpdateSFXSlider();
+  UseParticles = !UseParticles;
 });
+OptionsSFXSlider.addEventListener("change", () => {
+  if (OptionsSFXSlider.value == "0") {
+    SFXMuted = true;
+  } else {
+    SFXMuted = false;
+  }
+  UpdateSFXSlider();
+});
+OptionsMusicSlider.addEventListener("change", () => {
+  if (OptionsMusicSlider.value == "0") {
+    MusicMuted = true;
+  } else {
+    MusicMuted = false;
+  }
+  MusicPlayer.Volume=parseFloat(OptionsMusicSlider.value)
+  PlayMusic();
+  MusicPlayer.shuffle()
+  MusicPlayer.continue=true
+});
+
 // MainMenuMuteButton.addEventListener("onclick", () => {
 //     console.log("Mute Button Clicked!");
 //     updateMuteBTN(!SFXMuted);
@@ -96,7 +113,7 @@ OptionsSFXSlider.addEventListener("change", () => {
 // });
 // function StartGame() {
 //     console.log("Started Game!");
-    
+
 //     MainMenu.style.display = "none";
 //     ModalEL.style.display = "none";
 //     GameStarted = true;
