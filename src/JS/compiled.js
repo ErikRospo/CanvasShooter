@@ -696,6 +696,9 @@ class Player {
         c.fillStyle = this.color;
         c.fill();
     }
+    get willDie() {
+        return this.Health.willDie;
+    }
 }
 class Projectile {
     constructor(x, y, r, color, velocity, damage) {
@@ -844,151 +847,8 @@ class HighScore {
         return ScoreElement.innerHTML;
     }
 }
-class Music {
-    constructor(music) {
-        this.music = music;
-        this.current = 0;
-        this.music[this.current].play();
-    }
-    get Current() {
-        return this.music[this.current];
-    }
-    get Volume() {
-        return this.volume;
-    }
-    set Volume(value) {
-        this.volume = value;
-        this.music.forEach((value) => {
-            value.volume = this.volume;
-        });
-        this.muted = this.volume == 0;
-    }
-    get Muted() {
-        return this.muted;
-    }
-    set Muted(value) {
-        this.muted = value;
-        this.music.forEach((value) => {
-            value.muted = this.muted;
-        });
-    }
-    play() {
-        this.music[this.current].play();
-    }
-    pause() {
-        this.music[this.current].pause();
-    }
-    next() {
-        this.current = (this.current + 1) % this.music.length;
-        this.music[this.current].play();
-    }
-    previous() {
-        this.current = (this.current - 1 + this.music.length) % this.music.length;
-        this.music[this.current].play();
-    }
-    toggle() {
-        if (this.music[this.current].paused) {
-            this.music[this.current].play();
-        }
-        else {
-            this.music[this.current].pause();
-        }
-    }
-    shuffle() {
-        this.current = randomInt(0, this.music.length - 1);
-        this.music[this.current].play();
-    }
-    set continue(value) {
-        this.Continue = value;
-        if (this.Continue) {
-            this.music[this.current].onended = () => {
-                this.next();
-            };
-        }
-        else {
-            this.music[this.current].onended = () => {
-                this.music[this.current].pause();
-            };
-        }
-    }
-}
-function CreateHealth(health, MaxHealth) {
-    let Health = new HealthBar(health, MaxHealth);
-    return Health;
-}
-class HealthBar {
-    constructor(health, MaxHealth) {
-        this.health = health;
-        this.MaxHealth = MaxHealth;
-    }
-    get Health() {
-        return this.health;
-    }
-    get maxHealth() {
-        return this.MaxHealth;
-    }
-    set Health(health) {
-        this.health = health;
-        this.draw();
-    }
-    set maxHealth(MaxHealth) {
-        this.MaxHealth = MaxHealth;
-        this.draw();
-    }
-    addHealth(health) {
-        this.health += health;
-        this.draw();
-        return this.health;
-    }
-    removeHealth(health) {
-        this.health -= health;
-        this.draw();
-        return this.health;
-    }
-    draw() {
-        let healthBarEl = document.getElementById("healthBar");
-        let healthBarSpanCount = healthBarEl.children.length;
-        let healthBarSpanMax = this.MaxHealth;
-        for (let i = 0; i < healthBarSpanCount; i++) {
-            healthBarEl.removeChild(healthBarEl.firstChild);
-        }
-        for (let i = 0; i < healthBarSpanMax; i++) {
-            let healthBarSpan = document.createElement("span");
-            healthBarSpan.classList.add("material-icons");
-            healthBarSpan.classList.add("healthBarSpan");
-            healthBarEl.appendChild(healthBarSpan);
-        }
-        let healthBarSpans = healthBarEl.children;
-        for (let i = 0; i < healthBarSpanMax; i++) {
-            var el = healthBarSpans.item(i);
-            el.innerText = "favorite";
-            if (i < this.health) {
-                el.style.color = "red";
-            }
-            else {
-                el.style.color = "grey";
-            }
-        }
-    }
-}
-addEventListener("click", (event) => {
-    if (GameStarted == true && Paused == false) {
-        const x = event.clientX;
-        const y = event.clientY;
-        const angle = Math.atan2(y - ch, x - cw);
-        const velocity = {
-            x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
-            y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
-            m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
-        };
-        const radius = 5;
-        const damage = player.Damage;
-        projectiles.push(new Projectile(cw, ch, radius, ProjectileColor, velocity, damage));
-        if (!SFXMuted) {
-            ShootSound.play();
-        }
-    }
-});
+addEventListener("click", (event) => spawnProjectile(event.clientX, clientY));
+addEventListener("mousemove", (event) => updateMouseCoords(event));
 addEventListener("load", () => {
     PageLoad();
 });
@@ -1010,6 +870,9 @@ addEventListener("keypress", (event) => {
             OptionsOpen = false;
             UnpauseGame();
         }
+    }
+    else if (event.key == "space" && GameStarted) {
+        spawnProjectile();
     }
 });
 PauseModalOptionsButton.addEventListener("click", () => {
@@ -1079,6 +942,8 @@ let lastScore = 0;
 let freq = 25000;
 let HS = true;
 let MusicPlayer = new Music([Music1, Music2, Music3, Music4, Music5]);
+let mouseX = 0;
+let mouseY = 0;
 function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
@@ -1120,11 +985,11 @@ function animate() {
             enemy.update();
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             if (dist - enemy.radius - player.radius < 0) {
-                if (player.Health.Health - 1 == 0) {
+                if (player.willDie) {
                     gameOver(animationID);
                 }
                 else {
-                    player.Health.removeHealth(1);
+                    player.Health.removeHealth();
                     if (!SFXMuted) {
                         HealthLooseSound.play();
                     }
@@ -1310,4 +1175,24 @@ function CloseOptionsMenu() {
     OptionsOpen = false;
 }
 ;
+function spawnProjectile(x = mouseX, y = mouseY) {
+    if (GameStarted == true && Paused == false) {
+        const angle = Math.atan2(y - ch, x - cw);
+        const velocity = {
+            x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
+            y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
+            m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
+        };
+        const radius = 5;
+        const damage = player.Damage;
+        projectiles.push(new Projectile(cw, ch, radius, ProjectileColor, velocity, damage));
+        if (!SFXMuted) {
+            ShootSound.play();
+        }
+    }
+}
+function updateMouseCoords(event) {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+}
 //# sourceMappingURL=compiled.js.map
