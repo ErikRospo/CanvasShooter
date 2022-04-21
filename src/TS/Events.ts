@@ -1,28 +1,6 @@
 //whenever the user clicks, spawn a projectile
-addEventListener("click", (event) => {
-  if (GameStarted == true && Paused == false) {
-    //get the x and y of the click
-    const x = event.clientX;
-    const y = event.clientY;
-    //find the angle from the center
-    const angle = Math.atan2(y - ch, x - cw);
-    //set velocity accordingly
-    const velocity = {
-      x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
-      y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
-      m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
-    };
-    const radius = 5;
-    const damage = player.Damage;
-    //add it to the projectiles list
-    projectiles.push(
-      new Projectile(cw, ch, radius, ProjectileColor, velocity, damage)
-    );
-    if (!SFXMuted) {
-      ShootSound.play();
-    }
-  }
-});
+addEventListener("click", (event) => spawnProjectile(event.clientX, clientY));
+addEventListener("mousemove", (event) => updateMouseCoords(event));
 addEventListener("load", () => {
   PageLoad();
 });
@@ -45,6 +23,9 @@ addEventListener("keypress", (event) => {
       OptionsOpen = false;
       UnpauseGame();
     }
+  } else if (event.key == "space" && GameStarted) {
+    spawnProjectile()
+
   }
 });
 PauseModalOptionsButton.addEventListener("click", () => {

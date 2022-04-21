@@ -154,3 +154,29 @@ function CloseOptionsMenu() {
     OptionsParticleSwitch.style.display = "none";
     OptionsOpen = false;
 };
+function spawnProjectile(x=mouseX, y=mouseY) {
+    if (GameStarted == true && Paused == false) {
+        //get the x and y of the click
+        //find the angle from the center
+        const angle = Math.atan2(y - ch, x - cw);
+        //set velocity accordingly
+        const velocity = {
+            x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
+            y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
+            m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
+        };
+        const radius = 5;
+        const damage = player.Damage;
+        //add it to the projectiles list
+        projectiles.push(
+            new Projectile(cw, ch, radius, ProjectileColor, velocity, damage)
+        );
+        if (!SFXMuted) {
+            ShootSound.play();
+        }
+    }
+}
+function updateMouseCoords(event) {
+    mouseX = event.clientX
+    mouseY = event.clientY
+}

@@ -33,3 +33,5 @@ let lastScore = 0 as number;
 let freq = 25000 as number;
 let HS = true as boolean;
 let MusicPlayer = new Music([Music1, Music2, Music3, Music4, Music5]) as Music;
+let mouseX=0 as number;
+let mouseY=0 as number;
