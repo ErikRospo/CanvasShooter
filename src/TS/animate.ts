@@ -52,10 +52,10 @@ function animate() {
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             //if the enemy is touching the player, end the game
             if (dist - enemy.radius - player.radius < 0) {
-                if (player.Health.Health - 1 == 0) {
+                if (player.willDie) {
                     gameOver(animationID);
                 } else {
-                    player.Health.removeHealth(1);
+                    player.Health.removeHealth();
                     if (!SFXMuted) {
                         HealthLooseSound.play();
                     };

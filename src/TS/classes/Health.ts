@@ -23,15 +23,23 @@ class HealthBar {
         this.MaxHealth = MaxHealth;
         this.draw();
     }
-    public addHealth(health: number) {
+    public addHealth(health: number|1) {
+        if (this.health<this.maxHealth){
         this.health += health;
+    }
         this.draw()
         return this.health;
     }
-    public removeHealth(health: number) {
+    public removeHealth(health: number|1) {
         this.health -= health;
         this.draw()
         return this.health;
+    }
+    public get willDie():boolean{
+        return ((this.health-1)<=0)
+    }
+    public get dead():boolean{
+        return this.health==0
     }
     public draw() {
         //Define a draw function that gets the health bar dom element and updates it

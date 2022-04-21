@@ -37,19 +37,22 @@ class Player {
         SetDebugItem(this.Health.Health, "playerHealth");
     }
 
-    update() {
+    public update() {
         SetDebugItem(this.Health.Health, "playerHealth");
         this.draw()
         this.drawHealth()
 
     }
-    drawHealth() {
+    public drawHealth() {
         this.Health.draw();
     }
-    draw() {
+    public draw() {
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
         c.fill();
+    }
+    public get willDie(): boolean {
+        return this.Health.willDie
     }
 }
