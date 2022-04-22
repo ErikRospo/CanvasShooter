@@ -18,7 +18,6 @@ function animate() {
         AnimateProgressBar(animationID);
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade out effect
-        c.fillStyle = `rgba(${BackgroundColor},0.1)`;
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
             //draw the particles
@@ -33,7 +32,7 @@ function animate() {
         //draw the projectiles
         projectiles.forEach((projectile, index) => {
             projectile.update();
-            //if the projectile is off the screen, delete it. This saves rendering time
+            //if the projectile is off the screen, delete it. This saves rendering time, and improves performance.
             if ((projectile.x + projectile.radius < 0) ||
                 (projectile.y + projectile.radius < 0) ||
                 (projectile.x - projectile.radius > w) ||
@@ -69,7 +68,7 @@ function animate() {
             projectiles.forEach((projectile, index2) => {
                 //get the distance between the projectile and the enemy
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
-                // if dist minus the radiuses of the enemy and the projectile are less than 0
+                // if dist minus the radiuses of the enemy and the projectile are less than 0, shrink or destroy the enemy
                 if (dist - enemy.radius - projectile.radius < 0) {
                     for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
                         //add a particle to the rendering list
@@ -111,6 +110,14 @@ function animate() {
                         }, 2);
                     }
                 }
+                if (dist - enemy.radius - projectile.radius < 20) {
+                    if (!SFXMuted) {
+                        MissSound.play();
+                    }
+
+
+                }
+
             });
         });
         if ((lastScore % freq > score % freq) && (score != 0)) {

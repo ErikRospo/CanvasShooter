@@ -48,6 +48,8 @@ const ch = h / 2;
 const DEBUGFLAG = true;
 let SFXMuted = true;
 let OptionsOpen = false;
+let mouseX = 0;
+let mouseY = 0;
 const RotateLeft = (lValue, iShiftBits) => (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 function AddUnsigned(lX, lY) {
     const lX8 = lX & 0x80000000;
@@ -663,6 +665,73 @@ class Halo {
         }
     }
 }
+function CreateHealth(health, MaxHealth) {
+    let Health = new HealthBar(health, MaxHealth);
+    return Health;
+}
+class HealthBar {
+    constructor(health, MaxHealth) {
+        this.health = health;
+        this.MaxHealth = MaxHealth;
+    }
+    get Health() {
+        return this.health;
+    }
+    get maxHealth() {
+        return this.MaxHealth;
+    }
+    set Health(health) {
+        this.health = health;
+        this.draw();
+    }
+    set maxHealth(MaxHealth) {
+        this.MaxHealth = MaxHealth;
+        this.draw();
+    }
+    addHealth(health) {
+        if (this.health < this.maxHealth) {
+            this.health += health;
+        }
+        this.draw();
+        return this.health;
+    }
+    removeHealth(health = 1) {
+        this.health -= health;
+        this.draw();
+        return this.health;
+    }
+    get willDie() {
+        return ((this.health - 1) <= 0);
+    }
+    get dead() {
+        return this.health == 0;
+    }
+    draw() {
+        let healthBarEl = document.getElementById("healthBar");
+        let healthBarSpanCount = healthBarEl.children.length;
+        let healthBarSpanMax = this.MaxHealth;
+        for (let i = 0; i < healthBarSpanCount; i++) {
+            healthBarEl.removeChild(healthBarEl.firstChild);
+        }
+        for (let i = 0; i < healthBarSpanMax; i++) {
+            let healthBarSpan = document.createElement("span");
+            healthBarSpan.classList.add("material-icons");
+            healthBarSpan.classList.add("healthBarSpan");
+            healthBarEl.appendChild(healthBarSpan);
+        }
+        let healthBarSpans = healthBarEl.children;
+        for (let i = 0; i < healthBarSpanMax; i++) {
+            var el = healthBarSpans.item(i);
+            el.innerText = "favorite";
+            if (i < this.health) {
+                el.style.color = "red";
+            }
+            else {
+                el.style.color = "grey";
+            }
+        }
+    }
+}
 class Player {
     constructor(x, y, radius, color) {
         this.x = x;
@@ -847,7 +916,130 @@ class HighScore {
         return ScoreElement.innerHTML;
     }
 }
-addEventListener("click", (event) => spawnProjectile(event.clientX, clientY));
+class Music {
+    constructor(music) {
+        this.music = music;
+        this.current = 0;
+        this.music[this.current].play();
+    }
+    get Current() {
+        return this.music[this.current];
+    }
+    get Volume() {
+        return this.volume;
+    }
+    set Volume(value) {
+        this.volume = value;
+        this.music.forEach((value) => {
+            value.volume = this.volume;
+        });
+        this.muted = this.volume == 0;
+    }
+    get Muted() {
+        return this.muted;
+    }
+    set Muted(value) {
+        this.muted = value;
+        this.music.forEach((value) => {
+            value.muted = this.muted;
+        });
+    }
+    play() {
+        this.stopAll();
+        this.music[this.current].play();
+    }
+    pause() {
+        this.music[this.current].pause();
+    }
+    next() {
+        this.current = (this.current + 1) % this.music.length;
+        this.music[this.current].play();
+    }
+    previous() {
+        this.current = (this.current - 1 + this.music.length) % this.music.length;
+        this.music[this.current].play();
+    }
+    toggle() {
+        if (this.music[this.current].paused) {
+            this.music[this.current].play();
+        }
+        else {
+            this.music[this.current].pause();
+        }
+    }
+    shuffle() {
+        this.current = randomInt(0, this.music.length - 1);
+        this.music[this.current].play();
+    }
+    set continue(value) {
+        this.Continue = value;
+        if (this.Continue) {
+            this.music[this.current].onended = () => {
+                this.next();
+            };
+        }
+        else {
+            this.music[this.current].onended = () => {
+                this.music[this.current].pause();
+            };
+        }
+    }
+    stop() {
+        this.music[this.current].pause();
+        this.music[this.current].currentTime = 0;
+    }
+    stopAll() {
+        this.music.forEach((value) => {
+            value.pause();
+            value.currentTime = 0;
+        });
+    }
+    get playing() {
+        let count = 0;
+        this.music.forEach((value) => {
+            if (!value.paused) {
+                count++;
+            }
+        });
+        return count;
+    }
+}
+const EnemySpawnTimeDecrement = 1;
+const EnemySpawnBias = window.innerHeight / window.innerWidth;
+const EnemyHealthMultiplier = 1;
+const EnemySpeedMultiplier = 1;
+const ProjectileSpeedMultiplier = 1;
+const ProjectileColor = "white";
+const PlayerColor = "white";
+const PlayerRadius = 10;
+const BackgroundColor = "0,0,0";
+const ParticleFriction = 0.99;
+const ParticleMultiplier = 2;
+const ParticleSpeed = 5;
+const ParticleFadeSpeedMultiplier = 1;
+const MaxEnemies = 10;
+const TWOPI = Math.PI * 2;
+let player = new Player(cw, ch, PlayerRadius, PlayerColor);
+let projectiles = [];
+let enemies = [];
+let particles = [];
+let GameStarted = false;
+let UseParticles = true;
+let Paused = false;
+let ShopOpen = false;
+let MusicMuted = true;
+let lastInterval;
+let EnemySpawnTime = 50;
+let animationID;
+let score = 0;
+let DefaultEnemySpawnTime = 50;
+let enemiesToRemove = [];
+let Scores = new HighScore();
+let lastScore = 0;
+let freq = 25000;
+let HS = true;
+let MusicPlayer = new Music([Music1]);
+addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
 addEventListener("mousemove", (event) => updateMouseCoords(event));
 addEventListener("load", () => {
     PageLoad();
@@ -907,43 +1099,6 @@ OptionsMusicSlider.addEventListener("change", () => {
     MusicPlayer.shuffle();
     MusicPlayer.continue = true;
 });
-const EnemySpawnTimeDecrement = 1;
-const EnemySpawnBias = window.innerHeight / window.innerWidth;
-const EnemyHealthMultiplier = 1;
-const EnemySpeedMultiplier = 1;
-const ProjectileSpeedMultiplier = 1;
-const ProjectileColor = "white";
-const PlayerColor = "white";
-const PlayerRadius = 10;
-const BackgroundColor = "0,0,0";
-const ParticleFriction = 0.99;
-const ParticleMultiplier = 2;
-const ParticleSpeed = 5;
-const ParticleFadeSpeedMultiplier = 1;
-const MaxEnemies = 10;
-const TWOPI = Math.PI * 2;
-let player = new Player(cw, ch, PlayerRadius, PlayerColor);
-let projectiles = [];
-let enemies = [];
-let particles = [];
-let GameStarted = false;
-let UseParticles = true;
-let Paused = false;
-let ShopOpen = false;
-let MusicMuted = true;
-let lastInterval;
-let EnemySpawnTime = 50;
-let animationID;
-let score = 0;
-let DefaultEnemySpawnTime = 50;
-let enemiesToRemove = [];
-let Scores = new HighScore();
-let lastScore = 0;
-let freq = 25000;
-let HS = true;
-let MusicPlayer = new Music([Music1, Music2, Music3, Music4, Music5]);
-let mouseX = 0;
-let mouseY = 0;
 function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
@@ -1063,6 +1218,7 @@ function PageLoad() {
     CloseOptionsMenu();
     HighScoreList.style.display = "none";
     UnpauseGame();
+    MusicPlayer.pause();
     AddDebugItem(0, "playerLevel");
     AddDebugItem(0, "playerCashedLevels");
     AddDebugItem(false, "CantSpawn");

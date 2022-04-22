@@ -1,5 +1,5 @@
 //whenever the user clicks, spawn a projectile
-addEventListener("click", (event) => spawnProjectile(event.clientX, clientY));
+addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
 addEventListener("mousemove", (event) => updateMouseCoords(event));
 addEventListener("load", () => {
   PageLoad();

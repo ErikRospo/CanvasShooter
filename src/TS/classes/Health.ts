@@ -30,7 +30,7 @@ class HealthBar {
         this.draw()
         return this.health;
     }
-    public removeHealth(health: number|1) {
+    public removeHealth(health = 1) {
         this.health -= health;
         this.draw()
         return this.health;

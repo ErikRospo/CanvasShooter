@@ -32,6 +32,9 @@ class Music {
     });
   }
   public play(): void {
+    this.stopAll()
+
+
     this.music[this.current].play();
   }
   public pause(): void {
@@ -68,6 +71,25 @@ class Music {
         this.music[this.current].pause();
       };
     }
-
+  }
+  public stop(): void {
+    this.music[this.current].pause();
+    this.music[this.current].currentTime = 0;
+  }
+  public stopAll(): void {
+    this.music.forEach((value) => {
+      value.pause();
+      value.currentTime = 0;
+    });
+  }
+  //define a function that gets the number of songs currently playing
+  public get playing(): number {
+    let count = 0;
+    this.music.forEach((value) => {
+      if (!value.paused) {
+        count++;
+      }
+    });
+    return count;
   }
 }

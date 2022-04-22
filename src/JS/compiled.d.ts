@@ -44,6 +44,8 @@ declare const ch: number;
 declare const DEBUGFLAG = true;
 declare let SFXMuted: boolean;
 declare let OptionsOpen: boolean;
+declare let mouseX: number;
+declare let mouseY: number;
 declare const RotateLeft: (lValue: number, iShiftBits: number) => number;
 declare function AddUnsigned(lX: number, lY: number): number;
 declare const F: (x: number, y: number, z: number) => number;
@@ -174,6 +176,21 @@ declare class Halo {
     fix(): void;
     draw(width: any): void;
 }
+declare function CreateHealth(health: number, MaxHealth?: number | 5): HealthBar;
+declare class HealthBar {
+    private health;
+    private MaxHealth;
+    constructor(health: number, MaxHealth?: number | 5);
+    get Health(): number;
+    get maxHealth(): number | 5;
+    set Health(health: number);
+    set maxHealth(MaxHealth: number | 5);
+    addHealth(health: number | 1): number;
+    removeHealth(health?: number): number;
+    get willDie(): boolean;
+    get dead(): boolean;
+    draw(): void;
+}
 declare class Player {
     x: number;
     y: number;
@@ -195,6 +212,7 @@ declare class Player {
     update(): void;
     drawHealth(): void;
     draw(): void;
+    get willDie(): boolean;
 }
 declare class Projectile {
     x: number;
@@ -284,19 +302,9 @@ declare class Music {
     toggle(): void;
     shuffle(): void;
     set continue(value: boolean);
-}
-declare function CreateHealth(health: number, MaxHealth?: number | 5): HealthBar;
-declare class HealthBar {
-    private health;
-    private MaxHealth;
-    constructor(health: number, MaxHealth?: number | 5);
-    get Health(): number;
-    get maxHealth(): number | 5;
-    set Health(health: number);
-    set maxHealth(MaxHealth: number | 5);
-    addHealth(health: number): number;
-    removeHealth(health: number): number;
-    draw(): void;
+    stop(): void;
+    stopAll(): void;
+    get playing(): number;
 }
 declare const EnemySpawnTimeDecrement: number;
 declare const EnemySpawnBias: number;
@@ -345,3 +353,5 @@ declare function PauseGame(): void;
 declare function UnpauseGame(): void;
 declare function OpenOptionsMenu(): void;
 declare function CloseOptionsMenu(): void;
+declare function spawnProjectile(x?: number, y?: number): void;
+declare function updateMouseCoords(event: any): void;
