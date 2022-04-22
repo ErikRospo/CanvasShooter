@@ -302,6 +302,7 @@ html {
     text-align: center;
     align-self: center;
     justify-self: center;
+    text-shadow: rgb(75, 75, 75) 2px 2px;
     right: 10px;
     left: 10px;
     top: 50px;
@@ -327,6 +328,7 @@ html {
     height: 45px;
     align-self: center;
     text-align: center;
+    font-size: large;
     bottom: 50px;
     background-color: rgb(50, 100, 200);
     color: white;
@@ -348,6 +350,7 @@ html {
     height: 45px;
     align-self: center;
     text-align: center;
+    font-size: large;
     bottom: 100px;
     background-color: rgb(50, 200, 50);
     color: white;
