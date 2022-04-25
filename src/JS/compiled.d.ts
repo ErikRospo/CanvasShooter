@@ -94,21 +94,24 @@ declare function randomChoice(value: any[]): any;
 declare function randomChoiceNot(value: any[], not: any[]): any;
 declare function randomBetweenNot(min: number, max: number, not: number[]): number;
 declare function intBetweenNot(min: number, max: number, not: number[]): number;
-declare function coinFlip(bias?: number | 0.5): boolean;
+declare function coinFlip(bias: number | 0.5): boolean;
 declare function clip(n: number, min: number, max: number): number;
 declare function strictScale(i: number, imin: number, imax: number, omin: number, omax: number): number;
 declare function sum(input: Array<number>): number;
 declare function minl(numbers: ArrayLike<number>): number;
 declare function maxl(numbers: ArrayLike<number>): number;
-declare function AddDebugItem(value: any, id: string): HTMLUListElement;
-declare function SetDebugItem(value: any, id: string): HTMLElement;
+declare function smoothStep(x: number, min: number, max: number): number;
+declare function sigmoid(x: number, k: number): number;
+declare function smoothSigmoid(x: number, k: number): number;
+declare function AddDebugItem(value: any, id: string): HTMLUListElement | null;
+declare function SetDebugItem(value: any, id: string): HTMLElement | null;
 declare class Upgrade {
     effects: Effect[];
     requirements: Requirement[];
     Description: string;
     color: string;
     name: string;
-    constructor(name: string, description?: string);
+    constructor(name: string, description: string);
     addEffect(effect: Effect): void;
     addRequirement(requirement: Requirement): void;
 }
@@ -131,11 +134,11 @@ declare class Effect {
     apply(player: Player): void;
 }
 declare class Requirement {
-    requirement1: Upgrade | null;
-    requirement2: Upgrade | null;
+    requirement1: Upgrade;
+    requirement2: Upgrade;
     operation: string;
     not: boolean;
-    constructor(requirement1: Upgrade | null, requirement2: Upgrade | null, operation: string, not: boolean);
+    constructor(requirement1: Upgrade, requirement2: Upgrade, operation: string, not: boolean);
     IsRequirementTrue(upgrades: Upgrade[]): boolean;
 }
 declare function CreateUpgrades(): Upgrade[];
@@ -159,9 +162,8 @@ declare class Halo {
         x: number;
         y: number;
         radius: number;
-    }, moving: false | number);
+    }, moving: false | number, speed: number);
     private checkForValidity;
-    range(index: number): Array<number>;
     updateVals(parent: {
         x: number;
         y: number;
@@ -174,13 +176,13 @@ declare class Halo {
     }): void;
     step(dt: number): void;
     fix(): void;
-    draw(width: any): void;
+    draw(width: number): void;
 }
-declare function CreateHealth(health: number, MaxHealth?: number | 5): HealthBar;
+declare function CreateHealth(health: number, MaxHealth: number | 5): HealthBar;
 declare class HealthBar {
     private health;
     private MaxHealth;
-    constructor(health: number, MaxHealth?: number | 5);
+    constructor(health: number, MaxHealth: number | 5);
     get Health(): number;
     get maxHealth(): number | 5;
     set Health(health: number);
@@ -196,8 +198,6 @@ declare class Player {
     y: number;
     radius: number;
     color: string;
-    Money: number;
-    moneyMult: number;
     Damage: number;
     ShotSpeed: number;
     ShotsFired: number;
@@ -243,16 +243,13 @@ declare class Enemy {
     startingRadius: number;
     id: any;
     timeCreated: string | Date;
-    private salt;
-    pepper: number | null;
     minHealth: number;
     burning: boolean;
     haloObject: Halo;
     constructor(x: number, y: number, r: number, color: string, velocity: {
         x: number;
         y: number;
-    }, pepper?: number);
-    private get toString();
+    });
     draw(): void;
     update(): void;
     ShouldDie(damage: number): boolean;
@@ -353,5 +350,5 @@ declare function PauseGame(): void;
 declare function UnpauseGame(): void;
 declare function OpenOptionsMenu(): void;
 declare function CloseOptionsMenu(): void;
-declare function spawnProjectile(x?: number, y?: number): void;
-declare function updateMouseCoords(event: any): void;
+declare function spawnProjectile(this: any, x?: number, y?: number): void;
+declare function updateMouseCoords(event: MouseEvent): void;

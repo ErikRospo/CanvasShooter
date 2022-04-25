@@ -8,7 +8,7 @@ class Halo{
     moving:false|number
     isValid: boolean
     speed: number
-    constructor(starts:Array<number>,ends:Array<number>,colors:Array<string>,parent:{x:number,y:number,radius:number},moving:false|number) {
+    constructor(starts: Array<number>, ends: Array<number>, colors: Array<string>, parent: { x: number, y: number, radius: number; }, moving: false | number, speed: number) {
         this.starts=starts
         this.ends=ends
         this.colors=colors
@@ -17,33 +17,26 @@ class Halo{
         this.y=parent.y
         this.radius=parent.radius
         this.moving=moving
+        this.speed = speed
     }
     private checkForValidity() {
         if (this.starts.length!=this.ends.length){
             throw new Error("Starts And Ends length must be the same");
-            return false;
         }
         if (this.starts.length!=this.colors.length){
             throw new Error("Starts And Colors length must be the same");
-            return false;
         }
         if (this.colors.length!=this.ends.length){
             throw new Error("Colors And Ends length must be the same");
-            return false
         }
         if (this.starts.some((value)=>{return value>TWOPI||value<0})){
             throw new Error("Starts must be in the range 0-2*PI");
-            return false;
         }
         if (this.ends.some((value)=>{return value>TWOPI||value<0})){
             throw new Error("Ends must be in the range 0-2*PI");
-            return false
         }
 
         return true;
-    }
-    public range(index: number): Array<number> {
-        return [this.starts[index], this.ends[index], this.colors.values[index]]
     }
     public updateVals(parent:{x:number,y:number,radius:number}){
         this.x=parent.x
@@ -64,12 +57,14 @@ class Halo{
                     this.starts[index]+=0.01*dt
                     this.ends[index]+=0.01*dt
                 }
+                break;
             case 2:
                 for (let index = 0; index < this.starts.length; index++) {
                     this.speed = random(-0.5, 2)
                     this.starts[index]+=0.01*dt*this.speed
                     this.ends[index]+=0.01*dt*this.speed
                 }
+                break;
             default:
                 break;
         }
@@ -82,11 +77,9 @@ class Halo{
     }
     /**
      * draw
-     * @param {number} w
-     * @param {CanvasRenderingContext2D} canvas 
-     * 
+     * @param {number} width
      */
-    public draw(width) {
+    public draw(width: number) {
         let canvas = c
         for (let index = 0; index < this.starts.length; index++) {
             canvas.fillStyle=this.colors[index]

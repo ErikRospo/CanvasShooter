@@ -4,8 +4,6 @@ class Player {
     y: number;
     radius: number;
     color: string;
-    Money: number;
-    moneyMult: number;
     Damage: number;
     ShotSpeed: number;
     ShotsFired: number;

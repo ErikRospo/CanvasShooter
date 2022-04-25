@@ -1,3 +1,4 @@
+"use strict";
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 canvas.width = innerWidth;
@@ -312,18 +313,28 @@ function sum(input) {
     return result;
 }
 function minl(numbers) {
-    let v;
+    let v = numbers[0];
     for (let i = 0; i <= numbers.length; i++) {
         v = Math.min(v, numbers[i]);
     }
     return v;
 }
 function maxl(numbers) {
-    let v;
+    let v = numbers[0];
     for (let i = 0; i <= numbers.length; i++) {
         v = Math.max(v, numbers[i]);
     }
     return v;
+}
+function smoothStep(x, min, max) {
+    let t = (x - min) / (max - min);
+    return t * t * (3 - 2 * t);
+}
+function sigmoid(x, k) {
+    return 1 / (1 + Math.exp(-k * x));
+}
+function smoothSigmoid(x, k) {
+    return smoothStep(sigmoid(x, k), 0, 1);
 }
 function AddDebugItem(value, id) {
     if (!DEBUGFLAG) {
@@ -341,6 +352,13 @@ function SetDebugItem(value, id) {
         return null;
     }
     var node = document.getElementById(id);
+    if (node == null) {
+        AddDebugItem(value, id);
+        node = document.getElementById(id);
+    }
+    if (node == null) {
+        return null;
+    }
     node.innerText = id.toString() + ": " + value.toString();
     return node;
 }
@@ -376,6 +394,7 @@ class UpgradeList {
 class AllUpgradesList extends UpgradeList {
     constructor(Upgrades) {
         super(Upgrades);
+        this.availableUpgrades = Upgrades;
     }
     get availibility() {
         return this.upgrades.filter((value, _, array) => {
@@ -474,7 +493,6 @@ class Requirement {
         this.not = not;
     }
     IsRequirementTrue(upgrades) {
-        upgrades.push(null);
         if (this.operation == "or") {
             if (!this.not) {
                 return ((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
@@ -494,9 +512,14 @@ class Requirement {
         else if (this.operation == "not") {
             return ((upgrades.indexOf(this.requirement1) == -1));
         }
+        else {
+            return false;
+        }
+        return false;
     }
 }
 function CreateUpgrades() {
+    let nullUpgrade = new Upgrade("", "");
     let upgrade1 = new Upgrade("gigantisizer", "increases projectile size, decreases projectile speed.");
     let upgrade2 = new Upgrade("shrinker", "decreases projectile size, increases projectile speed.");
     let upgrade3 = new Upgrade("tankifier", "increases health, decreases everything else.");
@@ -517,10 +540,10 @@ function CreateUpgrades() {
     upgrade4.addEffect(new Effect("ss", 0.5, 3));
     upgrade5.addEffect(new Effect("ss", 20, 3));
     upgrade5.addEffect(new Effect("d", 0.5, 3));
-    upgrade1.addRequirement(new Requirement(upgrade2, null, "not", false));
-    upgrade2.addRequirement(new Requirement(upgrade1, null, "not", false));
-    upgrade4.addRequirement(new Requirement(upgrade5, null, "not", false));
-    upgrade5.addRequirement(new Requirement(upgrade4, null, "not", false));
+    upgrade1.addRequirement(new Requirement(upgrade2, nullUpgrade, "not", false));
+    upgrade2.addRequirement(new Requirement(upgrade1, nullUpgrade, "not", false));
+    upgrade4.addRequirement(new Requirement(upgrade5, nullUpgrade, "not", false));
+    upgrade5.addRequirement(new Requirement(upgrade4, nullUpgrade, "not", false));
     upgrades.push(upgrade1);
     upgrades.push(upgrade2);
     upgrades.push(upgrade3);
@@ -582,7 +605,7 @@ function CheckForLevelUp() {
     }
 }
 class Halo {
-    constructor(starts, ends, colors, parent, moving) {
+    constructor(starts, ends, colors, parent, moving, speed) {
         this.starts = starts;
         this.ends = ends;
         this.colors = colors;
@@ -591,32 +614,25 @@ class Halo {
         this.y = parent.y;
         this.radius = parent.radius;
         this.moving = moving;
+        this.speed = speed;
     }
     checkForValidity() {
         if (this.starts.length != this.ends.length) {
             throw new Error("Starts And Ends length must be the same");
-            return false;
         }
         if (this.starts.length != this.colors.length) {
             throw new Error("Starts And Colors length must be the same");
-            return false;
         }
         if (this.colors.length != this.ends.length) {
             throw new Error("Colors And Ends length must be the same");
-            return false;
         }
         if (this.starts.some((value) => { return value > TWOPI || value < 0; })) {
             throw new Error("Starts must be in the range 0-2*PI");
-            return false;
         }
         if (this.ends.some((value) => { return value > TWOPI || value < 0; })) {
             throw new Error("Ends must be in the range 0-2*PI");
-            return false;
         }
         return true;
-    }
-    range(index) {
-        return [this.starts[index], this.ends[index], this.colors.values[index]];
     }
     updateVals(parent) {
         this.x = parent.x;
@@ -637,12 +653,14 @@ class Halo {
                     this.starts[index] += 0.01 * dt;
                     this.ends[index] += 0.01 * dt;
                 }
+                break;
             case 2:
                 for (let index = 0; index < this.starts.length; index++) {
                     this.speed = random(-0.5, 2);
                     this.starts[index] += 0.01 * dt * this.speed;
                     this.ends[index] += 0.01 * dt * this.speed;
                 }
+                break;
             default:
                 break;
         }
@@ -708,10 +726,27 @@ class HealthBar {
     }
     draw() {
         let healthBarEl = document.getElementById("healthBar");
+        if (healthBarEl == null) {
+            throw new Error("Health bar element not found");
+        }
         let healthBarSpanCount = healthBarEl.children.length;
         let healthBarSpanMax = this.MaxHealth;
         for (let i = 0; i < healthBarSpanCount; i++) {
-            healthBarEl.removeChild(healthBarEl.firstChild);
+            try {
+                healthBarEl.removeChild(healthBarEl.children[0]);
+            }
+            catch (error) {
+                if (error instanceof TypeError) {
+                    console.log("Health bar span not found");
+                }
+                else if (error instanceof RangeError) {
+                    console.log("Health bar span not found");
+                }
+                else if (error instanceof ReferenceError) {
+                    console.log("Health bar span not found");
+                }
+                console.log("Health bar span not found");
+            }
         }
         for (let i = 0; i < healthBarSpanMax; i++) {
             let healthBarSpan = document.createElement("span");
@@ -795,7 +830,7 @@ class Projectile {
     }
 }
 class Enemy {
-    constructor(x, y, r, color, velocity, pepper) {
+    constructor(x, y, r, color, velocity) {
         this.x = x;
         this.y = y;
         this.radius = r;
@@ -804,14 +839,8 @@ class Enemy {
         this.startingRadius = this.radius;
         this.minHealth = 5;
         this.timeCreated = Date();
-        this.salt = randomBetween(0, 1000);
-        this.pepper = pepper;
-        this.id = md5(this.toString);
         this.burning = false;
-        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "ff8800", "ffff00"], this, 2);
-    }
-    get toString() {
-        return JSON.stringify(this);
+        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "ff8800", "ffff00"], this, 2, 2);
     }
     draw() {
         if (DEBUGFLAG) {
@@ -921,6 +950,9 @@ class Music {
         this.music = music;
         this.current = 0;
         this.music[this.current].play();
+        this.volume = 1;
+        this.muted = false;
+        this.Continue = true;
     }
     get Current() {
         return this.music[this.current];
@@ -1112,7 +1144,6 @@ function animate() {
         SetDebugItem(EnemySpawnTime, "SpawnTime");
         player.update();
         AnimateProgressBar(animationID);
-        c.fillStyle = `rgba(${BackgroundColor},0.1)`;
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
             particles.forEach((particle, index) => {
@@ -1141,6 +1172,7 @@ function animate() {
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
             if (dist - enemy.radius - player.radius < 0) {
                 if (player.willDie) {
+                    player.Health.removeHealth();
                     gameOver(animationID);
                 }
                 else {
@@ -1182,6 +1214,11 @@ function animate() {
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
                         }, 2);
+                    }
+                }
+                if (dist - enemy.radius - projectile.radius < 20) {
+                    if (!SFXMuted) {
+                        MissSound.play();
                     }
                 }
             });
@@ -1251,7 +1288,7 @@ function PlayMusic() {
     }
 }
 function SpawnEnemy() {
-    function genEnemy(pepper) {
+    function genEnemy() {
         let x;
         let y;
         const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
@@ -1269,14 +1306,9 @@ function SpawnEnemy() {
             x: Math.cos(angle) * EnemySpeedMultiplier,
             y: Math.sin(angle) * EnemySpeedMultiplier
         };
-        return new Enemy(x, y, radius, color, velocity, pepper);
+        return new Enemy(x, y, radius, color, velocity);
     }
-    let tryEnemy = genEnemy();
-    while (enemies.find((value) => { return value.id == tryEnemy.id; }) != undefined) {
-        tryEnemy = genEnemy(Math.random());
-        console.count("collisions: ");
-    }
-    enemies.push(tryEnemy);
+    enemies.push(genEnemy());
 }
 function AddScore(Value) {
     score += Value;

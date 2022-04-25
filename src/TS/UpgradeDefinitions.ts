@@ -1,4 +1,5 @@
 function CreateUpgrades(): Upgrade[] {
+    let nullUpgrade = new Upgrade("", "")
     let upgrade1 = new Upgrade("gigantisizer", "increases projectile size, decreases projectile speed.")
     let upgrade2 = new Upgrade("shrinker", "decreases projectile size, increases projectile speed.")
     let upgrade3 = new Upgrade("tankifier", "increases health, decreases everything else.")
@@ -19,10 +20,10 @@ function CreateUpgrades(): Upgrade[] {
     upgrade4.addEffect(new Effect("ss", 0.5, 3))
     upgrade5.addEffect(new Effect("ss", 20, 3))
     upgrade5.addEffect(new Effect("d", 0.5, 3))
-    upgrade1.addRequirement(new Requirement(upgrade2, null, "not", false))
-    upgrade2.addRequirement(new Requirement(upgrade1, null, "not", false))
-    upgrade4.addRequirement(new Requirement(upgrade5, null, "not", false))
-    upgrade5.addRequirement(new Requirement(upgrade4, null, "not", false))
+    upgrade1.addRequirement(new Requirement(upgrade2, nullUpgrade, "not", false));
+    upgrade2.addRequirement(new Requirement(upgrade1, nullUpgrade, "not", false));
+    upgrade4.addRequirement(new Requirement(upgrade5, nullUpgrade, "not", false));
+    upgrade5.addRequirement(new Requirement(upgrade4, nullUpgrade, "not", false))
     upgrades.push(upgrade1)
     upgrades.push(upgrade2)
     upgrades.push(upgrade3)

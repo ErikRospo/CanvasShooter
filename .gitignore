@@ -1,3 +1,7 @@
 temp/*.*
 compilation.log
 pwdHINT.md
+Timing/*.*
+/temp
+/Timing
+

@@ -46,12 +46,11 @@ function map(input: number, input_start: number, input_end: number, output_start
  * @param p1 a point with an x and y
  * @param p2 a point with an x and y
  * @param t threshold to test within
- * @returns boolean value determining if the points are in range of the threshold
+ * @returns {boolean} boolean value determining if the points are in range of the threshold
  */
 function threshold(p1: { x: number; y: number; }, p2: { x: number; y: number; }, t: number):boolean {
     return (Math.sqrt(((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)) - (2 * t) < 0);
 }
-
 function FrameIDToTime(ID: number) {
     var Second = ID / 60;
     return Second;
@@ -120,7 +119,7 @@ function intBetweenNot(min: number, max: number, not: number[]): number {
  * @param bias A number between 0 and 1 that determines the bias of the coin flip
  * @returns true or false, weighted by bias
  */
-function coinFlip(bias?: number|0.5): boolean {
+function coinFlip(bias: number | 0.5): boolean {
     return (Math.random() > bias)
 }
 function clip(n: number, min: number, max: number): number {
@@ -147,17 +146,27 @@ function sum(input: Array<number>) {
     return result
 
 }
-function minl(numbers:ArrayLike<number>){
-    let v:number
+function minl(numbers:ArrayLike<number>):number{
+    let v = numbers[0] as number
     for (let i=0;i<=numbers.length;i++){
         v=Math.min(v,numbers[i])
     }
     return v
 }
-function maxl(numbers:ArrayLike<number>){
-    let v:number
+function maxl(numbers:ArrayLike<number>):number{
+    let v=numbers[0] as number
     for (let i=0;i<=numbers.length;i++){
         v=Math.max(v,numbers[i])
     }
     return v
+}
+function smoothStep(x: number, min: number, max: number): number {
+    let t = (x - min) / (max - min);
+    return t * t * (3 - 2 * t);
+}
+function sigmoid(x: number, k: number): number {
+    return 1 / (1 + Math.exp(-k * x));
+}
+function smoothSigmoid(x: number, k: number): number {
+    return smoothStep(sigmoid(x, k), 0, 1);
 }
