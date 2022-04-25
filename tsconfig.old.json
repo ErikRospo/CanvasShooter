@@ -9,9 +9,9 @@
     "moduleResolution": "node",
     "outFile": "./src/JS/compiled.js",
     "declaration": true,
-    // "declarationMap": true,
+
     "diagnostics": true,
-    // "noErrorTruncation": true, 
+
   },
   "files": [
     "./src/TS/init.ts",
