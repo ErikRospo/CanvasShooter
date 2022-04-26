@@ -22,9 +22,6 @@ addEventListener("keypress", (event) => {
       OptionsOpen = false;
       UnpauseGame();
     }
-  } else if (event.key == "space" && GameStarted) {
-    spawnProjectile()
-
   }
 });
 PauseModalOptionsButton.addEventListener("click", () => {

@@ -104,6 +104,4 @@ const cw = w / 2;
 const ch = h / 2;
 const DEBUGFLAG = true;
 let SFXMuted = true as boolean;
-let OptionsOpen = false as boolean
-let mouseX=0 as number;
-let mouseY=0 as number;
+let OptionsOpen = false as boolean;

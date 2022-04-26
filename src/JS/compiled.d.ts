@@ -351,4 +351,3 @@ declare function UnpauseGame(): void;
 declare function OpenOptionsMenu(): void;
 declare function CloseOptionsMenu(): void;
 declare function spawnProjectile(this: any, x?: number, y?: number): void;
-declare function updateMouseCoords(event: MouseEvent): void;

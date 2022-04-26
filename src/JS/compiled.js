@@ -1378,8 +1378,4 @@ function spawnProjectile(x = mouseX, y = mouseY) {
         }
     }
 }
-function updateMouseCoords(event) {
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-}
 //# sourceMappingURL=compiled.js.map

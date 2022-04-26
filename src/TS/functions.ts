@@ -149,7 +149,7 @@ function CloseOptionsMenu() {
     OptionsParticleSwitch.style.display = "none";
     OptionsOpen = false;
 };
-function spawnProjectile(this: any, x=mouseX, y=mouseY) {
+function spawnProjectile(x: number, y: number) {
     if (GameStarted == true && Paused == false) {
         //get the x and y of the click
         //find the angle from the center
@@ -169,8 +169,4 @@ function spawnProjectile(this: any, x=mouseX, y=mouseY) {
             ShootSound.play();
         }
     }
-}
-function updateMouseCoords(event:MouseEvent) {
-    mouseX = event.clientX
-    mouseY = event.clientY
 }
