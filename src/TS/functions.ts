@@ -158,7 +158,6 @@ function spawnProjectile(this: any, x=mouseX, y=mouseY) {
         const velocity = {
             x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
             y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
-            m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
         };
         const radius = 5;
         const damage = player.Damage;

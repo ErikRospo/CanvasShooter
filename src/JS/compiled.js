@@ -52,7 +52,6 @@ let OptionsOpen = false;
 let mouseX = 0;
 let mouseY = 0;
 const RotateLeft = (lValue, iShiftBits) => (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
-
 function AddUnsigned(lX, lY) {
     const lX8 = lX & 0x80000000;
     const lY8 = lY & 0x80000000;
@@ -64,7 +63,8 @@ function AddUnsigned(lX, lY) {
     }
     if (lX4 | lY4) {
         return lResult ^ (lResult & 0x40000000 ? 0xc0000000 : 0x40000000) ^ lX8 ^ lY8;
-    } else {
+    }
+    else {
         return lResult ^ lX8 ^ lY8;
     }
 }
@@ -72,27 +72,22 @@ const F = (x, y, z) => (x & y) | (~x & z);
 const G = (x, y, z) => (x & z) | (y & ~z);
 const H = (x, y, z) => x ^ y ^ z;
 const I = (x, y, z) => y ^ (x | ~z);
-
 function FF(a, b, c, d, x, s, ac) {
     a = AddUnsigned(a, AddUnsigned(AddUnsigned(F(b, c, d), x), ac));
     return AddUnsigned(RotateLeft(a, s), b);
 }
-
 function GG(a, b, c, d, x, s, ac) {
     a = AddUnsigned(a, AddUnsigned(AddUnsigned(G(b, c, d), x), ac));
     return AddUnsigned(RotateLeft(a, s), b);
 }
-
 function HH(a, b, c, d, x, s, ac) {
     a = AddUnsigned(a, AddUnsigned(AddUnsigned(H(b, c, d), x), ac));
     return AddUnsigned(RotateLeft(a, s), b);
 }
-
 function II(a, b, c, d, x, s, ac) {
     a = AddUnsigned(a, AddUnsigned(AddUnsigned(I(b, c, d), x), ac));
     return AddUnsigned(RotateLeft(a, s), b);
 }
-
 function ConvertToWordArray(str) {
     let lWordCount;
     const lMessageLength = str.length;
@@ -115,7 +110,6 @@ function ConvertToWordArray(str) {
     lWordArray[lNumberOfWords - 1] = lMessageLength >>> 29;
     return lWordArray;
 }
-
 function WordToHex(lValue) {
     let WordToHexValue = '';
     let WordToHexValueTemp = '';
@@ -128,7 +122,6 @@ function WordToHex(lValue) {
     }
     return WordToHexValue;
 }
-
 function Utf8Encode(str) {
     str = (str + '').replace(/\r\n/g, '\n');
     let utftext = '';
@@ -136,10 +129,12 @@ function Utf8Encode(str) {
         const c = str.charCodeAt(n);
         if (c < 128) {
             utftext += String.fromCharCode(c);
-        } else if (c > 127 && c < 2048) {
+        }
+        else if (c > 127 && c < 2048) {
             utftext += String.fromCharCode((c >> 6) | 192);
             utftext += String.fromCharCode((c & 63) | 128);
-        } else {
+        }
+        else {
             utftext += String.fromCharCode((c >> 12) | 224);
             utftext += String.fromCharCode(((c >> 6) & 63) | 128);
             utftext += String.fromCharCode((c & 63) | 128);
@@ -251,45 +246,35 @@ const md5 = (str) => {
     }
     return (WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d)).toLowerCase();
 };
-
 function logx(val, base) {
     return Math.log(val) / Math.log(base);
 }
-
 function randomBetween(min, max) {
     return Math.random() * (max - min) + min;
 }
-
 function random(min, max) {
     return randomBetween(min, max);
 }
-
 function randomInt(min, max) {
     return Math.floor(randomBetween(min, max));
 }
-
 function map(input, input_start, input_end, output_start, output_end) {
     return output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start);
 }
-
 function threshold(p1, p2, t) {
     return (Math.sqrt((Math.pow((p1.x - p2.x), 2) + Math.pow((p1.y - p2.y), 2))) - (2 * t) < 0);
 }
-
 function FrameIDToTime(ID) {
     var Second = ID / 60;
     return Second;
 }
-
 function distance(x1, y1, x2, y2) {
     return Math.pow(((Math.pow((x1 - x2), 2)) + (Math.pow((y1 - y2), 2))), 0.5);
 }
-
 function randomChoice(value) {
     let i = Math.round(Math.random() * value.length);
     return value[i];
 }
-
 function randomChoiceNot(value, not) {
     let i = randomChoice(value);
     while (i in not) {
@@ -297,7 +282,6 @@ function randomChoiceNot(value, not) {
     }
     return i;
 }
-
 function randomBetweenNot(min, max, not) {
     let i = randomBetween(min, max);
     while (i in not) {
@@ -305,7 +289,6 @@ function randomBetweenNot(min, max, not) {
     }
     return i;
 }
-
 function intBetweenNot(min, max, not) {
     let i = randomInt(min, max);
     while (i in not) {
@@ -313,19 +296,15 @@ function intBetweenNot(min, max, not) {
     }
     return i;
 }
-
 function coinFlip(bias) {
     return (Math.random() > bias);
 }
-
 function clip(n, min, max) {
     return Math.min(Math.max(n, min), max);
 }
-
 function strictScale(i, imin, imax, omin, omax) {
     return clip(map(clip(i, imin, imax), imin, imax, omin, omax), omin, omax);
 }
-
 function sum(input) {
     let result = 0;
     for (let index = 0; index < input.length; index++) {
@@ -333,7 +312,6 @@ function sum(input) {
     }
     return result;
 }
-
 function minl(numbers) {
     let v = numbers[0];
     for (let i = 0; i <= numbers.length; i++) {
@@ -341,7 +319,6 @@ function minl(numbers) {
     }
     return v;
 }
-
 function maxl(numbers) {
     let v = numbers[0];
     for (let i = 0; i <= numbers.length; i++) {
@@ -349,20 +326,16 @@ function maxl(numbers) {
     }
     return v;
 }
-
 function smoothStep(x, min, max) {
     let t = (x - min) / (max - min);
     return t * t * (3 - 2 * t);
 }
-
 function sigmoid(x, k) {
     return 1 / (1 + Math.exp(-k * x));
 }
-
 function smoothSigmoid(x, k) {
     return smoothStep(sigmoid(x, k), 0, 1);
 }
-
 function AddDebugItem(value, id) {
     if (!DEBUGFLAG) {
         return null;
@@ -374,7 +347,6 @@ function AddDebugItem(value, id) {
     debugList.appendChild(node);
     return debugList;
 }
-
 function SetDebugItem(value, id) {
     if (!DEBUGFLAG) {
         return null;
@@ -445,54 +417,66 @@ class Effect {
             case "d":
                 if (this.valuetype == 1) {
                     player.Damage += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.Damage *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.Damage = this.value;
                 }
                 break;
             case "ss":
                 if (this.valuetype == 1) {
                     player.ShotSpeed += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.ShotSpeed *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.ShotSpeed = this.value;
                 }
                 break;
             case "sf":
                 if (this.valuetype == 1) {
                     player.ShotsFired += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.ShotsFired *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.ShotsFired = this.value;
                 }
                 break;
             case "ms":
                 if (this.valuetype == 1) {
                     player.MultiShot += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.MultiShot *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.MultiShot = this.value;
                 }
                 break;
             case "sz":
                 if (this.valuetype == 1) {
                     player.ShotSize += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.ShotSize *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.ShotSize = this.value;
                 }
                 break;
             case "h":
                 if (this.valuetype == 1) {
                     player.Health.Health += this.value;
-                } else if (this.valuetype == 2) {
+                }
+                else if (this.valuetype == 2) {
                     player.Health.Health *= this.value;
-                } else if (this.valuetype == 3) {
+                }
+                else if (this.valuetype == 3) {
                     player.Health.Health = this.value;
                 }
                 break;
@@ -512,24 +496,28 @@ class Requirement {
         if (this.operation == "or") {
             if (!this.not) {
                 return ((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
-            } else if (this.not) {
+            }
+            else if (this.not) {
                 return !((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
             }
-        } else if (this.operation == "and") {
+        }
+        else if (this.operation == "and") {
             if (!this.not) {
                 return ((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
-            } else if (this.not) {
+            }
+            else if (this.not) {
                 return !((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
             }
-        } else if (this.operation == "not") {
+        }
+        else if (this.operation == "not") {
             return ((upgrades.indexOf(this.requirement1) == -1));
-        } else {
+        }
+        else {
             return false;
         }
         return false;
     }
 }
-
 function CreateUpgrades() {
     let nullUpgrade = new Upgrade("", "");
     let upgrade1 = new Upgrade("gigantisizer", "increases projectile size, decreases projectile speed.");
@@ -563,7 +551,6 @@ function CreateUpgrades() {
     upgrades.push(upgrade5);
     return upgrades;
 }
-
 function CreateRandomUpgrades() {
     let upgrades = [];
     let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"];
@@ -590,26 +577,21 @@ function CreateRandomUpgrades() {
     }
     return upgrades;
 }
-
 function SetProgressBar(Value) {
     XPBar.value = ((Value) / 10);
 }
-
 function IncreaseProgressBar(Value) {
     XPBar.value = (XPBar.value + Value / 10);
 }
-
 function AnimateProgressBar(frameID) {
     XPBar.style.backgroundColor = `linear-gradient(90deg, #5ba2ac ${frameID % 100}%, #28257f ${(frameID + 50) % 100}%, #1a641a ${(frameID + 100) % 100}%);`;
 }
-
 function ResetProgressBar() {
     XPBar.value = 0;
     XPBar.max = 1;
     player.level = 0;
     player.cachedLevels = 0;
 }
-
 function CheckForLevelUp() {
     if (XPBar.value >= XPBar.max) {
         player.level += 1;
@@ -617,7 +599,8 @@ function CheckForLevelUp() {
         XPBar.value = 0;
         XPBar.max = player.level;
         return true;
-    } else {
+    }
+    else {
         return false;
     }
 }
@@ -700,7 +683,6 @@ class Halo {
         }
     }
 }
-
 function CreateHealth(health, MaxHealth) {
     let Health = new HealthBar(health, MaxHealth);
     return Health;
@@ -752,12 +734,15 @@ class HealthBar {
         for (let i = 0; i < healthBarSpanCount; i++) {
             try {
                 healthBarEl.removeChild(healthBarEl.children[0]);
-            } catch (error) {
+            }
+            catch (error) {
                 if (error instanceof TypeError) {
                     console.log("Health bar span not found");
-                } else if (error instanceof RangeError) {
+                }
+                else if (error instanceof RangeError) {
                     console.log("Health bar span not found");
-                } else if (error instanceof ReferenceError) {
+                }
+                else if (error instanceof ReferenceError) {
                     console.log("Health bar span not found");
                 }
                 console.log("Health bar span not found");
@@ -775,7 +760,8 @@ class HealthBar {
             el.innerText = "favorite";
             if (i < this.health) {
                 el.style.color = "red";
-            } else {
+            }
+            else {
                 el.style.color = "grey";
             }
         }
@@ -1008,7 +994,8 @@ class Music {
     toggle() {
         if (this.music[this.current].paused) {
             this.music[this.current].play();
-        } else {
+        }
+        else {
             this.music[this.current].pause();
         }
     }
@@ -1022,7 +1009,8 @@ class Music {
             this.music[this.current].onended = () => {
                 this.next();
             };
-        } else {
+        }
+        else {
             this.music[this.current].onended = () => {
                 this.music[this.current].pause();
             };
@@ -1084,7 +1072,6 @@ let freq = 25000;
 let HS = true;
 let MusicPlayer = new Music([Music1]);
 addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
-addEventListener("mousemove", (event) => updateMouseCoords(event));
 addEventListener("load", () => {
     PageLoad();
 });
@@ -1100,12 +1087,14 @@ addEventListener("keypress", (event) => {
     if (event.key == "q" && GameStarted) {
         if (!Paused) {
             PauseGame();
-        } else {
+        }
+        else {
             CloseOptionsMenu();
             OptionsOpen = false;
             UnpauseGame();
         }
-    } else if (event.key == "space" && GameStarted) {
+    }
+    else if (event.key == "space" && GameStarted) {
         spawnProjectile();
     }
 });
@@ -1123,7 +1112,8 @@ OptionsParticleSwitch.addEventListener("change", () => {
 OptionsSFXSlider.addEventListener("change", () => {
     if (OptionsSFXSlider.value == "0") {
         SFXMuted = true;
-    } else {
+    }
+    else {
         SFXMuted = false;
     }
     UpdateSFXSlider();
@@ -1131,7 +1121,8 @@ OptionsSFXSlider.addEventListener("change", () => {
 OptionsMusicSlider.addEventListener("change", () => {
     if (OptionsMusicSlider.value == "0") {
         MusicMuted = true;
-    } else {
+    }
+    else {
         MusicMuted = false;
     }
     MusicPlayer.Volume = parseFloat(OptionsMusicSlider.value);
@@ -1139,7 +1130,6 @@ OptionsMusicSlider.addEventListener("change", () => {
     MusicPlayer.shuffle();
     MusicPlayer.continue = true;
 });
-
 function animate() {
     animationID = requestAnimationFrame(animate);
     if (!Paused) {
@@ -1159,7 +1149,8 @@ function animate() {
             particles.forEach((particle, index) => {
                 if (particle.alpha <= 0) {
                     particles.splice(index, 1);
-                } else {
+                }
+                else {
                     particle.update();
                 }
             });
@@ -1183,11 +1174,13 @@ function animate() {
                 if (player.willDie) {
                     player.Health.removeHealth();
                     gameOver(animationID);
-                } else {
+                }
+                else {
                     player.Health.removeHealth();
                     if (!SFXMuted) {
                         HealthLooseSound.play();
-                    };
+                    }
+                    ;
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health.Health, "playerHealth");
                     EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
@@ -1211,7 +1204,8 @@ function animate() {
                         setTimeout(() => {
                             projectiles.splice(index2, 1);
                         }, 2);
-                    } else {
+                    }
+                    else {
                         if (!SFXMuted) {
                             HitAndKillSound.play();
                         }
@@ -1238,7 +1232,6 @@ function animate() {
         lastScore = score;
     }
 }
-
 function init() {
     EnemySpawnTime = DefaultEnemySpawnTime;
     Paused = false;
@@ -1253,7 +1246,6 @@ function init() {
     ResetProgressBar();
     GameStarted = true;
 }
-
 function PageLoad() {
     HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
@@ -1274,7 +1266,6 @@ function PageLoad() {
     Paused = true;
     OptionsOpen = false;
 }
-
 function UpdateSFXSlider() {
     ShootSound.muted = SFXMuted;
     HitNoKillSound.muted = SFXMuted;
@@ -1291,13 +1282,11 @@ function UpdateSFXSlider() {
         MissSound.volume = parseFloat(OptionsSFXSlider.value);
     }
 }
-
 function PlayMusic() {
     if (!MusicMuted) {
         MusicPlayer.shuffle();
     }
 }
-
 function SpawnEnemy() {
     function genEnemy() {
         let x;
@@ -1306,7 +1295,8 @@ function SpawnEnemy() {
         if (coinFlip(EnemySpawnBias)) {
             x = Math.random() < 0.5 ? 0 - radius : w + radius;
             y = Math.random() * h;
-        } else {
+        }
+        else {
             x = Math.random() * w;
             y = Math.random() < 0.5 ? 0 - radius : h + radius;
         }
@@ -1320,18 +1310,17 @@ function SpawnEnemy() {
     }
     enemies.push(genEnemy());
 }
-
 function AddScore(Value) {
     score += Value;
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
 }
-
 function gameOver(AnimationID) {
     cancelAnimationFrame(AnimationID);
     if (Scores.scores.every((value) => { return value < score; })) {
         HS = true;
-    } else {
+    }
+    else {
         HS = false;
     }
     Scores.addScore(score);
@@ -1345,18 +1334,17 @@ function gameOver(AnimationID) {
     BigScoreEL.innerText = score.toString();
     BigScoreEL.classList.add("animate-bounce");
 }
-
 function PauseGame() {
     PauseModal.style.display = "block";
     PauseModalScore.innerHTML = score.toString(10);
     Paused = true;
-};
-
+}
+;
 function UnpauseGame() {
     PauseModal.style.display = "none";
     Paused = false;
-};
-
+}
+;
 function OpenOptionsMenu() {
     OptionsParticleSpan.style.display = "block";
     OptionsMenu.style.display = "block";
@@ -1364,8 +1352,8 @@ function OpenOptionsMenu() {
     OptionsBackButton.style.display = "block";
     OptionsParticleSwitch.style.display = "block";
     OptionsOpen = true;
-};
-
+}
+;
 function CloseOptionsMenu() {
     OptionsParticleSpan.style.display = "none";
     OptionsMenu.style.display = "none";
@@ -1373,15 +1361,14 @@ function CloseOptionsMenu() {
     OptionsBackButton.style.display = "none";
     OptionsParticleSwitch.style.display = "none";
     OptionsOpen = false;
-};
-
+}
+;
 function spawnProjectile(x = mouseX, y = mouseY) {
     if (GameStarted == true && Paused == false) {
         const angle = Math.atan2(y - ch, x - cw);
         const velocity = {
             x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
             y: Math.sin(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,
-            m: Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2)),
         };
         const radius = 5;
         const damage = player.Damage;
@@ -1391,7 +1378,6 @@ function spawnProjectile(x = mouseX, y = mouseY) {
         }
     }
 }
-
 function updateMouseCoords(event) {
     mouseX = event.clientX;
     mouseY = event.clientY;
