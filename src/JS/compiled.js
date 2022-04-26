@@ -1112,7 +1112,7 @@ function animate() {
         SetDebugItem(EnemySpawnTime, "SpawnTime");
         player.update();
         AnimateProgressBar(animationID);
-        c.fillStyle = `rgba(${BackgroundColor},0.1)`;
+        c.fillStyle = "rgba(0,0,0,0.1)";
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
             particles.forEach((particle, index) => {
@@ -1182,6 +1182,11 @@ function animate() {
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
                         }, 2);
+                    }
+                }
+                if (dist - enemy.radius - projectile.radius < 20) {
+                    if (!SFXMuted) {
+                        MissSound.play();
                     }
                 }
             });
