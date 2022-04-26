@@ -33,3 +33,4 @@ let lastScore = 0 as number;
 let freq = 25000 as number;
 let HS = true as boolean;
 let MusicPlayer = new Music([Music1]) as Music;
+MusicPlayer.play();

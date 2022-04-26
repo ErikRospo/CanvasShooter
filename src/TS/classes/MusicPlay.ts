@@ -7,7 +7,6 @@ class Music {
   constructor(music: HTMLAudioElement[]) {
     this.music = music;
     this.current = 0;
-    this.music[this.current].play();
     this.volume = 1;
     this.muted = false;
     this.Continue = true;
