@@ -4,7 +4,7 @@ class Upgrade {
     Description: string;
     color: string;
     name: string;
-    constructor(name: string, description?: string) {
+    constructor(name: string, description: string) {
         this.color = "#00000";
         this.name = name;
         this.Description = description
@@ -37,10 +37,11 @@ class AllUpgradesList extends UpgradeList {
     availableUpgrades: Upgrade[];
     constructor(Upgrades: Upgrade[]) {
         super(Upgrades)
+        this.availableUpgrades = Upgrades;
     }
     public get availibility(): Upgrade[] {
         return this.upgrades.filter((value, _, array) => {
-            let requirementTruthy = []
+            let requirementTruthy: boolean[] = []
             value.requirements.forEach((value1) => {
                 requirementTruthy.push(value1.IsRequirementTrue(array))
             })
@@ -119,11 +120,11 @@ class Effect {
     }
 }
 class Requirement {
-    requirement1: Upgrade | null;
-    requirement2: Upgrade | null;
+    requirement1: Upgrade;
+    requirement2: Upgrade;
     operation: string;
     not: boolean
-    constructor(requirement1: Upgrade | null, requirement2: Upgrade | null, operation: string, not: boolean) {
+    constructor(requirement1: Upgrade, requirement2: Upgrade, operation: string, not: boolean) {
         this.requirement1 = requirement1;
         this.requirement2 = requirement2;
         this.operation = operation;
@@ -131,7 +132,7 @@ class Requirement {
     }
 
     IsRequirementTrue(upgrades: Upgrade[]): boolean {
-        upgrades.push(null)
+        // upgrades.push(null)
         if (this.operation == "or") {
             if (!this.not) {
                 return ((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1))
@@ -146,7 +147,10 @@ class Requirement {
             }
         } else if (this.operation == "not") {
             return ((upgrades.indexOf(this.requirement1) == -1))
+        } else {
+            return false
         }
+        return false;
     }
 
 }

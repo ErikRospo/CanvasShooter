@@ -58,7 +58,7 @@ function PlayMusic() {
 
 function SpawnEnemy() {
     //create a new enemy
-    function genEnemy(pepper?: number) {
+    function genEnemy() {
         //give it an x, and y.
         let x: number;
         let y: number;
@@ -84,15 +84,10 @@ function SpawnEnemy() {
             x: Math.cos(angle) * EnemySpeedMultiplier,
             y: Math.sin(angle) * EnemySpeedMultiplier
         };
-        return new Enemy(x, y, radius, color, velocity, pepper)
+        return new Enemy(x, y, radius, color, velocity)
     }
     //add it to the enemies list
-    let tryEnemy = genEnemy();
-    while (enemies.find((value) => { return value.id == tryEnemy.id }) != undefined) {
-        tryEnemy = genEnemy(Math.random());
-        console.count("collisions: ");
-    }
-    enemies.push(tryEnemy);
+    enemies.push(genEnemy());
     //trigger every second
 }
 
@@ -154,7 +149,7 @@ function CloseOptionsMenu() {
     OptionsParticleSwitch.style.display = "none";
     OptionsOpen = false;
 };
-function spawnProjectile(x=mouseX, y=mouseY) {
+function spawnProjectile(this: any, x=mouseX, y=mouseY) {
     if (GameStarted == true && Paused == false) {
         //get the x and y of the click
         //find the angle from the center
@@ -176,7 +171,7 @@ function spawnProjectile(x=mouseX, y=mouseY) {
         }
     }
 }
-function updateMouseCoords(event) {
+function updateMouseCoords(event:MouseEvent) {
     mouseX = event.clientX
     mouseY = event.clientY
 }

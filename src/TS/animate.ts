@@ -54,6 +54,7 @@ function animate() {
             //if the enemy is touching the player, end the game
             if (dist - enemy.radius - player.radius < 0) {
                 if (player.willDie) {
+                    player.Health.removeHealth();
                     gameOver(animationID);
                 } else {
                     player.Health.removeHealth();

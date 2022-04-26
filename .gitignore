@@ -2,3 +2,6 @@ temp/*.*
 compilation.log
 pwdHINT.md
 desktop.ini
+Timing/*.*
+/temp
+/Timing

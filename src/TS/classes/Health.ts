@@ -1,11 +1,11 @@
-function CreateHealth(health: number, MaxHealth?: number | 5) {
+function CreateHealth(health: number, MaxHealth: number | 5) {
     let Health = new HealthBar(health, MaxHealth);
     return Health;
 }
 class HealthBar {
     private health: number;
     private MaxHealth: number | 5;
-    constructor(health: number, MaxHealth?: number | 5) {
+    constructor(health: number, MaxHealth: number | 5) {
         this.health = health;
         this.MaxHealth = MaxHealth;
     }
@@ -46,12 +46,28 @@ class HealthBar {
         //the health bar has spans with either "favorite" or "favorite-border" innerHTML
         //if there is more max health than spans, create more spans
         //if there is less max health than spans, remove the extra spans
-        let healthBarEl=document.getElementById("healthBar");
+        let healthBarEl = document.getElementById("healthBar");
+        if (healthBarEl == null) {
+            throw new Error("Health bar element not found");
+        }
         let healthBarSpanCount=healthBarEl.children.length;
         let healthBarSpanMax=this.MaxHealth;
         //remove all of the spans, then add the correct number of spans
         for (let i = 0; i < healthBarSpanCount; i++) {
-            healthBarEl.removeChild(healthBarEl.firstChild);
+            try {
+                healthBarEl.removeChild(healthBarEl.children[0]);
+            } catch (error) {
+                if (error instanceof TypeError) {
+                    console.log("Health bar span not found");
+                }
+                else if (error instanceof RangeError) {
+                    console.log("Health bar span not found");
+                } else if (error instanceof ReferenceError) {
+                    console.log("Health bar span not found");
+                }
+                console.log("Health bar span not found");
+            }
+
         }
         for (let i = 0; i < healthBarSpanMax; i++) {
             let healthBarSpan=document.createElement("span");

@@ -8,6 +8,10 @@ class Music {
     this.music = music;
     this.current = 0;
     this.music[this.current].play();
+    this.volume = 1;
+    this.muted = false;
+    this.Continue = true;
+
   }
   public get Current(): HTMLAudioElement {
     return this.music[this.current];

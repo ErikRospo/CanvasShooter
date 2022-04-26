@@ -8,8 +8,6 @@ class Enemy {
     startingRadius: number;
     id: any;
     timeCreated: string | Date;
-    private salt: number;
-    pepper: number | null;
     minHealth: number;
     burning: boolean;
     haloObject: Halo;
@@ -22,7 +20,7 @@ class Enemy {
      * @param velocity Starting velocity for enemy.
      * @param pepper A number to add to the opject to hopefully add some randomness to the ids
      */
-    constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }, pepper?: number) {
+    constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }) {
 
         this.x = x;
         this.y = y;
@@ -32,14 +30,8 @@ class Enemy {
         this.startingRadius = this.radius;
         this.minHealth = 5;
         this.timeCreated = Date();
-        this.salt = randomBetween(0, 1000);
-        this.pepper = pepper;
-        this.id = md5(this.toString);
         this.burning = false;
-        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "ff8800", "ffff00"], this, 2)
-    }
-    private get toString(): string {
-        return JSON.stringify(this);
+        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "ff8800", "ffff00"], this, 2, 2)
     }
     /**
      * @name draw
