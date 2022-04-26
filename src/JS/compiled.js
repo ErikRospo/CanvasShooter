@@ -16,8 +16,8 @@ const BigScoreEL = document.querySelector("#BigScoreEL");
 const BigScoreELLabel = document.querySelector("#PointsLabelEL");
 const NameDiv = document.querySelector("#NameInputDiv");
 const HighScoreList = document.querySelector("#HighScore");
-const ShootSound = new Audio("../Audio/sound/Shoot.wav");
-const HitNoKillSound = new Audio("../Audio/sound/HitNoKill.wav");
+const ShootSound = new Audio("Audio/sound/Shoot.wav");
+const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
 const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
 const HealthGetSound = new Audio("Audio/sound/HealthGet.wav");
 const HealthLooseSound = new Audio("Audio/sound/HealthLose.wav");
@@ -49,8 +49,6 @@ const ch = h / 2;
 const DEBUGFLAG = true;
 let SFXMuted = true;
 let OptionsOpen = false;
-let mouseX = 0;
-let mouseY = 0;
 const RotateLeft = (lValue, iShiftBits) => (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 function AddUnsigned(lX, lY) {
     const lX8 = lX & 0x80000000;
@@ -118,7 +116,7 @@ function WordToHex(lValue) {
     for (lCount = 0; lCount <= 3; lCount++) {
         lByte = (lValue >>> (lCount * 8)) & 255;
         WordToHexValueTemp = '0' + lByte.toString(16);
-        WordToHexValue = WordToHexValue + WordToHexValueTemp.substr(WordToHexValueTemp.length - 2, 2);
+        WordToHexValue = WordToHexValue + WordToHexValueTemp.substring(WordToHexValueTemp.length - 2, 2);
     }
     return WordToHexValue;
 }
@@ -1094,9 +1092,6 @@ addEventListener("keypress", (event) => {
             UnpauseGame();
         }
     }
-    else if (event.key == "space" && GameStarted) {
-        spawnProjectile();
-    }
 });
 PauseModalOptionsButton.addEventListener("click", () => {
     OpenOptionsMenu();
@@ -1363,7 +1358,7 @@ function CloseOptionsMenu() {
     OptionsOpen = false;
 }
 ;
-function spawnProjectile(x = mouseX, y = mouseY) {
+function spawnProjectile(x, y) {
     if (GameStarted == true && Paused == false) {
         const angle = Math.atan2(y - ch, x - cw);
         const velocity = {

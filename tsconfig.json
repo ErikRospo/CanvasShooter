@@ -29,7 +29,6 @@
 },
   "files": [
     "./src/TS/init.ts",
-    "./src/TS/md5.ts",
     "./src/TS/helperFunctions.ts",
     "./src/TS/debug.ts",
     "./src/TS/Upgrade.ts",
