@@ -13,7 +13,6 @@
     "allowUnusedLabels": false,
     "inlineSources": true,
     "diagnostics": true,
-    "traceResolution": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noImplicitAny": true,

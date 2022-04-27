@@ -125,6 +125,9 @@ function coinFlip(bias: number | 0.5): boolean {
 function clip(n: number, min: number, max: number): number {
     return Math.min(Math.max(n, min), max)
 }
+function clamp(x: number, min: number, max: number): number {
+    return Math.min(Math.max(x, min), max);
+}
 /**
  * Returns a number that is strictly between omin and omax
  * @param {number} i number to scale

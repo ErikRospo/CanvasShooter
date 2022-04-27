@@ -33,6 +33,7 @@ html {
     width: fit-content;
     height: fit-content;
     user-select: none;
+    text-transform: capitalize
 }
 
 .UpgradeButton {
