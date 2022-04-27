@@ -22,22 +22,22 @@ const BigScoreELLabel = document.querySelector(
 const NameDiv = document.querySelector("#NameInputDiv") as HTMLDivElement;
 const HighScoreList = document.querySelector("#HighScore") as HTMLOListElement;
 //Sound Effects
-const ShootSound = new Audio("Audio/sound/Shoot.wav") as HTMLAudioElement;
+const ShootSound = new Audio("/Audio/sound/Shoot.wav") as HTMLAudioElement;
 const HitNoKillSound = new Audio(
-    "Audio/sound/HitNoKill.wav"
+    "/Audio/sound/HitNoKill.wav"
 ) as HTMLAudioElement;
 const HitAndKillSound = new Audio(
-    "Audio/sound/HitAndKill.wav"
+    "/Audio/sound/HitAndKill.wav"
 ) as HTMLAudioElement;
 const HealthGetSound = new Audio(
-    "Audio/sound/HealthGet.wav"
+    "/Audio/sound/HealthGet.wav"
 ) as HTMLAudioElement;
-const HealthLooseSound = new Audio(
-    "Audio/sound/HealthLose.wav"
+const HealthLoseSound = new Audio(
+    "/Audio/sound/HealthLose.wav"
 ) as HTMLAudioElement;
-const MissSound = new Audio("Audio/sound/Miss.wav") as HTMLAudioElement;
+const MissSound = new Audio("/Audio/sound/Miss.wav") as HTMLAudioElement;
 // define music
-const Music1 = new Audio("Audio/music/Music1.mp3") as HTMLAudioElement;
+const Music1 = new Audio("/Audio/music/Music1.mp3") as HTMLAudioElement;
 const Music2 = new Audio("Audio/music/Music2.mp3") as HTMLAudioElement;
 const Music3 = new Audio("Audio/music/Music3.mp3") as HTMLAudioElement;
 const Music4 = new Audio("Audio/music/Music4.mp3") as HTMLAudioElement;

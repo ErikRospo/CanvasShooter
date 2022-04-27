@@ -16,13 +16,13 @@ const BigScoreEL = document.querySelector("#BigScoreEL");
 const BigScoreELLabel = document.querySelector("#PointsLabelEL");
 const NameDiv = document.querySelector("#NameInputDiv");
 const HighScoreList = document.querySelector("#HighScore");
-const ShootSound = new Audio("Audio/sound/Shoot.wav");
-const HitNoKillSound = new Audio("Audio/sound/HitNoKill.wav");
-const HitAndKillSound = new Audio("Audio/sound/HitAndKill.wav");
-const HealthGetSound = new Audio("Audio/sound/HealthGet.wav");
-const HealthLooseSound = new Audio("Audio/sound/HealthLose.wav");
-const MissSound = new Audio("Audio/sound/Miss.wav");
-const Music1 = new Audio("Audio/music/Music1.mp3");
+const ShootSound = new Audio("/Audio/sound/Shoot.wav");
+const HitNoKillSound = new Audio("/Audio/sound/HitNoKill.wav");
+const HitAndKillSound = new Audio("/Audio/sound/HitAndKill.wav");
+const HealthGetSound = new Audio("/Audio/sound/HealthGet.wav");
+const HealthLoseSound = new Audio("/Audio/sound/HealthLose.wav");
+const MissSound = new Audio("/Audio/sound/Miss.wav");
+const Music1 = new Audio("/Audio/music/Music1.mp3");
 const Music2 = new Audio("Audio/music/Music2.mp3");
 const Music3 = new Audio("Audio/music/Music3.mp3");
 const Music4 = new Audio("Audio/music/Music4.mp3");
@@ -46,10 +46,11 @@ const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
-const DEBUGFLAG = true;
+let url = window.location.href;
+const DEBUGFLAG = (url != "https://erikrospo.github.io/CanvasShooter/");
 let SFXMuted = true;
 let OptionsOpen = false;
-let browserType = window.navigator;
+let browserType = navigator;
 console.log(browserType);
 function logx(val, base) {
     return Math.log(val) / Math.log(base);
@@ -107,6 +108,9 @@ function coinFlip(bias) {
 function clip(n, min, max) {
     return Math.min(Math.max(n, min), max);
 }
+function clamp(x, min, max) {
+    return Math.min(Math.max(x, min), max);
+}
 function strictScale(i, imin, imax, omin, omax) {
     return clip(map(clip(i, imin, imax), imin, imax, omin, omax), omin, omax);
 }
@@ -141,18 +145,32 @@ function sigmoid(x, k) {
 function smoothSigmoid(x, k) {
     return smoothStep(sigmoid(x, k), 0, 1);
 }
+function min(...numbers) {
+    let v = numbers[0];
+    for (let i = 0; i < numbers.length; i++) {
+        v = Math.min(v, numbers[i]);
+    }
+    return v;
+}
+function max(...numbers) {
+    let v = numbers[0];
+    for (let i = 0; i < numbers.length; i++) {
+        v = Math.max(v, numbers[i]);
+    }
+    return v;
+}
 function AddDebugItem(value, id) {
     if (!DEBUGFLAG) {
         return null;
     }
     var node = document.createElement("li");
     node.id = id;
-    node.innerText = value.toString();
+    node.innerText = id + ": " + value.toString();
     node.classList.add("debugItem");
     debugList.appendChild(node);
     return debugList;
 }
-function SetDebugItem(value, id) {
+function SetDebugItem(value, id, label) {
     if (!DEBUGFLAG) {
         return null;
     }
@@ -164,10 +182,17 @@ function SetDebugItem(value, id) {
     if (node == null) {
         return null;
     }
-    node.innerText = id.toString() + ": " + value.toString();
+    if (label == undefined || label == null) {
+        label = id;
+    }
+    node.innerText = label + ": " + value.toString();
     return node;
 }
 AddDebugItem(0, "playerHealth");
+AddDebugItem(innerWidth, "windowWidth");
+AddDebugItem(innerHeight, "windowHeight");
+AddDebugItem((Math.sqrt(w * w + h * h) / 2000), "EnemySpeedMultiplier");
+AddDebugItem(url, "Url");
 class Upgrade {
     constructor(name, description) {
         this.color = "#00000";
@@ -841,9 +866,9 @@ class Music {
     }
 }
 const EnemySpawnTimeDecrement = 1;
-const EnemySpawnBias = window.innerHeight / window.innerWidth;
+const EnemySpawnBias = innerHeight / innerWidth;
 const EnemyHealthMultiplier = 1;
-const EnemySpeedMultiplier = 1;
+const EnemySpeedMultiplier = (Math.sqrt(w * w + h * h) / 2000);
 const ProjectileSpeedMultiplier = 1;
 const ProjectileColor = "white";
 const PlayerColor = "white";
@@ -854,7 +879,8 @@ const ParticleMultiplier = 2;
 const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
 const MaxEnemies = 10;
-const TWOPI = Math.PI * 2;
+const PI = Math.PI;
+const TWOPI = PI * 2;
 let player = new Player(cw, ch, PlayerRadius, PlayerColor);
 let projectiles = [];
 let enemies = [];
@@ -934,6 +960,10 @@ OptionsMusicSlider.addEventListener("change", () => {
 });
 function animate() {
     animationID = requestAnimationFrame(animate);
+    SetDebugItem(innerWidth, "windowWidth");
+    SetDebugItem(innerHeight, "windowHeight");
+    SetDebugItem(innerHeight * innerWidth, "WindowArea");
+    SetDebugItem((Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight) / 2000), "EnemySpeedMultiplier");
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
@@ -980,7 +1010,8 @@ function animate() {
                 else {
                     player.Health.removeHealth();
                     if (!SFXMuted) {
-                        HealthLooseSound.play();
+                        HealthLoseSound.play();
+                        console.log("HealthLoseSound");
                     }
                     ;
                     enemies.splice(index, 1);
@@ -1073,14 +1104,14 @@ function UpdateSFXSlider() {
     HitNoKillSound.muted = SFXMuted;
     HitAndKillSound.muted = SFXMuted;
     HealthGetSound.muted = SFXMuted;
-    HealthLooseSound.muted = SFXMuted;
+    HealthLoseSound.muted = SFXMuted;
     MissSound.muted = SFXMuted;
     if (!SFXMuted) {
         ShootSound.volume = parseFloat(OptionsSFXSlider.value);
         HitNoKillSound.volume = parseFloat(OptionsSFXSlider.value);
         HitAndKillSound.volume = parseFloat(OptionsSFXSlider.value);
         HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
-        HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
+        HealthLoseSound.volume = parseFloat(OptionsSFXSlider.value);
         MissSound.volume = parseFloat(OptionsSFXSlider.value);
     }
 }
@@ -1179,5 +1210,14 @@ function spawnProjectile(x, y) {
             ShootSound.play();
         }
     }
+}
+function calculateRWA() {
+    let minDist = min(innerWidth, innerHeight);
+    let maxDist = max(innerWidth, innerHeight);
+    let a = maxDist - minDist;
+    let b = maxDist + minDist;
+    let c = sigmoid(a / b, 0.5);
+    let d = 1.5 - c;
+    return d;
 }
 //# sourceMappingURL=compiled.js.map

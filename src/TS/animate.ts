@@ -1,5 +1,10 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
+    SetDebugItem(innerWidth, "windowWidth");
+    SetDebugItem(innerHeight, "windowHeight");
+    SetDebugItem(innerHeight * innerWidth, "WindowArea");
+    SetDebugItem((Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight) / 2000), "EnemySpeedMultiplier");
+
     // enemies = enemies.filter((value) => {
         // return !(value.id in enemiesToRemove)
     // })
@@ -59,7 +64,8 @@ function animate() {
                 } else {
                     player.Health.removeHealth();
                     if (!SFXMuted) {
-                        HealthLooseSound.play();
+                        HealthLoseSound.play();
+                        console.log("HealthLoseSound");
                     };
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health.Health, "playerHealth");
@@ -98,8 +104,9 @@ function animate() {
                             //delete the projectile
                             projectiles.splice(index2, 1);
                         }, 2);
-                        //otherwise
+                    //otherwise, kill the enemy
                     } else {
+                        //If we are using sfx, play the sound
                         if (!SFXMuted) {
                             HitAndKillSound.play();
                         }

@@ -39,14 +39,14 @@ function UpdateSFXSlider() {
     HitNoKillSound.muted = SFXMuted
     HitAndKillSound.muted = SFXMuted
     HealthGetSound.muted = SFXMuted
-    HealthLooseSound.muted = SFXMuted
+    HealthLoseSound.muted = SFXMuted
     MissSound.muted = SFXMuted
     if (!SFXMuted) {
         ShootSound.volume = parseFloat(OptionsSFXSlider.value);
         HitNoKillSound.volume = parseFloat(OptionsSFXSlider.value);
         HitAndKillSound.volume = parseFloat(OptionsSFXSlider.value);
         HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
-        HealthLooseSound.volume = parseFloat(OptionsSFXSlider.value);
+        HealthLoseSound.volume = parseFloat(OptionsSFXSlider.value);
         MissSound.volume = parseFloat(OptionsSFXSlider.value);
     }
 }
@@ -169,4 +169,13 @@ function spawnProjectile(x: number, y: number) {
             ShootSound.play();
         }
     }
+}
+function calculateRWA() {
+    let minDist = min(innerWidth, innerHeight);
+    let maxDist = max(innerWidth, innerHeight);
+    let a = maxDist - minDist;
+    let b = maxDist + minDist;
+    let c = sigmoid(a / b, 0.5);
+    let d = 1.5 - c;
+    return d;
 }
