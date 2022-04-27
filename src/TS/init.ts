@@ -23,7 +23,7 @@ const BigScoreELLabel = document.querySelector(
 const NameDiv = document.querySelector("#NameInputDiv") as HTMLDivElement;
 const HighScoreList = document.querySelector("#HighScore") as HTMLOListElement;
 //Sound Effects
-let relPath = PROD ? "/" : "";
+let relPath = PROD ? "../../" : "";
 const ShootSound = new Audio(relPath + "Audio/sound/Shoot.wav") as HTMLAudioElement;
 const HitNoKillSound = new Audio(
     relPath + "Audio/sound/HitNoKill.wav"
