@@ -33,4 +33,4 @@ AddDebugItem(innerWidth, "windowWidth");
 AddDebugItem(innerHeight, "windowHeight");
 AddDebugItem((Math.sqrt(w * w + h * h) / 2000), "EnemySpeedMultiplier");
 // AddDebugItem(innerHeight * innerWidth, "WindowArea");
-AddDebugItem(url, "Url");
+AddDebugItem(window.location.href, "Url");
