@@ -173,3 +173,17 @@ function sigmoid(x: number, k: number): number {
 function smoothSigmoid(x: number, k: number): number {
     return smoothStep(sigmoid(x, k), 0, 1);
 }
+function min(...numbers: number[]): number {
+    let v = numbers[0];
+    for (let i = 0; i < numbers.length; i++) {
+        v = Math.min(v, numbers[i]);
+    }
+    return v;
+}
+function max(...numbers: number[]): number {
+    let v = numbers[0];
+    for (let i = 0; i < numbers.length; i++) {
+        v = Math.max(v, numbers[i]);
+    }
+    return v;
+}

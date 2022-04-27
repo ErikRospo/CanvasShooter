@@ -29,8 +29,8 @@ function SetDebugItem(value: any, id: string, label?: string) {
     return node
 }
 AddDebugItem(0, "playerHealth");
-AddDebugItem(innerWidth, "indowWidth");
+AddDebugItem(innerWidth, "windowWidth");
 AddDebugItem(innerHeight, "windowHeight");
-AddDebugItem(innerHeight * innerWidth, "WindowArea");
-AddDebugItem(1 / (innerHeight * innerWidth), "ReciprocalWindowArea");
+AddDebugItem((Math.sqrt(w * w + h * h) / 2000), "EnemySpeedMultiplier");
+// AddDebugItem(innerHeight * innerWidth, "WindowArea");
 AddDebugItem(url, "Url");
