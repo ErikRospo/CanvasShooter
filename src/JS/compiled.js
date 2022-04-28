@@ -104,6 +104,9 @@ function intBetweenNot(min, max, not) {
     return i;
 }
 function coinFlip(bias) {
+    if (bias == null || bias == undefined) {
+        bias = 0.5;
+    }
     return (Math.random() > bias);
 }
 function clip(n, min, max) {
@@ -626,6 +629,7 @@ class Player {
         this.Health.draw();
     }
     draw() {
+        renderWireframe(this, "player");
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
@@ -645,10 +649,7 @@ class Projectile {
         this.damage = damage;
     }
     draw() {
-        if (DEBUGFLAG) {
-            c.strokeStyle = "rgb(255,128,0)";
-            c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2);
-        }
+        renderWireframe(this, "projectile");
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
@@ -671,13 +672,10 @@ class Enemy {
         this.minHealth = 5;
         this.timeCreated = Date();
         this.burning = false;
-        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "ff8800", "ffff00"], this, 2, 2);
+        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "#ff8800", "#ffff00"], this, 2, 2);
     }
     draw() {
-        if (DEBUGFLAG) {
-            c.strokeStyle = "rgb(0,255,0)";
-            c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2);
-        }
+        renderWireframe(this, "enemy");
         if (this.burning) {
             this.haloObject.draw(5);
         }
@@ -710,10 +708,7 @@ class Particle {
         this.alpha = 1;
     }
     draw() {
-        if (DEBUGFLAG) {
-            c.strokeStyle = "rgb(0,0,255)";
-            c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2);
-        }
+        renderWireframe(this, "particle");
         c.save();
         c.globalAlpha = this.alpha;
         c.beginPath();
@@ -868,8 +863,7 @@ class Music {
 }
 const EnemySpawnTimeDecrement = 1;
 const EnemySpawnBias = innerHeight / innerWidth;
-const EnemyHealthMultiplier = 1;
-const EnemySpeedMultiplier = (Math.sqrt(w * w + h * h) / 2000);
+const EnemyMultiplier = (Math.sqrt(w * w + h * h) / 2000);
 const ProjectileSpeedMultiplier = 1;
 const ProjectileColor = "white";
 const PlayerColor = "white";
@@ -880,6 +874,7 @@ const ParticleMultiplier = 2;
 const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
 const MaxEnemies = 10;
+const RenderWireframe = false;
 const PI = Math.PI;
 const TWOPI = PI * 2;
 let player = new Player(cw, ch, PlayerRadius, PlayerColor);
@@ -1122,27 +1117,24 @@ function PlayMusic() {
     }
 }
 function SpawnEnemy() {
-    function genEnemy() {
-        let x;
-        let y;
-        const radius = Math.random() * (30 - 4) * EnemyHealthMultiplier + 4;
-        if (coinFlip(EnemySpawnBias)) {
-            x = Math.random() < 0.5 ? 0 - radius : w + radius;
-            y = Math.random() * h;
-        }
-        else {
-            x = Math.random() * w;
-            y = Math.random() < 0.5 ? 0 - radius : h + radius;
-        }
-        const color = `hsl(${Math.random() * 360},50%,50%)`;
-        const angle = Math.atan2(ch - y, cw - x);
-        const velocity = {
-            x: Math.cos(angle) * EnemySpeedMultiplier,
-            y: Math.sin(angle) * EnemySpeedMultiplier
-        };
-        return new Enemy(x, y, radius, color, velocity);
+    let x;
+    let y;
+    const radius = (map(Math.random(), 0, 1, 4, 30) * EnemyMultiplier) + 4;
+    if (coinFlip(EnemySpawnBias)) {
+        x = coinFlip() ? 0 - radius : w + radius;
+        y = Math.random() * h;
     }
-    enemies.push(genEnemy());
+    else {
+        x = Math.random() * w;
+        y = coinFlip() ? 0 - radius : h + radius;
+    }
+    const color = `hsl(${Math.random() * 360},50%,50%)`;
+    const angle = Math.atan2(ch - y, cw - x);
+    const velocity = {
+        x: Math.cos(angle) * EnemyMultiplier,
+        y: Math.sin(angle) * EnemyMultiplier
+    };
+    enemies.push(new Enemy(x, y, radius, color, velocity));
 }
 function AddScore(Value) {
     score += Value;
@@ -1220,5 +1212,27 @@ function calculateRWA() {
     let c = sigmoid(a / b, 0.5);
     let d = 1.5 - c;
     return d;
+}
+function renderWireframe(object, type) {
+    if (DEBUGFLAG && RenderWireframe) {
+        switch (type) {
+            case "particle":
+                c.strokeStyle = "rgb(0,0,255)";
+                break;
+            case "enemy":
+                c.strokeStyle = "rgb(255,0,0)";
+                break;
+            case "projectile":
+                c.strokeStyle = "rgb(0,255,0)";
+                break;
+            case "player":
+                c.strokeStyle = "rgb(0,255,255)";
+                break;
+            default:
+                break;
+        }
+        c.strokeRect(object.x - object.radius, object.y - object.radius, (object.radius * 2), (object.radius * 2));
+        c.stroke();
+    }
 }
 //# sourceMappingURL=compiled.js.map

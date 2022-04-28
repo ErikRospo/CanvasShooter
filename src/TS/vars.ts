@@ -1,7 +1,6 @@
 const EnemySpawnTimeDecrement = 1 as number;
 const EnemySpawnBias = innerHeight / innerWidth as number;
-const EnemyHealthMultiplier = 1 as number;
-const EnemySpeedMultiplier = (Math.sqrt(w * w + h * h) / 2000) as number;
+const EnemyMultiplier = (Math.sqrt(w * w + h * h) / 2000) as number;
 const ProjectileSpeedMultiplier = 1 as number;
 const ProjectileColor = "white" as string;
 const PlayerColor = "white" as string;
@@ -12,6 +11,7 @@ const ParticleMultiplier = 2 as number;
 const ParticleSpeed = 5 as number;
 const ParticleFadeSpeedMultiplier = 1 as number;
 const MaxEnemies = 10 as number;
+const RenderWireframe = false as boolean;
 const PI = Math.PI;
 const TWOPI = PI * 2;
 let player = new Player(cw, ch, PlayerRadius, PlayerColor);

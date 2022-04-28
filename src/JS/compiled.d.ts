@@ -65,7 +65,7 @@ declare function randomChoice(value: any[]): any;
 declare function randomChoiceNot(value: any[], not: any[]): any;
 declare function randomBetweenNot(min: number, max: number, not: number[]): number;
 declare function intBetweenNot(min: number, max: number, not: number[]): number;
-declare function coinFlip(bias: number | 0.5): boolean;
+declare function coinFlip(bias?: number): boolean;
 declare function clip(n: number, min: number, max: number): number;
 declare function clamp(x: number, min: number, max: number): number;
 declare function strictScale(i: number, imin: number, imax: number, omin: number, omax: number): number;
@@ -279,8 +279,7 @@ declare class Music {
 }
 declare const EnemySpawnTimeDecrement: number;
 declare const EnemySpawnBias: number;
-declare const EnemyHealthMultiplier: number;
-declare const EnemySpeedMultiplier: number;
+declare const EnemyMultiplier: number;
 declare const ProjectileSpeedMultiplier: number;
 declare const ProjectileColor: string;
 declare const PlayerColor: string;
@@ -291,6 +290,7 @@ declare const ParticleMultiplier: number;
 declare const ParticleSpeed: number;
 declare const ParticleFadeSpeedMultiplier: number;
 declare const MaxEnemies: number;
+declare const RenderWireframe: boolean;
 declare const PI: number;
 declare const TWOPI: number;
 declare let player: Player;
@@ -327,3 +327,8 @@ declare function OpenOptionsMenu(): void;
 declare function CloseOptionsMenu(): void;
 declare function spawnProjectile(x: number, y: number): void;
 declare function calculateRWA(): number;
+declare function renderWireframe(object: {
+    x: number;
+    y: number;
+    radius: number;
+}, type: string): void;

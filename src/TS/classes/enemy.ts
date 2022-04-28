@@ -18,7 +18,6 @@ class Enemy {
      * @param r starting radius for Enemy
      * @param color color for Enemy
      * @param velocity Starting velocity for enemy.
-     * @param pepper A number to add to the opject to hopefully add some randomness to the ids
      */
     constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }) {
 
@@ -31,7 +30,7 @@ class Enemy {
         this.minHealth = 5;
         this.timeCreated = Date();
         this.burning = false;
-        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "ff8800", "ffff00"], this, 2, 2)
+        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "#ff8800", "#ffff00"], this, 2, 2)
     }
     /**
      * @name draw
@@ -39,10 +38,7 @@ class Enemy {
      * @returns none
      */
     draw(): void {
-        if (DEBUGFLAG) {
-            c.strokeStyle = "rgb(0,255,0)"
-            c.rect(this.x - this.radius * 2, this.y - this.radius * 2, this.x + this.radius * 2, this.y + this.radius * 2)
-        }
+        renderWireframe(this, "enemy");
         if (this.burning) {
             this.haloObject.draw(5)
         }

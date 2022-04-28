@@ -45,6 +45,8 @@ class Player {
         this.Health.draw();
     }
     public draw() {
+        renderWireframe(this, "player");
+
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
