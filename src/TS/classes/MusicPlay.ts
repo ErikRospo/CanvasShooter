@@ -35,10 +35,17 @@ class Music {
     });
   }
   public play(): void {
-    this.stopAll()
+    this.stopAll();
 
-
-    this.music[this.current].play();
+    try {
+      this.music[this.current].play();
+    } catch (error) {
+      if (error instanceof DOMException) {
+        return;
+      } else {
+        console.error(error);
+      }
+    }
   }
   public pause(): void {
     this.music[this.current].pause();

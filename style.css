@@ -178,7 +178,8 @@ html {
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: capitalize;
-    font-family: var(--font)
+    font-family: var(--font);
+    text-shadow: 1px 1px 1px royalblue;
 }
 
 #HighScore>li:hover {

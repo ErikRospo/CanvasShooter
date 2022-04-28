@@ -805,7 +805,17 @@ class Music {
     }
     play() {
         this.stopAll();
-        this.music[this.current].play();
+        try {
+            this.music[this.current].play();
+        }
+        catch (error) {
+            if (error instanceof DOMException) {
+                return;
+            }
+            else {
+                console.error(error);
+            }
+        }
     }
     pause() {
         this.music[this.current].pause();
