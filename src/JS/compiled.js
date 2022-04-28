@@ -673,13 +673,9 @@ class Enemy {
         this.minHealth = 5;
         this.timeCreated = Date();
         this.burning = false;
-        this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "#ff8800", "#ffff00"], this, 2, 2);
     }
     draw() {
         renderWireframe(this, "enemy");
-        if (this.burning) {
-            this.haloObject.draw(5);
-        }
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
@@ -688,7 +684,6 @@ class Enemy {
     update() {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-        this.haloObject.update(5, this);
         this.draw();
     }
     ShouldDie(damage) {
@@ -1133,13 +1128,13 @@ function SpawnEnemy() {
     const radius = (map(Math.random(), 0, 1, 4, 30) * EnemyMultiplier) + 4;
     if (coinFlip(EnemySpawnBias)) {
         x = coinFlip() ? 0 - radius : w + radius;
-        y = Math.random() * h;
+        y = random(0, h);
     }
     else {
-        x = Math.random() * w;
+        x = random(0, w);
         y = coinFlip() ? 0 - radius : h + radius;
     }
-    const color = `hsl(${Math.random() * 360},50%,50%)`;
+    const color = `hsl(${random(0, 360)},50%,50%)`;
     const angle = Math.atan2(ch - y, cw - x);
     const velocity = {
         x: Math.cos(angle) * EnemyMultiplier,

@@ -219,7 +219,6 @@ declare class Enemy {
     timeCreated: string | Date;
     minHealth: number;
     burning: boolean;
-    haloObject: Halo;
     constructor(x: number, y: number, r: number, color: string, velocity: {
         x: number;
         y: number;

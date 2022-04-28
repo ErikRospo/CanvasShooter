@@ -65,15 +65,15 @@ function SpawnEnemy() {
     if (coinFlip(EnemySpawnBias)) {
         //spawn it along the x axis
         x = coinFlip() ? 0 - radius : w + radius;
-        y = Math.random() * h;
+        y = random(0, h);
     } else {
         //spawn it along the y axis
-        x = Math.random() * w;
+        x = random(0, w);
         y = coinFlip() ? 0 - radius : h + radius;
     }
     //choose a random color
     //the 50 saturation and lightness gives it a pastel-like color
-    const color = `hsl(${Math.random() * 360},50%,50%)`;
+    const color = `hsl(${random(0, 360)},50%,50%)`;
     //calculate the angle to the center from its current position
     const angle = Math.atan2(ch - y, cw - x);
     //set the x and y values accordingly
@@ -83,7 +83,6 @@ function SpawnEnemy() {
     };
     //add it to the enemies list
     enemies.push(new Enemy(x, y, radius, color, velocity));
-    //trigger every second
 }
 
 //add and update the score
