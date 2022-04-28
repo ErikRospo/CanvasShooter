@@ -1082,6 +1082,7 @@ function PageLoad() {
     XPBar.style.display = "none";
     OptionsSFXSlider.value = "0";
     OptionsMusicSlider.value = "0";
+    HighScoreLabel.style.display = "none";
     CloseOptionsMenu();
     UnpauseGame();
     MusicPlayer.pause();
