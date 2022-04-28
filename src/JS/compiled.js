@@ -17,6 +17,7 @@ const BigScoreEL = document.querySelector("#BigScoreEL");
 const BigScoreELLabel = document.querySelector("#PointsLabelEL");
 const NameDiv = document.querySelector("#NameInputDiv");
 const HighScoreList = document.querySelector("#HighScore");
+HighScoreList.style.display = "block";
 let relPath = PROD ? "/CanvasShooter/" : "";
 const ShootSound = new Audio(relPath + "Audio/sound/Shoot.wav");
 const HitNoKillSound = new Audio(relPath + "Audio/sound/HitNoKill.wav");
@@ -768,6 +769,7 @@ class HighScore {
             }
             ScoreElement.appendChild(node);
         }
+        ScoreElement.style.display = "block";
         return ScoreElement.innerHTML;
     }
 }
@@ -1076,13 +1078,11 @@ function init() {
     GameStarted = true;
 }
 function PageLoad() {
-    HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none";
     OptionsSFXSlider.value = "0";
     OptionsMusicSlider.value = "0";
     CloseOptionsMenu();
-    HighScoreList.style.display = "none";
     UnpauseGame();
     MusicPlayer.pause();
     AddDebugItem(0, "playerLevel");

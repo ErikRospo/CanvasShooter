@@ -40,6 +40,7 @@ class HighScore {
             }
             ScoreElement.appendChild(node)
         }
+        ScoreElement.style.display = "block";
         return ScoreElement.innerHTML
     }
 }

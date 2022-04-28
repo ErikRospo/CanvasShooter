@@ -22,6 +22,7 @@ const BigScoreELLabel = document.querySelector(
 ) as HTMLSpanElement;
 const NameDiv = document.querySelector("#NameInputDiv") as HTMLDivElement;
 const HighScoreList = document.querySelector("#HighScore") as HTMLOListElement;
+HighScoreList.style.display = "block";
 //Sound Effects
 let relPath = PROD ? "/CanvasShooter/" : "";
 const ShootSound = new Audio(relPath + "Audio/sound/Shoot.wav") as HTMLAudioElement;

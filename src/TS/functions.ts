@@ -14,14 +14,12 @@ function init() {
 }
 
 function PageLoad() {
-    HighScoreLabel.style.display = "none";
     ModalEL.style.display = "flex";
     XPBar.style.display = "none"
     OptionsSFXSlider.value = "0";
     OptionsMusicSlider.value = "0";
     
     CloseOptionsMenu();
-    HighScoreList.style.display = "none";
     UnpauseGame();
     MusicPlayer.pause();
     AddDebugItem(0, "playerLevel")
