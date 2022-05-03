@@ -10,6 +10,7 @@ const ParticleFriction = 0.99 as number;
 const ParticleMultiplier = 2 as number;
 const ParticleSpeed = 5 as number;
 const ParticleFadeSpeedMultiplier = 1 as number;
+const ParticleCap = 50 as number;
 const MaxEnemies = 10 as number;
 const RenderWireframe = false as boolean;
 const PI = Math.PI;

@@ -911,6 +911,7 @@ const ParticleFriction = 0.99;
 const ParticleMultiplier = 2;
 const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
+const ParticleCap = 50;
 const MaxEnemies = 10;
 const RenderWireframe = false;
 const PI = Math.PI;
@@ -1013,7 +1014,7 @@ function animate() {
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
             particles.forEach((particle, index) => {
-                if (particle.alpha <= 0) {
+                if (particle.alpha <= 0 || index > ParticleCap) {
                     particles.splice(index, 1);
                 }
                 else {
@@ -1275,5 +1276,16 @@ function renderWireframe(object, type) {
         c.strokeRect(object.x - object.radius, object.y - object.radius, (object.radius * 2), (object.radius * 2));
         c.stroke();
     }
+}
+function sanityCheck(object) {
+    if (object.radius < 0) {
+        console.log(`${object} radius is negative`);
+        return false;
+    }
+    if (object.x - object.radius < 0 || object.x + object.radius > w || object.y - object.radius < 0 || object.y + object.radius > h) {
+        console.log(`${object} is out of bounds`);
+        return false;
+    }
+    return true;
 }
 //# sourceMappingURL=compiled.js.map

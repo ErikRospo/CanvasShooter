@@ -292,6 +292,7 @@ declare const ParticleFriction: number;
 declare const ParticleMultiplier: number;
 declare const ParticleSpeed: number;
 declare const ParticleFadeSpeedMultiplier: number;
+declare const ParticleCap: number;
 declare const MaxEnemies: number;
 declare const RenderWireframe: boolean;
 declare const PI: number;
@@ -335,3 +336,8 @@ declare function renderWireframe(object: {
     y: number;
     radius: number;
 }, type: string): void;
+declare function sanityCheck(object: {
+    x: number;
+    y: number;
+    radius: number;
+}): boolean;

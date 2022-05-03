@@ -196,3 +196,15 @@ function renderWireframe(object: { x: number, y: number, radius: number; }, type
         c.stroke();
     }
 }
+function sanityCheck(object: { x: number, y: number, radius: number; }): boolean {
+    if (object.radius < 0) {
+        console.log(`${object} radius is negative`);
+        return false;
+    }
+
+    if (object.x - object.radius < 0 || object.x + object.radius > w || object.y - object.radius < 0 || object.y + object.radius > h) {
+        console.log(`${object} is out of bounds`);
+        return false;
+    }
+    return true;
+}

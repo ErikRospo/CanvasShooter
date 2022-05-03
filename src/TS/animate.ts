@@ -34,7 +34,7 @@ function animate() {
             //draw the particles
             particles.forEach((particle, index) => {
                 //if the alpha (opacity) is less than, or equal to zero, remove the particle
-                if (particle.alpha <= 0) {
+                if (particle.alpha <= 0 || index > ParticleCap) {
                     particles.splice(index, 1);
                 } else {
                     //otherwise, update the particle.
