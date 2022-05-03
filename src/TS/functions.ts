@@ -87,7 +87,7 @@ function SpawnEnemy() {
 
 //add and update the score
 function AddScore(Value: number) {
-    score += Value;
+    score += floor(Value, 1);
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
 }

@@ -188,3 +188,11 @@ function max(...numbers: number[]): number {
     }
     return v;
 }
+function round(Value: number, Place: number) {
+    return Math.round(Value / (10 ** Place)) * (10 ** Place);
+}
+function floor(Value: number, Place: number) {
+    return Math.floor(Value / (10 ** Place)) * (10 ** Place);
+} function ceil(Value: number, Place: number) {
+    return Math.ceil(Value / (10 ** Place)) * (10 ** Place);
+}

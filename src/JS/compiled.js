@@ -1148,7 +1148,7 @@ function SpawnEnemy() {
     enemies.push(new Enemy(x, y, radius, color, velocity));
 }
 function AddScore(Value) {
-    score += Value;
+    score += Math.floor(Value / 10) * 10;
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
 }
