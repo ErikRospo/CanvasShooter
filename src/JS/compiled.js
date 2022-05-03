@@ -161,6 +161,15 @@ function max(...numbers) {
     }
     return v;
 }
+function round(Value, Place) {
+    return Math.round(Value / (Math.pow(10, Place))) * (Math.pow(10, Place));
+}
+function floor(Value, Place) {
+    return Math.floor(Value / (Math.pow(10, Place))) * (Math.pow(10, Place));
+}
+function ceil(Value, Place) {
+    return Math.ceil(Value / (Math.pow(10, Place))) * (Math.pow(10, Place));
+}
 function AddDebugItem(value, id) {
     if (!DEBUGFLAG) {
         return null;
@@ -1148,7 +1157,7 @@ function SpawnEnemy() {
     enemies.push(new Enemy(x, y, radius, color, velocity));
 }
 function AddScore(Value) {
-    score += Math.floor(Value / 10) * 10;
+    score += floor(Value, 1);
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
 }
