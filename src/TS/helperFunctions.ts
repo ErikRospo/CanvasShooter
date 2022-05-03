@@ -16,9 +16,9 @@ function logx(val: number, base: number) {
  * @returns {number} a random number between min and max
  */
 function randomBetween(min: number, max: number): number {
-    return Math.random() * (max - min) + min
+    return map(Math.random(), 0, 1, min, max);
 }
-function random(min: number, max: number): number {
+function random(min = 0, max = 1): number {
     return randomBetween(min, max)
 }
 /**
@@ -27,7 +27,7 @@ function random(min: number, max: number): number {
  * @returns {number} a random integer between min and max 
  */
 function randomInt(min: number, max: number): number {
-    return Math.floor(randomBetween(min, max))
+    return Math.floor(random(min, max));
 }
 /**
  * 
@@ -71,7 +71,7 @@ function distance(x1: number,y1: number,x2: number,y2: number) {
  * @returns A randomly selected value from values
  */
 function randomChoice(value: any[]) {
-    let i = Math.round(Math.random() * value.length)
+    let i = Math.round(random() * value.length)
     return value[i]
 }
 /**
@@ -123,7 +123,7 @@ function coinFlip(bias?: number): boolean {
     if (bias == null || bias == undefined) {
         bias = 0.5;
     }
-    return (Math.random() > bias)
+    return (random() > bias);
 }
 function clip(n: number, min: number, max: number): number {
     return Math.min(Math.max(n, min), max)

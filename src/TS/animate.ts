@@ -79,18 +79,18 @@ function animate() {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                 // if dist minus the radiuses of the enemy and the projectile are less than 0, shrink or destroy the enemy
                 if (dist - enemy.radius - projectile.radius < 0) {
-                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
+                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
                         //add a particle to the rendering list
                         particles.push(new Particle(projectile.x,
                             projectile.y,
                             //give it a random radius
-                            Math.random() * (5 - 1) + 1,
+                            random() * (5 - 1) + 1,
                             //set its color to the killed enemy's
                             enemy.color,
                             // give it a random speed
                             {
-                                x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
-                                y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+                                x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
+                                y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
                             }));
                     }
                     //shrink enemy if it is large
