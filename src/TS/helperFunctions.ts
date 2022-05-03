@@ -141,7 +141,6 @@ function clamp(x: number, min: number, max: number): number {
 function strictScale(i: number, imin: number, imax: number, omin: number, omax: number): number {
     return clip(map(clip(i, imin, imax), imin, imax, omin, omax), omin, omax)
 }
-
 function sum(input: Array<number>) {
     let result = 0
     for (let index = 0; index < input.length; index++) {
@@ -193,6 +192,7 @@ function round(Value: number, Place: number) {
 }
 function floor(Value: number, Place: number) {
     return Math.floor(Value / (10 ** Place)) * (10 ** Place);
-} function ceil(Value: number, Place: number) {
+}
+function ceil(Value: number, Place: number) {
     return Math.ceil(Value / (10 ** Place)) * (10 ** Place);
 }

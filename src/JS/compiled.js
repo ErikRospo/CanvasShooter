@@ -699,7 +699,23 @@ class Enemy {
         if (this.IsDead || this.radius < 0) {
             return "dead";
         }
-        this.draw();
+        try {
+            this.draw();
+        }
+        catch (e) {
+            if (e instanceof DOMException) {
+                console.log("DOMException");
+                return "dead";
+            }
+            else {
+                if (e instanceof RangeError) {
+                    console.log("RangeError");
+                }
+                if (e instanceof TypeError) {
+                    console.log("TypeError");
+                }
+            }
+        }
         return "alive";
     }
     ShouldDie(damage) {
