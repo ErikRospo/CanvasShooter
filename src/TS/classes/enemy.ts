@@ -66,12 +66,8 @@ class Enemy {
                 console.log("DOMException");
                 return "dead";
             } else {
-                if (e instanceof RangeError) {
-                    console.log("RangeError");
-                }
-                if (e instanceof TypeError) {
-                    console.log("TypeError");
-                }
+                alert("Error: " + e);
+                throw e;
             }
 
         }
