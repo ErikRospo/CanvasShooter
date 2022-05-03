@@ -28,10 +28,10 @@ class Projectile {
     }
 
     public get IsOffScreen(): boolean {
-        return ((projectile.x + projectile.radius < 0) ||
-            (projectile.y + projectile.radius < 0) ||
-            (projectile.x - projectile.radius > w) ||
-            (projectile.y - projectile.radius > h));
+        return ((this.x + this.radius < 0) ||
+            (this.y + this.radius < 0) ||
+            (this.x - this.radius > w) ||
+            (this.y - this.radius > h));
     }
 
 }
