@@ -57,14 +57,11 @@ console.log(browserType);
 function logx(val, base) {
     return Math.log(val) / Math.log(base);
 }
-function randomBetween(min, max) {
-    return Math.random() * (max - min) + min;
-}
-function random(min, max) {
-    return randomBetween(min, max);
+function random(min = 0, max = 1) {
+    return map(Math.random(), 0, 1, min, max);
 }
 function randomInt(min, max) {
-    return Math.floor(randomBetween(min, max));
+    return Math.floor(random(min, max));
 }
 function map(input, input_start, input_end, output_start, output_end) {
     return output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start);
@@ -80,7 +77,7 @@ function distance(x1, y1, x2, y2) {
     return Math.pow(((Math.pow((x1 - x2), 2)) + (Math.pow((y1 - y2), 2))), 0.5);
 }
 function randomChoice(value) {
-    let i = Math.round(Math.random() * value.length);
+    let i = Math.round(random() * value.length);
     return value[i];
 }
 function randomChoiceNot(value, not) {
@@ -90,10 +87,10 @@ function randomChoiceNot(value, not) {
     }
     return i;
 }
-function randomBetweenNot(min, max, not) {
-    let i = randomBetween(min, max);
+function randomNot(min, max, not) {
+    let i = random(min, max);
     while (i in not) {
-        i = randomBetween(min, max);
+        i = random(min, max);
     }
     return i;
 }
@@ -108,7 +105,7 @@ function coinFlip(bias) {
     if (bias == null || bias == undefined) {
         bias = 0.5;
     }
-    return (Math.random() > bias);
+    return (random() > bias);
 }
 function clip(n, min, max) {
     return Math.min(Math.max(n, min), max);
@@ -198,220 +195,6 @@ AddDebugItem(innerWidth, "windowWidth");
 AddDebugItem(innerHeight, "windowHeight");
 AddDebugItem((Math.sqrt(w * w + h * h) / 2000), "EnemySpeedMultiplier");
 AddDebugItem(window.location.href, "Url");
-class Upgrade {
-    constructor(name, description) {
-        this.color = "#00000";
-        this.name = name;
-        this.Description = description;
-        this.effects = [];
-        this.requirements = [];
-    }
-    addEffect(effect) {
-        this.effects.push(effect);
-    }
-    addRequirement(requirement) {
-        this.requirements.push(requirement);
-    }
-}
-class UpgradeList {
-    constructor(Upgrades) {
-        this.upgrades = Upgrades;
-    }
-    addUpgrade(value) {
-        this.upgrades.push(value);
-        return this.upgrades;
-    }
-    removeUpgrade(value) {
-        this.upgrades.splice(this.upgrades.indexOf(value), 1);
-        return this.upgrades;
-    }
-}
-class AllUpgradesList extends UpgradeList {
-    constructor(Upgrades) {
-        super(Upgrades);
-        this.availableUpgrades = Upgrades;
-    }
-    get availibility() {
-        return this.upgrades.filter((value, _, array) => {
-            let requirementTruthy = [];
-            value.requirements.forEach((value1) => {
-                requirementTruthy.push(value1.IsRequirementTrue(array));
-            });
-            return requirementTruthy.every((value) => { return value; });
-        });
-    }
-}
-class Effect {
-    constructor(type, value, valuetype) {
-        this.type = type;
-        this.value = value;
-        this.valuetype = valuetype;
-    }
-    apply(player) {
-        switch (this.type) {
-            case "d":
-                if (this.valuetype == 1) {
-                    player.Damage += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.Damage *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.Damage = this.value;
-                }
-                break;
-            case "ss":
-                if (this.valuetype == 1) {
-                    player.ShotSpeed += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.ShotSpeed *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.ShotSpeed = this.value;
-                }
-                break;
-            case "sf":
-                if (this.valuetype == 1) {
-                    player.ShotsFired += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.ShotsFired *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.ShotsFired = this.value;
-                }
-                break;
-            case "ms":
-                if (this.valuetype == 1) {
-                    player.MultiShot += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.MultiShot *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.MultiShot = this.value;
-                }
-                break;
-            case "sz":
-                if (this.valuetype == 1) {
-                    player.ShotSize += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.ShotSize *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.ShotSize = this.value;
-                }
-                break;
-            case "h":
-                if (this.valuetype == 1) {
-                    player.Health.Health += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.Health.Health *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.Health.Health = this.value;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-}
-class Requirement {
-    constructor(requirement1, requirement2, operation, not) {
-        this.requirement1 = requirement1;
-        this.requirement2 = requirement2;
-        this.operation = operation;
-        this.not = not;
-    }
-    IsRequirementTrue(upgrades) {
-        if (this.operation == "or") {
-            if (!this.not) {
-                return ((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
-            }
-            else if (this.not) {
-                return !((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
-            }
-        }
-        else if (this.operation == "and") {
-            if (!this.not) {
-                return ((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
-            }
-            else if (this.not) {
-                return !((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
-            }
-        }
-        else if (this.operation == "not") {
-            return ((upgrades.indexOf(this.requirement1) == -1));
-        }
-        else {
-            return false;
-        }
-        return false;
-    }
-}
-function CreateUpgrades() {
-    let nullUpgrade = new Upgrade("", "");
-    let upgrade1 = new Upgrade("gigantisizer", "increases projectile size, decreases projectile speed.");
-    let upgrade2 = new Upgrade("shrinker", "decreases projectile size, increases projectile speed.");
-    let upgrade3 = new Upgrade("tankifier", "increases health, decreases everything else.");
-    let upgrade4 = new Upgrade("slowifier", "Makes shots super slow, and damage super high.");
-    let upgrade5 = new Upgrade("quickifier", "Makes shots super quick, but have very little damage.");
-    let upgrades = [];
-    upgrade1.addEffect(new Effect("ss", -10, 1));
-    upgrade1.addEffect(new Effect("sz", 10, 1));
-    upgrade2.addEffect(new Effect("ss", 10, 1));
-    upgrade2.addEffect(new Effect("sz", -10, 1));
-    upgrade3.addEffect(new Effect("d", -1, 1));
-    upgrade3.addEffect(new Effect("h", 1, 1));
-    upgrade3.addEffect(new Effect("ms", -1, 1));
-    upgrade3.addEffect(new Effect("sf", -1, 1));
-    upgrade3.addEffect(new Effect("ss", -1, 1));
-    upgrade3.addEffect(new Effect("sz", -1, 1));
-    upgrade4.addEffect(new Effect("d", 20, 3));
-    upgrade4.addEffect(new Effect("ss", 0.5, 3));
-    upgrade5.addEffect(new Effect("ss", 20, 3));
-    upgrade5.addEffect(new Effect("d", 0.5, 3));
-    upgrade1.addRequirement(new Requirement(upgrade2, nullUpgrade, "not", false));
-    upgrade2.addRequirement(new Requirement(upgrade1, nullUpgrade, "not", false));
-    upgrade4.addRequirement(new Requirement(upgrade5, nullUpgrade, "not", false));
-    upgrade5.addRequirement(new Requirement(upgrade4, nullUpgrade, "not", false));
-    upgrades.push(upgrade1);
-    upgrades.push(upgrade2);
-    upgrades.push(upgrade3);
-    upgrades.push(upgrade4);
-    upgrades.push(upgrade5);
-    return upgrades;
-}
-function CreateRandomUpgrades() {
-    let upgrades = [];
-    let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"];
-    let RequirementTypes = ["and", "or", "not"];
-    for (let index = 0; index < 100; index++) {
-        let upgrade = new Upgrade("", "");
-        for (let _ = 0; _ < randomInt(1, EffectTypes.length - 1); _++) {
-            let type = randomChoice(EffectTypes);
-            while (type in upgrade.effects) {
-                type = randomChoice(EffectTypes);
-            }
-            let value = randomInt(-50, 50);
-            let valueType = randomInt(1, 3);
-            if (valueType == 3) {
-                value = Math.abs(value);
-            }
-            upgrade.addEffect(new Effect(type, value, valueType));
-        }
-        upgrades.push(upgrade);
-    }
-    for (let index = 0; index < upgrades.length; index++) {
-        let upgrade = upgrades[index];
-        upgrade.addRequirement(new Requirement(randomChoiceNot(upgrades, [upgrade]), randomChoiceNot(upgrades, [upgrade]), randomChoice(RequirementTypes), coinFlip(0.5)));
-    }
-    return upgrades;
-}
 function SetProgressBar(Value) {
     XPBar.value = ((Value) / 10);
 }
@@ -640,6 +423,220 @@ class Player {
         return this.Health.willDie;
     }
 }
+class Upgrade {
+    constructor(name, description) {
+        this.color = "#00000";
+        this.name = name;
+        this.Description = description;
+        this.effects = [];
+        this.requirements = [];
+    }
+    addEffect(effect) {
+        this.effects.push(effect);
+    }
+    addRequirement(requirement) {
+        this.requirements.push(requirement);
+    }
+}
+class UpgradeList {
+    constructor(Upgrades) {
+        this.upgrades = Upgrades;
+    }
+    addUpgrade(value) {
+        this.upgrades.push(value);
+        return this.upgrades;
+    }
+    removeUpgrade(value) {
+        this.upgrades.splice(this.upgrades.indexOf(value), 1);
+        return this.upgrades;
+    }
+}
+class AllUpgradesList extends UpgradeList {
+    constructor(Upgrades) {
+        super(Upgrades);
+        this.availableUpgrades = Upgrades;
+    }
+    get availibility() {
+        return this.upgrades.filter((value, _, array) => {
+            let requirementTruthy = [];
+            value.requirements.forEach((value1) => {
+                requirementTruthy.push(value1.IsRequirementTrue(array));
+            });
+            return requirementTruthy.every((value) => { return value; });
+        });
+    }
+}
+class Effect {
+    constructor(type, value, valuetype) {
+        this.type = type;
+        this.value = value;
+        this.valuetype = valuetype;
+    }
+    apply(player) {
+        switch (this.type) {
+            case "d":
+                if (this.valuetype == 1) {
+                    player.Damage += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.Damage *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.Damage = this.value;
+                }
+                break;
+            case "ss":
+                if (this.valuetype == 1) {
+                    player.ShotSpeed += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.ShotSpeed *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.ShotSpeed = this.value;
+                }
+                break;
+            case "sf":
+                if (this.valuetype == 1) {
+                    player.ShotsFired += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.ShotsFired *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.ShotsFired = this.value;
+                }
+                break;
+            case "ms":
+                if (this.valuetype == 1) {
+                    player.MultiShot += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.MultiShot *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.MultiShot = this.value;
+                }
+                break;
+            case "sz":
+                if (this.valuetype == 1) {
+                    player.ShotSize += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.ShotSize *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.ShotSize = this.value;
+                }
+                break;
+            case "h":
+                if (this.valuetype == 1) {
+                    player.Health.Health += this.value;
+                }
+                else if (this.valuetype == 2) {
+                    player.Health.Health *= this.value;
+                }
+                else if (this.valuetype == 3) {
+                    player.Health.Health = this.value;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+}
+class Requirement {
+    constructor(requirement1, requirement2, operation, not) {
+        this.requirement1 = requirement1;
+        this.requirement2 = requirement2;
+        this.operation = operation;
+        this.not = not;
+    }
+    IsRequirementTrue(upgrades) {
+        if (this.operation == "or") {
+            if (!this.not) {
+                return ((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
+            }
+            else if (this.not) {
+                return !((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
+            }
+        }
+        else if (this.operation == "and") {
+            if (!this.not) {
+                return ((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
+            }
+            else if (this.not) {
+                return !((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
+            }
+        }
+        else if (this.operation == "not") {
+            return ((upgrades.indexOf(this.requirement1) == -1));
+        }
+        else {
+            return false;
+        }
+        return false;
+    }
+}
+function CreateUpgrades() {
+    let nullUpgrade = new Upgrade("", "");
+    let upgrade1 = new Upgrade("gigantisizer", "increases projectile size, decreases projectile speed.");
+    let upgrade2 = new Upgrade("shrinker", "decreases projectile size, increases projectile speed.");
+    let upgrade3 = new Upgrade("tankifier", "increases health, decreases everything else.");
+    let upgrade4 = new Upgrade("slowifier", "Makes shots super slow, and damage super high.");
+    let upgrade5 = new Upgrade("quickifier", "Makes shots super quick, but have very little damage.");
+    let upgrades = [];
+    upgrade1.addEffect(new Effect("ss", -10, 1));
+    upgrade1.addEffect(new Effect("sz", 10, 1));
+    upgrade2.addEffect(new Effect("ss", 10, 1));
+    upgrade2.addEffect(new Effect("sz", -10, 1));
+    upgrade3.addEffect(new Effect("d", -1, 1));
+    upgrade3.addEffect(new Effect("h", 1, 1));
+    upgrade3.addEffect(new Effect("ms", -1, 1));
+    upgrade3.addEffect(new Effect("sf", -1, 1));
+    upgrade3.addEffect(new Effect("ss", -1, 1));
+    upgrade3.addEffect(new Effect("sz", -1, 1));
+    upgrade4.addEffect(new Effect("d", 20, 3));
+    upgrade4.addEffect(new Effect("ss", 0.5, 3));
+    upgrade5.addEffect(new Effect("ss", 20, 3));
+    upgrade5.addEffect(new Effect("d", 0.5, 3));
+    upgrade1.addRequirement(new Requirement(upgrade2, nullUpgrade, "not", false));
+    upgrade2.addRequirement(new Requirement(upgrade1, nullUpgrade, "not", false));
+    upgrade4.addRequirement(new Requirement(upgrade5, nullUpgrade, "not", false));
+    upgrade5.addRequirement(new Requirement(upgrade4, nullUpgrade, "not", false));
+    upgrades.push(upgrade1);
+    upgrades.push(upgrade2);
+    upgrades.push(upgrade3);
+    upgrades.push(upgrade4);
+    upgrades.push(upgrade5);
+    return upgrades;
+}
+function CreateRandomUpgrades() {
+    let upgrades = [];
+    let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"];
+    let RequirementTypes = ["and", "or", "not"];
+    for (let index = 0; index < 100; index++) {
+        let upgrade = new Upgrade("", "");
+        for (let _ = 0; _ < randomInt(1, EffectTypes.length - 1); _++) {
+            let type = randomChoice(EffectTypes);
+            while (type in upgrade.effects) {
+                type = randomChoice(EffectTypes);
+            }
+            let value = randomInt(-50, 50);
+            let valueType = randomInt(1, 3);
+            if (valueType == 3) {
+                value = Math.abs(value);
+            }
+            upgrade.addEffect(new Effect(type, value, valueType));
+        }
+        upgrades.push(upgrade);
+    }
+    for (let index = 0; index < upgrades.length; index++) {
+        let upgrade = upgrades[index];
+        upgrade.addRequirement(new Requirement(randomChoiceNot(upgrades, [upgrade]), randomChoiceNot(upgrades, [upgrade]), randomChoice(RequirementTypes), coinFlip(0.5)));
+    }
+    return upgrades;
+}
 class Projectile {
     constructor(x, y, r, color, velocity, damage) {
         this.x = x;
@@ -660,6 +657,12 @@ class Projectile {
         this.draw();
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+    }
+    get IsOffScreen() {
+        return ((this.x + this.radius < 0) ||
+            (this.y + this.radius < 0) ||
+            (this.x - this.radius > w) ||
+            (this.y - this.radius > h));
     }
 }
 class Enemy {
@@ -689,9 +692,12 @@ class Enemy {
     ShouldDie(damage) {
         return (this.radius - damage < this.minHealth);
     }
+    get IsDead() {
+        return this.radius < this.minHealth;
+    }
     damage(amount) {
         this.radius -= amount;
-        return this.ShouldDie(amount);
+        return this.IsDead;
     }
 }
 class Particle {
@@ -719,7 +725,7 @@ class Particle {
         this.velocity.y *= ParticleFriction;
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-        this.alpha -= randomBetween(0.001, 0.025) * ParticleFadeSpeedMultiplier;
+        this.alpha -= random(0.001, 0.025) * ParticleFadeSpeedMultiplier;
     }
 }
 class HighScore {
@@ -992,10 +998,7 @@ function animate() {
         }
         projectiles.forEach((projectile, index) => {
             projectile.update();
-            if ((projectile.x + projectile.radius < 0) ||
-                (projectile.y + projectile.radius < 0) ||
-                (projectile.x - projectile.radius > w) ||
-                (projectile.y - projectile.radius > h)) {
+            if (projectile.IsOffScreen) {
                 projectiles.splice(index, 1);
                 if (!SFXMuted) {
                     MissSound.play();
@@ -1014,42 +1017,44 @@ function animate() {
                     player.Health.removeHealth();
                     if (!SFXMuted) {
                         HealthLoseSound.play();
-                        console.log("HealthLoseSound");
+                        if (!DEBUGFLAG) {
+                            console.log("HealthLoseSound");
+                        }
                     }
                     ;
                     enemies.splice(index, 1);
                     SetDebugItem(player.Health.Health, "playerHealth");
-                    EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
+                    EnemySpawnTime = clamp(EnemySpawnTime + 10, 40, 70);
                 }
             }
             projectiles.forEach((projectile, index2) => {
                 const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                 if (dist - enemy.radius - projectile.radius < 0) {
-                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * Math.random()); i++) {
-                        particles.push(new Particle(projectile.x, projectile.y, Math.random() * (5 - 1) + 1, enemy.color, {
-                            x: ((Math.random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed),
-                            y: ((Math.random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * Math.random() * ParticleSpeed)
+                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
+                        particles.push(new Particle(projectile.x, projectile.y, random(1, 5), enemy.color, {
+                            x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
+                            y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
                         }));
                     }
-                    if (!enemy.ShouldDie(projectile.damage)) {
-                        if (!SFXMuted) {
-                            HitNoKillSound.play();
-                        }
-                        AddScore(100);
-                        enemy.radius -= projectile.damage;
-                        setTimeout(() => {
-                            projectiles.splice(index2, 1);
-                        }, 2);
-                    }
-                    else {
+                    enemy.damage(projectile.damage);
+                    if (enemy.IsDead) {
                         if (!SFXMuted) {
                             HitAndKillSound.play();
                         }
-                        AddScore(250);
+                        AddScore(20 * enemy.startingRadius);
                         setTimeout(() => {
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
-                        }, 2);
+                        }, 10);
+                    }
+                    else {
+                        if (!SFXMuted) {
+                            HitNoKillSound.play();
+                        }
+                        AddScore(15 * enemy.radius);
+                        setTimeout(() => {
+                            projectiles.splice(index2, 1);
+                        }, 10);
                     }
                 }
                 if (dist - enemy.radius - projectile.radius < 20) {
@@ -1125,7 +1130,7 @@ function PlayMusic() {
 function SpawnEnemy() {
     let x;
     let y;
-    const radius = (map(Math.random(), 0, 1, 4, 30) * EnemyMultiplier) + 4;
+    const radius = (random(4, 30) * EnemyMultiplier) + 4;
     if (coinFlip(EnemySpawnBias)) {
         x = coinFlip() ? 0 - radius : w + radius;
         y = random(0, h);

@@ -48,8 +48,7 @@ declare let SFXMuted: boolean;
 declare let OptionsOpen: boolean;
 declare let browserType: Navigator;
 declare function logx(val: number, base: number): number;
-declare function randomBetween(min: number, max: number): number;
-declare function random(min: number, max: number): number;
+declare function random(min?: number, max?: number): number;
 declare function randomInt(min: number, max: number): number;
 declare function map(input: number, input_start: number, input_end: number, output_start: number, output_end: number): number;
 declare function threshold(p1: {
@@ -63,7 +62,7 @@ declare function FrameIDToTime(ID: number): number;
 declare function distance(x1: number, y1: number, x2: number, y2: number): number;
 declare function randomChoice(value: any[]): any;
 declare function randomChoiceNot(value: any[], not: any[]): any;
-declare function randomBetweenNot(min: number, max: number, not: number[]): number;
+declare function randomNot(min: number, max: number, not: number[]): number;
 declare function intBetweenNot(min: number, max: number, not: number[]): number;
 declare function coinFlip(bias?: number): boolean;
 declare function clip(n: number, min: number, max: number): number;
@@ -79,44 +78,6 @@ declare function min(...numbers: number[]): number;
 declare function max(...numbers: number[]): number;
 declare function AddDebugItem(value: any, id: string): HTMLUListElement | null;
 declare function SetDebugItem(value: any, id: string, label?: string): HTMLElement | null;
-declare class Upgrade {
-    effects: Effect[];
-    requirements: Requirement[];
-    Description: string;
-    color: string;
-    name: string;
-    constructor(name: string, description: string);
-    addEffect(effect: Effect): void;
-    addRequirement(requirement: Requirement): void;
-}
-declare class UpgradeList {
-    upgrades: Upgrade[];
-    constructor(Upgrades: Upgrade[]);
-    addUpgrade(value: Upgrade): Upgrade[];
-    removeUpgrade(value: Upgrade): Upgrade[];
-}
-declare class AllUpgradesList extends UpgradeList {
-    availableUpgrades: Upgrade[];
-    constructor(Upgrades: Upgrade[]);
-    get availibility(): Upgrade[];
-}
-declare class Effect {
-    type: string;
-    value: number;
-    valuetype: number;
-    constructor(type: string, value: number, valuetype: number);
-    apply(player: Player): void;
-}
-declare class Requirement {
-    requirement1: Upgrade;
-    requirement2: Upgrade;
-    operation: string;
-    not: boolean;
-    constructor(requirement1: Upgrade, requirement2: Upgrade, operation: string, not: boolean);
-    IsRequirementTrue(upgrades: Upgrade[]): boolean;
-}
-declare function CreateUpgrades(): Upgrade[];
-declare function CreateRandomUpgrades(): Upgrade[];
 declare function SetProgressBar(Value: number): void;
 declare function IncreaseProgressBar(Value: number): void;
 declare function AnimateProgressBar(frameID: number): void;
@@ -188,6 +149,44 @@ declare class Player {
     draw(): void;
     get willDie(): boolean;
 }
+declare class Upgrade {
+    effects: Effect[];
+    requirements: Requirement[];
+    Description: string;
+    color: string;
+    name: string;
+    constructor(name: string, description: string);
+    addEffect(effect: Effect): void;
+    addRequirement(requirement: Requirement): void;
+}
+declare class UpgradeList {
+    upgrades: Upgrade[];
+    constructor(Upgrades: Upgrade[]);
+    addUpgrade(value: Upgrade): Upgrade[];
+    removeUpgrade(value: Upgrade): Upgrade[];
+}
+declare class AllUpgradesList extends UpgradeList {
+    availableUpgrades: Upgrade[];
+    constructor(Upgrades: Upgrade[]);
+    get availibility(): Upgrade[];
+}
+declare class Effect {
+    type: string;
+    value: number;
+    valuetype: number;
+    constructor(type: string, value: number, valuetype: number);
+    apply(player: Player): void;
+}
+declare class Requirement {
+    requirement1: Upgrade;
+    requirement2: Upgrade;
+    operation: string;
+    not: boolean;
+    constructor(requirement1: Upgrade, requirement2: Upgrade, operation: string, not: boolean);
+    IsRequirementTrue(upgrades: Upgrade[]): boolean;
+}
+declare function CreateUpgrades(): Upgrade[];
+declare function CreateRandomUpgrades(): Upgrade[];
 declare class Projectile {
     x: number;
     y: number;
@@ -204,6 +203,7 @@ declare class Projectile {
     }, damage: number);
     draw(): void;
     update(): void;
+    get IsOffScreen(): boolean;
 }
 declare class Enemy {
     x: number;
@@ -226,6 +226,7 @@ declare class Enemy {
     draw(): void;
     update(): void;
     ShouldDie(damage: number): boolean;
+    get IsDead(): boolean;
     damage(amount: number): boolean;
 }
 declare class Particle {
