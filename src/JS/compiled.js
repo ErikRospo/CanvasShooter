@@ -1006,6 +1006,7 @@ function animate() {
         if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5)) {
             SpawnEnemy();
             EnemySpawnTime -= 0.125;
+            EnemySpawnTime = clamp(EnemySpawnTime, 1, DefaultEnemySpawnTime * 2);
         }
         SetDebugItem(EnemySpawnTime, "SpawnTime");
         player.update();

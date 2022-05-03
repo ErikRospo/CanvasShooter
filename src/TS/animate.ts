@@ -10,15 +10,16 @@ function animate() {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
         SetDebugItem(player.cachedLevels, "playerCashedLevels");
-        //if the AnimationID modulo the floor of the EnemySpawnTime is equal to zero (eg. the AnimID is a multiple of the EnemySpawnTime )
-        //and the enemies list length is less than the maxEnemies
-        //or, If the length of the enemies is less than 5 of its max capacity,
+        /*
+        1. If the animationID is divisible by EnemySpawnTime, and the number of enemies is less than MaxEnemies, we spawn an enemy.
+        2. Or, if the number of enemies is lower than 5 less than the MaxEnemies, we also spawn an enemy.
+        3. We then decrement the EnemySpawnTime by 0.125.
+        4. We also clamp the EnemySpawnTime to a minimum of 1.
+        */
         if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5)) {
-            //Spawn an enemy
-
             SpawnEnemy();
-            //and decrement the SpawnTime
             EnemySpawnTime -= 0.125;
+            EnemySpawnTime = clamp(EnemySpawnTime, 1, DefaultEnemySpawnTime * 2);
         }
         SetDebugItem(EnemySpawnTime, "SpawnTime")
         //draw the player
