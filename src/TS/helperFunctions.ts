@@ -15,11 +15,9 @@ function logx(val: number, base: number) {
  * @param {number} max the maximum number
  * @returns {number} a random number between min and max
  */
-function randomBetween(min: number, max: number): number {
-    return map(Math.random(), 0, 1, min, max);
-}
 function random(min = 0, max = 1): number {
-    return randomBetween(min, max)
+    return map(Math.random(), 0, 1, min, max);
+
 }
 /**
  * @param {number} min the minumum number [inclusive]
@@ -94,10 +92,10 @@ function randomChoiceNot(value: any[], not: any[]) {
  * @param not Numbers not to choose
  * @returns A number between Min and Max that is not in not
  */
-function randomBetweenNot(min: number, max: number, not: number[]): number {
-    let i = randomBetween(min, max)
+function randomNot(min: number, max: number, not: number[]): number {
+    let i = random(min, max)
     while (i in not) {
-        i = randomBetween(min, max)
+        i = random(min, max)
     }
     return i
 }

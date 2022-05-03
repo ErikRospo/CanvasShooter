@@ -32,6 +32,6 @@ class Particle {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
 
-        this.alpha -= randomBetween(0.001, 0.025) * ParticleFadeSpeedMultiplier;
+        this.alpha -= random(0.001, 0.025) * ParticleFadeSpeedMultiplier;
     }
 }
