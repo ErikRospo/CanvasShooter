@@ -60,7 +60,7 @@ function SpawnEnemy() {
     let x: number;
     let y: number;
     //give it a radius
-    const radius = (map(random(), 0, 1, 4, 30) * EnemyMultiplier) + 4;
+    const radius = (random(4, 30) * EnemyMultiplier) + 4;
     //randomly decide whether to spawn it height or width-wise
     if (coinFlip(EnemySpawnBias)) {
         //spawn it along the x axis

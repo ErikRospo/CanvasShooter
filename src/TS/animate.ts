@@ -84,7 +84,7 @@ function animate() {
                         particles.push(new Particle(projectile.x,
                             projectile.y,
                             //give it a random radius
-                            random() * (5 - 1) + 1,
+                            random(1, 5),
                             //set its color to the killed enemy's
                             enemy.color,
                             // give it a random speed
