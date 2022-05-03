@@ -227,7 +227,7 @@ declare class Enemy {
         y: number;
     });
     draw(): void;
-    update(): void;
+    update(): string;
     ShouldDie(damage: number): boolean;
     get IsDead(): boolean;
     damage(amount: number): boolean;

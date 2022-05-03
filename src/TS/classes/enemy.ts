@@ -50,14 +50,17 @@ class Enemy {
     /**
      * @name update
      * @description updates the enemy's position
-     * @returns none
+     * @returns if the enemy is dead
      */
-    update(): void {
+    update(): string {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
         // this.haloObject.update(5, this)
+        if (this.IsDead || this.radius < 0) {
+            return "dead";
+        }
         this.draw();
-
+        return "alive"
     }
     /**
      * @name ShouldDie

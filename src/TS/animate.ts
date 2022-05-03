@@ -56,95 +56,102 @@ function animate() {
         //draw the enemies
         enemies.forEach((enemy, index) => {
             //update each enemy
-            enemy.update();
-            //get the distance to the player
-            const dist = distance(player.x, player.y, enemy.x, enemy.y);
-            //if the enemy is touching the player
-            if (dist - enemy.radius - player.radius < 0) {
-                //if the player has no more health
-                if (player.willDie) {
-                    //remove the healthbar
-                    player.Health.removeHealth();
-                    //and game over, passing in the animationID, so we can stop it.
-                    gameOver(animationID);
-                } else {
-                    //otherwise, remove a health
-                    player.Health.removeHealth();
-                    //and play the healthlose sound
-                    if (!SFXMuted) {
-                        HealthLoseSound.play();
-                        //if we are not in production
-                        if (!DEBUGFLAG) {
-                            console.log("HealthLoseSound");
-                        }
-                    };
-                    //remove the enemy
-                    enemies.splice(index, 1);
-                    //and update the player's debug item with their new health
-                    SetDebugItem(player.Health.Health, "playerHealth");
-                    //and update the EnemySpawn Time, so it is a little less punnishing
-                    EnemySpawnTime = clamp(EnemySpawnTime + 10, 40, 70)
+            let r = enemy.update();
+            if (r == "dead") {
+                enemies.splice(index, 1);
 
-                }
-                // SetHealthICONs(player.Health, player.MaxHealth);
             }
-            projectiles.forEach((projectile, index2) => {
-                //get the distance between the projectile and the enemy
-                const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
-                // if dist minus the radiuses of the enemy and the projectile are less than 0, shrink or destroy the enemy
-                if (dist - enemy.radius - projectile.radius < 0) {
-                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
-                        //add a particle to the rendering list
-                        particles.push(new Particle(projectile.x,
-                            projectile.y,
-                            //give it a random radius
-                            random(1, 5),
-                            //set its color to the killed enemy's
-                            enemy.color,
-                            // give it a random speed
-                            {
-                                x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
-                                y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
-                            }));
-                    }
-                    //damage the enemy
-                    enemy.damage(projectile.damage);
-
-                    //and check if it is dead
-                    if (enemy.IsDead) {
-                        //if it is
-                        //play the HitAndKill Sound
-                        if (!SFXMuted) {
-                            HitAndKillSound.play();
-                        }
-                        //add the score, and update the content
-                        AddScore(20 * enemy.startingRadius);
-                        // delete the enemy and projectile, after a small delay
-                        setTimeout(() => {
-                            enemies.splice(index, 1);
-                            projectiles.splice(index2, 1);
-                        }, 10);
+            if (r != "dead") {
+                //get the distance to the player
+                const dist = distance(player.x, player.y, enemy.x, enemy.y);
+                //if the enemy is touching the player
+                if (dist - enemy.radius - player.radius < 0) {
+                    //if the player has no more health
+                    if (player.willDie) {
+                        //remove the healthbar
+                        player.Health.removeHealth();
+                        //and game over, passing in the animationID, so we can stop it.
+                        gameOver(animationID);
                     } else {
-                        //if it isn't
-                        //play the HitNoKill sound
+                        //otherwise, remove a health
+                        player.Health.removeHealth();
+                        //and play the healthlose sound
                         if (!SFXMuted) {
-                            HitNoKillSound.play();
+                            HealthLoseSound.play();
+                            //if we are not in production
+                            if (!DEBUGFLAG) {
+                                console.log("HealthLoseSound");
+                            }
+                        };
+                        //remove the enemy
+                        enemies.splice(index, 1);
+                        //and update the player's debug item with their new health
+                        SetDebugItem(player.Health.Health, "playerHealth");
+                        //and update the EnemySpawn Time, so it is a little less punnishing
+                        EnemySpawnTime = clamp(EnemySpawnTime + 10, 40, 70);
+
+                    }
+                    // SetHealthICONs(player.Health, player.MaxHealth);
+                }
+                projectiles.forEach((projectile, index2) => {
+                    //get the distance between the projectile and the enemy
+                    const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
+                    // if dist minus the radiuses of the enemy and the projectile are less than 0, shrink or destroy the enemy
+                    if (dist - enemy.radius - projectile.radius < 0) {
+                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
+                            //add a particle to the rendering list
+                            particles.push(new Particle(projectile.x,
+                                projectile.y,
+                                //give it a random radius
+                                random(1, 5),
+                                //set its color to the killed enemy's
+                                enemy.color,
+                                // give it a random speed
+                                {
+                                    x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
+                                    y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
+                                }));
                         }
-                        //add the score
-                        AddScore(15 * enemy.radius);
-                        //and delete the projectile, after 10 miliseconds
-                        //the delay helps prevent stuttering.
-                        setTimeout(() => {
-                            projectiles.splice(index2, 1);
-                        }, 10);
+                        //damage the enemy
+                        enemy.damage(projectile.damage);
+
+                        //and check if it is dead
+                        if (enemy.IsDead) {
+                            //if it is
+                            //play the HitAndKill Sound
+                            if (!SFXMuted) {
+                                HitAndKillSound.play();
+                            }
+                            //add the score, and update the content
+                            AddScore(20 * enemy.startingRadius);
+                            // delete the enemy and projectile, after a small delay
+                            setTimeout(() => {
+                                enemies.splice(index, 1);
+                                projectiles.splice(index2, 1);
+                            }, 1);
+                        } else {
+                            //if it isn't
+                            //play the HitNoKill sound
+                            if (!SFXMuted) {
+                                HitNoKillSound.play();
+                            }
+                            //add the score
+                            AddScore(15 * enemy.radius);
+                            //and delete the projectile, after 10 miliseconds
+                            //the delay helps prevent stuttering.
+                            setTimeout(() => {
+                                projectiles.splice(index2, 1);
+                            }, 1);
+                        }
                     }
-                }
-                if (dist - enemy.radius - projectile.radius < 20) {
-                    if (!SFXMuted) {
-                        MissSound.play();
+                    if (dist - enemy.radius - projectile.radius < 20) {
+                        if (!SFXMuted) {
+                            MissSound.play();
+                        }
                     }
-                }
-            });
+                });
+            }
+
         });
         //if you have passed freq, and your score is not zero,
         if ((lastScore % freq > score % freq) && (score != 0)) {

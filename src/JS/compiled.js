@@ -696,7 +696,11 @@ class Enemy {
     update() {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
+        if (this.IsDead || this.radius < 0) {
+            return "dead";
+        }
         this.draw();
+        return "alive";
     }
     ShouldDie(damage) {
         return (this.radius - damage < this.minHealth);
@@ -1015,63 +1019,68 @@ function animate() {
             }
         });
         enemies.forEach((enemy, index) => {
-            enemy.update();
-            const dist = distance(player.x, player.y, enemy.x, enemy.y);
-            if (dist - enemy.radius - player.radius < 0) {
-                if (player.willDie) {
-                    player.Health.removeHealth();
-                    gameOver(animationID);
-                }
-                else {
-                    player.Health.removeHealth();
-                    if (!SFXMuted) {
-                        HealthLoseSound.play();
-                        if (!DEBUGFLAG) {
-                            console.log("HealthLoseSound");
-                        }
-                    }
-                    ;
-                    enemies.splice(index, 1);
-                    SetDebugItem(player.Health.Health, "playerHealth");
-                    EnemySpawnTime = clamp(EnemySpawnTime + 10, 40, 70);
-                }
+            let r = enemy.update();
+            if (r == "dead") {
+                enemies.splice(index, 1);
             }
-            projectiles.forEach((projectile, index2) => {
-                const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
-                if (dist - enemy.radius - projectile.radius < 0) {
-                    for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
-                        particles.push(new Particle(projectile.x, projectile.y, random(1, 5), enemy.color, {
-                            x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
-                            y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
-                        }));
-                    }
-                    enemy.damage(projectile.damage);
-                    if (enemy.IsDead) {
-                        if (!SFXMuted) {
-                            HitAndKillSound.play();
-                        }
-                        AddScore(20 * enemy.startingRadius);
-                        setTimeout(() => {
-                            enemies.splice(index, 1);
-                            projectiles.splice(index2, 1);
-                        }, 10);
+            if (r != "dead") {
+                const dist = distance(player.x, player.y, enemy.x, enemy.y);
+                if (dist - enemy.radius - player.radius < 0) {
+                    if (player.willDie) {
+                        player.Health.removeHealth();
+                        gameOver(animationID);
                     }
                     else {
+                        player.Health.removeHealth();
                         if (!SFXMuted) {
-                            HitNoKillSound.play();
+                            HealthLoseSound.play();
+                            if (!DEBUGFLAG) {
+                                console.log("HealthLoseSound");
+                            }
                         }
-                        AddScore(15 * enemy.radius);
-                        setTimeout(() => {
-                            projectiles.splice(index2, 1);
-                        }, 10);
+                        ;
+                        enemies.splice(index, 1);
+                        SetDebugItem(player.Health.Health, "playerHealth");
+                        EnemySpawnTime = clamp(EnemySpawnTime + 10, 40, 70);
                     }
                 }
-                if (dist - enemy.radius - projectile.radius < 20) {
-                    if (!SFXMuted) {
-                        MissSound.play();
+                projectiles.forEach((projectile, index2) => {
+                    const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
+                    if (dist - enemy.radius - projectile.radius < 0) {
+                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
+                            particles.push(new Particle(projectile.x, projectile.y, random(1, 5), enemy.color, {
+                                x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
+                                y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
+                            }));
+                        }
+                        enemy.damage(projectile.damage);
+                        if (enemy.IsDead) {
+                            if (!SFXMuted) {
+                                HitAndKillSound.play();
+                            }
+                            AddScore(20 * enemy.startingRadius);
+                            setTimeout(() => {
+                                enemies.splice(index, 1);
+                                projectiles.splice(index2, 1);
+                            }, 1);
+                        }
+                        else {
+                            if (!SFXMuted) {
+                                HitNoKillSound.play();
+                            }
+                            AddScore(15 * enemy.radius);
+                            setTimeout(() => {
+                                projectiles.splice(index2, 1);
+                            }, 1);
+                        }
                     }
-                }
-            });
+                    if (dist - enemy.radius - projectile.radius < 20) {
+                        if (!SFXMuted) {
+                            MissSound.play();
+                        }
+                    }
+                });
+            }
         });
         if ((lastScore % freq > score % freq) && (score != 0)) {
             player.Health.addHealth(1);
