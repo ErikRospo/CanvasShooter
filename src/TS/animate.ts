@@ -1,26 +1,30 @@
 function animate() {
     animationID = requestAnimationFrame(animate);
+    //set a bunch of debug items
     SetDebugItem(innerWidth, "windowWidth");
     SetDebugItem(innerHeight, "windowHeight");
     SetDebugItem(innerHeight * innerWidth, "WindowArea");
     SetDebugItem((Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight) / 2000), "EnemySpeedMultiplier");
-
-    // enemies = enemies.filter((value) => {
-        // return !(value.id in enemiesToRemove)
-    // })
-    // enemiesToRemove.splice(0, enemiesToRemove.length);
+    //if the game is not paused
     if (!Paused) {
         CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
         SetDebugItem(player.cachedLevels, "playerCashedLevels");
+        //if the AnimationID modulo the floor of the EnemySpawnTime is equal to zero (eg. the AnimID is a multiple of the EnemySpawnTime )
+        //and the enemies list length is less than the maxEnemies
+        //or, If the length of the enemies is less than 5 of its max capacity,
         if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5)) {
+            //Spawn an enemy
+
             SpawnEnemy();
+            //and decrement the SpawnTime
             EnemySpawnTime -= 0.125;
         }
         SetDebugItem(EnemySpawnTime, "SpawnTime")
         //draw the player
         player.update();
         AnimateProgressBar(animationID);
+
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade out effect
         c.fillStyle = "rgba(0,0,0,0.1)";
@@ -29,9 +33,11 @@ function animate() {
         if (UseParticles) {
             //draw the particles
             particles.forEach((particle, index) => {
+                //if the alpha (opacity) is less than, or equal to zero, remove the particle
                 if (particle.alpha <= 0) {
                     particles.splice(index, 1);
                 } else {
+                    //otherwise, update the particle.
                     particle.update();
                 }
             });
@@ -40,10 +46,7 @@ function animate() {
         projectiles.forEach((projectile, index) => {
             projectile.update();
             //if the projectile is off the screen, delete it. This saves rendering time, and improves performance.
-            if ((projectile.x + projectile.radius < 0) ||
-                (projectile.y + projectile.radius < 0) ||
-                (projectile.x - projectile.radius > w) ||
-                (projectile.y - projectile.radius > h)) {
+            if (projectile.IsOffScreen) {
                 projectiles.splice(index, 1);
                 if (!SFXMuted) {
                     MissSound.play();
@@ -56,20 +59,31 @@ function animate() {
             enemy.update();
             //get the distance to the player
             const dist = distance(player.x, player.y, enemy.x, enemy.y);
-            //if the enemy is touching the player, end the game
+            //if the enemy is touching the player
             if (dist - enemy.radius - player.radius < 0) {
+                //if the player has no more health
                 if (player.willDie) {
+                    //remove the healthbar
                     player.Health.removeHealth();
+                    //and game over, passing in the animationID, so we can stop it.
                     gameOver(animationID);
                 } else {
+                    //otherwise, remove a health
                     player.Health.removeHealth();
+                    //and play the healthlose sound
                     if (!SFXMuted) {
                         HealthLoseSound.play();
-                        console.log("HealthLoseSound");
+                        //if we are not in production
+                        if (!DEBUGFLAG) {
+                            console.log("HealthLoseSound");
+                        }
                     };
+                    //remove the enemy
                     enemies.splice(index, 1);
+                    //and update the player's debug item with their new health
                     SetDebugItem(player.Health.Health, "playerHealth");
-                    EnemySpawnTime = Math.max(50, EnemySpawnTime + 10);
+                    //and update the EnemySpawn Time, so it is a little less punnishing
+                    EnemySpawnTime = clamp(EnemySpawnTime + 10, 40, 70)
 
                 }
                 // SetHealthICONs(player.Health, player.MaxHealth);
@@ -93,49 +107,55 @@ function animate() {
                                 y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
                             }));
                     }
-                    //shrink enemy if it is large
-                    if (!enemy.ShouldDie(projectile.damage)) {
-                        if (!SFXMuted) {
-                            HitNoKillSound.play();
-                        }
-                        AddScore(100);
-                        enemy.radius -= projectile.damage;
-                        setTimeout(() => {
-                            //delete the projectile
-                            projectiles.splice(index2, 1);
-                        }, 2);
-                    //otherwise, kill the enemy
-                    } else {
-                        //If we are using sfx, play the sound
+                    //damage the enemy
+                    enemy.damage(projectile.damage);
+
+                    //and check if it is dead
+                    if (enemy.IsDead) {
+                        //if it is
+                        //play the HitAndKill Sound
                         if (!SFXMuted) {
                             HitAndKillSound.play();
                         }
                         //add the score, and update the content
-                        AddScore(250);
-                        //on the next frame, delete the enemy and projectile
+                        AddScore(20 * enemy.startingRadius);
+                        // delete the enemy and projectile, after a small delay
                         setTimeout(() => {
-                            // enemiesToRemove.push(enemy.id);
                             enemies.splice(index, 1);
                             projectiles.splice(index2, 1);
-                        }, 2);
+                        }, 10);
+                    } else {
+                        //if it isn't
+                        //play the HitNoKill sound
+                        if (!SFXMuted) {
+                            HitNoKillSound.play();
+                        }
+                        //add the score
+                        AddScore(15 * enemy.radius);
+                        //and delete the projectile, after 10 miliseconds
+                        //the delay helps prevent stuttering.
+                        setTimeout(() => {
+                            projectiles.splice(index2, 1);
+                        }, 10);
                     }
                 }
                 if (dist - enemy.radius - projectile.radius < 20) {
                     if (!SFXMuted) {
                         MissSound.play();
                     }
-
-
                 }
-
             });
         });
+        //if you have passed freq, and your score is not zero,
         if ((lastScore % freq > score % freq) && (score != 0)) {
+            //add one health
             player.Health.addHealth(1)
+            //and play a sound
             if (!SFXMuted) {
                 HealthGetSound.play();
             }
         }
+        //update the score
         lastScore = score;
     }
 }

@@ -26,4 +26,12 @@ class Projectile {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
     }
+
+    public get IsOffScreen(): boolean {
+        return ((projectile.x + projectile.radius < 0) ||
+            (projectile.y + projectile.radius < 0) ||
+            (projectile.x - projectile.radius > w) ||
+            (projectile.y - projectile.radius > h));
+    }
+
 }

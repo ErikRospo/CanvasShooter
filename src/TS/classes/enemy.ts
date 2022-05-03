@@ -59,11 +59,32 @@ class Enemy {
         this.draw();
 
     }
+    /**
+     * @name ShouldDie
+     * @description Returns whether the Enemy should die with the given damage
+     * @param {number} damage how much damage should be dealt
+     * @returns a boolean of whether the enemy should die
+     */
     ShouldDie(damage: number): boolean {
         return (this.radius - damage < this.minHealth);
     }
+    /**
+     * @name IsDead
+     * @description returns if the enemy is dead
+     * @returns {boolean} if the enemy is dead or not
+     */
+    public get IsDead(): boolean {
+        return this.radius < this.minHealth;
+    }
+
+    /**
+     * @name damage
+     * @description Damages the enemy, and returns if the enemy is dead.
+     * @param {number} amount how much to damage the enemy by
+     * @returns If the enemy is dead
+     */
     damage(amount: number): boolean {
         this.radius -= amount
-        return this.ShouldDie(amount)
+        return this.IsDead
     }
 }
