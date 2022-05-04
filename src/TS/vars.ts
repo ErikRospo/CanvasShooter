@@ -11,8 +11,7 @@ const ParticleMultiplier = 2 as number;
 const ParticleSpeed = 5 as number;
 const ParticleFadeSpeedMultiplier = 1 as number;
 
-if (performanceMode) const ParticleCap = 0 as number;
-else const ParticleCap = 50 as number;
+const ParticleCap = 50 as number;
 const MaxEnemies = 10 as number;
 const RenderWireframe = false as boolean;
 const PI = Math.PI;

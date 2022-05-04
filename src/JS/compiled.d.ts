@@ -47,6 +47,7 @@ declare const DEBUGFLAG: boolean;
 declare let SFXMuted: boolean;
 declare let OptionsOpen: boolean;
 declare let browserType: Navigator;
+declare const performanceMode: boolean;
 declare function logx(val: number, base: number): number;
 declare function random(min?: number, max?: number): number;
 declare function randomInt(min: number, max: number): number;

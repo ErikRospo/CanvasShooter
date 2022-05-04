@@ -54,6 +54,7 @@ let SFXMuted = true;
 let OptionsOpen = false;
 let browserType = navigator;
 console.log(browserType);
+const performanceMode = true;
 function logx(val, base) {
     return Math.log(val) / Math.log(base);
 }
@@ -921,7 +922,7 @@ let projectiles = [];
 let enemies = [];
 let particles = [];
 let GameStarted = false;
-let UseParticles = true;
+let UseParticles = !performanceMode;
 let Paused = false;
 let ShopOpen = false;
 let MusicMuted = true;
@@ -1011,7 +1012,10 @@ function animate() {
         SetDebugItem(EnemySpawnTime, "SpawnTime");
         player.update();
         AnimateProgressBar(animationID);
-        c.fillStyle = "rgba(0,0,0,0.1)";
+        if (performanceMode)
+            c.fillStyle = "rgba(0,0,0,0)";
+        else
+            c.fillStyle = 'rgba(0,0,0,0.1)';
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
             particles.forEach((particle, index) => {
@@ -1061,11 +1065,13 @@ function animate() {
                 projectiles.forEach((projectile, index2) => {
                     const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                     if (dist - enemy.radius - projectile.radius < 0) {
-                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
-                            particles.push(new Particle(projectile.x, projectile.y, random(1, 5), enemy.color, {
-                                x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
-                                y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
-                            }));
+                        if (UseParticles) {
+                            for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
+                                particles.push(new Particle(projectile.x, projectile.y, random(1, 5), enemy.color, {
+                                    x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
+                                    y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
+                                }));
+                            }
                         }
                         enemy.damage(projectile.damage);
                         if (enemy.IsDead) {
