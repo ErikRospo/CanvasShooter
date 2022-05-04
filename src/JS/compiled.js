@@ -1012,8 +1012,9 @@ function animate() {
         SetDebugItem(EnemySpawnTime, "SpawnTime");
         player.update();
         AnimateProgressBar(animationID);
+        c.globalAlpha = 1;
         if (performanceMode)
-            c.fillStyle = "rgba(0,0,0,1)";
+            c.fillStyle = "rgb(0,0,0)";
         else
             c.fillStyle = 'rgba(0,0,0,0.1)';
         c.fillRect(0, 0, w, h);
