@@ -28,7 +28,8 @@ function animate() {
 
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade out effect
-        c.fillStyle = "rgba(0,0,0,0.1)";
+        if (performanceMode) c.fillStyle = "rgba(0,0,0,0)";
+        else c.fillStyle = 'rgba(0,0,0,0.1)'
 
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
@@ -99,19 +100,21 @@ function animate() {
                     const dist = distance(projectile.x, projectile.y, enemy.x, enemy.y);
                     // if dist minus the radiuses of the enemy and the projectile are less than 0, shrink or destroy the enemy
                     if (dist - enemy.radius - projectile.radius < 0) {
-                        for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
-                            //add a particle to the rendering list
-                            particles.push(new Particle(projectile.x,
-                                projectile.y,
-                                //give it a random radius
-                                random(1, 5),
-                                //set its color to the killed enemy's
-                                enemy.color,
-                                // give it a random speed
-                                {
-                                    x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
-                                    y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
-                                }));
+                        if (UseParticles) {
+                            for (let i = 0; i < Math.round(enemy.radius * 2 * ParticleMultiplier * random()); i++) {
+                                //add a particle to the rendering list
+                                particles.push(new Particle(projectile.x,
+                                    projectile.y,
+                                    //give it a random radius
+                                    random(1, 5),
+                                    //set its color to the killed enemy's
+                                    enemy.color,
+                                    // give it a random speed
+                                    {
+                                        x: ((random() + (projectile.velocity.x / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed),
+                                        y: ((random() + (projectile.velocity.y / (2 * player.ShotSpeed * ProjectileSpeedMultiplier))) * random() * ParticleSpeed)
+                                    }));
+                            }
                         }
                         //damage the enemy
                         enemy.damage(projectile.damage);
