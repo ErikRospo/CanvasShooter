@@ -1013,7 +1013,7 @@ function animate() {
         player.update();
         AnimateProgressBar(animationID);
         if (performanceMode)
-            c.fillStyle = "rgba(0,0,0,0)";
+            c.fillStyle = "rgba(0,0,0,1)";
         else
             c.fillStyle = 'rgba(0,0,0,0.1)';
         c.fillRect(0, 0, w, h);
