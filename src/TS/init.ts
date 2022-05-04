@@ -110,4 +110,3 @@ let SFXMuted = true as boolean;
 let OptionsOpen = false as boolean;
 let browserType = navigator;
 console.log(browserType);
-const performanceMode = true as boolean;
