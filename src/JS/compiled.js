@@ -922,7 +922,7 @@ let projectiles = [];
 let enemies = [];
 let particles = [];
 let GameStarted = false;
-let UseParticles = !performanceMode;
+let UseParticles = true;
 let Paused = false;
 let ShopOpen = false;
 let MusicMuted = true;
@@ -1012,11 +1012,7 @@ function animate() {
         SetDebugItem(EnemySpawnTime, "SpawnTime");
         player.update();
         AnimateProgressBar(animationID);
-        c.globalAlpha = 1;
-        if (performanceMode)
-            c.fillStyle = "rgb(0,0,0)";
-        else
-            c.fillStyle = 'rgba(0,0,0,0.1)';
+        c.fillStyle = 'rgba(0,0,0,0.1)';
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
             particles.forEach((particle, index) => {
