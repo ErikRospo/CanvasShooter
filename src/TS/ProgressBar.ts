@@ -2,10 +2,10 @@ function SetProgressBar(Value: number): void {
     XPBar.value = ((Value) / 10)
 }
 function IncreaseProgressBar(Value: number): void {
-    XPBar.value = (XPBar.value + Value / 10)
+    XPBar.value += (Value / 10)
 }
 function AnimateProgressBar(frameID: number): void {
-    XPBar.style.backgroundColor = `linear-gradient(90deg, #5ba2ac ${frameID % 100}%, #28257f ${(frameID + 50) % 100}%, #1a641a ${(frameID + 100) % 100}%);`
+    XPBar.style.backgroundColor = `linear-gradient(90deg, #5ba2ac ${(frameID / 2) % 100}%, #28257f ${(frameID/2 + 50) % 100}%, #1a641a ${(frameID/2 + 100) % 100}%);`;
 }
 function ResetProgressBar(): void {
     XPBar.value = 0;

@@ -9,28 +9,28 @@ class HealthBar {
         this.health = health;
         this.MaxHealth = MaxHealth;
     }
-    public get Health() {
+    public get Health(): number {
         return this.health;
     }
-    public get maxHealth() {
+    public get maxHealth(): number {
         return this.MaxHealth;
     }
-    public set Health(health: number) {
+    public set Health(health: number): void {
         this.health = health;
         this.draw()
     }
-    public set maxHealth(MaxHealth: number | 5) {
+    public set maxHealth(MaxHealth: number | 5): void {
         this.MaxHealth = MaxHealth;
         this.draw();
     }
-    public addHealth(health: number|1) {
-        if (this.health<this.maxHealth){
-        this.health += health;
-    }
+    public addHealth(health: number | 1): number {
+        if (this.health < this.maxHealth) {
+            this.health += health;
+        }
         this.draw()
         return this.health;
     }
-    public removeHealth(health = 1) {
+    public removeHealth(health = 1): number {
         this.health -= health;
         this.draw()
         return this.health;

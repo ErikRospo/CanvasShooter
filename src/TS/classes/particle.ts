@@ -15,7 +15,7 @@ class Particle {
         this.velocity = velocity;
         this.alpha = 1;
     }
-    draw() {
+    draw():void {
         renderWireframe(this, "particle");
         c.save();
         c.globalAlpha = this.alpha;
@@ -25,7 +25,7 @@ class Particle {
         c.fill();
         c.restore();
     }
-    update() {
+    update():void {
         this.draw();
         this.velocity.x *= ParticleFriction;
         this.velocity.y *= ParticleFriction;

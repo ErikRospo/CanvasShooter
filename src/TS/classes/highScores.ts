@@ -7,7 +7,7 @@ class HighScore {
         if (score != 0) this.scores.push(score);
         this.sort();
     }
-    sort() {
+    sort(): void {
         this.scores.sort((a: number, b: number) => a - b);
         this.scores.reverse();
     }

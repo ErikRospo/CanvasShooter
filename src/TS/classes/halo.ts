@@ -48,7 +48,7 @@ class Halo{
         this.step(dt)
         this.fix()
     }
-    public step(dt:number){
+    public step(dt: number) {
         switch (this.moving) {
             case false:
                 break;

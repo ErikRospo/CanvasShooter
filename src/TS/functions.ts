@@ -114,18 +114,18 @@ function gameOver(AnimationID: number) {
     BigScoreEL.classList.add("animate-bounce")
 }
 
-function PauseGame() {
+function PauseGame(): void {
     PauseModal.style.display = "block";
     PauseModalScore.innerHTML = score.toString(10);
     Paused = true;
 };
 
-function UnpauseGame() {
+function UnpauseGame(): void {
     PauseModal.style.display = "none"
     Paused = false;
 };
 
-function OpenOptionsMenu() {
+function OpenOptionsMenu(): void {
 
     OptionsParticleSpan.style.display = "block"
     OptionsMenu.style.display = "block";
@@ -135,7 +135,7 @@ function OpenOptionsMenu() {
     OptionsOpen = true;
 };
 
-function CloseOptionsMenu() {
+function CloseOptionsMenu(): void {
     OptionsParticleSpan.style.display = "none";
     OptionsMenu.style.display = "none";
     OptionsSFXSlider.style.display = "none";

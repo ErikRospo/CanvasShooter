@@ -35,16 +35,16 @@ class Player {
         SetDebugItem(this.Health.Health, "playerHealth");
     }
 
-    public update() {
+    public update(): void {
         SetDebugItem(this.Health.Health, "playerHealth");
         this.draw()
         this.drawHealth()
 
     }
-    public drawHealth() {
+    public drawHealth(): void {
         this.Health.draw();
     }
-    public draw() {
+    public draw(): void {
         renderWireframe(this, "player");
 
         c.beginPath();
