@@ -15,11 +15,11 @@ class HealthBar {
     public get maxHealth(): number {
         return this.MaxHealth;
     }
-    public set Health(health: number): void {
+    public set Health(health: number) {
         this.health = health;
         this.draw()
     }
-    public set maxHealth(MaxHealth: number | 5): void {
+    public set maxHealth(MaxHealth: number | 5) {
         this.MaxHealth = MaxHealth;
         this.draw();
     }

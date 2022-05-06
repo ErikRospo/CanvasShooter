@@ -102,10 +102,7 @@ function intBetweenNot(min, max, not) {
     }
     return i;
 }
-function coinFlip(bias) {
-    if (bias == null || bias == undefined) {
-        bias = 0.5;
-    }
+function coinFlip(bias = 0.5) {
     return (random() > bias);
 }
 function clip(n, min, max) {
@@ -162,13 +159,13 @@ function max(...numbers) {
     }
     return v;
 }
-function round(Value, Place) {
+function round(Value, Place = 1) {
     return Math.round(Value / (Math.pow(10, Place))) * (Math.pow(10, Place));
 }
-function floor(Value, Place) {
+function floor(Value, Place = 1) {
     return Math.floor(Value / (Math.pow(10, Place))) * (Math.pow(10, Place));
 }
-function ceil(Value, Place) {
+function ceil(Value, Place = 1) {
     return Math.ceil(Value / (Math.pow(10, Place))) * (Math.pow(10, Place));
 }
 function AddDebugItem(value, id) {
@@ -209,10 +206,10 @@ function SetProgressBar(Value) {
     XPBar.value = ((Value) / 10);
 }
 function IncreaseProgressBar(Value) {
-    XPBar.value = (XPBar.value + Value / 10);
+    XPBar.value += (Value / 10);
 }
 function AnimateProgressBar(frameID) {
-    XPBar.style.backgroundColor = `linear-gradient(90deg, #5ba2ac ${frameID % 100}%, #28257f ${(frameID + 50) % 100}%, #1a641a ${(frameID + 100) % 100}%);`;
+    XPBar.style.backgroundColor = `linear-gradient(90deg, #5ba2ac ${(frameID / 2) % 100}%, #28257f ${(frameID / 2 + 50) % 100}%, #1a641a ${(frameID / 2 + 100) % 100}%);`;
 }
 function ResetProgressBar() {
     XPBar.value = 0;
