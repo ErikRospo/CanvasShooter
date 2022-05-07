@@ -315,7 +315,7 @@ declare let DefaultEnemySpawnTime: number;
 declare let enemiesToRemove: string[];
 declare let Scores: HighScore;
 declare let lastScore: number;
-declare let freq: number;
+declare let HealthFreq: number;
 declare let HS: boolean;
 declare let MusicPlayer: Music;
 declare function animate(): void;

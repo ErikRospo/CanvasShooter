@@ -88,8 +88,13 @@ function animate() {
                         enemies.splice(index, 1);
                         //and update the player's debug item with their new health
                         SetDebugItem(player.Health.Health, "playerHealth");
-                        //and update the EnemySpawn Time, so it is a little less punnishing
+                        //and update the EnemySpawn Time, so it is a little less punishing
+                        //also, set MaxEnemies to 10, its default value
+                        //this is to keep the game from getting too hard,
+                        //while still making it fun
                         EnemySpawnTime = clamp(EnemySpawnTime + 10, 40, 70);
+                        MaxEnemies = 10;
+                        EnemySpeedMult = 1;
 
                     }
                     // SetHealthICONs(player.Health, player.MaxHealth);
@@ -156,14 +161,22 @@ function animate() {
             }
 
         });
-        //if you have passed freq, and your score is not zero,
-        if ((lastScore % freq > score % freq) && (score != 0)) {
+        //if you have passed HealthFreq, and your score is not zero,
+        if ((lastScore % HealthFreq > score % HealthFreq) && (score != 0)) {
             //add one health
             player.Health.addHealth(1)
             //and play a sound
             if (!SFXMuted) {
                 HealthGetSound.play();
             }
+            HealthFreq /= 2;
+        }
+        // if you have passed EnemyUpFreq, and your score is not zero,
+        if ((lastScore % EnemyUpFreq > score % EnemyUpFreq) && (score != 0)) {
+            EnemySpeedMult *= 1.1;
+            EnemySpawnTime *= 0.9;
+            MaxEnemies = clamp(MaxEnemies + 1, 10, 50);
+            EnemyUpFreq *= 2;
         }
         //update the score
         lastScore = score;

@@ -931,7 +931,7 @@ let DefaultEnemySpawnTime = 50;
 let enemiesToRemove = [];
 let Scores = new HighScore();
 let lastScore = 0;
-let freq = 25000;
+let HealthFreq = 25000;
 let HS = true;
 let MusicPlayer = new Music([Music1]);
 MusicPlayer.play();
@@ -1096,7 +1096,7 @@ function animate() {
                 });
             }
         });
-        if ((lastScore % freq > score % freq) && (score != 0)) {
+        if ((lastScore % HealthFreq > score % HealthFreq) && (score != 0)) {
             player.Health.addHealth(1);
             if (!SFXMuted) {
                 HealthGetSound.play();

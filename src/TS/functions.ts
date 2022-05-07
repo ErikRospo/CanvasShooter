@@ -78,8 +78,8 @@ function SpawnEnemy() {
     const angle = Math.atan2(ch - y, cw - x);
     //set the x and y values accordingly
     const velocity = {
-        x: Math.cos(angle) * EnemyMultiplier,
-        y: Math.sin(angle) * EnemyMultiplier
+        x: Math.cos(angle) * EnemyMultiplier * EnemySpeedMult,
+        y: Math.sin(angle) * EnemyMultiplier * EnemySpeedMult
     };
     //add it to the enemies list
     enemies.push(new Enemy(x, y, radius, color, velocity));
