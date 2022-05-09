@@ -1,4 +1,12 @@
-const PROD = (window.location.href == "https://erikrospo.github.io/CanvasShooter/");
+const ISGITHUB = (window.location.origin + window.location.pathname == "https://erikrospo.github.io/CanvasShooter/");
+const ISDEBUG = (window.location.search.includes("debug"));
+const ISDEV = (window.location.search.includes("dev"));
+const ISPROD = (!ISDEBUG && !ISDEV);
+const SHOWDEBUG = (ISDEBUG || ISDEV);
+const PRODUCTION = (ISPROD && ISGITHUB);
+const PROD = (PRODUCTION);
+const ISLOCAL = (window.location.hostname == "localhost");
+const ISLOCALIP = (window.location.hostname.startsWith("127.0.0"));
 const canvas = document.querySelector("canvas") as HTMLCanvasElement;
 const c = canvas.getContext("2d") as CanvasRenderingContext2D;
 canvas.width = innerWidth;
@@ -105,7 +113,7 @@ const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
 
-const DEBUGFLAG = !PROD;
+const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
 let SFXMuted = true as boolean;
 let OptionsOpen = false as boolean;
 let browserType = navigator;

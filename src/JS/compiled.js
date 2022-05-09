@@ -1,5 +1,13 @@
 "use strict";
-const PROD = (window.location.href == "https://erikrospo.github.io/CanvasShooter/");
+const ISGITHUB = (window.location.origin + window.location.pathname == "https://erikrospo.github.io/CanvasShooter/");
+const ISDEBUG = (window.location.search.includes("debug"));
+const ISDEV = (window.location.search.includes("dev"));
+const ISPROD = (!ISDEBUG && !ISDEV);
+const SHOWDEBUG = (ISDEBUG || ISDEV);
+const PRODUCTION = (ISPROD && ISGITHUB);
+const PROD = (PRODUCTION);
+const ISLOCAL = (window.location.hostname == "localhost");
+const ISLOCALIP = (window.location.hostname.startsWith("127.0.0"));
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 canvas.width = innerWidth;
@@ -49,7 +57,7 @@ const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
-const DEBUGFLAG = !PROD;
+const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
 let SFXMuted = true;
 let OptionsOpen = false;
 let browserType = navigator;
@@ -833,12 +841,7 @@ class Music {
             this.music[this.current].play();
         }
         catch (error) {
-            if (error instanceof DOMException) {
-                return;
-            }
-            else {
-                console.error(error);
-            }
+            return;
         }
     }
     pause() {
@@ -1136,6 +1139,7 @@ function PageLoad() {
     OptionsSFXSlider.value = "0";
     OptionsMusicSlider.value = "0";
     HighScoreLabel.style.display = "none";
+    document.body.style.display = "block";
     CloseOptionsMenu();
     UnpauseGame();
     MusicPlayer.pause();

@@ -19,6 +19,7 @@ function PageLoad() {
     OptionsSFXSlider.value = "0";
     OptionsMusicSlider.value = "0";
     HighScoreLabel.style.display = "none";
+    document.body.style.display = "block";
     CloseOptionsMenu();
     UnpauseGame();
     MusicPlayer.pause();

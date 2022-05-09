@@ -40,11 +40,7 @@ class Music {
     try {
       this.music[this.current].play();
     } catch (error) {
-      if (error instanceof DOMException) {
-        return;
-      } else {
-        console.error(error);
-      }
+      return;
     }
   }
   public pause(): void {
@@ -70,7 +66,7 @@ class Music {
     this.music[this.current].play();
   }
   public set continue(value: boolean) {
-    this.Continue = value
+    this.Continue = value;
     if (this.Continue) {
       this.music[this.current].onended = () => {
         this.next();
