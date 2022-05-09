@@ -1,8 +1,8 @@
 "use strict";
-const ISGITHUB = (window.location.origin + window.location.pathname == "https://erikrospo.github.io/CanvasShooter/");
+const ISGITHUB = (window.location.host == "erikrospo.github.io");
 const ISDEBUG = (window.location.search.includes("debug"));
 const ISDEV = (window.location.search.includes("dev"));
-const ISPROD = (!ISDEBUG && !ISDEV);
+const ISPROD = (ISGITHUB && !ISDEBUG && !ISDEV);
 const SHOWDEBUG = (ISDEBUG || ISDEV);
 const PRODUCTION = (ISPROD && ISGITHUB);
 const PROD = (PRODUCTION);
