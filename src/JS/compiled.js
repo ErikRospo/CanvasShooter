@@ -910,7 +910,7 @@ const ParticleMultiplier = 2;
 const ParticleSpeed = 5;
 const ParticleFadeSpeedMultiplier = 1;
 const ParticleCap = 50;
-const MaxEnemies = 10;
+let MaxEnemies = 10;
 const RenderWireframe = false;
 const PI = Math.PI;
 const TWOPI = PI * 2;
@@ -932,6 +932,8 @@ let enemiesToRemove = [];
 let Scores = new HighScore();
 let lastScore = 0;
 let HealthFreq = 25000;
+let EnemySpeedMult = 1;
+let EnemyUpFreq = 5000;
 let HS = true;
 let MusicPlayer = new Music([Music1]);
 MusicPlayer.play();
@@ -1054,6 +1056,8 @@ function animate() {
                         enemies.splice(index, 1);
                         SetDebugItem(player.Health.Health, "playerHealth");
                         EnemySpawnTime = clamp(EnemySpawnTime + 10, 40, 70);
+                        MaxEnemies = 10;
+                        EnemySpeedMult = 1;
                     }
                 }
                 projectiles.forEach((projectile, index2) => {
@@ -1101,6 +1105,13 @@ function animate() {
             if (!SFXMuted) {
                 HealthGetSound.play();
             }
+            HealthFreq /= 2;
+        }
+        if ((lastScore % EnemyUpFreq > score % EnemyUpFreq) && (score != 0)) {
+            EnemySpeedMult *= 1.1;
+            EnemySpawnTime *= 0.9;
+            MaxEnemies = clamp(MaxEnemies + 1, 10, 50);
+            EnemyUpFreq *= 2;
         }
         lastScore = score;
     }
@@ -1174,8 +1185,8 @@ function SpawnEnemy() {
     const color = `hsl(${random(0, 360)},50%,50%)`;
     const angle = Math.atan2(ch - y, cw - x);
     const velocity = {
-        x: Math.cos(angle) * EnemyMultiplier,
-        y: Math.sin(angle) * EnemyMultiplier
+        x: Math.cos(angle) * EnemyMultiplier * EnemySpeedMult,
+        y: Math.sin(angle) * EnemyMultiplier * EnemySpeedMult
     };
     enemies.push(new Enemy(x, y, radius, color, velocity));
 }
