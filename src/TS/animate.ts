@@ -177,6 +177,9 @@ function animate() {
             EnemySpawnTime *= 0.9;
             MaxEnemies = clamp(MaxEnemies + 1, 10, 50);
             EnemyUpFreq *= 2;
+            SetDebugItem(MaxEnemies,"MaxEnemies");
+            SetDebugItem(EnemySpawnMult,"EnemySpawnMult");
+            SetDebugItem(EnemySpawnTime,"SpawnTime");
         }
         //update the score
         lastScore = score;
