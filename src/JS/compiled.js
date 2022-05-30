@@ -1115,7 +1115,7 @@ function animate() {
             EnemySpawnTime *= 0.9;
             MaxEnemies = clamp(MaxEnemies + 1, 10, 50);
             EnemyUpFreq *= 0.9;
-            EnemySpeedMult = round(EnemySpeedMult, -2);
+            EnemyUpFreq = round(EnemyUpFreq, -2);
             SetDebugItem(MaxEnemies, "MaxEnemies");
             SetDebugItem(EnemySpeedMult, "EnemySpawnMult");
             SetDebugItem(EnemySpawnTime, "SpawnTime");
