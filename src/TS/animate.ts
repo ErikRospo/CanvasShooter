@@ -169,16 +169,16 @@ function animate() {
             if (!SFXMuted) {
                 HealthGetSound.play();
             }
-            HealthFreq /= 2;
         }
         // if you have passed EnemyUpFreq, and your score is not zero,
         if ((lastScore % EnemyUpFreq > score % EnemyUpFreq) && (score != 0)) {
             EnemySpeedMult *= 1.1;
             EnemySpawnTime *= 0.9;
             MaxEnemies = clamp(MaxEnemies + 1, 10, 50);
-            EnemyUpFreq *= 2;
+            EnemyUpFreq *= 0.9;
+            EnemyUpFreq = round(EnemyUpFreq, -2);
             SetDebugItem(MaxEnemies,"MaxEnemies");
-            SetDebugItem(EnemySpawnMult,"EnemySpawnMult");
+            SetDebugItem(EnemySpeedMult, "EnemySpawnMult");
             SetDebugItem(EnemySpawnTime,"SpawnTime");
         }
         //update the score

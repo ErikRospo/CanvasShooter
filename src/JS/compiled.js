@@ -210,6 +210,7 @@ AddDebugItem(innerWidth, "windowWidth");
 AddDebugItem(innerHeight, "windowHeight");
 AddDebugItem((Math.sqrt(w * w + h * h) / 2000), "EnemySpeedMultiplier");
 AddDebugItem(window.location.href, "Url");
+AddDebugItem(0, "MaxEnemies");
 function SetProgressBar(Value) {
     XPBar.value = ((Value) / 10);
 }
@@ -1108,13 +1109,16 @@ function animate() {
             if (!SFXMuted) {
                 HealthGetSound.play();
             }
-            HealthFreq /= 2;
         }
         if ((lastScore % EnemyUpFreq > score % EnemyUpFreq) && (score != 0)) {
             EnemySpeedMult *= 1.1;
             EnemySpawnTime *= 0.9;
             MaxEnemies = clamp(MaxEnemies + 1, 10, 50);
-            EnemyUpFreq *= 2;
+            EnemyUpFreq *= 0.9;
+            EnemySpeedMult = round(EnemySpeedMult, -2);
+            SetDebugItem(MaxEnemies, "MaxEnemies");
+            SetDebugItem(EnemySpeedMult, "EnemySpawnMult");
+            SetDebugItem(EnemySpawnTime, "SpawnTime");
         }
         lastScore = score;
     }
