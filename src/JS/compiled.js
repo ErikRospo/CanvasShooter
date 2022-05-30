@@ -1111,10 +1111,13 @@ function animate() {
             }
         }
         if ((lastScore % EnemyUpFreq > score % EnemyUpFreq) && (score != 0)) {
-            EnemySpeedMult *= 1.1;
-            EnemySpawnTime *= 0.9;
-            MaxEnemies = clamp(MaxEnemies + 1, 10, 50);
-            EnemyUpFreq *= 0.9;
+            EnemySpeedMult *= 1.001;
+            EnemySpawnTime *= 0.999;
+            if (coinFlip(0.2)) {
+                MaxEnemies++;
+            }
+            MaxEnemies = clamp(MaxEnemies, 10, 45);
+            EnemyUpFreq *= 0.999;
             EnemyUpFreq = round(EnemyUpFreq, -2);
             SetDebugItem(MaxEnemies, "MaxEnemies");
             SetDebugItem(EnemySpeedMult, "EnemySpawnMult");
