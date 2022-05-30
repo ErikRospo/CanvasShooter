@@ -89,13 +89,7 @@ const OptionsParticleSpan = document.querySelector(
 const ShopContainerDiv = document.querySelector("#ShopContainer") as HTMLDivElement;
 const ShopDiv = document.querySelector("#ShopDiv") as HTMLDivElement;
 const ShopContents = document.querySelector("#ShopContents") as HTMLDivElement;
-const ShopCloseButton = document.querySelector("#CloseShop") as HTMLButtonElement;
-//XP bar at top of screen.
-const XPBar = document.querySelector("#XPBar") as HTMLProgressElement;
-const XPBarLabel = document.querySelector(
-    "#XPbarLabel"
-) as HTMLParagraphElement;
-
+const ShopCloseButton = document.querySelector("#ShopCloseButton") as HTMLButtonElement;
 //debugging elements:
 const debugDiv = document.querySelector("#debugDiv") as HTMLDivElement;
 const debugList = document.querySelector("#debugList") as HTMLUListElement;

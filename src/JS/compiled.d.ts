@@ -47,8 +47,6 @@ declare const ShopContainerDiv: HTMLDivElement;
 declare const ShopDiv: HTMLDivElement;
 declare const ShopContents: HTMLDivElement;
 declare const ShopCloseButton: HTMLButtonElement;
-declare const XPBar: HTMLProgressElement;
-declare const XPBarLabel: HTMLParagraphElement;
 declare const debugDiv: HTMLDivElement;
 declare const debugList: HTMLUListElement;
 declare const w: number;
@@ -74,7 +72,7 @@ declare function threshold(p1: {
 declare function FrameIDToTime(ID: number): number;
 declare function distance(x1: number, y1: number, x2: number, y2: number): number;
 declare function randomChoice(value: any[]): any;
-declare function randomChoiceNot(value: any[], not: any[]): any;
+declare function randomChoiceNot(value: any[], not: any[], iterations?: number): any;
 declare function randomNot(min: number, max: number, not: number[]): number;
 declare function intBetweenNot(min: number, max: number, not: number[]): number;
 declare function coinFlip(bias?: number): boolean;
@@ -254,21 +252,22 @@ declare class Upgrade {
     name: string;
     description: string;
     effectstr: string;
-    constructor(name: string, description: string);
+    children: Upgrade[];
+    constructor(name: string, description: string, effectstr?: string);
     addEffect(effect: string): void;
     createEffect(effectName: number, effectAmount: string | number, effectType: string): void;
+    generateEffectstr(effectName: number, effectAmount: string | number, effectType: string): string;
     get effect(): string;
+    addChild(child: Upgrade): void;
 }
 declare class Shop {
     upgrades: Array<Upgrade>;
     constructor();
     addUpgrade(upgrade: Upgrade): void;
     update(upgradeNumber: number): void;
-    get Html(): string;
+    buy(index: number): void;
+    get Html(): HTMLElement;
 }
-declare let s: Shop;
-declare let u: Upgrade;
-declare let u2: Upgrade;
 declare const EnemySpawnTimeDecrement: number;
 declare const EnemySpawnBias: number;
 declare const EnemyMultiplier: number;
@@ -309,8 +308,11 @@ declare let EnemyUpFreq: number;
 declare let HS: boolean;
 declare let MusicPlayer: Music;
 declare let lvlupShop: Shop;
+declare let upgradePool: Upgrade[];
+declare let levelFrequency: number;
 declare function animate(): void;
 declare function init(): void;
+declare function populateupgradepool(): void;
 declare function PageLoad(): void;
 declare function UpdateSFXSlider(): void;
 declare function PlayMusic(): void;

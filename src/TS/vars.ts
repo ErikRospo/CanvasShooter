@@ -38,4 +38,6 @@ let EnemyUpFreq = 5000 as number;
 let HS = true as boolean;
 let MusicPlayer = new Music([Music1]) as Music;
 let lvlupShop = new Shop() as Shop;
+let upgradePool: Upgrade[] = [];
+let levelFrequency = 1000;
 MusicPlayer.play();

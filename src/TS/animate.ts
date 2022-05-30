@@ -159,8 +159,12 @@ function animate() {
             }
 
         });
-        if ((lastScore % 1000 * player.level > score % 1000 * player.level)) {
+        //TODO: Verify that this is working
+        if ((lastScore % levelFrequency > score % levelFrequency)) {
             player.level++;
+            //TODO: make sure this is working as intended
+            levelFrequency *= 1.1;
+            levelFrequency = round(levelFrequency, -1);
             //TODO: add a level up sound
             openShop();
 

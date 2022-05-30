@@ -13,12 +13,16 @@ class Upgrade {
     name: string;
     description: string;
     effectstr: string;
-    constructor(name: string, description: string) {
+    children: Upgrade[];
+    constructor(name: string, description: string, effectstr?: string) {
         this.name = name;
         this.description = description;
-        this.effectstr = "";
+        this.effectstr = effectstr || "";
+        this.children = [];
+
 
     }
+
     //our effectstring is a string that describes the effect of the upgrade.
     // it is in the form
     // e<string><number><string><number>
@@ -37,6 +41,11 @@ class Upgrade {
         let effect = "e" + String(effectName) + String(effectAmount) + String(effectType);
         this.addEffect(effect);
     }
+    public generateEffectstr(effectName: number, effectAmount: string | number, effectType: string) {
+        effectAmount = String(effectAmount).padStart(5, "0");
+        let effect = "e" + String(effectName) + String(effectAmount) + String(effectType);
+        return effect;
+    }
     public get effect(): string {
         let effects = this.effectstr.split("e");
         let st = "";
@@ -50,7 +59,6 @@ class Upgrade {
                 "damage",
                 "bullet speed",
                 "bullet size",
-                "bullet penetration",
                 "max health",
 
             ];
@@ -71,8 +79,12 @@ class Upgrade {
         }
         return st;
     }
+    public addChild(child: Upgrade) {
+        this.children.push(child);
+    }
 
 }
+
 class Shop {
     upgrades: Array<Upgrade>;
     constructor() {
@@ -83,60 +95,129 @@ class Shop {
     }
     public update(upgradeNumber: number): void {
         this.upgrades = [];
+        //TODO: make sure that the upgrade is not already in the list
+        //if there aren't enough upgrades, then only display the ones that are available
         for (let i = 0; i < upgradeNumber; i++) {
-            this.upgrades.push(new Upgrade("Upgrade " + i, "This is an upgrade description"));
-            this.upgrades[i].createEffect(0, "1", "a");
+            let s = randomChoiceNot(upgradePool, this.upgrades);
+            if (s != undefined) {
+                this.addUpgrade(s);
+            }
         }
     }
-    public get Html(): string {
+    public buy(index: number): void {
+        let upgrade = this.upgrades[index];
+        for (let i = 0; i < upgrade.children.length; i++) {
+            if (this.upgrades.find(x => x == upgrade.children[i]) == undefined) {
+                upgradePool.push(upgrade.children[i]);
+            }
+        }
+        upgradePool.splice(upgradePool.indexOf(upgrade), 1);
+        let effect = upgrade.effect;
+        let effectList = effect.split("e");
+        for (let i = 0; i < effectList.length; i++) {
+            let subeffect = effectList[i];
+            if (subeffect == "") {
+                effectList.splice(i, 1);
+            }
+
+        }
+        for (let i = 0; i < effectList.length; i++) {
+            let subeffect = effectList[i];
+            //TODO: Add more effects
+            let effectNameList = [
+                "health",
+                "damage",
+                "bullet speed",
+                "bullet size",
+                "max health",
+
+            ];
+            let effectName = effectNameList[+subeffect.substring(0, 1)];
+            let strEffectAmount = subeffect.substring(2, 7);
+            let effectAmount = new Number();
+            if (strEffectAmount.includes(".")) {
+                effectAmount = parseFloat(strEffectAmount);
+            } else {
+                effectAmount = parseInt(strEffectAmount);
+            }
+            //TODO: Actually apply the effect
+            
+            if (subeffect[6] == "m") {
+                if (effectName == "damage") {
+                    player.Damage *= Number(effectAmount);
+                }
+                else if (effectName == "bullet speed") {
+                    player.ShotSpeed *= Number(effectAmount);
+                }
+                else if (effectName == "bullet size") {
+                    player.ShotSize *= Number(effectAmount);
+                }
+                else if (effectName == "max health") {
+                    player.Health.maxHealth *= Number(effectAmount);
+                } else if (effectName == "health") {
+                    player.Health.Health *= Number(effectAmount);
+                }
+
+
+            }
+            else if (subeffect[6] == "a") {
+                if (effectName == "health") {
+                    player.Health.addHealth(Number(effectAmount));
+                }
+                else if (effectName == "damage") {
+                    player.Damage += Number(effectAmount);
+                }
+                else if (effectName == "bullet speed") {
+                    player.ShotSpeed += Number(effectAmount);
+                }
+                else if (effectName == "bullet size") {
+                    player.ShotSize += Number(effectAmount);
+                }
+                else if (effectName == "max health") {
+                    player.Health.maxHealth += Number(effectAmount);
+                }
+            }
+        }
+        closeShop()
+    }
+    public get Html(): HTMLElement {
         let elem = document.createElement("div");
         elem.classList.add("shop");
-        elem.appendChild(document.createElement("h1")).innerHTML = "Shop";
+        let t = document.createElement("h2");
+        t.innerHTML = "Upgrades";
+        t.style.textAlign = "center";
+        t.style.alignSelf = "center";
+        elem.appendChild(t);
+
         let ul = elem.appendChild(document.createElement("ul"));
-        //TODO:
-        //fix the styling of the shop
-        // so that it is centered
-        // and does not take up the whole screen
-        // we also want to style the back button
-        // and give the shop a background color
+        elem.style.position = "absolute";
+
+        elem.style.left = "50%";
+        elem.style.top = "50%";
+        elem.style.transform = "translate(-50%, -50%)";
+        elem.style.width = "45%";
+        elem.style.height = "60%";
+        elem.style.backgroundColor = "rgb(130,150,130)";
+        elem.style.border = "1px solid black";
+        elem.style.borderRadius = "5px";
+
         for (let i = 0; i < this.upgrades.length; i++) {
             let li = ul.appendChild(document.createElement("li"));
-            li.style.listStyle = "none";
-            li.style.backgroundColor = "rgb(50,100,150)";
-            li.style.borderRadius = "10px";
-            li.style.textAlign = "right";
+            li.className = "upgradeItem";
             let h = li.appendChild(document.createElement("h2"));
             h.innerHTML = this.upgrades[i].name;
-            h.style.alignSelf = "right";
-            h.style.textAlign = "left";
-            h.style.paddingLeft = "5px";
+            h.className = "upgradeName";
             let d = li.appendChild(document.createElement("p"));
             d.innerHTML = this.upgrades[i].effect;
-            d.style.alignSelf = "left";
-            d.style.textAlign = "left";
-            d.style.paddingLeft = "5px";
+            d.className = "upgradeDescription";
             let b = li.appendChild(document.createElement("button"));
             b.innerHTML = "Buy";
-            b.style.alignSelf = "left";
-            b.style.textAlign = "center";
-            b.style.backgroundColor = "rgb(250,50,50)";
-            b.style.borderRadius = "10px";
-            b.style.color = "white";
-            b.style.width = "100px";
-            b.style.height = "30px";
-            b.style.fontSize = "20px";
-        }
+            b.className = "buyButton";
 
-        return elem.outerHTML;
+            b.onclick = () => {
+                this.buy(i);
+            }
+        }
+        return elem;
     }
 }
-let s = new Shop();
-let u = new Upgrade("Blue", "Description");
-u.createEffect(1, "100", "m");
-s.addUpgrade(u);
-let u2 = new Upgrade("Red", "Description");
-u2.createEffect(3, "20", "a");
-u2.createEffect(4, "0.5", "m");
-s.addUpgrade(u2);
-console.log(u2.effect);
-console.log(s.Html);
