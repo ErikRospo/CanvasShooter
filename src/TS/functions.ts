@@ -9,7 +9,6 @@ function init() {
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
     XPBar.style.display = "initial";
-    ResetProgressBar();
     GameStarted = true;
 }
 

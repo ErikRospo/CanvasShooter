@@ -90,11 +90,6 @@ declare function floor(Value: number, Place?: number): number;
 declare function ceil(Value: number, Place?: number): number;
 declare function AddDebugItem(value: any, id: string): HTMLUListElement | null;
 declare function SetDebugItem(value: any, id: string, label?: string): HTMLElement | null;
-declare function SetProgressBar(Value: number): void;
-declare function IncreaseProgressBar(Value: number): void;
-declare function AnimateProgressBar(frameID: number): void;
-declare function ResetProgressBar(): void;
-declare function CheckForLevelUp(): boolean;
 declare class Halo {
     starts: Array<number>;
     ends: Array<number>;
@@ -161,44 +156,6 @@ declare class Player {
     draw(): void;
     get willDie(): boolean;
 }
-declare class Upgrade {
-    effects: Effect[];
-    requirements: Requirement[];
-    Description: string;
-    color: string;
-    name: string;
-    constructor(name: string, description: string);
-    addEffect(effect: Effect): void;
-    addRequirement(requirement: Requirement): void;
-}
-declare class UpgradeList {
-    upgrades: Upgrade[];
-    constructor(Upgrades: Upgrade[]);
-    addUpgrade(value: Upgrade): Upgrade[];
-    removeUpgrade(value: Upgrade): Upgrade[];
-}
-declare class AllUpgradesList extends UpgradeList {
-    availableUpgrades: Upgrade[];
-    constructor(Upgrades: Upgrade[]);
-    get availibility(): Upgrade[];
-}
-declare class Effect {
-    type: string;
-    value: number;
-    valuetype: number;
-    constructor(type: string, value: number, valuetype: number);
-    apply(player: Player): void;
-}
-declare class Requirement {
-    requirement1: Upgrade;
-    requirement2: Upgrade;
-    operation: string;
-    not: boolean;
-    constructor(requirement1: Upgrade, requirement2: Upgrade, operation: string, not: boolean);
-    IsRequirementTrue(upgrades: Upgrade[]): boolean;
-}
-declare function CreateUpgrades(): Upgrade[];
-declare function CreateRandomUpgrades(): Upgrade[];
 declare class Projectile {
     x: number;
     y: number;

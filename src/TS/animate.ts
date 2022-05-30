@@ -7,7 +7,6 @@ function animate() {
     SetDebugItem((Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight) / 2000), "EnemySpeedMultiplier");
     //if the game is not paused
     if (!Paused) {
-        CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
         SetDebugItem(player.cachedLevels, "playerCashedLevels");
         /*
@@ -24,7 +23,6 @@ function animate() {
         SetDebugItem(EnemySpawnTime, "SpawnTime")
         //draw the player
         player.update();
-        AnimateProgressBar(animationID);
 
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade out effect

@@ -86,11 +86,10 @@ const OptionsParticleSpan = document.querySelector(
     "#ParticleOptionsSpan"
 ) as HTMLSpanElement;
 //shop
-// const ShopDivEL = document.querySelector("#UpgradeDivEL") as HTMLDivElement;
-// const ShopELs = document.querySelectorAll(".shop");
-// const UpgradeELs = document.querySelectorAll(".UpgradeButton");
-// const ShopCloseButton = document.querySelector("#CloseShop") as HTMLButtonElement;
-
+const ShopContainerDiv = document.querySelector("#ShopContainer") as HTMLDivElement;
+const ShopDiv = document.querySelector("#ShopDiv") as HTMLDivElement;
+const ShopContents = document.querySelector("#ShopContents") as HTMLDivElement;
+const ShopCloseButton = document.querySelector("#CloseShop") as HTMLButtonElement;
 //XP bar at top of screen.
 const XPBar = document.querySelector("#XPBar") as HTMLProgressElement;
 const XPBarLabel = document.querySelector(

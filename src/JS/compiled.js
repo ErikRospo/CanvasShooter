@@ -211,33 +211,6 @@ AddDebugItem(innerHeight, "windowHeight");
 AddDebugItem((Math.sqrt(w * w + h * h) / 2000), "EnemySpeedMultiplier");
 AddDebugItem(window.location.href, "Url");
 AddDebugItem(0, "MaxEnemies");
-function SetProgressBar(Value) {
-    XPBar.value = ((Value) / 10);
-}
-function IncreaseProgressBar(Value) {
-    XPBar.value += (Value / 10);
-}
-function AnimateProgressBar(frameID) {
-    XPBar.style.backgroundColor = `linear-gradient(90deg, #5ba2ac ${(frameID / 2) % 100}%, #28257f ${(frameID / 2 + 50) % 100}%, #1a641a ${(frameID / 2 + 100) % 100}%);`;
-}
-function ResetProgressBar() {
-    XPBar.value = 0;
-    XPBar.max = 1;
-    player.level = 0;
-    player.cachedLevels = 0;
-}
-function CheckForLevelUp() {
-    if (XPBar.value >= XPBar.max) {
-        player.level += 1;
-        player.cachedLevels += 1;
-        XPBar.value = 0;
-        XPBar.max = player.level;
-        return true;
-    }
-    else {
-        return false;
-    }
-}
 class Halo {
     constructor(starts, ends, colors, parent, moving, speed) {
         this.starts = starts;
@@ -438,220 +411,6 @@ class Player {
     get willDie() {
         return this.Health.willDie;
     }
-}
-class Upgrade {
-    constructor(name, description) {
-        this.color = "#00000";
-        this.name = name;
-        this.Description = description;
-        this.effects = [];
-        this.requirements = [];
-    }
-    addEffect(effect) {
-        this.effects.push(effect);
-    }
-    addRequirement(requirement) {
-        this.requirements.push(requirement);
-    }
-}
-class UpgradeList {
-    constructor(Upgrades) {
-        this.upgrades = Upgrades;
-    }
-    addUpgrade(value) {
-        this.upgrades.push(value);
-        return this.upgrades;
-    }
-    removeUpgrade(value) {
-        this.upgrades.splice(this.upgrades.indexOf(value), 1);
-        return this.upgrades;
-    }
-}
-class AllUpgradesList extends UpgradeList {
-    constructor(Upgrades) {
-        super(Upgrades);
-        this.availableUpgrades = Upgrades;
-    }
-    get availibility() {
-        return this.upgrades.filter((value, _, array) => {
-            let requirementTruthy = [];
-            value.requirements.forEach((value1) => {
-                requirementTruthy.push(value1.IsRequirementTrue(array));
-            });
-            return requirementTruthy.every((value) => { return value; });
-        });
-    }
-}
-class Effect {
-    constructor(type, value, valuetype) {
-        this.type = type;
-        this.value = value;
-        this.valuetype = valuetype;
-    }
-    apply(player) {
-        switch (this.type) {
-            case "d":
-                if (this.valuetype == 1) {
-                    player.Damage += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.Damage *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.Damage = this.value;
-                }
-                break;
-            case "ss":
-                if (this.valuetype == 1) {
-                    player.ShotSpeed += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.ShotSpeed *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.ShotSpeed = this.value;
-                }
-                break;
-            case "sf":
-                if (this.valuetype == 1) {
-                    player.ShotsFired += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.ShotsFired *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.ShotsFired = this.value;
-                }
-                break;
-            case "ms":
-                if (this.valuetype == 1) {
-                    player.MultiShot += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.MultiShot *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.MultiShot = this.value;
-                }
-                break;
-            case "sz":
-                if (this.valuetype == 1) {
-                    player.ShotSize += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.ShotSize *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.ShotSize = this.value;
-                }
-                break;
-            case "h":
-                if (this.valuetype == 1) {
-                    player.Health.Health += this.value;
-                }
-                else if (this.valuetype == 2) {
-                    player.Health.Health *= this.value;
-                }
-                else if (this.valuetype == 3) {
-                    player.Health.Health = this.value;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-}
-class Requirement {
-    constructor(requirement1, requirement2, operation, not) {
-        this.requirement1 = requirement1;
-        this.requirement2 = requirement2;
-        this.operation = operation;
-        this.not = not;
-    }
-    IsRequirementTrue(upgrades) {
-        if (this.operation == "or") {
-            if (!this.not) {
-                return ((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
-            }
-            else if (this.not) {
-                return !((upgrades.indexOf(this.requirement1) != -1) || (upgrades.indexOf(this.requirement2) != -1));
-            }
-        }
-        else if (this.operation == "and") {
-            if (!this.not) {
-                return ((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
-            }
-            else if (this.not) {
-                return !((upgrades.indexOf(this.requirement1) != -1) && (upgrades.indexOf(this.requirement2) != -1));
-            }
-        }
-        else if (this.operation == "not") {
-            return ((upgrades.indexOf(this.requirement1) == -1));
-        }
-        else {
-            return false;
-        }
-        return false;
-    }
-}
-function CreateUpgrades() {
-    let nullUpgrade = new Upgrade("", "");
-    let upgrade1 = new Upgrade("gigantisizer", "increases projectile size, decreases projectile speed.");
-    let upgrade2 = new Upgrade("shrinker", "decreases projectile size, increases projectile speed.");
-    let upgrade3 = new Upgrade("tankifier", "increases health, decreases everything else.");
-    let upgrade4 = new Upgrade("slowifier", "Makes shots super slow, and damage super high.");
-    let upgrade5 = new Upgrade("quickifier", "Makes shots super quick, but have very little damage.");
-    let upgrades = [];
-    upgrade1.addEffect(new Effect("ss", -10, 1));
-    upgrade1.addEffect(new Effect("sz", 10, 1));
-    upgrade2.addEffect(new Effect("ss", 10, 1));
-    upgrade2.addEffect(new Effect("sz", -10, 1));
-    upgrade3.addEffect(new Effect("d", -1, 1));
-    upgrade3.addEffect(new Effect("h", 1, 1));
-    upgrade3.addEffect(new Effect("ms", -1, 1));
-    upgrade3.addEffect(new Effect("sf", -1, 1));
-    upgrade3.addEffect(new Effect("ss", -1, 1));
-    upgrade3.addEffect(new Effect("sz", -1, 1));
-    upgrade4.addEffect(new Effect("d", 20, 3));
-    upgrade4.addEffect(new Effect("ss", 0.5, 3));
-    upgrade5.addEffect(new Effect("ss", 20, 3));
-    upgrade5.addEffect(new Effect("d", 0.5, 3));
-    upgrade1.addRequirement(new Requirement(upgrade2, nullUpgrade, "not", false));
-    upgrade2.addRequirement(new Requirement(upgrade1, nullUpgrade, "not", false));
-    upgrade4.addRequirement(new Requirement(upgrade5, nullUpgrade, "not", false));
-    upgrade5.addRequirement(new Requirement(upgrade4, nullUpgrade, "not", false));
-    upgrades.push(upgrade1);
-    upgrades.push(upgrade2);
-    upgrades.push(upgrade3);
-    upgrades.push(upgrade4);
-    upgrades.push(upgrade5);
-    return upgrades;
-}
-function CreateRandomUpgrades() {
-    let upgrades = [];
-    let EffectTypes = ["d", "h", "ms", "sf", "ss", "sz"];
-    let RequirementTypes = ["and", "or", "not"];
-    for (let index = 0; index < 100; index++) {
-        let upgrade = new Upgrade("", "");
-        for (let _ = 0; _ < randomInt(1, EffectTypes.length - 1); _++) {
-            let type = randomChoice(EffectTypes);
-            while (type in upgrade.effects) {
-                type = randomChoice(EffectTypes);
-            }
-            let value = randomInt(-50, 50);
-            let valueType = randomInt(1, 3);
-            if (valueType == 3) {
-                value = Math.abs(value);
-            }
-            upgrade.addEffect(new Effect(type, value, valueType));
-        }
-        upgrades.push(upgrade);
-    }
-    for (let index = 0; index < upgrades.length; index++) {
-        let upgrade = upgrades[index];
-        upgrade.addRequirement(new Requirement(randomChoiceNot(upgrades, [upgrade]), randomChoiceNot(upgrades, [upgrade]), randomChoice(RequirementTypes), coinFlip(0.5)));
-    }
-    return upgrades;
 }
 class Projectile {
     constructor(x, y, r, color, velocity, damage) {
@@ -1004,7 +763,6 @@ function animate() {
     SetDebugItem(innerHeight * innerWidth, "WindowArea");
     SetDebugItem((Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight) / 2000), "EnemySpeedMultiplier");
     if (!Paused) {
-        CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
         SetDebugItem(player.cachedLevels, "playerCashedLevels");
         if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5)) {
@@ -1014,7 +772,6 @@ function animate() {
         }
         SetDebugItem(EnemySpawnTime, "SpawnTime");
         player.update();
-        AnimateProgressBar(animationID);
         c.fillStyle = 'rgba(0,0,0,0.1)';
         c.fillRect(0, 0, w, h);
         if (UseParticles) {
@@ -1137,7 +894,6 @@ function init() {
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
     XPBar.style.display = "initial";
-    ResetProgressBar();
     GameStarted = true;
 }
 function PageLoad() {
