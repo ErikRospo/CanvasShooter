@@ -20,7 +20,7 @@ class Player {
         this.radius = radius;
         this.color = color;
         this.cachedLevels = 0
-        this.level = 0
+        this.level = 1
 
         this.Damage = 10;
         this.ShotSpeed = 5;

@@ -43,6 +43,10 @@ declare const OptionsMusicSlider: HTMLInputElement;
 declare const OptionsParticleSwitch: HTMLInputElement;
 declare const OptionsBackButton: HTMLButtonElement;
 declare const OptionsParticleSpan: HTMLSpanElement;
+declare const ShopContainerDiv: HTMLDivElement;
+declare const ShopDiv: HTMLDivElement;
+declare const ShopContents: HTMLDivElement;
+declare const ShopCloseButton: HTMLButtonElement;
 declare const XPBar: HTMLProgressElement;
 declare const XPBarLabel: HTMLParagraphElement;
 declare const debugDiv: HTMLDivElement;
@@ -246,6 +250,25 @@ declare class Music {
     stopAll(): void;
     get playing(): number;
 }
+declare class Upgrade {
+    name: string;
+    description: string;
+    effectstr: string;
+    constructor(name: string, description: string);
+    addEffect(effect: string): void;
+    createEffect(effectName: number, effectAmount: string | number, effectType: string): void;
+    get effect(): string;
+}
+declare class Shop {
+    upgrades: Array<Upgrade>;
+    constructor();
+    addUpgrade(upgrade: Upgrade): void;
+    update(upgradeNumber: number): void;
+    get Html(): string;
+}
+declare let s: Shop;
+declare let u: Upgrade;
+declare let u2: Upgrade;
 declare const EnemySpawnTimeDecrement: number;
 declare const EnemySpawnBias: number;
 declare const EnemyMultiplier: number;
@@ -285,6 +308,7 @@ declare let EnemySpeedMult: number;
 declare let EnemyUpFreq: number;
 declare let HS: boolean;
 declare let MusicPlayer: Music;
+declare let lvlupShop: Shop;
 declare function animate(): void;
 declare function init(): void;
 declare function PageLoad(): void;
@@ -309,3 +333,5 @@ declare function sanityCheck(object: {
     y: number;
     radius: number;
 }): boolean;
+declare function openShop(): void;
+declare function closeShop(): void;

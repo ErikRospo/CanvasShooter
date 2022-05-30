@@ -37,4 +37,5 @@ let EnemySpeedMult = 1 as number;
 let EnemyUpFreq = 5000 as number;
 let HS = true as boolean;
 let MusicPlayer = new Music([Music1]) as Music;
+let lvlupShop = new Shop() as Shop;
 MusicPlayer.play();

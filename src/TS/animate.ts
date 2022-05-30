@@ -60,7 +60,7 @@ function animate() {
                 enemies.splice(index, 1);
 
             }
-            if (r != "dead") {
+            else {
                 //get the distance to the player
                 const dist = distance(player.x, player.y, enemy.x, enemy.y);
                 //if the enemy is touching the player
@@ -159,6 +159,12 @@ function animate() {
             }
 
         });
+        if ((lastScore % 1000 * player.level > score % 1000 * player.level)) {
+            player.level++;
+            //TODO: add a level up sound
+            openShop();
+
+        }
         //if you have passed HealthFreq, and your score is not zero,
         if ((lastScore % HealthFreq > score % HealthFreq) && (score != 0)) {
             //add one health

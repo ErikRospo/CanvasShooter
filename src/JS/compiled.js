@@ -49,6 +49,10 @@ const OptionsMusicSlider = document.querySelector("#MusicSlider");
 const OptionsParticleSwitch = document.querySelector("#ParticleOptionsSwitch");
 const OptionsBackButton = document.querySelector("#OptionsBackButton");
 const OptionsParticleSpan = document.querySelector("#ParticleOptionsSpan");
+const ShopContainerDiv = document.querySelector("#ShopContainer");
+const ShopDiv = document.querySelector("#ShopDiv");
+const ShopContents = document.querySelector("#ShopContents");
+const ShopCloseButton = document.querySelector("#CloseShop");
 const XPBar = document.querySelector("#XPBar");
 const XPBarLabel = document.querySelector("#XPbarLabel");
 const debugDiv = document.querySelector("#debugDiv");
@@ -381,7 +385,7 @@ class Player {
         this.radius = radius;
         this.color = color;
         this.cachedLevels = 0;
-        this.level = 0;
+        this.level = 1;
         this.Damage = 10;
         this.ShotSpeed = 5;
         this.ShotsFired = 1;
@@ -660,6 +664,114 @@ class Music {
         return count;
     }
 }
+class Upgrade {
+    constructor(name, description) {
+        this.name = name;
+        this.description = description;
+        this.effectstr = "";
+    }
+    addEffect(effect) {
+        this.effectstr += effect;
+    }
+    createEffect(effectName, effectAmount, effectType) {
+        effectAmount = String(effectAmount).padStart(5, "0");
+        let effect = "e" + String(effectName) + String(effectAmount) + String(effectType);
+        this.addEffect(effect);
+    }
+    get effect() {
+        let effects = this.effectstr.split("e");
+        let st = "";
+        for (let i = 0; i < effects.length; i++) {
+            if (effects[i] == "") {
+                effects.splice(i, 1);
+            }
+            let c = effects[i];
+            let effectNameList = [
+                "health",
+                "damage",
+                "bullet speed",
+                "bullet size",
+                "bullet penetration",
+                "max health",
+            ];
+            let effectName = effectNameList[+c.substring(0, 1)];
+            let strEffectAmount = c.substring(2, 7);
+            let effectAmount = new Number();
+            if (strEffectAmount.includes(".")) {
+                effectAmount = parseFloat(strEffectAmount);
+            }
+            else {
+                effectAmount = parseInt(strEffectAmount);
+            }
+            if (c[6] == "m") {
+                st += "multiply " + effectName + " by " + effectAmount + "<br>";
+            }
+            else if (c[6] == "a") {
+                st += "increase " + effectName + " by " + effectAmount + "<br>";
+            }
+        }
+        return st;
+    }
+}
+class Shop {
+    constructor() {
+        this.upgrades = new Array();
+    }
+    addUpgrade(upgrade) {
+        this.upgrades.push(upgrade);
+    }
+    update(upgradeNumber) {
+        this.upgrades = [];
+        for (let i = 0; i < upgradeNumber; i++) {
+            this.upgrades.push(new Upgrade("Upgrade " + i, "This is an upgrade description"));
+            this.upgrades[i].createEffect(0, "1", "a");
+        }
+    }
+    get Html() {
+        let elem = document.createElement("div");
+        elem.classList.add("shop");
+        elem.appendChild(document.createElement("h1")).innerHTML = "Shop";
+        let ul = elem.appendChild(document.createElement("ul"));
+        for (let i = 0; i < this.upgrades.length; i++) {
+            let li = ul.appendChild(document.createElement("li"));
+            li.style.listStyle = "none";
+            li.style.backgroundColor = "rgb(50,100,150)";
+            li.style.borderRadius = "10px";
+            li.style.textAlign = "right";
+            let h = li.appendChild(document.createElement("h2"));
+            h.innerHTML = this.upgrades[i].name;
+            h.style.alignSelf = "right";
+            h.style.textAlign = "left";
+            h.style.paddingLeft = "5px";
+            let d = li.appendChild(document.createElement("p"));
+            d.innerHTML = this.upgrades[i].effect;
+            d.style.alignSelf = "left";
+            d.style.textAlign = "left";
+            d.style.paddingLeft = "5px";
+            let b = li.appendChild(document.createElement("button"));
+            b.innerHTML = "Buy";
+            b.style.alignSelf = "left";
+            b.style.textAlign = "center";
+            b.style.backgroundColor = "rgb(250,50,50)";
+            b.style.borderRadius = "10px";
+            b.style.color = "white";
+            b.style.width = "100px";
+            b.style.height = "30px";
+            b.style.fontSize = "20px";
+        }
+        return elem.outerHTML;
+    }
+}
+let s = new Shop();
+let u = new Upgrade("Blue", "Description");
+u.createEffect(1, "100", "m");
+s.addUpgrade(u);
+let u2 = new Upgrade("Red", "Description");
+u2.createEffect(3, "20", "a");
+u2.createEffect(4, "0.5", "m");
+s.addUpgrade(u2);
+console.log(u2.effect);
+console.log(s.Html);
 const EnemySpawnTimeDecrement = 1;
 const EnemySpawnBias = innerHeight / innerWidth;
 const EnemyMultiplier = (Math.sqrt(w * w + h * h) / 2000);
@@ -699,6 +811,7 @@ let EnemySpeedMult = 1;
 let EnemyUpFreq = 5000;
 let HS = true;
 let MusicPlayer = new Music([Music1]);
+let lvlupShop = new Shop();
 MusicPlayer.play();
 addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
 addEventListener("load", () => {
@@ -719,6 +832,7 @@ addEventListener("keypress", (event) => {
         }
         else {
             CloseOptionsMenu();
+            closeShop();
             OptionsOpen = false;
             UnpauseGame();
         }
@@ -755,6 +869,9 @@ OptionsMusicSlider.addEventListener("change", () => {
     PlayMusic();
     MusicPlayer.shuffle();
     MusicPlayer.continue = true;
+});
+ShopCloseButton.addEventListener("click", () => {
+    closeShop();
 });
 function animate() {
     animationID = requestAnimationFrame(animate);
@@ -798,7 +915,7 @@ function animate() {
             if (r == "dead") {
                 enemies.splice(index, 1);
             }
-            if (r != "dead") {
+            else {
                 const dist = distance(player.x, player.y, enemy.x, enemy.y);
                 if (dist - enemy.radius - player.radius < 0) {
                     if (player.willDie) {
@@ -861,6 +978,10 @@ function animate() {
                 });
             }
         });
+        if ((lastScore % 1000 * player.level > score % 1000 * player.level)) {
+            player.level++;
+            openShop();
+        }
         if ((lastScore % HealthFreq > score % HealthFreq) && (score != 0)) {
             player.Health.addHealth(1);
             if (!SFXMuted) {
@@ -1058,13 +1179,27 @@ function renderWireframe(object, type) {
 }
 function sanityCheck(object) {
     if (object.radius < 0) {
-        console.log(`${object} radius is negative`);
+        console.error(`${object} radius is negative`);
         return false;
     }
     if (object.x - object.radius < 0 || object.x + object.radius > w || object.y - object.radius < 0 || object.y + object.radius > h) {
-        console.log(`${object} is out of bounds`);
+        console.error(`${object} is out of bounds`);
         return false;
     }
     return true;
+}
+function openShop() {
+    ShopDiv.style.display = "block";
+    ShopOpen = true;
+    Paused = true;
+    lvlupShop.update(4);
+    ShopContents.innerHTML = lvlupShop.Html;
+    ShopCloseButton.style.display = "block";
+}
+function closeShop() {
+    ShopDiv.style.display = "none";
+    ShopOpen = false;
+    Paused = false;
+    ShopCloseButton.style.display = "none";
 }
 //# sourceMappingURL=compiled.js.map

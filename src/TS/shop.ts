@@ -45,16 +45,16 @@ class Upgrade {
                 effects.splice(i, 1);
             }
             let c = effects[i];
-            let effectNameList = {
-                "0": "health",
-                "1": "damage",
-                "2": "bullet speed",
-                "3": "bullet size",
-                "4": "bullet penetration",
-                "5": "max health",
+            let effectNameList = [
+                "health",
+                "damage",
+                "bullet speed",
+                "bullet size",
+                "bullet penetration",
+                "max health",
 
-            };
-            let effectName = effectNameList[c.substring(0, 1)];
+            ];
+            let effectName = effectNameList[+c.substring(0, 1)];
             let strEffectAmount = c.substring(2, 7);
             let effectAmount = new Number();
             if (strEffectAmount.includes(".")) {
@@ -81,12 +81,24 @@ class Shop {
     public addUpgrade(upgrade: Upgrade): void {
         this.upgrades.push(upgrade);
     }
+    public update(upgradeNumber: number): void {
+        this.upgrades = [];
+        for (let i = 0; i < upgradeNumber; i++) {
+            this.upgrades.push(new Upgrade("Upgrade " + i, "This is an upgrade description"));
+            this.upgrades[i].createEffect(0, "1", "a");
+        }
+    }
     public get Html(): string {
         let elem = document.createElement("div");
         elem.classList.add("shop");
         elem.appendChild(document.createElement("h1")).innerHTML = "Shop";
         let ul = elem.appendChild(document.createElement("ul"));
-
+        //TODO:
+        //fix the styling of the shop
+        // so that it is centered
+        // and does not take up the whole screen
+        // we also want to style the back button
+        // and give the shop a background color
         for (let i = 0; i < this.upgrades.length; i++) {
             let li = ul.appendChild(document.createElement("li"));
             li.style.listStyle = "none";
