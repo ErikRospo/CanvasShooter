@@ -1,1 +1,2 @@
 pull.rebase=false
+core.fsmonitor=true
