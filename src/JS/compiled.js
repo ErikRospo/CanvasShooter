@@ -418,6 +418,8 @@ class Player {
         this.ShotSize = 5;
         this.Health = CreateHealth(5, 5);
         this.Health.draw();
+        this.spread = 0.2;
+        this.barrelRadius = 2 * this.radius;
         SetDebugItem(this.Health.Health, "playerHealth");
     }
     update() {
@@ -430,8 +432,19 @@ class Player {
     }
     draw() {
         renderWireframe(this, "player");
-        c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
+        if (ShowPlayerAim) {
+            let m_angle = Math.atan2(MouseY - this.y, MouseX - this.x);
+            let p1 = { x: this.radius * Math.cos(m_angle - this.spread) + this.x, y: this.radius * Math.sin(m_angle - this.spread) + this.y };
+            let p2 = { x: this.radius * Math.cos(m_angle + this.spread) + this.x, y: this.radius * Math.sin(m_angle + this.spread) + this.y };
+            let p3 = { x: this.barrelRadius * Math.cos(m_angle - this.spread * 1 / (this.barrelRadius / this.radius)) + this.x, y: this.barrelRadius * Math.sin(m_angle - this.spread * 1 / (this.barrelRadius / this.radius)) + this.y };
+            let p4 = { x: this.barrelRadius * Math.cos(m_angle + this.spread * 1 / (this.barrelRadius / this.radius)) + this.x, y: this.barrelRadius * Math.sin(m_angle + this.spread * 1 / (this.barrelRadius / this.radius)) + this.y };
+            c.moveTo(p1.x, p1.y);
+            c.lineTo(p2.x, p2.y);
+            c.lineTo(p4.x, p4.y);
+            c.lineTo(p3.x, p3.y);
+            c.lineTo(p1.x, p1.y);
+        }
         c.fillStyle = this.color;
         c.fill();
     }
@@ -941,9 +954,16 @@ let EnemyUpFreq = 5000;
 let HS = true;
 let MusicPlayer = new Music([Music1]);
 MusicPlayer.play();
+let MouseX = 0;
+let MouseY = 0;
+let ShowPlayerAim = false;
 addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
 addEventListener("load", () => {
     PageLoad();
+});
+addEventListener("mousemove", (event) => {
+    MouseX = event.clientX;
+    MouseY = event.clientY;
 });
 startGameButton.addEventListener("click", () => {
     ModalEL.style.display = "none";
