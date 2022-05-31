@@ -3,6 +3,10 @@ addEventListener("click", (event) => spawnProjectile(event.clientX, event.client
 addEventListener("load", () => {
     PageLoad();
 });
+addEventListener("mousemove", (event) => {
+    MouseX = event.clientX;
+    MouseY = event.clientY;
+})
 //when the user clicks the start button, start the game
 startGameButton.addEventListener("click", () => {
     ModalEL.style.display = "none";
@@ -37,6 +41,16 @@ OptionsBackButton.addEventListener("click", () => {
 
 OptionsParticleSwitch.addEventListener("change", () => {
     UseParticles = !UseParticles;
+});
+OptionsAimSlider.addEventListener("change", () => {
+    if (OptionsAimSlider.value == "0") {
+        ShowPlayerAim = false;
+    } else {
+        ShowPlayerAim = true;
+    }
+    // player.barrelRadius = Number(OptionsAimSlider.value);
+    player.spread = Number(OptionsAimSlider.value);
+
 });
 OptionsSFXSlider.addEventListener("change", () => {
     if (OptionsSFXSlider.value == "0") {

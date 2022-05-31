@@ -41,3 +41,6 @@ let lvlupShop = new Shop() as Shop;
 let upgradePool: Upgrade[] = [];
 let levelFrequency = 1000;
 MusicPlayer.play();
+let MouseX = 0 as number;
+let MouseY = 0 as number;
+let ShowPlayerAim = false as boolean;

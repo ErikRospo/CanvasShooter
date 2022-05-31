@@ -7,6 +7,12 @@ const PRODUCTION = (ISPROD && ISGITHUB);
 const PROD = (PRODUCTION);
 const ISLOCAL = (window.location.hostname == "localhost");
 const ISLOCALIP = (window.location.hostname.startsWith("127.0.0"));
+const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
+let SFXMuted = true as boolean;
+let OptionsOpen = false as boolean;
+let browserType = navigator;
+console.log(browserType);
+const performanceMode = true as boolean;
 const canvas = document.querySelector("canvas") as HTMLCanvasElement;
 const c = canvas.getContext("2d") as CanvasRenderingContext2D;
 canvas.width = innerWidth;
@@ -48,6 +54,7 @@ const HealthLoseSound = new Audio(relPath + "Audio/sound/HealthLose.wav"
 const MissSound = new Audio(relPath + "Audio/sound/Miss.wav") as HTMLAudioElement;
 // define music
 const Music1 = new Audio(relPath + "Audio/music/Music1.mp3") as HTMLAudioElement;
+Music1.muted = true;
 const Music2 = new Audio("Audio/music/Music2.mp3") as HTMLAudioElement;
 const Music3 = new Audio("Audio/music/Music3.mp3") as HTMLAudioElement;
 const Music4 = new Audio("Audio/music/Music4.mp3") as HTMLAudioElement;
@@ -85,6 +92,10 @@ const OptionsBackButton = document.querySelector(
 const OptionsParticleSpan = document.querySelector(
     "#ParticleOptionsSpan"
 ) as HTMLSpanElement;
+const OptionsAimSlider = document.querySelector("#OptionsAimSlider") as HTMLInputElement;
+if (DEBUGFLAG) {
+    console.log(OptionsAimSlider);
+}
 //shop
 const ShopContainerDiv = document.querySelector("#ShopContainer") as HTMLDivElement;
 const ShopDiv = document.querySelector("#ShopDiv") as HTMLDivElement;
@@ -105,10 +116,3 @@ const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
-
-const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
-let SFXMuted = true as boolean;
-let OptionsOpen = false as boolean;
-let browserType = navigator;
-console.log(browserType);
-const performanceMode = true as boolean;
