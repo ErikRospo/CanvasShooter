@@ -8,6 +8,12 @@ const PRODUCTION = (ISPROD && ISGITHUB);
 const PROD = (PRODUCTION);
 const ISLOCAL = (window.location.hostname == "localhost");
 const ISLOCALIP = (window.location.hostname.startsWith("127.0.0"));
+const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
+let SFXMuted = true;
+let OptionsOpen = false;
+let browserType = navigator;
+console.log(browserType);
+const performanceMode = true;
 const canvas = document.querySelector("canvas");
 const c = canvas.getContext("2d");
 canvas.width = innerWidth;
@@ -34,6 +40,7 @@ const HealthGetSound = new Audio(relPath + "Audio/sound/HealthGet.wav");
 const HealthLoseSound = new Audio(relPath + "Audio/sound/HealthLose.wav");
 const MissSound = new Audio(relPath + "Audio/sound/Miss.wav");
 const Music1 = new Audio(relPath + "Audio/music/Music1.mp3");
+Music1.muted = true;
 const Music2 = new Audio("Audio/music/Music2.mp3");
 const Music3 = new Audio("Audio/music/Music3.mp3");
 const Music4 = new Audio("Audio/music/Music4.mp3");
@@ -49,6 +56,10 @@ const OptionsMusicSlider = document.querySelector("#MusicSlider");
 const OptionsParticleSwitch = document.querySelector("#ParticleOptionsSwitch");
 const OptionsBackButton = document.querySelector("#OptionsBackButton");
 const OptionsParticleSpan = document.querySelector("#ParticleOptionsSpan");
+const OptionsAimSlider = document.querySelector("#OptionsAimSlider");
+if (DEBUGFLAG) {
+    console.log(OptionsAimSlider);
+}
 const XPBar = document.querySelector("#XPBar");
 const XPBarLabel = document.querySelector("#XPbarLabel");
 const debugDiv = document.querySelector("#debugDiv");
@@ -57,12 +68,6 @@ const w = canvas.width;
 const h = canvas.height;
 const cw = w / 2;
 const ch = h / 2;
-const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
-let SFXMuted = true;
-let OptionsOpen = false;
-let browserType = navigator;
-console.log(browserType);
-const performanceMode = true;
 function logx(val, base) {
     return Math.log(val) / Math.log(base);
 }
@@ -996,6 +1001,15 @@ OptionsBackButton.addEventListener("click", () => {
 OptionsParticleSwitch.addEventListener("change", () => {
     UseParticles = !UseParticles;
 });
+OptionsAimSlider.addEventListener("change", () => {
+    if (OptionsAimSlider.value == "0") {
+        ShowPlayerAim = false;
+    }
+    else {
+        ShowPlayerAim = true;
+    }
+    player.spread = Number(OptionsAimSlider.value);
+});
 OptionsSFXSlider.addEventListener("change", () => {
     if (OptionsSFXSlider.value == "0") {
         SFXMuted = true;
@@ -1165,6 +1179,7 @@ function PageLoad() {
     XPBar.style.display = "none";
     OptionsSFXSlider.value = "0";
     OptionsMusicSlider.value = "0";
+    OptionsAimSlider.value = "0";
     HighScoreLabel.style.display = "none";
     document.body.style.display = "block";
     CloseOptionsMenu();
@@ -1262,6 +1277,7 @@ function OpenOptionsMenu() {
     OptionsSFXSlider.style.display = "block";
     OptionsBackButton.style.display = "block";
     OptionsParticleSwitch.style.display = "block";
+    OptionsAimSlider.style.display = "block";
     OptionsOpen = true;
 }
 ;
@@ -1271,6 +1287,7 @@ function CloseOptionsMenu() {
     OptionsSFXSlider.style.display = "none";
     OptionsBackButton.style.display = "none";
     OptionsParticleSwitch.style.display = "none";
+    OptionsAimSlider.style.display = "none";
     OptionsOpen = false;
 }
 ;

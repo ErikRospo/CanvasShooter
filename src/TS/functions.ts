@@ -18,6 +18,7 @@ function PageLoad() {
     XPBar.style.display = "none"
     OptionsSFXSlider.value = "0";
     OptionsMusicSlider.value = "0";
+    OptionsAimSlider.value = "0";
     HighScoreLabel.style.display = "none";
     document.body.style.display = "block";
     CloseOptionsMenu();
@@ -133,6 +134,7 @@ function OpenOptionsMenu(): void {
     OptionsSFXSlider.style.display = "block";
     OptionsBackButton.style.display = "block";
     OptionsParticleSwitch.style.display = "block"
+    OptionsAimSlider.style.display = "block";
     OptionsOpen = true;
 };
 
@@ -142,6 +144,7 @@ function CloseOptionsMenu(): void {
     OptionsSFXSlider.style.display = "none";
     OptionsBackButton.style.display = "none";
     OptionsParticleSwitch.style.display = "none";
+    OptionsAimSlider.style.display = "none";
     OptionsOpen = false;
 };
 function spawnProjectile(x: number, y: number) {
