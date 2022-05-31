@@ -69,7 +69,7 @@ function distance(x1: number, y1: number, x2: number, y2: number): number {
  * @returns A randomly selected value from values
  */
 function randomChoice(value: any[]): any {
-    let i = Math.round(random() * value.length)
+    let i = Math.floor(random() * value.length)
     return value[i]
 }
 /**
@@ -78,10 +78,16 @@ function randomChoice(value: any[]): any {
  * @param not A list of values to not pick from
  * @returns A value from the list value that is not in the list not
  */
-function randomChoiceNot(value: any[], not: any[]) {
+function randomChoiceNot(value: any[], not: any[], iterations: number = value.length) {
     let i = randomChoice(value)
-    while (i in not) {
+    let ic = 0;
+    while (i in not && ic < iterations) {
         i = randomChoice(value)
+        ic++;
+    }
+    if (ic >= iterations) {
+        console.log("randomChoiceNot failed");
+        return undefined
     }
     return i
 }

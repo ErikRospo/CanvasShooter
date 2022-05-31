@@ -49,8 +49,10 @@ declare const OptionsParticleSwitch: HTMLInputElement;
 declare const OptionsBackButton: HTMLButtonElement;
 declare const OptionsParticleSpan: HTMLSpanElement;
 declare const OptionsAimSlider: HTMLInputElement;
-declare const XPBar: HTMLProgressElement;
-declare const XPBarLabel: HTMLParagraphElement;
+declare const ShopContainerDiv: HTMLDivElement;
+declare const ShopDiv: HTMLDivElement;
+declare const ShopContents: HTMLDivElement;
+declare const ShopCloseButton: HTMLButtonElement;
 declare const debugDiv: HTMLDivElement;
 declare const debugList: HTMLUListElement;
 declare const w: number;
@@ -71,7 +73,7 @@ declare function threshold(p1: {
 declare function FrameIDToTime(ID: number): number;
 declare function distance(x1: number, y1: number, x2: number, y2: number): number;
 declare function randomChoice(value: any[]): any;
-declare function randomChoiceNot(value: any[], not: any[]): any;
+declare function randomChoiceNot(value: any[], not: any[], iterations?: number): any;
 declare function randomNot(min: number, max: number, not: number[]): number;
 declare function intBetweenNot(min: number, max: number, not: number[]): number;
 declare function coinFlip(bias?: number): boolean;
@@ -91,11 +93,6 @@ declare function floor(Value: number, Place?: number): number;
 declare function ceil(Value: number, Place?: number): number;
 declare function AddDebugItem(value: any, id: string): HTMLUListElement | null;
 declare function SetDebugItem(value: any, id: string, label?: string): HTMLElement | null;
-declare function SetProgressBar(Value: number): void;
-declare function IncreaseProgressBar(Value: number): void;
-declare function AnimateProgressBar(frameID: number): void;
-declare function ResetProgressBar(): void;
-declare function CheckForLevelUp(): boolean;
 declare class Halo {
     starts: Array<number>;
     ends: Array<number>;
@@ -164,44 +161,6 @@ declare class Player {
     draw(): void;
     get willDie(): boolean;
 }
-declare class Upgrade {
-    effects: Effect[];
-    requirements: Requirement[];
-    Description: string;
-    color: string;
-    name: string;
-    constructor(name: string, description: string);
-    addEffect(effect: Effect): void;
-    addRequirement(requirement: Requirement): void;
-}
-declare class UpgradeList {
-    upgrades: Upgrade[];
-    constructor(Upgrades: Upgrade[]);
-    addUpgrade(value: Upgrade): Upgrade[];
-    removeUpgrade(value: Upgrade): Upgrade[];
-}
-declare class AllUpgradesList extends UpgradeList {
-    availableUpgrades: Upgrade[];
-    constructor(Upgrades: Upgrade[]);
-    get availibility(): Upgrade[];
-}
-declare class Effect {
-    type: string;
-    value: number;
-    valuetype: number;
-    constructor(type: string, value: number, valuetype: number);
-    apply(player: Player): void;
-}
-declare class Requirement {
-    requirement1: Upgrade;
-    requirement2: Upgrade;
-    operation: string;
-    not: boolean;
-    constructor(requirement1: Upgrade, requirement2: Upgrade, operation: string, not: boolean);
-    IsRequirementTrue(upgrades: Upgrade[]): boolean;
-}
-declare function CreateUpgrades(): Upgrade[];
-declare function CreateRandomUpgrades(): Upgrade[];
 declare class Projectile {
     x: number;
     y: number;
@@ -292,6 +251,26 @@ declare class Music {
     stopAll(): void;
     get playing(): number;
 }
+declare class Upgrade {
+    name: string;
+    description: string;
+    effectstr: string;
+    children: Upgrade[];
+    constructor(name: string, description: string, effectstr?: string);
+    addEffect(effect: string): void;
+    createEffect(effectName: number, effectAmount: string | number, effectType: string): void;
+    generateEffectstr(effectName: number, effectAmount: string | number, effectType: string): string;
+    get effect(): string;
+    addChild(child: Upgrade): void;
+}
+declare class Shop {
+    upgrades: Array<Upgrade>;
+    constructor();
+    addUpgrade(upgrade: Upgrade): void;
+    update(upgradeNumber: number): void;
+    buy(index: number): void;
+    get Html(): HTMLElement;
+}
 declare const EnemySpawnTimeDecrement: number;
 declare const EnemySpawnBias: number;
 declare const EnemyMultiplier: number;
@@ -331,11 +310,15 @@ declare let EnemySpeedMult: number;
 declare let EnemyUpFreq: number;
 declare let HS: boolean;
 declare let MusicPlayer: Music;
+declare let lvlupShop: Shop;
+declare let upgradePool: Upgrade[];
+declare let levelFrequency: number;
 declare let MouseX: number;
 declare let MouseY: number;
 declare let ShowPlayerAim: boolean;
 declare function animate(): void;
 declare function init(): void;
+declare function populateupgradepool(): void;
 declare function PageLoad(): void;
 declare function UpdateSFXSlider(): void;
 declare function PlayMusic(): void;
@@ -358,3 +341,5 @@ declare function sanityCheck(object: {
     y: number;
     radius: number;
 }): boolean;
+declare function openShop(): void;
+declare function closeShop(): void;
