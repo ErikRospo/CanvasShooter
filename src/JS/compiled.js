@@ -220,85 +220,6 @@ AddDebugItem(innerHeight, "windowHeight");
 AddDebugItem((Math.sqrt(w * w + h * h) / 2000), "EnemySpeedMultiplier");
 AddDebugItem(window.location.href, "Url");
 AddDebugItem(0, "MaxEnemies");
-class Halo {
-    constructor(starts, ends, colors, parent, moving, speed) {
-        this.starts = starts;
-        this.ends = ends;
-        this.colors = colors;
-        this.isValid = this.checkForValidity();
-        this.x = parent.x;
-        this.y = parent.y;
-        this.radius = parent.radius;
-        this.moving = moving;
-        this.speed = speed;
-    }
-    checkForValidity() {
-        if (this.starts.length != this.ends.length) {
-            throw new Error("Starts And Ends length must be the same");
-        }
-        if (this.starts.length != this.colors.length) {
-            throw new Error("Starts And Colors length must be the same");
-        }
-        if (this.colors.length != this.ends.length) {
-            throw new Error("Colors And Ends length must be the same");
-        }
-        if (this.starts.some((value) => { return value > TWOPI || value < 0; })) {
-            throw new Error("Starts must be in the range 0-2*PI");
-        }
-        if (this.ends.some((value) => { return value > TWOPI || value < 0; })) {
-            throw new Error("Ends must be in the range 0-2*PI");
-        }
-        return true;
-    }
-    updateVals(parent) {
-        this.x = parent.x;
-        this.y = parent.y;
-        this.radius = parent.radius;
-    }
-    update(dt, parent) {
-        this.updateVals(parent);
-        this.step(dt);
-        this.fix();
-    }
-    step(dt) {
-        switch (this.moving) {
-            case false:
-                break;
-            case 1:
-                for (let index = 0; index < this.starts.length; index++) {
-                    this.starts[index] += 0.01 * dt;
-                    this.ends[index] += 0.01 * dt;
-                }
-                break;
-            case 2:
-                for (let index = 0; index < this.starts.length; index++) {
-                    this.speed = random(-0.5, 2);
-                    this.starts[index] += 0.01 * dt * this.speed;
-                    this.ends[index] += 0.01 * dt * this.speed;
-                }
-                break;
-            default:
-                break;
-        }
-    }
-    fix() {
-        this.ends = this.ends.map((value) => { return clip(value, 0, TWOPI); });
-        this.starts = this.starts.map((value) => { return clip(value, 0, TWOPI); });
-        this.ends[this.ends.indexOf(maxl(this.ends))] = TWOPI;
-        this.starts[this.starts.indexOf(minl(this.starts))] = 0;
-    }
-    draw(width) {
-        let canvas = c;
-        for (let index = 0; index < this.starts.length; index++) {
-            canvas.fillStyle = this.colors[index];
-            canvas.beginPath();
-            canvas.arc(this.x, this.y, this.radius + map(index, 0, this.starts.length, 0, width * 2), this.starts[index], this.ends[index]);
-            canvas.closePath();
-            canvas.fill();
-            canvas.stroke();
-        }
-    }
-}
 function CreateHealth(health, MaxHealth) {
     let Health = new HealthBar(health, MaxHealth);
     return Health;
@@ -412,7 +333,9 @@ class Player {
     }
     draw() {
         renderWireframe(this, "player");
+        c.fillStyle = this.color;
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
+        c.fill();
         if (ShowPlayerAim) {
             let m_angle = Math.atan2(MouseY - this.y, MouseX - this.x);
             let p1 = { x: this.radius * Math.cos(m_angle - this.spread) + this.x, y: this.radius * Math.sin(m_angle - this.spread) + this.y };
@@ -424,9 +347,8 @@ class Player {
             c.lineTo(p4.x, p4.y);
             c.lineTo(p3.x, p3.y);
             c.lineTo(p1.x, p1.y);
+            c.fill();
         }
-        c.fillStyle = this.color;
-        c.fill();
     }
     get willDie() {
         return this.Health.willDie;
@@ -474,6 +396,12 @@ class Enemy {
     }
     draw() {
         renderWireframe(this, "enemy");
+        if (this.burning) {
+            c.beginPath();
+            c.arc(this.x, this.y, this.radius + 5, 0, TWOPI);
+            c.fillStyle = 'rgb(255,0,0);';
+            c.fill();
+        }
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;

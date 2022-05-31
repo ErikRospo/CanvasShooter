@@ -89,36 +89,6 @@ declare function floor(Value: number, Place?: number): number;
 declare function ceil(Value: number, Place?: number): number;
 declare function AddDebugItem(value: any, id: string): HTMLUListElement | null;
 declare function SetDebugItem(value: any, id: string, label?: string): HTMLElement | null;
-declare class Halo {
-    starts: Array<number>;
-    ends: Array<number>;
-    colors: Array<string>;
-    x: number;
-    y: number;
-    radius: number;
-    moving: false | number;
-    isValid: boolean;
-    speed: number;
-    constructor(starts: Array<number>, ends: Array<number>, colors: Array<string>, parent: {
-        x: number;
-        y: number;
-        radius: number;
-    }, moving: false | number, speed: number);
-    private checkForValidity;
-    updateVals(parent: {
-        x: number;
-        y: number;
-        radius: number;
-    }): void;
-    update(dt: number, parent: {
-        x: number;
-        y: number;
-        radius: number;
-    }): void;
-    step(dt: number): void;
-    fix(): void;
-    draw(width: number): void;
-}
 declare function CreateHealth(health: number, MaxHealth: number | 5): HealthBar;
 declare class HealthBar {
     private health;
