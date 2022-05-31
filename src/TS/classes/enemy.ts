@@ -10,7 +10,6 @@ class Enemy {
     timeCreated: string | Date;
     minHealth: number;
     burning: boolean;
-    // haloObject: Halo;
     /**
      * 
      * @param x starting x for Enemy
@@ -30,7 +29,6 @@ class Enemy {
         this.minHealth = 5;
         this.timeCreated = Date();
         this.burning = false;
-        // this.haloObject = new Halo([0, Math.PI, TWOPI], [Math.PI, TWOPI, 0], ["#ff0000", "#ff8800", "#ffff00"], this, 2, 2)
     }
     /**
      * @name draw
@@ -39,9 +37,13 @@ class Enemy {
      */
     draw(): void {
         renderWireframe(this, "enemy");
-        // if (this.burning) {
-        //     this.haloObject.draw(5)
-        // }
+
+        if (this.burning) {
+            c.beginPath();
+            c.arc(this.x, this.y, this.radius + 5, 0, TWOPI);
+            c.fillStyle = 'rgb(255,0,0);';
+            c.fill();
+        }
         c.beginPath();
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fillStyle = this.color;
@@ -55,7 +57,6 @@ class Enemy {
     update(): string {
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-        // this.haloObject.update(5, this)
         if (this.IsDead || this.radius < 0) {
             return "dead";
         }

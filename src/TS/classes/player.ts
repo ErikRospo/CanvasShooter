@@ -44,7 +44,9 @@ class Player {
     }
     public draw(): void {
         renderWireframe(this, "player");
+        c.fillStyle = this.color;
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
+        c.fill();
         if (ShowPlayerAim) {
             let m_angle = Math.atan2(MouseY - this.y, MouseX - this.x);
             let p1 = { x: this.radius * Math.cos(m_angle - this.spread) + this.x, y: this.radius * Math.sin(m_angle - this.spread) + this.y };
@@ -56,9 +58,8 @@ class Player {
             c.lineTo(p4.x, p4.y);
             c.lineTo(p3.x, p3.y);
             c.lineTo(p1.x, p1.y);
+            c.fill();
         }
-        c.fillStyle = this.color;
-        c.fill();
     }
     public get willDie(): boolean {
         return this.Health.willDie;

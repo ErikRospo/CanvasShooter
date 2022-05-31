@@ -30,7 +30,6 @@
     "./src/TS/init.ts",
     "./src/TS/helperFunctions.ts",
     "./src/TS/debug.ts",
-    "./src/TS/classes/halo.ts",
     "./src/TS/classes/Health.ts",
     "./src/TS/classes/player.ts",
     "./src/TS/classes/projectile.ts",
