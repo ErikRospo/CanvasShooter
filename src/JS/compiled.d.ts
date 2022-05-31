@@ -49,10 +49,6 @@ declare const OptionsParticleSwitch: HTMLInputElement;
 declare const OptionsBackButton: HTMLButtonElement;
 declare const OptionsParticleSpan: HTMLSpanElement;
 declare const OptionsAimSlider: HTMLInputElement;
-declare const ShopContainerDiv: HTMLDivElement;
-declare const ShopDiv: HTMLDivElement;
-declare const ShopContents: HTMLDivElement;
-declare const ShopCloseButton: HTMLButtonElement;
 declare const debugDiv: HTMLDivElement;
 declare const debugList: HTMLUListElement;
 declare const w: number;
@@ -251,26 +247,6 @@ declare class Music {
     stopAll(): void;
     get playing(): number;
 }
-declare class Upgrade {
-    name: string;
-    description: string;
-    effectstr: string;
-    children: Upgrade[];
-    constructor(name: string, description: string, effectstr?: string);
-    addEffect(effect: string): void;
-    createEffect(effectName: number, effectAmount: string | number, effectType: string): void;
-    generateEffectstr(effectName: number, effectAmount: string | number, effectType: string): string;
-    get effect(): string;
-    addChild(child: Upgrade): void;
-}
-declare class Shop {
-    upgrades: Array<Upgrade>;
-    constructor();
-    addUpgrade(upgrade: Upgrade): void;
-    update(upgradeNumber: number): void;
-    buy(index: number): void;
-    get Html(): HTMLElement;
-}
 declare const EnemySpawnTimeDecrement: number;
 declare const EnemySpawnBias: number;
 declare const EnemyMultiplier: number;
@@ -310,15 +286,12 @@ declare let EnemySpeedMult: number;
 declare let EnemyUpFreq: number;
 declare let HS: boolean;
 declare let MusicPlayer: Music;
-declare let lvlupShop: Shop;
-declare let upgradePool: Upgrade[];
 declare let levelFrequency: number;
 declare let MouseX: number;
 declare let MouseY: number;
 declare let ShowPlayerAim: boolean;
 declare function animate(): void;
 declare function init(): void;
-declare function populateupgradepool(): void;
 declare function PageLoad(): void;
 declare function UpdateSFXSlider(): void;
 declare function PlayMusic(): void;
@@ -341,5 +314,3 @@ declare function sanityCheck(object: {
     y: number;
     radius: number;
 }): boolean;
-declare function openShop(): void;
-declare function closeShop(): void;

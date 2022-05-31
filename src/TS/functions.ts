@@ -9,58 +9,6 @@ function init() {
     scoreEL.innerHTML = score.toString(10);
     BigScoreEL.innerHTML = score.toString(10);
     GameStarted = true;
-    populateupgradepool();
-}
-function populateupgradepool() {
-    //TODO: make more upgrades
-    //TODO: expand the upgrade tree
-    //TODO: find a better way to do this
-    let healthUpgrade = new Upgrade("Health", "Increase your health by 1");
-    healthUpgrade.createEffect(0, 1, "a");
-    let healthUpgrade2 = new Upgrade("Health", "Increase your health by 2");
-    healthUpgrade2.createEffect(0, 2, "a");
-    let maxHealthUpgrade = new Upgrade("Max Health", "Increase your max health by 1");
-    maxHealthUpgrade.createEffect(5, 1, "a");
-    let maxHealthUpgrade2 = new Upgrade("Max Health", "Increase your max health by 2");
-    maxHealthUpgrade2.createEffect(5, 2, "a");
-    healthUpgrade.addChild(healthUpgrade2);
-    healthUpgrade.addChild(maxHealthUpgrade);
-    maxHealthUpgrade.addChild(maxHealthUpgrade2);
-    let damageUpgrade = new Upgrade("Damage", "Increase projectile damage by 1");
-    let damageUpgrade2 = new Upgrade("Damage 2", "Increase projectile damage by 2");
-    let glassCannonUpgrade = new Upgrade("Glass cannon", "More damage at the cost of health");
-    let laserUpgrade = new Upgrade("Laser", "More damage at the cost of radius");
-    let laserUpgrade2 = new Upgrade("Laser", "More damage at the cost of radius");
-    let radiusUpgrade = new Upgrade("Radius", "Increase projectile radius by 1");
-    let radiusUpgrade2 = new Upgrade("Radius", "Increase projectile radius by 2");
-    let speedUpgrade = new Upgrade("Speed", "Increase projectile speed by 1");
-    let speedUpgrade2 = new Upgrade("Speed", "Increase projectile speed by 2");
-    let tankUpgrade = new Upgrade("Tank", "More health at the cost of damage");
-    damageUpgrade.addChild(damageUpgrade2);
-    damageUpgrade.createEffect(1, 1, "a");
-    damageUpgrade2.addChild(glassCannonUpgrade);
-    damageUpgrade2.addChild(laserUpgrade);
-    damageUpgrade2.addChild(tankUpgrade);
-    damageUpgrade2.createEffect(1, 2, "a");
-    glassCannonUpgrade.createEffect(0, 0.5, "m");
-    glassCannonUpgrade.createEffect(1, 2, "m");
-    healthUpgrade2.addChild(glassCannonUpgrade);
-    healthUpgrade2.addChild(tankUpgrade);
-    laserUpgrade.addChild(laserUpgrade2);
-    laserUpgrade.createEffect(3, 0.5, "m");
-    laserUpgrade.createEffect(1, 2, "m");
-    laserUpgrade2.createEffect(3, 0.25, "m");
-    laserUpgrade2.createEffect(1, 4, "m");
-    radiusUpgrade.addChild(radiusUpgrade2);
-    radiusUpgrade.createEffect(3, 1, "a");
-    radiusUpgrade2.addChild(laserUpgrade);
-    radiusUpgrade2.createEffect(3, 2, "a");
-    speedUpgrade.addChild(speedUpgrade2);
-    speedUpgrade.createEffect(2, 1, "a");
-    speedUpgrade2.createEffect(2, 2, "a");
-    tankUpgrade.createEffect(0, 2, "m");
-    tankUpgrade.createEffect(5, 0.5, "m");
-    upgradePool = [healthUpgrade, damageUpgrade, radiusUpgrade, speedUpgrade];
 }
 function PageLoad() {
     ModalEL.style.display = "flex";
@@ -259,21 +207,4 @@ function sanityCheck(object: { x: number, y: number, radius: number; }): boolean
         return false;
     }
     return true;
-}
-function openShop() {
-    ShopDiv.style.display = "block";
-    ShopOpen = true;
-    Paused = true;
-    //TODO: find a way to be able to vary the number of upgrades offered.
-    lvlupShop.update(3);
-    let tempscb = ShopCloseButton;
-    ShopContents.replaceChildren(lvlupShop.Html);
-    ShopContents.appendChild(tempscb);
-    ShopCloseButton.style.display = "block";
-}
-function closeShop() {
-    ShopDiv.style.display = "none";
-    ShopOpen = false;
-    Paused = false;
-    ShopCloseButton.style.display = "none";
 }

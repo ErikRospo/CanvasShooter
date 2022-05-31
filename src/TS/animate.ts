@@ -166,7 +166,6 @@ function animate() {
             levelFrequency *= 1.1;
             levelFrequency = round(levelFrequency, -1);
             //TODO: add a level up sound
-            openShop();
 
         }
         //if you have passed HealthFreq, and your score is not zero,

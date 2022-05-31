@@ -96,11 +96,6 @@ const OptionsAimSlider = document.querySelector("#OptionsAimSlider") as HTMLInpu
 if (DEBUGFLAG) {
     console.log(OptionsAimSlider);
 }
-//shop
-const ShopContainerDiv = document.querySelector("#ShopContainer") as HTMLDivElement;
-const ShopDiv = document.querySelector("#ShopDiv") as HTMLDivElement;
-const ShopContents = document.querySelector("#ShopContents") as HTMLDivElement;
-const ShopCloseButton = document.querySelector("#ShopCloseButton") as HTMLButtonElement;
 //debugging elements:
 const debugDiv = document.querySelector("#debugDiv") as HTMLDivElement;
 const debugList = document.querySelector("#debugList") as HTMLUListElement;

@@ -37,28 +37,6 @@ html {
     text-transform: capitalize
 }
 
-.UpgradeButton {
-    background-color: rgb(50, 150, 250);
-    color: white;
-    border-radius: 9999px;
-    width: 100%;
-    font-size: 0.875em;
-    line-height: 1.25em;
-    padding: 0.25em;
-    margin-top: 0.2em;
-    margin-bottom: 0.2em;
-}
-
-.UpgradeButton[disabled="true"] {
-    background-color: gray;
-    color: red;
-}
-
-.UpgradeButton[disabled="false"] {
-    background-color: rgb(50, 100, 250);
-    color: white;
-}
-
 #XPBar {
     align-content: center;
     right: 12.5vw;
@@ -634,65 +612,4 @@ margin-top: 5px;
 
 #HighScore {
     display: block;
-}
-
-#ShopCloseButton {
-    position: fixed;
-    left: calc(50% - 50px);
-    top: calc(50% + 220px);
-    cursor: pointer;
-    width: 70px;
-    height: 30px;
-    line-height: 25px;
-    text-align: center;
-    font-size: large;
-    border-radius: 10px;
-    color: white;
-    background-color: black;
-    border: 0;
-    display: none;
-    user-select: none;
-}
-
-.upgradeItem {
-    user-select: none;
-    width: 75%;
-    height: 90%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    transform: translate(12.5%, 0);
-    list-style: none;
-    background-color: rgb(50, 100, 150);
-    border-radius: 10px;
-    text-align: right;
-}
-
-.upgradeName {
-    font-size: large;
-    font-weight: bold;
-    padding: 0.5rem;
-    margin: 0;
-    text-align: left;
-    user-select: none;
-}
-
-.upgradeDescription {
-    align-self: left;
-    text-align: left;
-    padding-left: 5px;
-    user-select: none;
-}
-
-.buyButton {
-    align-self: left;
-    text-align: center;
-    background-color: red;
-    border-radius: 10px;
-    color: black;
-    width: 100px;
-    height: 30px;
-    font-size: 20px;
-    bottom: 5px;
-    right: 5px;
-    user-select: none;
 }
