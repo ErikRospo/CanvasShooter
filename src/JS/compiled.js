@@ -399,7 +399,7 @@ class Player {
         this.Health = CreateHealth(5, 5);
         this.Health.draw();
         this.spread = 0.2;
-        this.barrelRadius = 2 * this.radius;
+        this.barrelRadius = this.radius * (this.ShotSpeed / 2.5);
         SetDebugItem(this.Health.Health, "playerHealth");
     }
     update() {
