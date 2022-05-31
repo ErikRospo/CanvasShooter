@@ -7,8 +7,6 @@ function animate() {
     SetDebugItem((Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight) / 2000), "EnemySpeedMultiplier");
     //if the game is not paused
     if (!Paused) {
-        SetDebugItem(player.level, "playerLevel");
-        SetDebugItem(player.cachedLevels, "playerCashedLevels");
         /*
         1. If the animationID is divisible by EnemySpawnTime, and the number of enemies is less than MaxEnemies, we spawn an enemy.
         2. Or, if the number of enemies is lower than 5 less than the MaxEnemies, we also spawn an enemy.
@@ -159,15 +157,6 @@ function animate() {
             }
 
         });
-        //TODO: Verify that this is working
-        if ((lastScore % levelFrequency > score % levelFrequency)) {
-            player.level++;
-            //TODO: make sure this is working as intended
-            levelFrequency *= 1.1;
-            levelFrequency = round(levelFrequency, -1);
-            //TODO: add a level up sound
-
-        }
         //if you have passed HealthFreq, and your score is not zero,
         if ((lastScore % HealthFreq > score % HealthFreq) && (score != 0)) {
             //add one health

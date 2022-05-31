@@ -147,8 +147,6 @@ declare class Player {
     AutoRotate: boolean;
     ShotSize: number;
     Health: HealthBar;
-    cachedLevels: number;
-    level: number;
     spread: number;
     barrelRadius: any;
     constructor(x: number, y: number, radius: number, color: string);
@@ -286,7 +284,6 @@ declare let EnemySpeedMult: number;
 declare let EnemyUpFreq: number;
 declare let HS: boolean;
 declare let MusicPlayer: Music;
-declare let levelFrequency: number;
 declare let MouseX: number;
 declare let MouseY: number;
 declare let ShowPlayerAim: boolean;

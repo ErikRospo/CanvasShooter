@@ -389,8 +389,6 @@ class Player {
         this.y = y;
         this.radius = radius;
         this.color = color;
-        this.cachedLevels = 0;
-        this.level = 1;
         this.Damage = 10;
         this.ShotSpeed = 5;
         this.ShotsFired = 1;
@@ -721,7 +719,6 @@ let EnemySpeedMult = 1;
 let EnemyUpFreq = 5000;
 let HS = true;
 let MusicPlayer = new Music([Music1]);
-let levelFrequency = 1000;
 MusicPlayer.play();
 let MouseX = 0;
 let MouseY = 0;
@@ -802,8 +799,6 @@ function animate() {
     SetDebugItem(innerHeight * innerWidth, "WindowArea");
     SetDebugItem((Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight) / 2000), "EnemySpeedMultiplier");
     if (!Paused) {
-        SetDebugItem(player.level, "playerLevel");
-        SetDebugItem(player.cachedLevels, "playerCashedLevels");
         if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5)) {
             SpawnEnemy();
             EnemySpawnTime -= 0.125;
@@ -900,11 +895,6 @@ function animate() {
                 });
             }
         });
-        if ((lastScore % levelFrequency > score % levelFrequency)) {
-            player.level++;
-            levelFrequency *= 1.1;
-            levelFrequency = round(levelFrequency, -1);
-        }
         if ((lastScore % HealthFreq > score % HealthFreq) && (score != 0)) {
             player.Health.addHealth(1);
             if (!SFXMuted) {

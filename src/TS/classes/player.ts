@@ -12,8 +12,6 @@ class Player {
     AutoRotate: boolean;
     ShotSize: number;
     Health: HealthBar;
-    cachedLevels: number;
-    level: number;
     spread: number;
     barrelRadius: any;
     constructor(x: number, y: number, radius: number, color: string) {
@@ -21,8 +19,6 @@ class Player {
         this.y = y;
         this.radius = radius;
         this.color = color;
-        this.cachedLevels = 0
-        this.level = 1
         this.Damage = 10;
         this.ShotSpeed = 5;
         this.ShotsFired = 1;
