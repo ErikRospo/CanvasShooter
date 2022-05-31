@@ -92,15 +92,11 @@ html {
     color: white;
     top: 0.5rem;
     overflow: hidden;
-    width: 8rem;
+    width: 6rem;
     right: 2rem;
     font-size: 1rem;
     user-select: none;
     position: fixed;
-}
-
-#HighScore>li:first-child {
-    padding-top: 24px;
 }
 
 .rainbow-background {
