@@ -468,9 +468,12 @@ input:checked+.slider:before {
 }
 
 #SoundOptionsDiv {
-    left: 75px;
+    left: 55px;
     position: absolute;
-    top: 60px;
+    top: 50px;
+    line-height: 1;
+    font-weight: bold;
+    color: whitesmoke;
 }
 
 #ParticlesOptionsDiv {
@@ -480,9 +483,22 @@ input:checked+.slider:before {
     top: 100px
 }
 
+#AimOptionsDiv {
+    left: 55px;
+    position: absolute;
+    top: 110px
+}
+
 #ParticlesOptionsLabel {
     position: relative;
     top: 10px;
+}
+
+#AimOptionsLabel {
+    position: relative;
+    color: whitesmoke;
+    font-weight: bold;
+    top: 3px;
 }
 
 #OptionsBackButton {

@@ -40,6 +40,16 @@ OptionsBackButton.addEventListener("click", () => {
 OptionsParticleSwitch.addEventListener("change", () => {
     UseParticles = !UseParticles;
 });
+OptionsAimSlider.addEventListener("change", () => {
+    if (OptionsAimSlider.value == "0") {
+        ShowPlayerAim = false;
+    } else {
+        ShowPlayerAim = true;
+    }
+    // player.barrelRadius = Number(OptionsAimSlider.value);
+    player.spread = Number(OptionsAimSlider.value);
+
+});
 OptionsSFXSlider.addEventListener("change", () => {
     if (OptionsSFXSlider.value == "0") {
         SFXMuted = true;
