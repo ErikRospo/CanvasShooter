@@ -3,6 +3,10 @@ addEventListener("click", (event) => spawnProjectile(event.clientX, event.client
 addEventListener("load", () => {
     PageLoad();
 });
+addEventListener("mousemove", (event) => {
+    MouseX = event.clientX;
+    MouseY = event.clientY;
+})
 //when the user clicks the start button, start the game
 startGameButton.addEventListener("click", () => {
     ModalEL.style.display = "none";

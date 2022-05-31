@@ -38,3 +38,6 @@ let EnemyUpFreq = 5000 as number;
 let HS = true as boolean;
 let MusicPlayer = new Music([Music1]) as Music;
 MusicPlayer.play();
+let MouseX = 0 as number;
+let MouseY = 0 as number;
+let ShowPlayerAim = false as boolean;
