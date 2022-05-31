@@ -23,8 +23,10 @@ addEventListener("keypress", (event) => {
             PauseGame();
         } else {
             CloseOptionsMenu();
+            closeShop()
             OptionsOpen = false;
             UnpauseGame();
+
         }
     }
 });
@@ -69,7 +71,9 @@ OptionsMusicSlider.addEventListener("change", () => {
     MusicPlayer.shuffle();
     MusicPlayer.continue = true;
 });
-
+ShopCloseButton.addEventListener("click", () => {
+    closeShop();
+});
 // MainMenuMuteButton.addEventListener("onclick", () => {
 //     console.log("Mute Button Clicked!");
 //     updateMuteBTN(!SFXMuted);

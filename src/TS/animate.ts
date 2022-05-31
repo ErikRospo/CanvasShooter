@@ -7,7 +7,6 @@ function animate() {
     SetDebugItem((Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight) / 2000), "EnemySpeedMultiplier");
     //if the game is not paused
     if (!Paused) {
-        CheckForLevelUp();
         SetDebugItem(player.level, "playerLevel");
         SetDebugItem(player.cachedLevels, "playerCashedLevels");
         /*
@@ -24,7 +23,6 @@ function animate() {
         SetDebugItem(EnemySpawnTime, "SpawnTime")
         //draw the player
         player.update();
-        AnimateProgressBar(animationID);
 
         //fill the canvas with an almost black.
         //the 0.1 Alpha value means that things have a nice fade out effect
@@ -62,7 +60,7 @@ function animate() {
                 enemies.splice(index, 1);
 
             }
-            if (r != "dead") {
+            else {
                 //get the distance to the player
                 const dist = distance(player.x, player.y, enemy.x, enemy.y);
                 //if the enemy is touching the player
@@ -161,6 +159,16 @@ function animate() {
             }
 
         });
+        //TODO: Verify that this is working
+        if ((lastScore % levelFrequency > score % levelFrequency)) {
+            player.level++;
+            //TODO: make sure this is working as intended
+            levelFrequency *= 1.1;
+            levelFrequency = round(levelFrequency, -1);
+            //TODO: add a level up sound
+            openShop();
+
+        }
         //if you have passed HealthFreq, and your score is not zero,
         if ((lastScore % HealthFreq > score % HealthFreq) && (score != 0)) {
             //add one health
