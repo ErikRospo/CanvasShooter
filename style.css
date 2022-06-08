@@ -613,3 +613,27 @@ margin-top: 5px;
 #HighScore {
     display: block;
 }
+
+#PauseMenuOpenerButton {
+    display: block;
+    position: fixed;
+    bottom: 10vh;
+    left: 2vw;
+    width: 20vh;
+    height: 5vw;
+    background: none;
+    inset: 0;
+    z-index: -1;
+    cursor: pointer;
+    outline: none;
+    /* border: cyan 1px solid; */
+}
+
+#PauseOpenerIcon {
+    color: royalblue;
+    position: absolute;
+    left: 1vw;
+    top: 92.5vh;
+    font-size: 32pt;
+    cursor: pointer;
+}

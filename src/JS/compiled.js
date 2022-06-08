@@ -9,6 +9,20 @@ const PROD = (PRODUCTION);
 const ISLOCAL = (window.location.hostname == "localhost");
 const ISLOCALIP = (window.location.hostname.startsWith("127.0.0"));
 const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
+function deviceType() {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+        return "tablet";
+    }
+    else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+        return "mobile";
+    }
+    return "desktop";
+}
+const ISMOBILE = (deviceType() == "mobile");
+const ISTABLET = (deviceType() == "tablet");
+const ISDESKTOP = (deviceType() == "desktop");
+const MOBILEVIEW = (ISMOBILE || ISTABLET || window.location.search.includes("ForceMobile"));
 let SFXMuted = true;
 let OptionsOpen = false;
 let browserType = navigator;
@@ -50,6 +64,8 @@ const PauseModalScore = document.querySelector("#PauseModalScore");
 const PauseModalScoreLabel = document.querySelector("#PauseModalScoreLabel");
 const PauseModalOptionsButton = document.querySelector("#PauseModalOptionsButton");
 const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton");
+const PauseModalOpenerButton = document.querySelector("#PauseMenuOpenerButton");
+const PauseModalOpenerIcon = document.querySelector("#PauseOpenerIcon");
 const OptionsMenu = document.querySelector("#OptionsModal");
 const OptionsSFXSlider = document.querySelector("#SFXSlider");
 const OptionsMusicSlider = document.querySelector("#MusicSlider");
@@ -548,7 +564,7 @@ class Music {
         try {
             this.music[this.current].play();
         }
-        catch (error) {
+        catch (DOMException) {
             return;
         }
     }
@@ -669,6 +685,18 @@ PauseModalPlayButton.addEventListener("click", () => {
 });
 addEventListener("keypress", (event) => {
     if (event.key == "q" && GameStarted) {
+        if (!Paused) {
+            PauseGame();
+        }
+        else {
+            CloseOptionsMenu();
+            OptionsOpen = false;
+            UnpauseGame();
+        }
+    }
+});
+PauseModalOpenerButton.addEventListener("click", () => {
+    if (GameStarted) {
         if (!Paused) {
             PauseGame();
         }
@@ -864,6 +892,14 @@ function PageLoad() {
     OptionsAimSlider.value = "0";
     HighScoreLabel.style.display = "none";
     document.body.style.display = "block";
+    if (!MOBILEVIEW) {
+        PauseModalOpenerButton.style.display = "none";
+        PauseModalOpenerIcon.style.display = "none";
+    }
+    else {
+        PauseModalOpenerButton.style.display = "block";
+        PauseModalOpenerIcon.style.display = "block";
+    }
     CloseOptionsMenu();
     UnpauseGame();
     MusicPlayer.pause();

@@ -6,3 +6,6 @@ Timing/*.*
 /temp
 /Timing
 notes.txt
+*.save
+*.bak
+*.old

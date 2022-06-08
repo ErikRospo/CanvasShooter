@@ -17,6 +17,15 @@ function PageLoad() {
     OptionsAimSlider.value = "0";
     HighScoreLabel.style.display = "none";
     document.body.style.display = "block";
+    if (!MOBILEVIEW) {
+        PauseModalOpenerButton.style.display = "none";
+        PauseModalOpenerIcon.style.display = "none";
+    }
+    else {
+        PauseModalOpenerButton.style.display = "block";
+        PauseModalOpenerIcon.style.display = "block";
+    }
+    
     CloseOptionsMenu();
     UnpauseGame();
     MusicPlayer.pause();

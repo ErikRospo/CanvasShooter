@@ -8,6 +8,19 @@ const PROD = (PRODUCTION);
 const ISLOCAL = (window.location.hostname == "localhost");
 const ISLOCALIP = (window.location.hostname.startsWith("127.0.0"));
 const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
+function deviceType() {
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+        return "tablet";
+    } else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+        return "mobile";
+    }
+    return "desktop";
+}
+const ISMOBILE = (deviceType() == "mobile");
+const ISTABLET = (deviceType() == "tablet");
+const ISDESKTOP = (deviceType() == "desktop");
+const MOBILEVIEW = (ISMOBILE || ISTABLET || window.location.search.includes("ForceMobile"));
 let SFXMuted = true as boolean;
 let OptionsOpen = false as boolean;
 let browserType = navigator;
@@ -53,7 +66,8 @@ const PauseModalScore = document.querySelector("#PauseModalScore") as HTMLSpanEl
 const PauseModalScoreLabel = document.querySelector("#PauseModalScoreLabel") as HTMLSpanElement;
 const PauseModalOptionsButton = document.querySelector("#PauseModalOptionsButton") as HTMLButtonElement;
 const PauseModalPlayButton = document.querySelector("#PauseModalPlayButton") as HTMLButtonElement;
-
+const PauseModalOpenerButton = document.querySelector("#PauseMenuOpenerButton") as HTMLButtonElement;
+const PauseModalOpenerIcon = document.querySelector("#PauseOpenerIcon") as HTMLSpanElement;
 //Options Menu
 const OptionsMenu = document.querySelector("#OptionsModal") as HTMLDivElement;
 const OptionsSFXSlider = document.querySelector("#SFXSlider") as HTMLInputElement;

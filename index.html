@@ -11,9 +11,10 @@
     <meta name="rating" content="general">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+
     <link rel="icon" href="favicon.ico">
-    <script>
-        const deviceType = () => {
+    <!-- <script>
+        function deviceType() {
             const ua = navigator.userAgent;
             if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
                 return "tablet";
@@ -29,12 +30,19 @@
                 };
             }
         }
-    </script>
+    </script> -->
 </head>
 
 <body>
 
     <div id="UpperScoreWrapper">
+        <button id="PauseMenuOpenerButton">
+
+        <span class="material-icons" id="PauseOpenerIcon">
+        pause
+        </span>
+
+        </button>
         <span>Score: </span>
         <span id="scoreEL">0</span><br>
         <div id="HealthDiv" class="hidden">
@@ -55,8 +63,8 @@
                 <h1 id="MainMenuGameTitle">Game title</h1>
             </div>
             <button id="MainMenuStartButton" class="Button ">Start</button>
-        </div>
-        <button id="MainMenuMuteButton">
+    </div>
+    <button id="MainMenuMuteButton">
             <span class="material-icons-outlined " id="MainMenuMutedIndicator">
             volume_off
             </span>

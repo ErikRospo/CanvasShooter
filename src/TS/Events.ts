@@ -29,6 +29,17 @@ addEventListener("keypress", (event) => {
         }
     }
 });
+PauseModalOpenerButton.addEventListener("click", () => {
+    if (GameStarted) {
+        if (!Paused) {
+            PauseGame();
+        } else {
+            CloseOptionsMenu();
+            OptionsOpen = false;
+            UnpauseGame();
+        }
+    }
+});
 PauseModalOptionsButton.addEventListener("click", () => {
     OpenOptionsMenu();
     OptionsOpen = true;

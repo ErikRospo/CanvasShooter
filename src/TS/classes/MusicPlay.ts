@@ -39,7 +39,7 @@ class Music {
 
         try {
             this.music[this.current].play();
-        } catch (error) {
+        } catch (DOMException) {
             return;
         }
     }
