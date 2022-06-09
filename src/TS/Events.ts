@@ -1,5 +1,6 @@
 //whenever the user clicks, spawn a projectile
-addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
+// addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
+canvas.addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
 addEventListener("load", () => {
     PageLoad();
 });
