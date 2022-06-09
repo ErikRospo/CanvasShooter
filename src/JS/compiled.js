@@ -667,7 +667,7 @@ MusicPlayer.play();
 let MouseX = 0;
 let MouseY = 0;
 let ShowPlayerAim = false;
-addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
+canvas.addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
 addEventListener("load", () => {
     PageLoad();
 });
