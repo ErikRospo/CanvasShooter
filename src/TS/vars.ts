@@ -41,3 +41,8 @@ MusicPlayer.play();
 let MouseX = 0 as number;
 let MouseY = 0 as number;
 let ShowPlayerAim = false as boolean;
+let mouse = {
+    x: 0,
+    y: 0,
+    down: false,
+};

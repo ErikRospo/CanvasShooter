@@ -152,8 +152,10 @@ function CloseOptionsMenu(): void {
     OptionsAimSlider.style.display = "none";
     OptionsOpen = false;
 };
-function spawnProjectile(x: number, y: number) {
+function spawnProjectile(x?: number, y?: number) {
     if (GameStarted == true && Paused == false) {
+        x = x || mouse.x;
+        y = y || mouse.y
         //get the x and y of the click
         //find the angle from the center
         const angle = Math.atan2(y - ch, x - cw);

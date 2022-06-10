@@ -1,12 +1,23 @@
 //whenever the user clicks, spawn a projectile
 // addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
-canvas.addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
+canvas.addEventListener("pointerdown", (evt) => {
+    mouse.x = evt.clientX;
+    mouse.y = evt.clientY;
+    mouse.down = true;
+    spawnProjectile();
+    mouseevt.preventDefault();
+});
+canvas.addEventListener("pointerup", (evt) => {
+    mouse.x = evt.clientX;
+    mouse.y = evt.clientY;
+    mouse.down = true;
+});
 addEventListener("load", () => {
     PageLoad();
 });
-addEventListener("mousemove", (event) => {
-    MouseX = event.clientX;
-    MouseY = event.clientY;
+addEventListener("pointermove", (event) => {
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
 })
 //when the user clicks the start button, start the game
 startGameButton.addEventListener("click", () => {
