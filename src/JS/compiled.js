@@ -353,7 +353,7 @@ class Player {
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fill();
         if (ShowPlayerAim) {
-            let m_angle = Math.atan2(MouseY - this.y, MouseX - this.x);
+            let m_angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
             let p1 = { x: this.radius * Math.cos(m_angle - this.spread) + this.x, y: this.radius * Math.sin(m_angle - this.spread) + this.y };
             let p2 = { x: this.radius * Math.cos(m_angle + this.spread) + this.x, y: this.radius * Math.sin(m_angle + this.spread) + this.y };
             let p3 = { x: this.barrelRadius * Math.cos(m_angle - this.spread * 1 / (this.barrelRadius / this.radius)) + this.x, y: this.barrelRadius * Math.sin(m_angle - this.spread * 1 / (this.barrelRadius / this.radius)) + this.y };
@@ -664,12 +664,12 @@ let EnemyUpFreq = 5000;
 let HS = true;
 let MusicPlayer = new Music([Music1]);
 MusicPlayer.play();
-let MouseX = 0;
-let MouseY = 0;
 let ShowPlayerAim = false;
 let mouse = {
     x: 0,
     y: 0,
+    dx: 0,
+    dy: 0,
     down: false,
 };
 canvas.addEventListener("pointerdown", (evt) => {
@@ -690,6 +690,14 @@ addEventListener("load", () => {
 addEventListener("pointermove", (event) => {
     mouse.x = event.clientX;
     mouse.y = event.clientY;
+    mouse.dx = event.movementX;
+    mouse.dy = event.movementY;
+    SetDebugItem(mouse.x.toString(), "mouse.x");
+    SetDebugItem(mouse.y.toString(), "mouse.y");
+    SetDebugItem(mouse.dx.toString(), "mouse.dx");
+    SetDebugItem(mouse.dy.toString(), "mouse.dy");
+    SetDebugItem((mouse.x + mouse.dx).toString(), "predicted mouse.x");
+    SetDebugItem((mouse.y + mouse.dy).toString(), "predicted mouse.y");
 });
 startGameButton.addEventListener("click", () => {
     ModalEL.style.display = "none";
@@ -1027,8 +1035,8 @@ function CloseOptionsMenu() {
 ;
 function spawnProjectile(x, y) {
     if (GameStarted == true && Paused == false) {
-        x = x || mouse.x;
-        y = y || mouse.y;
+        x = x || mouse.x + (mouse.dx * 10);
+        y = y || mouse.y + (mouse.dy * 10);
         const angle = Math.atan2(y - ch, x - cw);
         const velocity = {
             x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,

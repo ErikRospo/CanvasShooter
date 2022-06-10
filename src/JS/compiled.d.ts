@@ -261,12 +261,12 @@ declare let EnemySpeedMult: number;
 declare let EnemyUpFreq: number;
 declare let HS: boolean;
 declare let MusicPlayer: Music;
-declare let MouseX: number;
-declare let MouseY: number;
 declare let ShowPlayerAim: boolean;
 declare let mouse: {
     x: number;
     y: number;
+    dx: number;
+    dy: number;
     down: boolean;
 };
 declare function animate(): void;

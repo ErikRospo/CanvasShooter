@@ -48,7 +48,7 @@ class Player {
         c.arc(this.x, this.y, this.radius, 0, TWOPI, false);
         c.fill();
         if (ShowPlayerAim) {
-            let m_angle = Math.atan2(MouseY - this.y, MouseX - this.x);
+            let m_angle = Math.atan2(mouse.y - this.y, mouse.x - this.x);
             let p1 = { x: this.radius * Math.cos(m_angle - this.spread) + this.x, y: this.radius * Math.sin(m_angle - this.spread) + this.y };
             let p2 = { x: this.radius * Math.cos(m_angle + this.spread) + this.x, y: this.radius * Math.sin(m_angle + this.spread) + this.y };
             let p3 = { x: this.barrelRadius * Math.cos(m_angle - this.spread * 1 / (this.barrelRadius / this.radius)) + this.x, y: this.barrelRadius * Math.sin(m_angle - this.spread * 1 / (this.barrelRadius / this.radius)) + this.y };

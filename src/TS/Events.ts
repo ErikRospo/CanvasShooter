@@ -18,6 +18,14 @@ addEventListener("load", () => {
 addEventListener("pointermove", (event) => {
     mouse.x = event.clientX;
     mouse.y = event.clientY;
+    mouse.dx = event.movementX;
+    mouse.dy = event.movementY;
+    SetDebugItem(mouse.x.toString(), "mouse.x");
+    SetDebugItem(mouse.y.toString(), "mouse.y");
+    SetDebugItem(mouse.dx.toString(), "mouse.dx");
+    SetDebugItem(mouse.dy.toString(), "mouse.dy");
+    SetDebugItem((mouse.x + mouse.dx).toString(), "predicted mouse.x");
+    SetDebugItem((mouse.y + mouse.dy).toString(), "predicted mouse.y");
 })
 //when the user clicks the start button, start the game
 startGameButton.addEventListener("click", () => {
