@@ -667,13 +667,29 @@ MusicPlayer.play();
 let MouseX = 0;
 let MouseY = 0;
 let ShowPlayerAim = false;
-canvas.addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
+let mouse = {
+    x: 0,
+    y: 0,
+    down: false,
+};
+canvas.addEventListener("pointerdown", (evt) => {
+    mouse.x = evt.clientX;
+    mouse.y = evt.clientY;
+    mouse.down = true;
+    spawnProjectile();
+    evt.preventDefault();
+});
+canvas.addEventListener("pointerup", (evt) => {
+    mouse.x = evt.clientX;
+    mouse.y = evt.clientY;
+    mouse.down = true;
+});
 addEventListener("load", () => {
     PageLoad();
 });
-addEventListener("mousemove", (event) => {
-    MouseX = event.clientX;
-    MouseY = event.clientY;
+addEventListener("pointermove", (event) => {
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
 });
 startGameButton.addEventListener("click", () => {
     ModalEL.style.display = "none";
@@ -1011,6 +1027,8 @@ function CloseOptionsMenu() {
 ;
 function spawnProjectile(x, y) {
     if (GameStarted == true && Paused == false) {
+        x = x || mouse.x;
+        y = y || mouse.y;
         const angle = Math.atan2(y - ch, x - cw);
         const velocity = {
             x: Math.cos(angle) * player.ShotSpeed * ProjectileSpeedMultiplier,

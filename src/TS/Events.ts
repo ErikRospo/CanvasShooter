@@ -5,7 +5,7 @@ canvas.addEventListener("pointerdown", (evt) => {
     mouse.y = evt.clientY;
     mouse.down = true;
     spawnProjectile();
-    mouseevt.preventDefault();
+    evt.preventDefault();
 });
 canvas.addEventListener("pointerup", (evt) => {
     mouse.x = evt.clientX;

@@ -264,6 +264,11 @@ declare let MusicPlayer: Music;
 declare let MouseX: number;
 declare let MouseY: number;
 declare let ShowPlayerAim: boolean;
+declare let mouse: {
+    x: number;
+    y: number;
+    down: boolean;
+};
 declare function animate(): void;
 declare function init(): void;
 declare function PageLoad(): void;
@@ -276,7 +281,7 @@ declare function PauseGame(): void;
 declare function UnpauseGame(): void;
 declare function OpenOptionsMenu(): void;
 declare function CloseOptionsMenu(): void;
-declare function spawnProjectile(x: number, y: number): void;
+declare function spawnProjectile(x?: number, y?: number): void;
 declare function calculateRWA(): number;
 declare function renderWireframe(object: {
     x: number;
