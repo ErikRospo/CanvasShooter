@@ -672,14 +672,14 @@ let mouse = {
     dy: 0,
     down: false,
 };
-canvas.addEventListener("pointerdown", (evt) => {
+addEventListener("pointerdown", (evt) => {
     mouse.x = evt.clientX;
     mouse.y = evt.clientY;
     mouse.down = true;
     spawnProjectile();
     evt.preventDefault();
 });
-canvas.addEventListener("pointerup", (evt) => {
+addEventListener("pointerup", (evt) => {
     mouse.x = evt.clientX;
     mouse.y = evt.clientY;
     mouse.down = true;
