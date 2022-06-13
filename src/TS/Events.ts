@@ -1,13 +1,13 @@
 //whenever the user clicks, spawn a projectile
 // addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
-canvas.addEventListener("pointerdown", (evt) => {
+addEventListener("pointerdown", (evt) => {
     mouse.x = evt.clientX;
     mouse.y = evt.clientY;
     mouse.down = true;
     spawnProjectile();
     evt.preventDefault();
 });
-canvas.addEventListener("pointerup", (evt) => {
+addEventListener("pointerup", (evt) => {
     mouse.x = evt.clientX;
     mouse.y = evt.clientY;
     mouse.down = true;
