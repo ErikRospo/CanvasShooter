@@ -84,7 +84,7 @@ class Upgrade {
     }
 
 }
-
+let BlankUpgrade = new Upgrade("", "");
 class Shop {
     upgrades: Array<Upgrade>;
     constructor() {
@@ -101,6 +101,8 @@ class Shop {
             let s = randomChoiceNot(upgradePool, this.upgrades);
             if (s != undefined) {
                 this.addUpgrade(s);
+            } else {
+                this.addUpgrade(BlankUpgrade);
             }
         }
     }
@@ -141,7 +143,7 @@ class Shop {
                 effectAmount = parseInt(strEffectAmount);
             }
             //TODO: Actually apply the effect
-            
+
             if (subeffect[6] == "m") {
                 if (effectName == "damage") {
                     player.Damage *= Number(effectAmount);
@@ -178,7 +180,7 @@ class Shop {
                 }
             }
         }
-        closeShop()
+        closeShop();
     }
     public get Html(): HTMLElement {
         let elem = document.createElement("div");
@@ -187,11 +189,14 @@ class Shop {
         t.innerHTML = "Upgrades";
         t.style.textAlign = "center";
         t.style.alignSelf = "center";
+
         elem.appendChild(t);
 
         let ul = elem.appendChild(document.createElement("ul"));
+        ul.style.height = "max-content";
+        ul.style.paddingBottom = "2rem";
         elem.style.position = "absolute";
-
+        
         elem.style.left = "50%";
         elem.style.top = "50%";
         elem.style.transform = "translate(-50%, -50%)";
@@ -210,12 +215,14 @@ class Shop {
             let d = li.appendChild(document.createElement("p"));
             d.innerHTML = this.upgrades[i].effect;
             d.className = "upgradeDescription";
-            let b = li.appendChild(document.createElement("button"));
-            b.innerHTML = "Buy";
-            b.className = "buyButton";
+            if (this.upgrades[i] != BlankUpgrade) {
+                let b = li.appendChild(document.createElement("button"));
+                b.innerHTML = "Buy";
+                b.className = "buyButton";
 
-            b.onclick = () => {
-                this.buy(i);
+                b.onclick = () => {
+                    this.buy(i);
+                };
             }
         }
         return elem;

@@ -725,6 +725,7 @@ class Upgrade {
         this.children.push(child);
     }
 }
+let BlankUpgrade = new Upgrade("", "");
 class Shop {
     constructor() {
         this.upgrades = new Array();
@@ -738,6 +739,9 @@ class Shop {
             let s = randomChoiceNot(upgradePool, this.upgrades);
             if (s != undefined) {
                 this.addUpgrade(s);
+            }
+            else {
+                this.addUpgrade(BlankUpgrade);
             }
         }
     }
@@ -821,6 +825,8 @@ class Shop {
         t.style.alignSelf = "center";
         elem.appendChild(t);
         let ul = elem.appendChild(document.createElement("ul"));
+        ul.style.height = "max-content";
+        ul.style.paddingBottom = "2rem";
         elem.style.position = "absolute";
         elem.style.left = "50%";
         elem.style.top = "50%";
@@ -839,12 +845,14 @@ class Shop {
             let d = li.appendChild(document.createElement("p"));
             d.innerHTML = this.upgrades[i].effect;
             d.className = "upgradeDescription";
-            let b = li.appendChild(document.createElement("button"));
-            b.innerHTML = "Buy";
-            b.className = "buyButton";
-            b.onclick = () => {
-                this.buy(i);
-            };
+            if (this.upgrades[i] != BlankUpgrade) {
+                let b = li.appendChild(document.createElement("button"));
+                b.innerHTML = "Buy";
+                b.className = "buyButton";
+                b.onclick = () => {
+                    this.buy(i);
+                };
+            }
         }
         return elem;
     }
@@ -914,6 +922,14 @@ addEventListener("keypress", (event) => {
             closeShop();
             OptionsOpen = false;
             UnpauseGame();
+        }
+    }
+    else if (event.key == "s" && GameStarted) {
+        if (!ShopOpen) {
+            openShop();
+        }
+        else {
+            closeShop();
         }
     }
 });
@@ -1328,8 +1344,8 @@ function openShop() {
 }
 function closeShop() {
     ShopDiv.style.display = "none";
+    UnpauseGame();
     ShopOpen = false;
-    Paused = false;
     ShopCloseButton.style.display = "none";
 }
 //# sourceMappingURL=compiled.js.map

@@ -19,10 +19,17 @@ addEventListener("keypress", (event) => {
             PauseGame();
         } else {
             CloseOptionsMenu();
-            closeShop()
+            closeShop();
             OptionsOpen = false;
             UnpauseGame();
 
+        }
+    }
+    else if (event.key == "s" && GameStarted) {
+        if (!ShopOpen) {
+            openShop();
+        } else {
+            closeShop();
         }
     }
 });

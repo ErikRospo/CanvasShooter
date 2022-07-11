@@ -71,9 +71,9 @@ function PageLoad() {
     CloseOptionsMenu();
     UnpauseGame();
     MusicPlayer.pause();
-    AddDebugItem(0, "playerLevel")
-    AddDebugItem(0, "playerCashedLevels")
-    AddDebugItem(false, "CantSpawn")
+    AddDebugItem(0, "playerLevel");
+    AddDebugItem(0, "playerCashedLevels");
+    AddDebugItem(false, "CantSpawn");
     AddDebugItem(5, "playerHealth");
     AddDebugItem(EnemySpawnTime, "SpawnTime");
     AddDebugItem(EnemySpawnBias, "Bias");
@@ -82,12 +82,12 @@ function PageLoad() {
     OptionsOpen = false;
 }
 function UpdateSFXSlider() {
-    ShootSound.muted = SFXMuted
-    HitNoKillSound.muted = SFXMuted
-    HitAndKillSound.muted = SFXMuted
-    HealthGetSound.muted = SFXMuted
-    HealthLoseSound.muted = SFXMuted
-    MissSound.muted = SFXMuted
+    ShootSound.muted = SFXMuted;
+    HitNoKillSound.muted = SFXMuted;
+    HitAndKillSound.muted = SFXMuted;
+    HealthGetSound.muted = SFXMuted;
+    HealthLoseSound.muted = SFXMuted;
+    MissSound.muted = SFXMuted;
     if (!SFXMuted) {
         ShootSound.volume = parseFloat(OptionsSFXSlider.value);
         HitNoKillSound.volume = parseFloat(OptionsSFXSlider.value);
@@ -145,22 +145,22 @@ function AddScore(Value: number) {
 
 function gameOver(AnimationID: number) {
     cancelAnimationFrame(AnimationID);
-    if (Scores.scores.every((value) => { return value < score })) {
-        HS = true
+    if (Scores.scores.every((value) => { return value < score; })) {
+        HS = true;
     } else {
-        HS = false
+        HS = false;
     }
     Scores.addScore(score);
     GameStarted = false;
     //and add the end screen back up
     ModalEL.setAttribute("style", "display:flex;");
     HighScoreList.innerHTML = Scores.Html;
-    console.log(Scores)
+    console.log(Scores);
     HighScoreLabel.style.display = HS ? "block" : "none";
     BigScoreELLabel.style.display = "block";
     BigScoreEL.style.display = "block";
     BigScoreEL.innerText = score.toString();
-    BigScoreEL.classList.add("animate-bounce")
+    BigScoreEL.classList.add("animate-bounce");
 }
 
 function PauseGame(): void {
@@ -170,17 +170,17 @@ function PauseGame(): void {
 };
 
 function UnpauseGame(): void {
-    PauseModal.style.display = "none"
+    PauseModal.style.display = "none";
     Paused = false;
 };
 
 function OpenOptionsMenu(): void {
 
-    OptionsParticleSpan.style.display = "block"
+    OptionsParticleSpan.style.display = "block";
     OptionsMenu.style.display = "block";
     OptionsSFXSlider.style.display = "block";
     OptionsBackButton.style.display = "block";
-    OptionsParticleSwitch.style.display = "block"
+    OptionsParticleSwitch.style.display = "block";
     OptionsOpen = true;
 };
 
@@ -227,7 +227,6 @@ function renderWireframe(object: { x: number, y: number, radius: number; }, type
         switch (type) {
             case "particle":
                 c.strokeStyle = "rgb(0,0,255)";
-
                 break;
             case "enemy":
                 c.strokeStyle = "rgb(255,0,0)";
@@ -270,7 +269,8 @@ function openShop() {
 }
 function closeShop() {
     ShopDiv.style.display = "none";
+    UnpauseGame();
+
     ShopOpen = false;
-    Paused = false;
     ShopCloseButton.style.display = "none";
 }

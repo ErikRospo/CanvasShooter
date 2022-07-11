@@ -260,6 +260,7 @@ declare class Upgrade {
     get effect(): string;
     addChild(child: Upgrade): void;
 }
+declare let BlankUpgrade: Upgrade;
 declare class Shop {
     upgrades: Array<Upgrade>;
     constructor();

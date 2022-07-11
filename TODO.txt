@@ -1,0 +1,11 @@
+[ ] Need to update style to include close button in shop menu, with padding and ETC
+[x] Need to update style to have buy buttons use pointer, to indicate that they are clickable
+[ ] Need to update shop to only respond to keypresses if the user has enough levels, or if a certain url flag is set
+[ ] Need to get icon that opens shop for mobile.
+    [ ] Check what is going on with safari and mobile being an issue.
+[ ] Audit loading times, and see if we can optimize them.
+[ ] Make the upgrades actually affect the player.
+[ ] Make the loading screen not glitch out, E.g. displaying the options menu
+    [ ] have all items hidden, and then show them all at once when the page has fully loaded.
+[ ] Fix upgrade amount being shown as undefined
+    [ ] 1. How the hell did this happen.
