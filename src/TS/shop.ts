@@ -143,7 +143,8 @@ class Shop {
                 effectAmount = parseInt(strEffectAmount);
             }
             //TODO: Actually apply the effect
-
+            //TODO: Find out why the effect is not being applied
+            console.log(effectName + " " + effectAmount);
             if (subeffect[6] == "m") {
                 if (effectName == "damage") {
                     player.Damage *= Number(effectAmount);
@@ -205,6 +206,7 @@ class Shop {
         elem.style.backgroundColor = "rgb(130,150,130)";
         elem.style.border = "1px solid black";
         elem.style.borderRadius = "5px";
+        elem.style.paddingBottom = "4rem";
 
         for (let i = 0; i < this.upgrades.length; i++) {
             let li = ul.appendChild(document.createElement("li"));
@@ -221,6 +223,8 @@ class Shop {
                 b.className = "buyButton";
 
                 b.onclick = () => {
+                    console.log(this);
+                    console.log(i);
                     this.buy(i);
                 };
             }

@@ -628,7 +628,7 @@ margin-top: 5px;
 #ShopCloseButton {
     position: fixed;
     left: calc(50% - 50px);
-    top: calc(50% + 224px);
+    top: calc(50% + 205px);
     cursor: pointer;
     width: 70px;
     height: 30px;

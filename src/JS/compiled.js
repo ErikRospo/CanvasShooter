@@ -217,7 +217,7 @@ AddDebugItem(0, "playerHealth");
 AddDebugItem(innerWidth, "windowWidth");
 AddDebugItem(innerHeight, "windowHeight");
 AddDebugItem((Math.sqrt(w * w + h * h) / 2000), "EnemySpeedMultiplier");
-AddDebugItem(window.location.href, "Url");
+AddDebugItem(window.location.href.toLowerCase(), "Url");
 AddDebugItem(0, "MaxEnemies");
 class Halo {
     constructor(starts, ends, colors, parent, moving, speed) {
@@ -779,6 +779,7 @@ class Shop {
             else {
                 effectAmount = parseInt(strEffectAmount);
             }
+            console.log(effectName + " " + effectAmount);
             if (subeffect[6] == "m") {
                 if (effectName == "damage") {
                     player.Damage *= Number(effectAmount);
@@ -836,6 +837,7 @@ class Shop {
         elem.style.backgroundColor = "rgb(130,150,130)";
         elem.style.border = "1px solid black";
         elem.style.borderRadius = "5px";
+        elem.style.paddingBottom = "4rem";
         for (let i = 0; i < this.upgrades.length; i++) {
             let li = ul.appendChild(document.createElement("li"));
             li.className = "upgradeItem";
@@ -850,6 +852,8 @@ class Shop {
                 b.innerHTML = "Buy";
                 b.className = "buyButton";
                 b.onclick = () => {
+                    console.log(this);
+                    console.log(i);
                     this.buy(i);
                 };
             }
