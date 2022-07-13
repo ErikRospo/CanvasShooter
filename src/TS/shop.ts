@@ -135,6 +135,7 @@ class Shop {
         }
         for (let i = 0; i < effectList.length; i++) {
             let subeffect = effectList[i];
+		console.log(subeffect);
             //TODO: Add more effects
             let effectNameList = [
                 "health",
@@ -238,7 +239,7 @@ class Shop {
 
                 //This is **VERY** bad code practice, but it works?
 
-                fstring = `b.onclick=()=>{this.buy(${i});};`;
+                let fstring = `b.onclick=()=>{this.buy(${i});};`;
                 eval(fstring)
             }
         }

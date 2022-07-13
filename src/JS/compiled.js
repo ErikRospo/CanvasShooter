@@ -736,12 +736,13 @@ class Shop {
     update(upgradeNumber) {
         this.upgrades = [];
         for (let i = 0; i < upgradeNumber; i++) {
-            let s = randomChoiceNot(upgradePool, this.upgrades);
-            if (s != undefined) {
-                this.addUpgrade(s);
-            }
-            else {
-                this.addUpgrade(BlankUpgrade);
+            upgradePool.sort((_a, _b) => {
+                return Math.random() - 0.5;
+            });
+            for (let j = 0; j < upgradePool.length; j++) {
+                if (!this.upgrades.includes(upgradePool[j])) {
+                    this.upgrades.push(upgradePool[j]);
+                }
             }
         }
     }
@@ -763,6 +764,7 @@ class Shop {
         }
         for (let i = 0; i < effectList.length; i++) {
             let subeffect = effectList[i];
+            console.log(subeffect);
             let effectNameList = [
                 "health",
                 "damage",
@@ -772,13 +774,9 @@ class Shop {
             ];
             let effectName = effectNameList[+subeffect.substring(0, 1)];
             let strEffectAmount = subeffect.substring(2, 7);
+            console.log(effectName + "" + strEffectAmount);
             let effectAmount = new Number();
-            if (strEffectAmount.includes(".")) {
-                effectAmount = parseFloat(strEffectAmount);
-            }
-            else {
-                effectAmount = parseInt(strEffectAmount);
-            }
+            effectAmount = parseFloat(strEffectAmount);
             console.log(effectName + " " + effectAmount);
             if (subeffect[6] == "m") {
                 if (effectName == "damage") {
@@ -851,11 +849,8 @@ class Shop {
                 let b = li.appendChild(document.createElement("button"));
                 b.innerHTML = "Buy";
                 b.className = "buyButton";
-                b.onclick = () => {
-                    console.log(this);
-                    console.log(i);
-                    this.buy(i);
-                };
+                let fstring = `b.onclick=()=>{this.buy(${i});};`;
+                eval(fstring);
             }
         }
         return elem;
