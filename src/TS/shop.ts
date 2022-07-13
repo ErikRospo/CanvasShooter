@@ -1,6 +1,13 @@
 
 
+let effectNameList = [
+    "health",
+    "damage",
+    "bullet speed",
+    "bullet size",
+    "max health",
 
+];
 //idea:
 //we have a header with the word: "Shop"
 //then, we have a list of upgrades.
@@ -54,14 +61,7 @@ class Upgrade {
                 effects.splice(i, 1);
             }
             let c = effects[i];
-            let effectNameList = [
-                "health",
-                "damage",
-                "bullet speed",
-                "bullet size",
-                "max health",
 
-            ];
             let effectName = effectNameList[+c.substring(0, 1)];
             let strEffectAmount = c.substring(2, 7);
             let effectAmount = new Number();
@@ -137,14 +137,7 @@ class Shop {
             let subeffect = effectList[i];
 		console.log(subeffect);
             //TODO: Add more effects
-            let effectNameList = [
-                "health",
-                "damage",
-                "bullet speed",
-                "bullet size",
-                "max health",
 
-            ];
             let effectName = effectNameList[+subeffect.substring(0, 1)];
             let strEffectAmount = subeffect.substring(2, 7);
             console.log(effectName + "" + strEffectAmount)
@@ -155,7 +148,7 @@ class Shop {
             //TODO: Find out why the effect is not being applied
             // FIXED: the callback function wasn't actually being called.
             //There has to be a better way to do this.
-            console.log(effectName + " " + effectAmount);
+            // console.log(effectName + " " + effectAmount);
             if (subeffect[6] == "m") {
                 if (effectName == "damage") {
                     player.Damage *= Number(effectAmount);
@@ -238,6 +231,9 @@ class Shop {
                 // };
 
                 //This is **VERY** bad code practice, but it works?
+                // or does it?
+                // tbh, I'd love to get rid of it (it just feels wrong),
+                // but i don't know if it fixes anything.
 
                 let fstring = `b.onclick=()=>{this.buy(${i});};`;
                 eval(fstring)

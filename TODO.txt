@@ -2,7 +2,12 @@
     [ ] Instead, we'll allow the user to open the shop at any time, but the buttons will be greyed out
     [ ] Currently, both 's' and leveling up open the shop.
         [ ] What if, instead, only 's' opens the shop, and it has a display for cached levels.
-            
+[ ] Find a better way to store the upgrade details than a string. It just has too many issues.
+    [ ] Design an object to do so?
+        [ ] We would need a object that stores: 
+            [ ] Effect type
+            [ ] Effect amount
+        This would also allow us more flexibility/ variation in upgrades.
 [ ] Need to get icon that opens shop for mobile.
     [ ] Check what is going on with safari and mobile being an issue.
 [ ] Audit loading times, and see if we can optimize them.
