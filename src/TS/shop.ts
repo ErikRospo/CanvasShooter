@@ -146,14 +146,14 @@ class Shop {
             ];
             let effectName = effectNameList[+subeffect.substring(0, 1)];
             let strEffectAmount = subeffect.substring(2, 7);
+            console.log(effectName + "" + strEffectAmount)
             let effectAmount = new Number();
-            if (strEffectAmount.includes(".")) {
-                effectAmount = parseFloat(strEffectAmount);
-            } else {
-                effectAmount = parseInt(strEffectAmount);
-            }
+
+            effectAmount = parseFloat(strEffectAmount);
             //TODO: Actually apply the effect
             //TODO: Find out why the effect is not being applied
+            // FIXED: the callback function wasn't actually being called.
+            //There has to be a better way to do this.
             console.log(effectName + " " + effectAmount);
             if (subeffect[6] == "m") {
                 if (effectName == "damage") {
@@ -232,11 +232,14 @@ class Shop {
                 b.innerHTML = "Buy";
                 b.className = "buyButton";
 
-                b.onclick = () => {
-                    console.log(this);
-                    console.log(i);
-                    this.buy(i);
-                };
+                // b.onclick = () => {
+
+                // };
+
+                //This is **VERY** bad code practice, but it works?
+
+                fstring = `b.onclick=()=>{this.buy(${i});};`;
+                eval(fstring)
             }
         }
         return elem;

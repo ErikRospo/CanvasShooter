@@ -1,4 +1,8 @@
-[ ] Need to update shop to only respond to keypresses if the user has enough levels, or if a certain url flag is set
+[-] Need to update shop to only respond to keypresses if the user has enough levels, or if a certain url flag is set
+    [ ] Instead, we'll allow the user to open the shop at any time, but the buttons will be greyed out
+    [ ] Currently, both 's' and leveling up open the shop.
+        [ ] What if, instead, only 's' opens the shop, and it has a display for cached levels.
+            
 [ ] Need to get icon that opens shop for mobile.
     [ ] Check what is going on with safari and mobile being an issue.
 [ ] Audit loading times, and see if we can optimize them.
