@@ -668,6 +668,13 @@ class Music {
         return count;
     }
 }
+let effectNameList = [
+    "health",
+    "damage",
+    "bullet speed",
+    "bullet size",
+    "max health",
+];
 class Upgrade {
     constructor(name, description, effectstr) {
         this.name = name;
@@ -696,13 +703,6 @@ class Upgrade {
                 effects.splice(i, 1);
             }
             let c = effects[i];
-            let effectNameList = [
-                "health",
-                "damage",
-                "bullet speed",
-                "bullet size",
-                "max health",
-            ];
             let effectName = effectNameList[+c.substring(0, 1)];
             let strEffectAmount = c.substring(2, 7);
             let effectAmount = new Number();
@@ -765,19 +765,11 @@ class Shop {
         for (let i = 0; i < effectList.length; i++) {
             let subeffect = effectList[i];
             console.log(subeffect);
-            let effectNameList = [
-                "health",
-                "damage",
-                "bullet speed",
-                "bullet size",
-                "max health",
-            ];
             let effectName = effectNameList[+subeffect.substring(0, 1)];
             let strEffectAmount = subeffect.substring(2, 7);
             console.log(effectName + "" + strEffectAmount);
             let effectAmount = new Number();
             effectAmount = parseFloat(strEffectAmount);
-            console.log(effectName + " " + effectAmount);
             if (subeffect[6] == "m") {
                 if (effectName == "damage") {
                     player.Damage *= Number(effectAmount);

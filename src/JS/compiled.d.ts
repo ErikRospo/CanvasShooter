@@ -248,6 +248,7 @@ declare class Music {
     stopAll(): void;
     get playing(): number;
 }
+declare let effectNameList: string[];
 declare class Upgrade {
     name: string;
     description: string;
