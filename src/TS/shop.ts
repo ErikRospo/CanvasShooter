@@ -92,18 +92,28 @@ class Shop {
     }
     public addUpgrade(upgrade: Upgrade): void {
         this.upgrades.push(upgrade);
+
     }
     public update(upgradeNumber: number): void {
         this.upgrades = [];
         //TODO: make sure that the upgrade is not already in the list
         //if there aren't enough upgrades, then only display the ones that are available
         for (let i = 0; i < upgradeNumber; i++) {
-            let s = randomChoiceNot(upgradePool, this.upgrades);
-            if (s != undefined) {
-                this.addUpgrade(s);
-            } else {
-                this.addUpgrade(BlankUpgrade);
+            // let s = randomChoiceNot(upgradePool, this.upgrades);
+            upgradePool.sort((_a, _b) => {
+                return Math.random() - 0.5;
+            });
+            for (let j = 0; j < upgradePool.length; j++) {
+                if (!this.upgrades.includes(upgradePool[j])) {
+                    this.upgrades.push(upgradePool[j]);
+                }
             }
+
+            // if (s != undefined) {
+            //     this.addUpgrade(s);
+            // } else {
+            //     this.addUpgrade(BlankUpgrade);
+            // }
         }
     }
     public buy(index: number): void {
