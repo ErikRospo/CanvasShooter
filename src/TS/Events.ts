@@ -1,17 +1,17 @@
 //whenever the user clicks, spawn a projectile
-// addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
-addEventListener("pointerdown", (evt) => {
-    mouse.x = evt.clientX;
-    mouse.y = evt.clientY;
-    mouse.down = true;
-    spawnProjectile();
-    evt.preventDefault();
-});
-addEventListener("pointerup", (evt) => {
-    mouse.x = evt.clientX;
-    mouse.y = evt.clientY;
-    mouse.down = true;
-});
+addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
+// addEventListener("pointerdown", (evt) => {
+//     mouse.x = evt.clientX;
+//     mouse.y = evt.clientY;
+//     mouse.down = true;
+//     spawnProjectile();
+//     evt.preventDefault();
+// });
+// addEventListener("pointerup", (evt) => {
+//     mouse.x = evt.clientX;
+//     mouse.y = evt.clientY;
+//     mouse.down = true;
+// });
 addEventListener("load", () => {
     PageLoad();
 });

@@ -117,7 +117,7 @@ function animate() {
                             }
                         }
                         //damage the enemy
-                        enemy.damage(projectile.damage);
+                        enemy.damage(projectile.damage * EnemyMultiplier);
 
                         //and check if it is dead
                         if (enemy.IsDead) {
