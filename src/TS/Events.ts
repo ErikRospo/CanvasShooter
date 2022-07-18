@@ -89,14 +89,3 @@ OptionsSFXSlider.addEventListener("change", () => {
     }
     UpdateSFXSlider();
 });
-OptionsMusicSlider.addEventListener("change", () => {
-    if (OptionsMusicSlider.value == "0") {
-        MusicMuted = true;
-    } else {
-        MusicMuted = false;
-    }
-    MusicPlayer.Volume = parseFloat(OptionsMusicSlider.value);
-    PlayMusic();
-    MusicPlayer.shuffle();
-    MusicPlayer.continue = true;
-});

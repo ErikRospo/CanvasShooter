@@ -36,8 +36,6 @@ let HealthFreq = 25000 as number;
 let EnemySpeedMult = 1 as number;
 let EnemyUpFreq = 5000 as number;
 let HS = true as boolean;
-let MusicPlayer = new Music([Music1]) as Music;
-MusicPlayer.play();
 let ShowPlayerAim = false as boolean;
 let mouse = {
     x: 0,

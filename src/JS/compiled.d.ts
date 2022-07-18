@@ -199,29 +199,6 @@ declare class HighScore {
     isHighScore(score: number): boolean;
     get Html(): string;
 }
-declare class Music {
-    private music;
-    private current;
-    private volume;
-    private muted;
-    private Continue;
-    constructor(music: HTMLAudioElement[]);
-    get Current(): HTMLAudioElement;
-    get Volume(): number;
-    set Volume(value: number);
-    get Muted(): boolean;
-    set Muted(value: boolean);
-    play(): void;
-    pause(): void;
-    next(): void;
-    previous(): void;
-    toggle(): void;
-    shuffle(): void;
-    set continue(value: boolean);
-    stop(): void;
-    stopAll(): void;
-    get playing(): number;
-}
 declare const EnemySpawnTimeDecrement: number;
 declare const EnemySpawnBias: number;
 declare const EnemyMultiplier: number;
@@ -260,7 +237,6 @@ declare let HealthFreq: number;
 declare let EnemySpeedMult: number;
 declare let EnemyUpFreq: number;
 declare let HS: boolean;
-declare let MusicPlayer: Music;
 declare let ShowPlayerAim: boolean;
 declare let mouse: {
     x: number;
@@ -273,7 +249,6 @@ declare function animate(): void;
 declare function init(): void;
 declare function PageLoad(): void;
 declare function UpdateSFXSlider(): void;
-declare function PlayMusic(): void;
 declare function SpawnEnemy(): void;
 declare function AddScore(Value: number): void;
 declare function gameOver(AnimationID: number): void;

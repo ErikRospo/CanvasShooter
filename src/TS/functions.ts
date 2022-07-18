@@ -13,7 +13,6 @@ function init() {
 function PageLoad() {
     ModalEL.style.display = "flex";
     OptionsSFXSlider.value = "0";
-    OptionsMusicSlider.value = "0";
     OptionsAimSlider.value = "0";
     HighScoreLabel.style.display = "none";
     document.body.style.display = "block";
@@ -28,7 +27,6 @@ function PageLoad() {
     
     CloseOptionsMenu();
     UnpauseGame();
-    MusicPlayer.pause();
     AddDebugItem(0, "playerLevel")
     AddDebugItem(0, "playerCashedLevels")
     AddDebugItem(false, "CantSpawn")
@@ -55,11 +53,7 @@ function UpdateSFXSlider() {
         MissSound.volume = parseFloat(OptionsSFXSlider.value);
     }
 }
-function PlayMusic() {
-    if (!MusicMuted) {
-        MusicPlayer.shuffle();
-    }
-}
+
 
 function SpawnEnemy() {
     //create a new enemy

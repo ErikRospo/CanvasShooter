@@ -529,101 +529,6 @@ class HighScore {
         return ScoreElement.innerHTML;
     }
 }
-class Music {
-    constructor(music) {
-        this.music = music;
-        this.current = 0;
-        this.volume = 1;
-        this.muted = false;
-        this.Continue = true;
-    }
-    get Current() {
-        return this.music[this.current];
-    }
-    get Volume() {
-        return this.volume;
-    }
-    set Volume(value) {
-        this.volume = value;
-        this.music.forEach((value) => {
-            value.volume = this.volume;
-        });
-        this.muted = this.volume == 0;
-    }
-    get Muted() {
-        return this.muted;
-    }
-    set Muted(value) {
-        this.muted = value;
-        this.music.forEach((value) => {
-            value.muted = this.muted;
-        });
-    }
-    play() {
-        this.stopAll();
-        try {
-            this.music[this.current].play();
-        }
-        catch (DOMException) {
-            return;
-        }
-    }
-    pause() {
-        this.music[this.current].pause();
-    }
-    next() {
-        this.current = (this.current + 1) % this.music.length;
-        this.music[this.current].play();
-    }
-    previous() {
-        this.current = (this.current - 1 + this.music.length) % this.music.length;
-        this.music[this.current].play();
-    }
-    toggle() {
-        if (this.music[this.current].paused) {
-            this.music[this.current].play();
-        }
-        else {
-            this.music[this.current].pause();
-        }
-    }
-    shuffle() {
-        this.current = randomInt(0, this.music.length - 1);
-        this.music[this.current].play();
-    }
-    set continue(value) {
-        this.Continue = value;
-        if (this.Continue) {
-            this.music[this.current].onended = () => {
-                this.next();
-            };
-        }
-        else {
-            this.music[this.current].onended = () => {
-                this.music[this.current].pause();
-            };
-        }
-    }
-    stop() {
-        this.music[this.current].pause();
-        this.music[this.current].currentTime = 0;
-    }
-    stopAll() {
-        this.music.forEach((value) => {
-            value.pause();
-            value.currentTime = 0;
-        });
-    }
-    get playing() {
-        let count = 0;
-        this.music.forEach((value) => {
-            if (!value.paused) {
-                count++;
-            }
-        });
-        return count;
-    }
-}
 const EnemySpawnTimeDecrement = 1;
 const EnemySpawnBias = innerHeight / innerWidth;
 const EnemyMultiplier = (Math.sqrt(w * w + h * h) / 2000);
@@ -662,8 +567,6 @@ let HealthFreq = 25000;
 let EnemySpeedMult = 1;
 let EnemyUpFreq = 5000;
 let HS = true;
-let MusicPlayer = new Music([Music1]);
-MusicPlayer.play();
 let ShowPlayerAim = false;
 let mouse = {
     x: 0,
@@ -759,18 +662,6 @@ OptionsSFXSlider.addEventListener("change", () => {
         SFXMuted = false;
     }
     UpdateSFXSlider();
-});
-OptionsMusicSlider.addEventListener("change", () => {
-    if (OptionsMusicSlider.value == "0") {
-        MusicMuted = true;
-    }
-    else {
-        MusicMuted = false;
-    }
-    MusicPlayer.Volume = parseFloat(OptionsMusicSlider.value);
-    PlayMusic();
-    MusicPlayer.shuffle();
-    MusicPlayer.continue = true;
 });
 function animate() {
     animationID = requestAnimationFrame(animate);
@@ -912,7 +803,6 @@ function init() {
 function PageLoad() {
     ModalEL.style.display = "flex";
     OptionsSFXSlider.value = "0";
-    OptionsMusicSlider.value = "0";
     OptionsAimSlider.value = "0";
     HighScoreLabel.style.display = "none";
     document.body.style.display = "block";
@@ -926,7 +816,6 @@ function PageLoad() {
     }
     CloseOptionsMenu();
     UnpauseGame();
-    MusicPlayer.pause();
     AddDebugItem(0, "playerLevel");
     AddDebugItem(0, "playerCashedLevels");
     AddDebugItem(false, "CantSpawn");
@@ -951,11 +840,6 @@ function UpdateSFXSlider() {
         HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
         HealthLoseSound.volume = parseFloat(OptionsSFXSlider.value);
         MissSound.volume = parseFloat(OptionsSFXSlider.value);
-    }
-}
-function PlayMusic() {
-    if (!MusicMuted) {
-        MusicPlayer.shuffle();
     }
 }
 function SpawnEnemy() {
