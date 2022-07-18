@@ -23,7 +23,6 @@ let GameStarted = false as boolean;
 let UseParticles = true as boolean;
 let Paused = false as boolean;
 let ShopOpen = false as boolean;
-let MusicMuted = true as boolean;
 let lastInterval: any;
 let EnemySpawnTime = 50 as number;
 let animationID: number;
