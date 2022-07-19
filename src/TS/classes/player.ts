@@ -14,6 +14,7 @@ class Player {
     Health: HealthBar;
     cachedLevels: number;
     level: number;
+    upgradePoints: number;
     constructor(x: number, y: number, radius: number, color: string) {
         this.x = x;
         this.y = y;
@@ -21,7 +22,7 @@ class Player {
         this.color = color;
         this.cachedLevels = 0
         this.level = 1
-
+        this.upgradePoints = 0
         this.Damage = 10;
         this.ShotSpeed = 5;
         this.ShotsFired = 1;

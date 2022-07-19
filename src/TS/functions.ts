@@ -249,12 +249,12 @@ function sanityCheck(object: { x: number, y: number, radius: number; }): boolean
     }
     return true;
 }
-function openShop() {
+function openShop(items: number) {
     ShopDiv.style.display = "block";
     ShopOpen = true;
     Paused = true;
     //TODO: find a way to be able to vary the number of upgrades offered.
-    lvlupShop.update(3);
+    lvlupShop.update(items);
     let tempscb = ShopCloseButton;
     ShopContents.replaceChildren(lvlupShop.Html);
     ShopContents.appendChild(tempscb);

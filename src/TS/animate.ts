@@ -162,11 +162,12 @@ function animate() {
         //TODO: Verify that this is working
         if ((lastScore % levelFrequency > score % levelFrequency)) {
             player.level++;
+            player.upgradePoints++;
             //TODO: make sure this is working as intended
             levelFrequency *= 1.1;
             levelFrequency = round(levelFrequency, -1);
             //TODO: add a level up sound
-            openShop();
+            openShop(3);
 
         }
         //if you have passed HealthFreq, and your score is not zero,

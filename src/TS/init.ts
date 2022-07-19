@@ -104,5 +104,5 @@ const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
 let SFXMuted = true as boolean;
 let OptionsOpen = false as boolean;
 let browserType = navigator;
-console.log(browserType);
-const performanceMode = true as boolean;
+// console.log(browserType);
+const performanceMode = false as boolean;

@@ -58,8 +58,7 @@ const DEBUGFLAG = (!PROD || ISDEBUG || ISDEV);
 let SFXMuted = true;
 let OptionsOpen = false;
 let browserType = navigator;
-console.log(browserType);
-const performanceMode = true;
+const performanceMode = false;
 function logx(val, base) {
     return Math.log(val) / Math.log(base);
 }
@@ -385,6 +384,7 @@ class Player {
         this.color = color;
         this.cachedLevels = 0;
         this.level = 1;
+        this.upgradePoints = 0;
         this.Damage = 10;
         this.ShotSpeed = 5;
         this.ShotsFired = 1;
@@ -581,6 +581,7 @@ class Upgrade {
         this.description = description;
         this.effectstr = effectstr || "";
         this.children = [];
+        this.cost = 1;
     }
     addEffect(effect) {
         this.effectstr += effect;
@@ -619,6 +620,7 @@ class Upgrade {
                 st += "increase " + effectName + " by " + effectAmount + "<br>";
             }
         }
+        st += "cost: " + this.cost;
         return st;
     }
     addChild(child) {
@@ -642,11 +644,13 @@ class Shop {
             for (let j = 0; j < upgradePool.length; j++) {
                 if (!this.upgrades.includes(upgradePool[j])) {
                     this.upgrades.push(upgradePool[j]);
+                    break;
                 }
             }
         }
     }
     buy(index) {
+        player.upgradePoints -= this.upgrades[index].cost;
         let upgrade = this.upgrades[index];
         for (let i = 0; i < upgrade.children.length; i++) {
             if (this.upgrades.find(x => x == upgrade.children[i]) == undefined) {
@@ -711,7 +715,7 @@ class Shop {
         let elem = document.createElement("div");
         elem.classList.add("shop");
         let t = document.createElement("h2");
-        t.innerHTML = "Upgrades";
+        t.innerHTML = "Upgrades:" + player.upgradePoints;
         t.style.textAlign = "center";
         t.style.alignSelf = "center";
         elem.appendChild(t);
@@ -723,7 +727,7 @@ class Shop {
         elem.style.top = "50%";
         elem.style.transform = "translate(-50%, -50%)";
         elem.style.width = "45%";
-        elem.style.height = "60%";
+        elem.style.height = "75%";
         elem.style.backgroundColor = "rgb(130,150,130)";
         elem.style.border = "1px solid black";
         elem.style.borderRadius = "5px";
@@ -734,6 +738,7 @@ class Shop {
             let h = li.appendChild(document.createElement("h2"));
             h.innerHTML = this.upgrades[i].name;
             h.className = "upgradeName";
+            h.style.transform = "translate(5px,5px)";
             let d = li.appendChild(document.createElement("p"));
             d.innerHTML = this.upgrades[i].effect;
             d.className = "upgradeDescription";
@@ -741,6 +746,9 @@ class Shop {
                 let b = li.appendChild(document.createElement("button"));
                 b.innerHTML = "Buy";
                 b.className = "buyButton";
+                if (this.upgrades[i].cost > player.upgradePoints) {
+                    b.disabled = true;
+                }
                 let fstring = `b.onclick=()=>{this.buy(${i});};`;
                 eval(fstring);
             }
@@ -814,7 +822,7 @@ addEventListener("keypress", (event) => {
     }
     else if (event.key == "s" && GameStarted) {
         if (!ShopOpen) {
-            openShop();
+            openShop(3);
         }
         else {
             closeShop();
@@ -951,9 +959,10 @@ function animate() {
         });
         if ((lastScore % levelFrequency > score % levelFrequency)) {
             player.level++;
+            player.upgradePoints++;
             levelFrequency *= 1.1;
             levelFrequency = round(levelFrequency, -1);
-            openShop();
+            openShop(3);
         }
         if ((lastScore % HealthFreq > score % HealthFreq) && (score != 0)) {
             player.Health.addHealth(1);
@@ -1201,11 +1210,11 @@ function sanityCheck(object) {
     }
     return true;
 }
-function openShop() {
+function openShop(items) {
     ShopDiv.style.display = "block";
     ShopOpen = true;
     Paused = true;
-    lvlupShop.update(3);
+    lvlupShop.update(items);
     let tempscb = ShopCloseButton;
     ShopContents.replaceChildren(lvlupShop.Html);
     ShopContents.appendChild(tempscb);

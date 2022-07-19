@@ -21,11 +21,13 @@ class Upgrade {
     description: string;
     effectstr: string;
     children: Upgrade[];
+    cost: any;
     constructor(name: string, description: string, effectstr?: string) {
         this.name = name;
         this.description = description;
         this.effectstr = effectstr || "";
         this.children = [];
+        this.cost = 1;
 
 
     }
@@ -77,6 +79,7 @@ class Upgrade {
                 st += "increase " + effectName + " by " + effectAmount + "<br>";
             }
         }
+        st += "cost: " + this.cost;
         return st;
     }
     public addChild(child: Upgrade) {
@@ -106,6 +109,7 @@ class Shop {
             for (let j = 0; j < upgradePool.length; j++) {
                 if (!this.upgrades.includes(upgradePool[j])) {
                     this.upgrades.push(upgradePool[j]);
+                    break;
                 }
             }
 
@@ -117,6 +121,7 @@ class Shop {
         }
     }
     public buy(index: number): void {
+        player.upgradePoints -= this.upgrades[index].cost;
         let upgrade = this.upgrades[index];
         for (let i = 0; i < upgrade.children.length; i++) {
             if (this.upgrades.find(x => x == upgrade.children[i]) == undefined) {
@@ -135,12 +140,12 @@ class Shop {
         }
         for (let i = 0; i < effectList.length; i++) {
             let subeffect = effectList[i];
-		console.log(subeffect);
+            console.log(subeffect);
             //TODO: Add more effects
 
             let effectName = effectNameList[+subeffect.substring(0, 1)];
             let strEffectAmount = subeffect.substring(2, 7);
-            console.log(effectName + "" + strEffectAmount)
+            console.log(effectName + "" + strEffectAmount);
             let effectAmount = new Number();
 
             effectAmount = parseFloat(strEffectAmount);
@@ -191,7 +196,7 @@ class Shop {
         let elem = document.createElement("div");
         elem.classList.add("shop");
         let t = document.createElement("h2");
-        t.innerHTML = "Upgrades";
+        t.innerHTML = "Upgrades:" + player.upgradePoints;
         t.style.textAlign = "center";
         t.style.alignSelf = "center";
 
@@ -201,12 +206,12 @@ class Shop {
         ul.style.height = "max-content";
         ul.style.paddingBottom = "2rem";
         elem.style.position = "absolute";
-        
+
         elem.style.left = "50%";
         elem.style.top = "50%";
         elem.style.transform = "translate(-50%, -50%)";
         elem.style.width = "45%";
-        elem.style.height = "60%";
+        elem.style.height = "75%";
         elem.style.backgroundColor = "rgb(130,150,130)";
         elem.style.border = "1px solid black";
         elem.style.borderRadius = "5px";
@@ -218,6 +223,7 @@ class Shop {
             let h = li.appendChild(document.createElement("h2"));
             h.innerHTML = this.upgrades[i].name;
             h.className = "upgradeName";
+            h.style.transform = "translate(5px,5px)";
             let d = li.appendChild(document.createElement("p"));
             d.innerHTML = this.upgrades[i].effect;
             d.className = "upgradeDescription";
@@ -234,9 +240,11 @@ class Shop {
                 // or does it?
                 // tbh, I'd love to get rid of it (it just feels wrong),
                 // but i don't know if it fixes anything.
-
+                if (this.upgrades[i].cost > player.upgradePoints) {
+                    b.disabled = true;
+                }
                 let fstring = `b.onclick=()=>{this.buy(${i});};`;
-                eval(fstring)
+                eval(fstring);
             }
         }
         return elem;

@@ -147,6 +147,7 @@ declare class Player {
     Health: HealthBar;
     cachedLevels: number;
     level: number;
+    upgradePoints: number;
     constructor(x: number, y: number, radius: number, color: string);
     update(): void;
     drawHealth(): void;
@@ -226,6 +227,7 @@ declare class Upgrade {
     description: string;
     effectstr: string;
     children: Upgrade[];
+    cost: any;
     constructor(name: string, description: string, effectstr?: string);
     addEffect(effect: string): void;
     createEffect(effectName: number, effectAmount: string | number, effectType: string): void;
@@ -306,5 +308,5 @@ declare function sanityCheck(object: {
     y: number;
     radius: number;
 }): boolean;
-declare function openShop(): void;
+declare function openShop(items: number): void;
 declare function closeShop(): void;

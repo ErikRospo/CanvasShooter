@@ -575,7 +575,7 @@ margin-top: 5px;
 #ShopCloseButton {
     position: fixed;
     left: calc(50% - 50px);
-    top: calc(50% + 205px);
+    top: calc(50% + 240px);
     cursor: pointer;
     width: 70px;
     height: 30px;
@@ -633,3 +633,14 @@ margin-top: 5px;
     user-select: none;
     cursor: pointer;
 }
+                .buyButton:hover {
+                    background-color: darkred;
+                }
+        
+                .buyButton:disabled {
+                    background-color: #767676;
+                }
+        
+                .buyButton:disabled:hover {
+                    background-color: #565656;
+                }
