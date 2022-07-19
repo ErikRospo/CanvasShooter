@@ -33,11 +33,6 @@ const HitAndKillSound = new Audio(relPath + "Audio/sound/HitAndKill.wav");
 const HealthGetSound = new Audio(relPath + "Audio/sound/HealthGet.wav");
 const HealthLoseSound = new Audio(relPath + "Audio/sound/HealthLose.wav");
 const MissSound = new Audio(relPath + "Audio/sound/Miss.wav");
-const Music1 = new Audio(relPath + "Audio/music/Music1.mp3");
-const Music2 = new Audio("Audio/music/Music2.mp3");
-const Music3 = new Audio("Audio/music/Music3.mp3");
-const Music4 = new Audio("Audio/music/Music4.mp3");
-const Music5 = new Audio("Audio/music/Music5.mp3");
 const PauseModal = document.querySelector("#PauseModal");
 const PauseModalScore = document.querySelector("#PauseModalScore");
 const PauseModalScoreLabel = document.querySelector("#PauseModalScoreLabel");
@@ -573,101 +568,6 @@ class HighScore {
         return ScoreElement.innerHTML;
     }
 }
-class Music {
-    constructor(music) {
-        this.music = music;
-        this.current = 0;
-        this.volume = 1;
-        this.muted = false;
-        this.Continue = true;
-    }
-    get Current() {
-        return this.music[this.current];
-    }
-    get Volume() {
-        return this.volume;
-    }
-    set Volume(value) {
-        this.volume = value;
-        this.music.forEach((value) => {
-            value.volume = this.volume;
-        });
-        this.muted = this.volume == 0;
-    }
-    get Muted() {
-        return this.muted;
-    }
-    set Muted(value) {
-        this.muted = value;
-        this.music.forEach((value) => {
-            value.muted = this.muted;
-        });
-    }
-    play() {
-        this.stopAll();
-        try {
-            this.music[this.current].play();
-        }
-        catch (error) {
-            return;
-        }
-    }
-    pause() {
-        this.music[this.current].pause();
-    }
-    next() {
-        this.current = (this.current + 1) % this.music.length;
-        this.music[this.current].play();
-    }
-    previous() {
-        this.current = (this.current - 1 + this.music.length) % this.music.length;
-        this.music[this.current].play();
-    }
-    toggle() {
-        if (this.music[this.current].paused) {
-            this.music[this.current].play();
-        }
-        else {
-            this.music[this.current].pause();
-        }
-    }
-    shuffle() {
-        this.current = randomInt(0, this.music.length - 1);
-        this.music[this.current].play();
-    }
-    set continue(value) {
-        this.Continue = value;
-        if (this.Continue) {
-            this.music[this.current].onended = () => {
-                this.next();
-            };
-        }
-        else {
-            this.music[this.current].onended = () => {
-                this.music[this.current].pause();
-            };
-        }
-    }
-    stop() {
-        this.music[this.current].pause();
-        this.music[this.current].currentTime = 0;
-    }
-    stopAll() {
-        this.music.forEach((value) => {
-            value.pause();
-            value.currentTime = 0;
-        });
-    }
-    get playing() {
-        let count = 0;
-        this.music.forEach((value) => {
-            if (!value.paused) {
-                count++;
-            }
-        });
-        return count;
-    }
-}
 let effectNameList = [
     "health",
     "damage",
@@ -873,7 +773,6 @@ let GameStarted = false;
 let UseParticles = true;
 let Paused = false;
 let ShopOpen = false;
-let MusicMuted = true;
 let lastInterval;
 let EnemySpawnTime = 50;
 let animationID;
@@ -886,11 +785,9 @@ let HealthFreq = 25000;
 let EnemySpeedMult = 1;
 let EnemyUpFreq = 5000;
 let HS = true;
-let MusicPlayer = new Music([Music1]);
 let lvlupShop = new Shop();
 let upgradePool = [];
 let levelFrequency = 1000;
-MusicPlayer.play();
 addEventListener("click", (event) => spawnProjectile(event.clientX, event.clientY));
 addEventListener("load", () => {
     PageLoad();
@@ -943,18 +840,6 @@ OptionsSFXSlider.addEventListener("change", () => {
         SFXMuted = false;
     }
     UpdateSFXSlider();
-});
-OptionsMusicSlider.addEventListener("change", () => {
-    if (OptionsMusicSlider.value == "0") {
-        MusicMuted = true;
-    }
-    else {
-        MusicMuted = false;
-    }
-    MusicPlayer.Volume = parseFloat(OptionsMusicSlider.value);
-    PlayMusic();
-    MusicPlayer.shuffle();
-    MusicPlayer.continue = true;
 });
 ShopCloseButton.addEventListener("click", () => {
     closeShop();
@@ -1156,12 +1041,10 @@ function populateupgradepool() {
 function PageLoad() {
     ModalEL.style.display = "flex";
     OptionsSFXSlider.value = "0";
-    OptionsMusicSlider.value = "0";
     HighScoreLabel.style.display = "none";
     document.body.style.display = "block";
     CloseOptionsMenu();
     UnpauseGame();
-    MusicPlayer.pause();
     AddDebugItem(0, "playerLevel");
     AddDebugItem(0, "playerCashedLevels");
     AddDebugItem(false, "CantSpawn");
@@ -1186,11 +1069,6 @@ function UpdateSFXSlider() {
         HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
         HealthLoseSound.volume = parseFloat(OptionsSFXSlider.value);
         MissSound.volume = parseFloat(OptionsSFXSlider.value);
-    }
-}
-function PlayMusic() {
-    if (!MusicMuted) {
-        MusicPlayer.shuffle();
     }
 }
 function SpawnEnemy() {

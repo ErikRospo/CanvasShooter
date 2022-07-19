@@ -65,12 +65,10 @@ function populateupgradepool() {
 function PageLoad() {
     ModalEL.style.display = "flex";
     OptionsSFXSlider.value = "0";
-    OptionsMusicSlider.value = "0";
     HighScoreLabel.style.display = "none";
     document.body.style.display = "block";
     CloseOptionsMenu();
     UnpauseGame();
-    MusicPlayer.pause();
     AddDebugItem(0, "playerLevel");
     AddDebugItem(0, "playerCashedLevels");
     AddDebugItem(false, "CantSpawn");
@@ -95,11 +93,6 @@ function UpdateSFXSlider() {
         HealthGetSound.volume = parseFloat(OptionsSFXSlider.value);
         HealthLoseSound.volume = parseFloat(OptionsSFXSlider.value);
         MissSound.volume = parseFloat(OptionsSFXSlider.value);
-    }
-}
-function PlayMusic() {
-    if (!MusicMuted) {
-        MusicPlayer.shuffle();
     }
 }
 

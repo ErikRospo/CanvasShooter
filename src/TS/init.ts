@@ -46,12 +46,6 @@ const HealthGetSound = new Audio(
 const HealthLoseSound = new Audio(relPath + "Audio/sound/HealthLose.wav"
 ) as HTMLAudioElement;
 const MissSound = new Audio(relPath + "Audio/sound/Miss.wav") as HTMLAudioElement;
-// define music
-const Music1 = new Audio(relPath + "Audio/music/Music1.mp3") as HTMLAudioElement;
-const Music2 = new Audio("Audio/music/Music2.mp3") as HTMLAudioElement;
-const Music3 = new Audio("Audio/music/Music3.mp3") as HTMLAudioElement;
-const Music4 = new Audio("Audio/music/Music4.mp3") as HTMLAudioElement;
-const Music5 = new Audio("Audio/music/Music5.mp3") as HTMLAudioElement;
 
 //Pause Menu
 const PauseModal = document.querySelector("#PauseModal") as HTMLDivElement;

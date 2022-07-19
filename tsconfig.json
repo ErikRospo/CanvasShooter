@@ -37,7 +37,6 @@
     "./src/TS/classes/enemy.ts",
     "./src/TS/classes/particle.ts",
     "./src/TS/classes/highScores.ts",
-    "./src/TS/classes/MusicPlay.ts",
     "./src/TS/shop.ts",
     "./src/TS/vars.ts",
     "./src/TS/Events.ts",
