@@ -4,7 +4,7 @@ class Projectile {
     y: number;
     radius: number;
     color: string;
-    velocity: { x: number, y: number };
+    velocity: { x: number, y: number; };
     damage: number;
     constructor(x: number, y: number, r: number, color: string, velocity: { x: number; y: number; }, damage: number) {
         this.x = x;

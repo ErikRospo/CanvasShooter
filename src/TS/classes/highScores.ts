@@ -1,5 +1,5 @@
 class HighScore {
-    scores: number[]
+    scores: number[];
     constructor() {
         this.scores = [];
     }
@@ -12,7 +12,7 @@ class HighScore {
         this.scores.reverse();
     }
     isHighScore(score: number): boolean {
-        return this.scores.every((value) => { return value < score });
+        return this.scores.every((value) => { return value < score; });
     }
     public get Html(): string {
         let ScoreElement = document.createElement("ol");
@@ -34,13 +34,13 @@ class HighScore {
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
                 default:
-                    node.style.color = "#FFFFFF"
+                    node.style.color = "#FFFFFF";
                     node.appendChild(document.createTextNode(element.toString(10)));
                     break;
             }
-            ScoreElement.appendChild(node)
+            ScoreElement.appendChild(node);
         }
         ScoreElement.style.display = "block";
-        return ScoreElement.innerHTML
+        return ScoreElement.innerHTML;
     }
 }

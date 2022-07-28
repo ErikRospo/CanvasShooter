@@ -8,7 +8,7 @@ function animate() {
     //if the game is not paused
     if (!Paused) {
         SetDebugItem(player.level, "playerLevel");
-        SetDebugItem(player.cachedLevels, "playerCashedLevels");
+        SetDebugItem(player.upgradePoints, "playerUpgradePoints");
         /*
         1. If the animationID is divisible by EnemySpawnTime, and the number of enemies is less than MaxEnemies, we spawn an enemy.
         2. Or, if the number of enemies is lower than 5 less than the MaxEnemies, we also spawn an enemy.

@@ -5,7 +5,7 @@ class Particle {
     y: number;
     radius: number;
     color: string;
-    velocity: { x: number, y: number };
+    velocity: { x: number, y: number; };
     alpha: number;
     constructor(x: any, y: any, r: number, color: any, velocity: { x: number; y: number; }) {
         this.x = x;
@@ -15,7 +15,7 @@ class Particle {
         this.velocity = velocity;
         this.alpha = 1;
     }
-    draw():void {
+    draw(): void {
         renderWireframe(this, "particle");
         c.save();
         c.globalAlpha = this.alpha;
@@ -25,7 +25,7 @@ class Particle {
         c.fill();
         c.restore();
     }
-    update():void {
+    update(): void {
         this.draw();
         this.velocity.x *= ParticleFriction;
         this.velocity.y *= ParticleFriction;

@@ -860,7 +860,7 @@ function animate() {
     SetDebugItem((Math.sqrt(innerWidth * innerWidth + innerHeight * innerHeight) / 2000), "EnemySpeedMultiplier");
     if (!Paused) {
         SetDebugItem(player.level, "playerLevel");
-        SetDebugItem(player.cachedLevels, "playerCashedLevels");
+        SetDebugItem(player.upgradePoints, "playerUpgradePoints");
         if (((animationID % Math.floor(EnemySpawnTime) == 0 && enemies.length < MaxEnemies) || enemies.length < MaxEnemies - 5)) {
             SpawnEnemy();
             EnemySpawnTime -= 0.125;
@@ -1005,9 +1005,9 @@ function populateupgradepool() {
     let healthUpgrade2 = new Upgrade("Health", "Increase your health by 2");
     healthUpgrade2.createEffect(0, 2, "a");
     let maxHealthUpgrade = new Upgrade("Max Health", "Increase your max health by 1");
-    maxHealthUpgrade.createEffect(5, 1, "a");
+    maxHealthUpgrade.createEffect(4, 1, "a");
     let maxHealthUpgrade2 = new Upgrade("Max Health", "Increase your max health by 2");
-    maxHealthUpgrade2.createEffect(5, 2, "a");
+    maxHealthUpgrade2.createEffect(4, 2, "a");
     healthUpgrade.addChild(healthUpgrade2);
     healthUpgrade.addChild(maxHealthUpgrade);
     maxHealthUpgrade.addChild(maxHealthUpgrade2);
@@ -1044,7 +1044,7 @@ function populateupgradepool() {
     speedUpgrade.createEffect(2, 1, "a");
     speedUpgrade2.createEffect(2, 2, "a");
     tankUpgrade.createEffect(0, 2, "m");
-    tankUpgrade.createEffect(5, 0.5, "m");
+    tankUpgrade.createEffect(4, 0.5, "m");
     upgradePool = [healthUpgrade, damageUpgrade, radiusUpgrade, speedUpgrade];
 }
 function PageLoad() {
@@ -1055,7 +1055,7 @@ function PageLoad() {
     CloseOptionsMenu();
     UnpauseGame();
     AddDebugItem(0, "playerLevel");
-    AddDebugItem(0, "playerCashedLevels");
+    AddDebugItem(0, "playerUpgradePoints");
     AddDebugItem(false, "CantSpawn");
     AddDebugItem(5, "playerHealth");
     AddDebugItem(EnemySpawnTime, "SpawnTime");
@@ -1226,4 +1226,3 @@ function closeShop() {
     ShopOpen = false;
     ShopCloseButton.style.display = "none";
 }
-//# sourceMappingURL=compiled.js.map

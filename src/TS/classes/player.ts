@@ -20,9 +20,9 @@ class Player {
         this.y = y;
         this.radius = radius;
         this.color = color;
-        this.cachedLevels = 0
-        this.level = 1
-        this.upgradePoints = 0
+        this.cachedLevels = 0;
+        this.level = 1;
+        this.upgradePoints = 0;
         this.Damage = 10;
         this.ShotSpeed = 5;
         this.ShotsFired = 1;
@@ -38,8 +38,8 @@ class Player {
 
     public update(): void {
         SetDebugItem(this.Health.Health, "playerHealth");
-        this.draw()
-        this.drawHealth()
+        this.draw();
+        this.drawHealth();
 
     }
     public drawHealth(): void {
@@ -54,6 +54,6 @@ class Player {
         c.fill();
     }
     public get willDie(): boolean {
-        return this.Health.willDie
+        return this.Health.willDie;
     }
 }

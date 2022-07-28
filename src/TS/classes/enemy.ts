@@ -4,7 +4,7 @@ class Enemy {
     y: number;
     radius: number;
     color: string;
-    velocity: { x: number, y: number };
+    velocity: { x: number, y: number; };
     startingRadius: number;
     id: any;
     timeCreated: string | Date;
@@ -98,7 +98,7 @@ class Enemy {
      * @returns If the enemy is dead
      */
     damage(amount: number): boolean {
-        this.radius -= amount
-        return this.IsDead
+        this.radius -= amount;
+        return this.IsDead;
     }
 }

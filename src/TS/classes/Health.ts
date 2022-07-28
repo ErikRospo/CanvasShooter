@@ -17,7 +17,7 @@ class HealthBar {
     }
     public set Health(health: number) {
         this.health = health;
-        this.draw()
+        this.draw();
     }
     public set maxHealth(MaxHealth: number | 5) {
         this.MaxHealth = MaxHealth;
@@ -27,19 +27,19 @@ class HealthBar {
         if (this.health < this.maxHealth) {
             this.health += health;
         }
-        this.draw()
+        this.draw();
         return this.health;
     }
     public removeHealth(health = 1): number {
         this.health -= health;
-        this.draw()
+        this.draw();
         return this.health;
     }
-    public get willDie():boolean{
-        return ((this.health-1)<=0)
+    public get willDie(): boolean {
+        return ((this.health - 1) <= 0);
     }
-    public get dead():boolean{
-        return this.health==0
+    public get dead(): boolean {
+        return this.health == 0;
     }
     public draw() {
         //Define a draw function that gets the health bar dom element and updates it
@@ -50,8 +50,8 @@ class HealthBar {
         if (healthBarEl == null) {
             throw new Error("Health bar element not found");
         }
-        let healthBarSpanCount=healthBarEl.children.length;
-        let healthBarSpanMax=this.MaxHealth;
+        let healthBarSpanCount = healthBarEl.children.length;
+        let healthBarSpanMax = this.MaxHealth;
         //remove all of the spans, then add the correct number of spans
         for (let i = 0; i < healthBarSpanCount; i++) {
             try {
@@ -70,21 +70,21 @@ class HealthBar {
 
         }
         for (let i = 0; i < healthBarSpanMax; i++) {
-            let healthBarSpan=document.createElement("span");
+            let healthBarSpan = document.createElement("span");
             healthBarSpan.classList.add("material-icons");
             healthBarSpan.classList.add("healthBarSpan");
             healthBarEl.appendChild(healthBarSpan);
         }
-        let healthBarSpans=healthBarEl.children
-        for(let i=0;i<healthBarSpanMax;i++){
-            var el=healthBarSpans.item(i) as HTMLSpanElement;
-            el.innerText="favorite";
+        let healthBarSpans = healthBarEl.children;
+        for (let i = 0; i < healthBarSpanMax; i++) {
+            var el = healthBarSpans.item(i) as HTMLSpanElement;
+            el.innerText = "favorite";
 
-            if(i<this.health){
-                el.style.color="red"
+            if (i < this.health) {
+                el.style.color = "red";
             }
-            else{
-                el.style.color="grey"
+            else {
+                el.style.color = "grey";
             }
         }
     }

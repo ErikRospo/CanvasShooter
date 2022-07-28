@@ -6,3 +6,8 @@ Timing/*.*
 /temp
 /Timing
 notes.txt
+src/JS/*.tsbuildinfo
+*.cpuprofile
+tracing/
+explanations.txt
+resolutions.txt

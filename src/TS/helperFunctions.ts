@@ -36,7 +36,7 @@ function randomInt(min: number, max: number): number {
  * @param output_end the maximum return value
  * @returns a number between @param output_start and @param output_end
  */
-function map(input: number, input_start: number, input_end: number, output_start: number, output_end: number):number {
+function map(input: number, input_start: number, input_end: number, output_start: number, output_end: number): number {
     return output_start + ((output_end - output_start) / (input_end - input_start)) * (input - input_start);
 }
 /**
@@ -46,7 +46,7 @@ function map(input: number, input_start: number, input_end: number, output_start
  * @param t threshold to test within
  * @returns {boolean} boolean value determining if the points are in range of the threshold
  */
-function threshold(p1: { x: number; y: number; }, p2: { x: number; y: number; }, t: number):boolean {
+function threshold(p1: { x: number; y: number; }, p2: { x: number; y: number; }, t: number): boolean {
     return (Math.sqrt(((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)) - (2 * t) < 0);
 }
 function FrameIDToTime(ID: number) {
@@ -61,7 +61,7 @@ function FrameIDToTime(ID: number) {
  * @returns the distance between these two points
  */
 function distance(x1: number, y1: number, x2: number, y2: number): number {
-    return (((x1-x2)**2)+((y1-y2)**2))**0.5
+    return (((x1 - x2) ** 2) + ((y1 - y2) ** 2)) ** 0.5;
 }
 /**
  * 
@@ -69,8 +69,8 @@ function distance(x1: number, y1: number, x2: number, y2: number): number {
  * @returns A randomly selected value from values
  */
 function randomChoice(value: any[]): any {
-    let i = Math.floor(random() * value.length)
-    return value[i]
+    let i = Math.floor(random() * value.length);
+    return value[i];
 }
 /**
  * 
@@ -79,17 +79,17 @@ function randomChoice(value: any[]): any {
  * @returns A value from the list value that is not in the list not
  */
 function randomChoiceNot(value: any[], not: any[], iterations: number = value.length) {
-    let i = randomChoice(value)
+    let i = randomChoice(value);
     let ic = 0;
     while (i in not && ic < iterations) {
-        i = randomChoice(value)
+        i = randomChoice(value);
         ic++;
     }
     if (ic >= iterations) {
         console.log("randomChoiceNot failed");
-        return undefined
+        return undefined;
     }
-    return i
+    return i;
 }
 /**
  * 
@@ -99,11 +99,11 @@ function randomChoiceNot(value: any[], not: any[], iterations: number = value.le
  * @returns A number between Min and Max that is not in not
  */
 function randomNot(min: number, max: number, not: number[]): number {
-    let i = random(min, max)
+    let i = random(min, max);
     while (i in not) {
-        i = random(min, max)
+        i = random(min, max);
     }
-    return i
+    return i;
 }
 /**
  * @param min Minumum value
@@ -112,11 +112,11 @@ function randomNot(min: number, max: number, not: number[]): number {
  * @returns An integer between Min and Max that is not in not
 */
 function intBetweenNot(min: number, max: number, not: number[]): number {
-    let i = randomInt(min, max)
+    let i = randomInt(min, max);
     while (i in not) {
-        i = randomInt(min, max)
+        i = randomInt(min, max);
     }
-    return i
+    return i;
 }
 /**
  * 
@@ -127,7 +127,7 @@ function coinFlip(bias = 0.5): boolean {
     return (random() > bias);
 }
 function clip(n: number, min: number, max: number): number {
-    return Math.min(Math.max(n, min), max)
+    return Math.min(Math.max(n, min), max);
 }
 function clamp(x: number, min: number, max: number): number {
     return Math.min(Math.max(x, min), max);
@@ -142,29 +142,29 @@ function clamp(x: number, min: number, max: number): number {
  * @returns {number} the result
  */
 function strictScale(i: number, imin: number, imax: number, omin: number, omax: number): number {
-    return clip(map(clip(i, imin, imax), imin, imax, omin, omax), omin, omax)
+    return clip(map(clip(i, imin, imax), imin, imax, omin, omax), omin, omax);
 }
 function sum(input: Array<number>): number {
-    let result = 0
+    let result = 0;
     for (let index = 0; index < input.length; index++) {
-        result += input[index]
+        result += input[index];
     }
-    return result
+    return result;
 
 }
 function minl(numbers: ArrayLike<number>): number {
-    let v = numbers[0] as number
-    for (let i=0;i<=numbers.length;i++){
-        v=Math.min(v,numbers[i])
+    let v = numbers[0] as number;
+    for (let i = 0; i <= numbers.length; i++) {
+        v = Math.min(v, numbers[i]);
     }
-    return v
+    return v;
 }
 function maxl(numbers: ArrayLike<number>): number {
-    let v=numbers[0] as number
-    for (let i=0;i<=numbers.length;i++){
-        v=Math.max(v,numbers[i])
+    let v = numbers[0] as number;
+    for (let i = 0; i <= numbers.length; i++) {
+        v = Math.max(v, numbers[i]);
     }
-    return v
+    return v;
 }
 function smoothStep(x: number, min: number, max: number): number {
     let t = (x - min) / (max - min);
