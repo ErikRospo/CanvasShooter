@@ -20,6 +20,7 @@
         "emeraldwalk.runonsave",
         "rarnoldmobile.todo-txt",
         "fabiospampinato.vscode-todo-plus",
-        "VisualStudioExptTeam.vscodeintellicode"
-        ],
+        "visualstudioexptteam.vscodeintellicode",
+        "esbenp.prettier-vscode"
+    ],
 }
