@@ -1,0 +1,17 @@
+{
+    "author": "ErikRospo",
+    "dependencies": {
+        "typescript":"^4.7"
+    },
+    "name": "canvasshooter",
+    "badges": [{
+        "url": "https://api.netlify.com/api/v1/badges/46e9fbbe-ddf2-44f4-af78-2a03cfafcd8b/deploy-status",
+        "description": "Netlify Deploy",
+        "href": "https://app.netlify.com/sites/canvasshooter/deploys"
+    },{
+        "url": "https://github.com/ErikRospo/CanvasShooter/actions/workflows/pages/pages-build-deployment/badge.svg",
+        "href": "https://github.com/ErikRospo/CanvasShooter/actions/workflows/pages/pages-build-deployment",
+        "description": "Github Pages"
+    }
+    ]
+}
