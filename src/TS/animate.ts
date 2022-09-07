@@ -1,6 +1,14 @@
-function animate() {
+let start: number, last;
+function animate(time: number) {
     animationID = requestAnimationFrame(animate);
     //set a bunch of debug items
+    if (start === undefined) {
+        start = time;
+    }
+    const elapsed = (time - start) / 16;
+    start = time;
+    SetDebugItem(elapsed, "timeElapsed");
+
     SetDebugItem(innerWidth, "windowWidth");
     SetDebugItem(innerHeight, "windowHeight");
     SetDebugItem(innerHeight * innerWidth, "WindowArea");
@@ -37,13 +45,13 @@ function animate() {
                     particles.splice(index, 1);
                 } else {
                     //otherwise, update the particle.
-                    particle.update();
+                    particle.update(elapsed);
                 }
             });
         }
         //draw the projectiles
         projectiles.forEach((projectile, index) => {
-            projectile.update();
+            projectile.update(elapsed);
             //if the projectile is off the screen, delete it. This saves rendering time, and improves performance.
             if (projectile.IsOffScreen) {
                 projectiles.splice(index, 1);
@@ -55,7 +63,7 @@ function animate() {
         //draw the enemies
         enemies.forEach((enemy, index) => {
             //update each enemy
-            let r = enemy.update();
+            let r = enemy.update(elapsed);
             if (r == "dead") {
                 enemies.splice(index, 1);
 

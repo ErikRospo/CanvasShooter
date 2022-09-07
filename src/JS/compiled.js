@@ -431,10 +431,10 @@ class Projectile {
         c.fillStyle = this.color;
         c.fill();
     }
-    update() {
+    update(elapsed) {
         this.draw();
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
+        this.x += this.velocity.x * elapsed;
+        this.y += this.velocity.y * elapsed;
     }
     get IsOffScreen() {
         return ((this.x + this.radius < 0) ||
@@ -462,9 +462,9 @@ class Enemy {
         c.fillStyle = this.color;
         c.fill();
     }
-    update() {
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
+    update(elapsed) {
+        this.x += this.velocity.x * elapsed;
+        this.y += this.velocity.y * elapsed;
         if (this.IsDead || this.radius < 0) {
             return "dead";
         }
@@ -513,13 +513,13 @@ class Particle {
         c.fill();
         c.restore();
     }
-    update() {
+    update(elapsed) {
         this.draw();
-        this.velocity.x *= ParticleFriction;
-        this.velocity.y *= ParticleFriction;
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
-        this.alpha -= random(0.001, 0.025) * ParticleFadeSpeedMultiplier;
+        this.velocity.x *= ParticleFriction * elapsed;
+        this.velocity.y *= ParticleFriction * elapsed;
+        this.x += this.velocity.x * elapsed;
+        this.y += this.velocity.y * elapsed;
+        this.alpha -= random(0.001, 0.025) * ParticleFadeSpeedMultiplier * elapsed;
     }
 }
 class HighScore {
@@ -803,7 +803,7 @@ addEventListener("load", () => {
 startGameButton.addEventListener("click", () => {
     ModalEL.style.display = "none";
     init();
-    animate();
+    animate(0);
 });
 PauseModalPlayButton.addEventListener("click", () => {
     UnpauseGame();
@@ -852,8 +852,15 @@ OptionsSFXSlider.addEventListener("change", () => {
 ShopCloseButton.addEventListener("click", () => {
     closeShop();
 });
-function animate() {
+let start, last;
+function animate(time) {
     animationID = requestAnimationFrame(animate);
+    if (start === undefined) {
+        start = time;
+    }
+    const elapsed = (time - start) / 16;
+    start = time;
+    SetDebugItem(elapsed, "timeElapsed");
     SetDebugItem(innerWidth, "windowWidth");
     SetDebugItem(innerHeight, "windowHeight");
     SetDebugItem(innerHeight * innerWidth, "WindowArea");
@@ -876,12 +883,12 @@ function animate() {
                     particles.splice(index, 1);
                 }
                 else {
-                    particle.update();
+                    particle.update(elapsed);
                 }
             });
         }
         projectiles.forEach((projectile, index) => {
-            projectile.update();
+            projectile.update(elapsed);
             if (projectile.IsOffScreen) {
                 projectiles.splice(index, 1);
                 if (!SFXMuted) {
@@ -890,7 +897,7 @@ function animate() {
             }
         });
         enemies.forEach((enemy, index) => {
-            let r = enemy.update();
+            let r = enemy.update(elapsed);
             if (r == "dead") {
                 enemies.splice(index, 1);
             }

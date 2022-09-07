@@ -7,7 +7,7 @@ addEventListener("load", () => {
 startGameButton.addEventListener("click", () => {
     ModalEL.style.display = "none";
     init();
-    animate();
+    animate(0);
     //hide the UI
 });
 PauseModalPlayButton.addEventListener("click", () => {

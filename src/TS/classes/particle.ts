@@ -25,12 +25,12 @@ class Particle {
         c.fill();
         c.restore();
     }
-    update(): void {
+    update(elapsed:number): void {
         this.draw();
-        this.velocity.x *= ParticleFriction;
-        this.velocity.y *= ParticleFriction;
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
-        this.alpha -= random(0.001, 0.025) * ParticleFadeSpeedMultiplier;
+        this.velocity.x *= ParticleFriction*elapsed;
+        this.velocity.y *= ParticleFriction*elapsed;
+        this.x += this.velocity.x*elapsed;
+        this.y += this.velocity.y*elapsed;
+        this.alpha -= random(0.001, 0.025) * ParticleFadeSpeedMultiplier*elapsed;
     }
 }

@@ -169,7 +169,7 @@ declare class Projectile {
         y: number;
     }, damage: number);
     draw(): void;
-    update(): void;
+    update(elapsed: number): void;
     get IsOffScreen(): boolean;
 }
 declare class Enemy {
@@ -191,7 +191,7 @@ declare class Enemy {
         y: number;
     });
     draw(): void;
-    update(): string;
+    update(elapsed: number): string;
     ShouldDie(damage: number): boolean;
     get IsDead(): boolean;
     damage(amount: number): boolean;
@@ -211,7 +211,7 @@ declare class Particle {
         y: number;
     });
     draw(): void;
-    update(): void;
+    update(elapsed: number): void;
 }
 declare class HighScore {
     scores: number[];
@@ -284,7 +284,8 @@ declare let HS: boolean;
 declare let lvlupShop: Shop;
 declare let upgradePool: Upgrade[];
 declare let levelFrequency: number;
-declare function animate(): void;
+declare let start: number, last: any;
+declare function animate(time: number): void;
 declare function init(): void;
 declare function populateupgradepool(): void;
 declare function PageLoad(): void;

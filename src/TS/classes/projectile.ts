@@ -21,10 +21,10 @@ class Projectile {
         c.fillStyle = this.color;
         c.fill();
     }
-    update() {
+    update(elapsed:number) {
         this.draw();
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
+        this.x += this.velocity.x*elapsed;
+        this.y += this.velocity.y*elapsed;
     }
 
     public get IsOffScreen(): boolean {

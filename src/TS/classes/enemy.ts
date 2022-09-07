@@ -52,9 +52,9 @@ class Enemy {
      * @description updates the enemy's position
      * @returns if the enemy is dead
      */
-    update(): string {
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
+    update(elapsed:number): string {
+        this.x += this.velocity.x*elapsed;
+        this.y += this.velocity.y*elapsed;
         // this.haloObject.update(5, this)
         if (this.IsDead || this.radius < 0) {
             return "dead";
